@@ -25,7 +25,13 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 
 		// Manage model condition
 		foreach ($this->options as $opt => $value) {
-			if($this->model->hasMethod('addToolCondition_'.$opt)){
+			$method = "addToolCondition_".$opt;
+
+			if($this->owner->hasMethod($method)){
+				$this->owner->{'addToolCondition_'.$opt}($value, $this->owner);
+			}elseif($this->owner->owner->hasMethod($method)){
+				$this->owner->owner->{'addToolCondition_'.$opt}($value, $this->owner);
+			}elseif($this->model->hasMethod($method)){
 				$this->model->{'addToolCondition_'.$opt}($value, $this->owner);
 			}else{
 				$elm = $this->model->hasElement($opt);
