@@ -10,9 +10,11 @@ class Initiator extends \Controller_Addon {
         parent::init();
 
         $this->routePages('xepan_cms');
+        $this->addLocation(array('template'=>'templates','js'=>'templates/js'))
+        ->setBaseURL('../vendor/xepan/cms/');
 
         $user = $this->add('xepan\base\Model_User_Active');
-        $user->addCondition('scope',['Editor','Both']);
+        $user->addCondition('scope',['Editor','Both','SuperUser']);
         
         $auth = $this->app->add('BasicAuth');
         $auth->setModel($user,'username','password');
@@ -29,6 +31,5 @@ class Initiator extends \Controller_Addon {
         $this->app->isEditing = false;
         if($auth->isLoggedIn()) $this->app->isEditing = true;
         
-        $this->addLocation(array('template'=>'templates'));
     }
 }
