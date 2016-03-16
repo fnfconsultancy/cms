@@ -28,11 +28,11 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 			$method = "addToolCondition_".$opt;
 
 			if($this->owner->hasMethod($method)){
-				$this->owner->{'addToolCondition_'.$opt}($value, $this->owner);
+				$this->owner->{'addToolCondition_'.$opt}($value, $this->model);
 			}elseif($this->owner->owner->hasMethod($method)){
-				$this->owner->owner->{'addToolCondition_'.$opt}($value, $this->owner);
+				$this->owner->owner->{'addToolCondition_'.$opt}($value, $this->model);
 			}elseif($this->model->hasMethod($method)){
-				$this->model->{'addToolCondition_'.$opt}($value, $this->owner);
+				$this->model->{'addToolCondition_'.$opt}($value, $this->model);
 			}else{
 				$elm = $this->model->hasElement($opt);
 				if($elm && $elm instanceof \Field && $value !=='%'){
