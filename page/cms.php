@@ -56,12 +56,12 @@ class page_cms extends \Page {
 		$this->spots=1;
 		foreach($dom->query('.xepan-component') as $d){
 			$i= $this->spots++;
-			$this->add($d->attr('xepan-component'),['options'=>$d->attributes],'_xepan_spot_'.$i);
+			$this->add($d->attr('xepan-component'),['_options'=>$d->attributes],'_xepan_spot_'.$i);
 		}
 	}
 
 	function createEditingEnvironment(){
-		$this->js(true)->_selector('.xepan-edittext')->attr('contenteditable','true');
+		// $this->js(true)->_selector('.xepan-edittext')->attr('contenteditable','true');
 	}
 
 	/**
