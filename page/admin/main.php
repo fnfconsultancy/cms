@@ -11,7 +11,7 @@
 
 namespace xepan\cms;
 
-class page_editor_main extends \Page {
+class page_admin_main extends \Page {
 	public $title='xEpan Front Editor';
 
 	function init(){

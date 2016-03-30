@@ -25,8 +25,11 @@ class page_cms extends \Page {
 	function init(){
 		parent::init();
 
-		$this->api->addHook('pre-render',[$this,'createSpots']);		
-		$this->api->addHook('pre-render',[$this,'renderServerSideComponents']);
+		// $this->api->addHook('post-init',[$this,'createSpots']);		
+		// $this->api->addHook('post-init',[$this,'renderServerSideComponents']);
+
+		$this->createSpots();
+		$this->renderServerSideComponents();
 
 		if($this->app->isEditing){
 			$this->api->addHook('pre-render',[$this,'createEditingEnvironment']);			
@@ -35,6 +38,7 @@ class page_cms extends \Page {
 	}
 
 	function createSpots(){
+		// TODO :: Some caching ??
 		$this->dom = $dom = \pQuery::parseStr($this->template->template_source);
 		foreach($dom->query('.xepan-component') as $d){
 			$i= $this->spots++;

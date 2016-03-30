@@ -11,7 +11,7 @@
 
 namespace xepan\cms;
 
-class page_editor_pages extends \Page {
+class page_admin_pages extends \Page {
 	public $title='xEpan Pages';
 
 	function init(){
