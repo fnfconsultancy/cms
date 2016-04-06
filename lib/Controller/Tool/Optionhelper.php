@@ -25,6 +25,10 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 
 		// Manage model condition
 		foreach ($this->options as $opt => $value) {
+			if($value=='true') $value=true;
+			if($value=='false') $value=false;
+			if($value=='null') $value=null;
+			
 			$method = "addToolCondition_".$opt;
 
 			if($this->owner->hasMethod($method)){
