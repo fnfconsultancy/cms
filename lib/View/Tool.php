@@ -44,9 +44,13 @@ class View_Tool extends \View{
 			'Padding'
 		];
 
+	function initializeTemplate($template_spot = null, $template_branch = null){
+		$this->options = $this->_options + $this->options;
+		parent::initialiseTemplate($template_spot, $template_branch);
+	}
+
 	function init(){
 		parent::init();
-		$this->options = $this->_options + $this->options;
 		$this->option_page = $this->option_panel_page = $this->add('VirtualPage');
 	}
 
