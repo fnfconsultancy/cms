@@ -67,6 +67,23 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 				foreach ($cl_remove_list as $rm) {
 					$l->current_row_html[$rm]="";
 				}
+				foreach ($this->options as $opt=>$value) {
+					$method = "addToolCondition_".$opt;
+
+					if($this->owner->hasMethod($method)){
+						$this->owner->{'addToolCondition_'.$opt}($value, $this->model);
+					}elseif($this->owner->owner->hasMethod($method)){
+						$this->owner->owner->{'addToolCondition_'.$opt}($value, $this->model);
+					}elseif($this->model->hasMethod($method)){
+						$this->model->{'addToolCondition_'.$opt}($value, $this->model);
+					}else{
+						$elm = $this->model->hasElement($opt);
+						if($elm && $elm instanceof \Field && $value !=='%'){
+							$this->model->addCondition($opt,$value);
+						}
+					}
+				}
+
 			});
 		}
 
