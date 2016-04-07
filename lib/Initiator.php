@@ -39,7 +39,12 @@ class Initiator extends \Controller_Addon {
 
 
                 $auth->check();
-            }
+            }else{
+                $this->app->add('xepan\cms\Controller_ServerSideComponentManager');
+                $this->app->jui->destroy();
+                $this->app->jui=null;
+                $this->app->add('jUI');
+            }        
 
             $this->app->isEditing = false;
             if($auth->isLoggedIn()) $this->app->isEditing = true;

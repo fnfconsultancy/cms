@@ -46,7 +46,7 @@ class View_Tool extends \View{
 
 	function initializeTemplate($template_spot = null, $template_branch = null){
 		$this->options = $this->_options + $this->options;
-		parent::initialiseTemplate($template_spot, $template_branch);
+		parent::initializeTemplate($template_spot, $template_branch);
 	}
 
 	function init(){
