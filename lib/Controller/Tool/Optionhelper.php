@@ -30,7 +30,7 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 			if($value=='null') $value=null;
 			
 			$method = "addToolCondition_".$opt;
-
+			
 			if($this->owner->hasMethod($method)){
 				$this->owner->{'addToolCondition_'.$opt}($value, $this->model);
 			}elseif($this->owner->owner->hasMethod($method)){
@@ -68,19 +68,14 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 					$l->current_row_html[$rm]="";
 				}
 				foreach ($this->options as $opt=>$value) {
-					$method = "addToolCondition_".$opt;
+					$method = "addToolCondition_row_".$opt;
 
-					if($this->owner->hasMethod($method)){
-						$this->owner->{'addToolCondition_'.$opt}($value, $this->model);
+					if($this->owner->hasMethod($method)){		
+						$this->owner->$method($value, $l);
 					}elseif($this->owner->owner->hasMethod($method)){
-						$this->owner->owner->{'addToolCondition_'.$opt}($value, $this->model);
+						$this->owner->owner->$method($value, $l);
 					}elseif($this->model->hasMethod($method)){
-						$this->model->{'addToolCondition_'.$opt}($value, $this->model);
-					}else{
-						$elm = $this->model->hasElement($opt);
-						if($elm && $elm instanceof \Field && $value !=='%'){
-							$this->model->addCondition($opt,$value);
-						}
+						$this->model->$method($value, $l);
 					}
 				}
 
