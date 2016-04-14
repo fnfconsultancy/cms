@@ -24,6 +24,7 @@ class Initiator extends \Controller_Addon {
             $user->addCondition('scope',['Editor','Both','SuperUser']);
             
             $auth = $this->app->add('BasicAuth');
+            $auth->usePasswordEncryption('md5');
             $auth->setModel($user,'username','password');
 
             if(strpos($this->app->page,'_admin_')!==false){
