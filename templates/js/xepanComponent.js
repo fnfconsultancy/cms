@@ -25,10 +25,10 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	createOptionPanel: function(){
-		this.panel = $('<div style="width:200px; height:200px; background-color:red; position:absolute; z-index:1000; display:none">')
-						.prependTo('body');
-		this.panel.load(this.options.option_page_url);
-		this.panel.draggable();
+		// this.panel = $('<div style="width:200px; height:200px; background-color:red; position:absolute; z-index:1000; display:none">')
+		// 				.prependTo('body');
+		// this.panel.load(this.options.option_page_url);
+		// this.panel.draggable();
 	},
 
 	createContentEditor: function (){

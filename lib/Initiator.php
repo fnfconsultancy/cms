@@ -21,7 +21,7 @@ class Initiator extends \Controller_Addon {
             ->setBaseURL('./vendor/xepan/cms/');
 
             $user = $this->add('xepan\base\Model_User_Active');
-            $user->addCondition('scope',['Editor','Both','SuperUser']);
+            $user->addCondition('scope',['Editor','Both','SuperUser','AdminUser']);
             
             $auth = $this->app->add('BasicAuth');
             $auth->usePasswordEncryption('md5');
