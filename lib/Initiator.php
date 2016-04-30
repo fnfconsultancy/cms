@@ -10,14 +10,14 @@ class Initiator extends \Controller_Addon {
 
         if($this->app->is_admin){
             $this->routePages('xepan_cms');
-            $this->addLocation(array('template'=>'templates','js'=>'templates/js'))
+            $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'template/css'))
             ->setBaseURL('../vendor/xepan/cms/');
         }        
     }
 
     function setup_frontend(){
         $this->routePages('xepan_cms');
-        $this->addLocation(array('template'=>'templates','js'=>'templates/js'))
+        $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'template/css'))
         ->setBaseURL('./vendor/xepan/cms/');
 
         $user = $this->add('xepan\base\Model_User_Active');
