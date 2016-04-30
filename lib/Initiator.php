@@ -49,6 +49,12 @@ class Initiator extends \Controller_Addon {
 
         $this->app->isEditing = false;
         if($auth->isLoggedIn()) $this->app->isEditing = true;
+
+        return $this;
+    }
+
+    function setup_frontend(){
+        return $this;
     }
 
     function generateInstaller(){
