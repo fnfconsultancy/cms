@@ -53,9 +53,6 @@ class Initiator extends \Controller_Addon {
         return $this;
     }
 
-    function setup_frontend(){
-        return $this;
-    }
 
     function generateInstaller(){
     }
