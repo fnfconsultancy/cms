@@ -2,7 +2,7 @@
 
  namespace xepan\cms;
 
- class Model_Custom_Form extends \SQL_Model{
+class Model_Custom_Form extends \Model_Table{
 
  	public $table = 'custom_form'; 
 
@@ -17,6 +17,10 @@
 			
 		$this->addField('recieve_email')->type('boolean');
 		$this->addField('recipient_email')->hint('comma separated multiple email ids ');
+		
+		$this->addField('auto_reply')->type('boolean');
+		$this->addField('message_body');
+		$this->addField('email_subject');
 
 		$this->hasMany('xepan\cms\Custom_FormField','custom_form_id');
 	}

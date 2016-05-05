@@ -12,6 +12,7 @@ class Initiator extends \Controller_Addon {
             $this->routePages('xepan_cms');
             $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'template/css'))
             ->setBaseURL('../vendor/xepan/cms/');
+            
         }        
     }
 
@@ -37,7 +38,6 @@ class Initiator extends \Controller_Addon {
             $l = $this->app->add('Layout_Fluid');
             $m = $l->add('Menu_Horizontal',null,'Top_Menu');
             $m->addItem('Pages','xepan_cms_editor_pages');
-
 
             $auth->check();
         }else{
