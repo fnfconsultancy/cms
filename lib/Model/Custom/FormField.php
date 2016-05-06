@@ -2,7 +2,7 @@
 
  namespace xepan\cms;
 
- class Model_Custom_FormField extends \SQL_Model{ 	
+ class Model_Custom_FormField extends \Model_Table{ 	
 
  	public $table = 'custom_form_field'; 
 

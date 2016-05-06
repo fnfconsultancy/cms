@@ -55,14 +55,12 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 
 			if($customform_model['auto_reply']){
 				foreach ($customform_field_model as $mail) {
-					$name = $mail['name'];
+					$name = $_GET[$mail['name']];
 					$dob = $mail['type'];
 				}
-				
+				var_dump($name);
 			}
-
-			// echo $name;
-			// echo $dob;
+			
 		}
 	}
 }
