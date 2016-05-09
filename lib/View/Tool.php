@@ -28,4 +28,8 @@ class View_Tool extends \View{
 			$this->add('xepan\cms\Controller_Tool_Optionhelper');
 		return $m;
 	}
+
+	function getOptionPanel($parent,$spot){
+		return $parent->add('View',null,$spot,[strtolower(get_class($this)).'_options']);
+	}
 }

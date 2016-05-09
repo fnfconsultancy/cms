@@ -1,5 +1,5 @@
 
-<div id="{$_name}" style="display:none" for-xepan-component="/xepan/base/Tool_Columns" class="xepan-tool-options">
+<div id="{$_name}" style="display:none" for-xepan-component="xepan/base/Tool_Columns" class="xepan-tool-options">
   <h3>Columns</h3>
   <div class="xepan-tool-option">
     <div class="xepan-tool-option-title">Columns</div>
@@ -20,7 +20,7 @@
     });
     
     $('#{$_name}').on('show',function(event){
-    	console.log('Loading From '+ $(current_selected_component).arrt('xepan-component'));
+    	console.log('Loading From '+ $(current_selected_component).attr('xepan-component'));
     })
   </script>
 </div>

@@ -1,4 +1,4 @@
-.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='/xepan/base/Tool_Columns')
+.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/base/Tool_Columns')
 	h3 Columns
 	.xepan-tool-option
 		.xepan-tool-option-title Columns
@@ -16,5 +16,5 @@
 		});
 
 		$('\#{$_name}').on('show',function(event){
-			console.log('Loading From '+ $(current_selected_component).arrt('xepan-component'));
+			console.log('Loading From '+ $(current_selected_component).attr('xepan-component'));
 		})

@@ -22,16 +22,16 @@ class View_ToolBar extends \View {
 			$g_v->template->set('name',$group);
 			foreach ($tools[$group] as $tool) {
 				$t_v = $g_v->add($tool,null,'tools');
+				$t_v->getOptionPanel($this,'tool_options');
 				$t_v_icon = $g_v->add('View',null,'tools',clone $tool_tpl);
 				$t_v_icon->template->set('name',$tool);
 				$t_v_icon->js(true)->xepanTool(
 					[
 					'name'=>$tool,
-					'drop_html'=> '<div class="xepan-component '.($t_v->runatServer?'xepan-serverside-component':'').'" xepan-component="/'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>'
+					'drop_html'=> '<div class="xepan-component '.($t_v->runatServer?'xepan-serverside-component':'').'" xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>'
 					]
 				);
 
-				$this->add($tool.'_Options',null,'tool_options');
 			}
 		}
 

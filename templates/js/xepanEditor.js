@@ -18,18 +18,10 @@ jQuery.widget("ui.xepanEditor",{
 	setupToolbar: function(){
 		$(this.element).draggable({handle:'.xepan-toolbar-drag-handler'}); // TODO: define handler
 		$('.xepan-tools-options').draggable({handle:'.xepan-tools-options-drag-handler'});
-		$('.xepan-tool-bar-tool').disableSelection().draggable(this.tool_drag_options);
 	},
 
 	createPageWidgets: function(){
 		$('.xepan-component').xepanComponent();
-	},
-
-	tool_drag_options : {
-		connectToSortable: '.xepan-sortable-component',
-		helper:'clone',
-		revert: 'invalid',
-	  	tolerance: 'pointer'
 	}
 	
 });
