@@ -1,0 +1,18 @@
+{toolBar}
+.xepan-toolbar(id='{$_name}' style="position:absolute")
+	.xepan-toolbar-drag-handler [x]
+	{$groups}
+.xepan-tools-options(style="display:none; position:absolute")
+	.xepan-tools-options-drag-handler [x]
+	{$tool_options}
+{/toolBar}
+
+{group}
+div
+	h1 {$name}
+	{$tools}
+{/group}
+
+{tool}
+.xepan-tool-bar-tool(id='{$_name}') {$name} {$tool_html}
+{/tool}

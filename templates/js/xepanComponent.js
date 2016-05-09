@@ -1,38 +1,64 @@
 jQuery.widget("ui.xepanComponent",{
-	/**
-	 * Panel is main DOM for Option panel
-	 * @type {jQuery DOM}
-	 */
-	panel : undefined,
+	self: undefined,
 
-
-	/**
-	 * Widget initiator, called once when widget is created
-	 */
 	_create: function(){
-		self = this;
-		/**
-		 * Create Basic Outer Panel and store in this.panel
-		 */
-		this.createOptionPanel();
+		self=this;
 
-		this.createContentEditor();
+		// On tool drop create it again widget /  either sortabel or simple
+		// setup dblclick options
 		
-		
-		$(this.element).on('dblclick',function(elm){
-			$(self.panel).show();
-		})
+		self.options.option_panel = $('.xepan-tool-options[for-xepan-component="'+($(this.element).attr('xepan-component'))+'"]');
+
+		if($(this.element).hasClass('xepan-sortable-component'))
+			$(this.element).xepanComponent('createSortable');
+			
+
+		$(this.element).dblclick(function(event,ui){
+			$('.xepan-component').xepanComponent('deselect');
+			$(this).xepanComponent('select');
+			event.stopPropagation();
+		});
 	},
 
-	createOptionPanel: function(){
-		// this.panel = $('<div style="width:200px; height:200px; background-color:red; position:absolute; z-index:1000; display:none">')
-		// 				.prependTo('body');
-		// this.panel.load(this.options.option_page_url);
-		// this.panel.draggable();
+	select: function (){
+		current_selected_component = this.element;
+
+		$('.xepan-tools-options > .xepan-tool-options').hide();
+		this.options.option_panel.show();
+		this.options.option_panel.trigger('show');
+		$('.xepan-tools-options').show();
+
+		console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
 	},
 
-	createContentEditor: function (){
-		// $('#'+$(this.element.attr('id') + ' .xepan-edittext')->attr('contenteditable','true');
-	}
+	createSortable: function(){
+		$(this.element).sortable(this.sortable_options);
+	},
+
+	deselect: function (){
+		$(this.element).removeClass('selected');
+	},
+
+	sortable_options: {
+		helper: function(event, ui) {
+	        return $('<div><h1>Dragging ... </h1></div>');
+	    },
+	    start: function(event, ui) {
+	        if ($(ui.item).hasClass('ui-sortable')) {
+	            sortable_disabled = true;
+	            $(ui.item).sortable("option", "disabled", true);
+	            $(ui.item).find('.epan-sortable-component').sortable("option", "disabled", true);
+	        }
+	    },
+	    sort: function(event, ui) {
+	        $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('component_type') + ' ??');
+	    },
+	    stop: function(event, ui) {
+	    	console.log(origin);
+	    	if(origin=='toolbox')
+		    	$(ui.item).replaceWith($(xepan_drop_component_html).xepanComponent());
+		    origin='page';
+	    }
+	},
 	
 });

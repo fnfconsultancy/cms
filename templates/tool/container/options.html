@@ -1,0 +1,20 @@
+
+<div id="{$_name}" style="display:none" for-xepan-component="/xepan/cms/Tool_Container" class="xepan-tool-options">
+  <h3>Container</h3>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Width</div>
+    <div class="xepan-tool-option-value">
+      <input id="container-width" value="80%"/>
+    </div>
+  </div>
+  <script>
+    $('#container-width').on('change',function(){
+    	$(current_selected_component).css('width',$('#container-width').val());
+    });
+    
+    $('#{$_name}').on('show',function(event){
+    	$('#container-width').val($(current_selected_component).css('width'));
+    	console.log('Loading From '+ $(current_selected_component).attr('xepan-component'));
+    })
+  </script>
+</div>

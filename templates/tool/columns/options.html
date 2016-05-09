@@ -1,0 +1,26 @@
+
+<div id="{$_name}" style="display:none" for-xepan-component="/xepan/base/Tool_Columns" class="xepan-tool-options">
+  <h3>Columns</h3>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Columns</div>
+    <div class="xepan-tool-option-value"> 
+      <select id="column-option-size">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>6</option>
+        <option>12</option>
+      </select>
+    </div>
+  </div>
+  <script>
+    $('#column-option-size').on('change',function(){
+    	$(current_selected_component).css('border','2px solid red');
+    });
+    
+    $('#{$_name}').on('show',function(event){
+    	console.log('Loading From '+ $(current_selected_component).arrt('xepan-component'));
+    })
+  </script>
+</div>
