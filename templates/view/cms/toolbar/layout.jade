@@ -11,9 +11,9 @@
 
 {group}
 div.xepan-cms-group-panel
-	h1(data-toggle="collapse" data-target="\#{$_name}")
+	h1.collapsed(data-toggle="collapse" data-target="\#{$_name}" aria-expanded="false")
 		span {$name}
-	div(id="{$_name}").xepan-cms-tools-bar-panel.row
+	div(id="{$_name}").xepan-cms-tools-bar-panel.row.collapse(aria-expanded="false")
 		{$tools}
 {/group}
 

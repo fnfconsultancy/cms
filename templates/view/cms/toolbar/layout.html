@@ -9,8 +9,8 @@
 </div>{/toolBar}
 {group}
 <div class="xepan-cms-group-panel">
-  <h1 data-toggle="collapse" data-target="#{$_name}"><span>{$name}</span></h1>
-  <div id="{$_name}" class="xepan-cms-tools-bar-panel row">{$tools}</div>
+  <h1 data-toggle="collapse" data-target="#{$_name}" aria-expanded="false" class="collapsed"><span>{$name}</span></h1>
+  <div id="{$_name}" aria-expanded="false" class="xepan-cms-tools-bar-panel row collapse">{$tools}</div>
 </div>{/group}
 {tool}
 <div id="{$_name}" class="col-md-6 col-sm-6 xepan-tool-bar-tool"><i class="glyphicon glyphicon-asterisk"></i>
