@@ -8,12 +8,6 @@ class View_ToolBar extends \View {
 	function init(){
 		parent::init();
 
-		$save_vp = $this->add('VirtualPage');
-		$save_vp->set(function($p){
-			$p->js(true)->univ()->successMessage("Hello");
-			exit;
-		});
-
 		$this->js(true)->_load($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/xepanTool.js');
 
 		$group_tpl = $this->template->cloneRegion('group');
@@ -49,7 +43,7 @@ class View_ToolBar extends \View {
 				'base_url'=>$this->api->url()->absolute()->getBaseURL(),
 				'save_page'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->page_object->template->origin_filename:'false',
 				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->origin_filename:'false',
-				'save_url'=>$save_vp->getURL()
+				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1'
 			]);
 		$this->js(true)->xepanComponent()->_selector('.xepan-component');
 	}
