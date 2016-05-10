@@ -101,8 +101,8 @@ jQuery.widget("ui.xepanEditor",{
 	        console.log("complete");
 	    });
 
-
-
+	hideOptions:function(){
+		$('.xepan-tools-options').hide();
 	}
 
 	

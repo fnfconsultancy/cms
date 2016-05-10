@@ -1,19 +1,24 @@
 {toolBar}
-.xepan-toolbar(id='{$_name}' style="position:absolute")
+.xepan-toolbar(id='{$_name}')
 	.xepan-toolbar-drag-handler [x]
-	{$groups}
+	.xepan-cms-groups-panel
+		{$groups}
 	#xepan-savepage-btn.btn.btn-primary SAVE
 .xepan-tools-options(style="display:none; position:absolute")
-	.xepan-tools-options-drag-handler [x]
+	.xepan-tools-options-drag-handler [ + ]
 	{$tool_options}
 {/toolBar}
 
 {group}
-div
-	h1 {$name}
-	{$tools}
+div.xepan-cms-group-panel
+	h1.collapsed(data-toggle="collapse" data-target="\#{$_name}" aria-expanded="false")
+		span {$name}
+	div(id="{$_name}").xepan-cms-tools-bar-panel.row.collapse(aria-expanded="false")
+		{$tools}
 {/group}
 
 {tool}
-.xepan-tool-bar-tool(id='{$_name}') {$name} {$tool_html}
+.col-md-6.col-sm-6.xepan-tool-bar-tool(id='{$_name}')
+	i.glyphicon.glyphicon-asterisk
+	div {$name} {$tool_html}
 {/tool}

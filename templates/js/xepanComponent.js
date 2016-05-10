@@ -11,7 +11,27 @@ jQuery.widget("ui.xepanComponent",{
 
 		if($(this.element).hasClass('xepan-sortable-component'))
 			$(this.element).xepanComponent('createSortable');
-			
+		
+		$(this.element).hover(
+			// on hover
+			function(event,ui){
+				$(this).addClass('xepan-component-hover-selector');
+				drag_handler = $('<div class="xepan-component-hover-bar"></div>').appendTo($(this));
+				remove_btn = $('<i class="glyphicon glyphicon-trash xepan-component-remove"></i>').appendTo(drag_handler);
+				drag_btn =  $('<i class="glyphicon glyphicon-move xepan-component-drag-handler"></i>').appendTo(drag_handler);	
+				$(remove_btn).click(function(event,ui){
+					$(this).closest('.xepan-component').xepanComponent('remove');
+				});
+
+				event.stopPropagation();				
+			},
+			//remove hover
+			function(event,ui){
+				$(this).removeClass('xepan-component-hover-selector');
+				$(this).find('.xepan-component-hover-bar').remove();
+				event.stopPropagation();				
+			}
+		);
 
 		$(this.element).dblclick(function(event,ui){
 			$('.xepan-component').xepanComponent('deselect');
@@ -37,6 +57,11 @@ jQuery.widget("ui.xepanComponent",{
 
 	deselect: function (){
 		$(this.element).removeClass('selected');
+	},
+
+	remove:function(){
+		$(this.element).remove();
+		$('.xepan-toolbar').xepanEditor('hideOptions');
 	},
 
 	sortable_options: {

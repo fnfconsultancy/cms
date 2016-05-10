@@ -1,14 +1,18 @@
 {toolBar}
-<div id="{$_name}" style="position:absolute" class="xepan-toolbar">
-  <div class="xepan-toolbar-drag-handler">[x]</div>{$groups}
+<div id="{$_name}" class="xepan-toolbar">
+  <div class="xepan-toolbar-drag-handler">[x]</div>
+  <div class="xepan-cms-groups-panel">{$groups}</div>
   <div id="xepan-savepage-btn" class="btn btn-primary">SAVE</div>
 </div>
 <div style="display:none; position:absolute" class="xepan-tools-options">
-  <div class="xepan-tools-options-drag-handler">[x]</div>{$tool_options}
+  <div class="xepan-tools-options-drag-handler">[ + ]</div>{$tool_options}
 </div>{/toolBar}
 {group}
-<div>
-  <h1>{$name}</h1>{$tools}
+<div class="xepan-cms-group-panel">
+  <h1 data-toggle="collapse" data-target="#{$_name}" aria-expanded="false" class="collapsed"><span>{$name}</span></h1>
+  <div id="{$_name}" aria-expanded="false" class="xepan-cms-tools-bar-panel row collapse">{$tools}</div>
 </div>{/group}
 {tool}
-<div id="{$_name}" class="xepan-tool-bar-tool">{$name} {$tool_html}</div>{/tool}
+<div id="{$_name}" class="col-md-6 col-sm-6 xepan-tool-bar-tool"><i class="glyphicon glyphicon-asterisk"></i>
+  <div>{$name} {$tool_html}</div>
+</div>{/tool}
