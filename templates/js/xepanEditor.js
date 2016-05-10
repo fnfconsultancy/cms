@@ -20,6 +20,10 @@ jQuery.widget("ui.xepanEditor",{
 	savePage: function(){
 		console.log(this.options.save_url);
 		console.log(this.options.save_page);
+	},
+
+	hideOptions:function(){
+		$('.xepan-tools-options').hide();
 	}
 
 	

@@ -5,7 +5,7 @@
 .xepan-toolbar{
 	width: 15%;
 	background-color:rgb(80,80,80);
-	z-index:9999 ;
+	z-index:99999999 ;
 	border:2px solid rgb(38,46,59);
 	position:fixed;
 	top:25px;
@@ -75,7 +75,7 @@
 .xepan-tools-options{
 	width: 15%;
 	background-color:rgb(80,80,80);
-	z-index:9999;
+	z-index:99999999;
 	border:2px solid rgb(38,46,59);
 	position:fixed !important;
 	right:0;
@@ -153,4 +153,41 @@
 }
 .xepan-tools-options {
 
+}
+
+
+/*================================Live Edit/Editing css=======================*/
+.xepan-component{
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.xepan-component-hover-selector{
+	outline: 1px dotted rgb(68,192,240);
+	z-index: 9999999;
+	position:relative !important;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+
+}
+
+.xepan-component-hover-bar{
+	z-index: 9999999;
+	position: absolute !important;
+	margin-left: 3px;
+	top: 0;
+	width: 100%;
+	padding-right:4px;
+	padding-left:4px; 
+}
+
+.xepan-component-drag-handler{
+	float: left;
+}
+
+.xepan-component-remove{
+	float: right;
+	right:20px;
 }
