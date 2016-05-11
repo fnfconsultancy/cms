@@ -60,6 +60,9 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		    $content
 		);
 		$content = preg_replace("/(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1=\"$domain$2", $content);
+
+		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$domain.'$1)', $content);
+
 		$dom->html($content);
 
 	}
