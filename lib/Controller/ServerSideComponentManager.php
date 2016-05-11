@@ -50,16 +50,16 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		$content = $this->dom->html();
 		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/';
 
-		$rep['/href="(?!https?:\/\/)(?!data:)(?!#)/'] = 'href="'.$domain;
-		$rep['/src="(?!https?:\/\/)(?!data:)(?!#)/'] = 'src="'.$domain;
-		$rep['/@import[\n+\s+]"\//'] = '@import "'.$domain;
-		$rep['/@import[\n+\s+]"\./'] = '@import "'.$domain;
-		$content = preg_replace(
-		    array_keys($rep),
-		    array_values($rep),
-		    $content
-		);
-		$content = preg_replace("/(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1=\"$domain$2", $content);
+		// $rep['/href="(?!https?:\/\/)(?!data:)(?!#)/'] = 'href="'.$domain;
+		// $rep['/src="(?!https?:\/\/)(?!data:)(?!#)/'] = 'src="'.$domain;
+		// $rep['/@import[\n+\s+]"\//'] = '@import "'.$domain;
+		// $rep['/@import[\n+\s+]"\./'] = '@import "'.$domain;
+		// $content = preg_replace(
+		//     array_keys($rep),
+		//     array_values($rep),
+		//     $content
+		// );
+		$content = preg_replace("/(link.*|img.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
 
 		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$domain.'$1)', $content);
 
