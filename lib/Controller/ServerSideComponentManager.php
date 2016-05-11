@@ -27,8 +27,8 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$dom->html($dom->html().'{$xepan_toolbox_spot}');
 		}
 
+		$this->updateBaseHrefForTemplates();
 		$this->owner->template->loadTemplateFromString($dom->html());
-
 	}
 
 	function renderServerSideComponents(){
@@ -39,5 +39,28 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$i= $this->spots++;
 			$this->owner->add($d->attr('xepan-component'),['_options'=>$d->attributes],$this->owner->template->name.'_'.$i);
 		}
+	}
+
+	function updateBaseHrefForTemplates(){
+		// var_dump($this->dom->html());
+		// 	exit();
+		
+		$dom = $this->dom;
+
+		$content = $this->dom->html();
+		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/';
+
+		$rep['/href="(?!https?:\/\/)(?!data:)(?!#)/'] = 'href="'.$domain;
+		$rep['/src="(?!https?:\/\/)(?!data:)(?!#)/'] = 'src="'.$domain;
+		$rep['/@import[\n+\s+]"\//'] = '@import "'.$domain;
+		$rep['/@import[\n+\s+]"\./'] = '@import "'.$domain;
+		$content = preg_replace(
+		    array_keys($rep),
+		    array_values($rep),
+		    $content
+		);
+		$content = preg_replace("/(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1=\"$domain$2", $content);
+		$dom->html($content);
+
 	}
 }
