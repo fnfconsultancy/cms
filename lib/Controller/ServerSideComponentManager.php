@@ -8,6 +8,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 	public $spots= 1;
 	function init(){
 		parent::init();
+
 		$this->createSpots();
 		$this->renderServerSideComponents();
 	}
@@ -29,8 +30,8 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		}
 		
 		$content = $this->updateBaseHrefForTemplates();
-		$this->dom->html($content);
 		$this->owner->template->loadTemplateFromString($content);
+
 	}
 
 	function renderServerSideComponents(){
@@ -49,28 +50,29 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 	}
 
 	function updateBaseHrefForTemplates(){
-		// var_dump($this->dom->html());
-		// 	exit();
 		
 		$dom = $this->dom;
 
-		$content = $this->pq->pq($dom)->html();
-
 		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/';
 
-		// $rep['/href="(?!https?:\/\/)(?!data:)(?!#)/'] = 'href="'.$domain;
-		// $rep['/src="(?!https?:\/\/)(?!data:)(?!#)/'] = 'src="'.$domain;
-		// $rep['/@import[\n+\s+]"\//'] = '@import "'.$domain;
-		// $rep['/@import[\n+\s+]"\./'] = '@import "'.$domain;
-		// $content = preg_replace(
-		//     array_keys($rep),
-		//     array_values($rep),
-		//     $content
-		// );
-		$content = preg_replace("/(link.*|img.*|script.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
+		foreach ($dom['img']->not('[src^="http"]') as $img) {
+			$img= $this->pq->pq($img);
+			$img->attr('src',$domain.$img->attr('src'));
+		}
 
-		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$domain.'$1)', $content);
-		
+		foreach ($dom['link']->not('[href^="http"]') as $img) {
+			$img= $this->pq->pq($img);
+			$img->attr('href',$domain.$img->attr('href'));
+		}
+
+		foreach ($dom['script']->not('[src^="http"]')->not('[src^="//"]') as $img) {
+			$img= $this->pq->pq($img);
+			$img->attr('src',$domain.$img->attr('src'));
+		}
+
+		// $content = preg_replace("/(link.*|img.*|script.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
+		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$domain.'$1)', $dom->html());
+
 		return $content;
 	}
 }
