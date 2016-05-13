@@ -14,8 +14,13 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 
 	function createSpots(){
 		// TODO :: Some caching ??		
-		$this->dom = $dom = \pQuery::parseStr($this->owner->template->template_source);
-		foreach($dom->query('.xepan-component') as $d){
+
+		$this->pq = $pq = new phpQuery();
+		$this->dom = $dom = $pq->newDocument($this->owner->template->template_source);
+
+		$this->dom->addClass('xepan-page-content');
+		foreach($dom['.xepan-component'] as $d){
+			$d=$pq->pq($d);
 			if(!$d->hasClass('xepan-serverside-component')) continue;
 			$i= $this->spots++;
 			$inner_html = $d->html();
@@ -23,21 +28,23 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$d->html($with_spot);
 		}
 		
-		if(isset($this->app->isEditing) && $this->app->isEditing){
-			$dom->html($dom->html().'{$xepan_toolbox_spot}');
-		}
-
-		$this->updateBaseHrefForTemplates();
-		$this->owner->template->loadTemplateFromString($dom->html());
+		$content = $this->updateBaseHrefForTemplates();
+		$this->dom->html($content);
+		$this->owner->template->loadTemplateFromString($content);
 	}
 
 	function renderServerSideComponents(){
 		$dom = $this->dom;
 		$this->spots=1;
-		foreach($dom->query('.xepan-component') as $d){
+		foreach($dom['.xepan-component'] as $d){
+			$attributes=[];
+			foreach ($d->attributes as $attr) {
+				$attributes[$attr->name] = $attr->value;
+			}
+			$d=$this->pq->pq($d);
 			if(!$d->hasClass('xepan-serverside-component')) continue;
 			$i= $this->spots++;
-			$this->owner->add($d->attr('xepan-component'),['_options'=>$d->attributes],$this->owner->template->name.'_'.$i);
+			$this->owner->add($d->attr('xepan-component'),['_options'=>$attributes],$this->owner->template->name.'_'.$i);
 		}
 	}
 
@@ -47,7 +54,8 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		
 		$dom = $this->dom;
 
-		$content = $this->dom->html();
+		$content = $this->pq->pq($dom)->html();
+
 		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/';
 
 		// $rep['/href="(?!https?:\/\/)(?!data:)(?!#)/'] = 'href="'.$domain;
@@ -59,11 +67,10 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		//     array_values($rep),
 		//     $content
 		// );
-		$content = preg_replace("/(link.*|img.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
+		$content = preg_replace("/(link.*|img.*|script.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
 
 		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$domain.'$1)', $content);
-
-		$dom->html($content);
-
+		
+		return $content;
 	}
 }
