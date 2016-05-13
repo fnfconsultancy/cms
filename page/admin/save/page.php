@@ -16,7 +16,8 @@ class page_admin_save_page extends \Page {
 	function init(){
 		parent::init();
 		
-		echo 'console.log('.var_dump($_POST).')';
+		file_put_contents($_POST['file_path'], urldecode( trim( $_POST['body_html'] ) ));
+
 		echo $this->js(true)->_selectorDocument()->univ()->successMessage("hello");
 		exit;
 	}

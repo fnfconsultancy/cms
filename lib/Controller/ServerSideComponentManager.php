@@ -19,7 +19,11 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		$this->pq = $pq = new phpQuery();
 		$this->dom = $dom = $pq->newDocument($this->owner->template->template_source);
 
-		$this->dom->addClass('xepan-page-content');
+		if(!$this->owner instanceof \Frontend){
+			$pq->pq($dom)->attr('xepan-page-content','true');
+			$pq->pq($dom)->addClass('xepan-page-content');			
+		}
+
 		foreach($dom['.xepan-component'] as $d){
 			$d=$pq->pq($d);
 			if(!$d->hasClass('xepan-serverside-component')) continue;
@@ -65,7 +69,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$img->attr('href',$domain.$img->attr('href'));
 		}
 
-		foreach ($dom['script']->not('[src^="http"]')->not('[src^="//"]') as $img) {
+		foreach ($dom['script[src=*]']->not('[src^="http"]')->not('[src^="//"]') as $img) {
 			$img= $this->pq->pq($img);
 			$img->attr('src',$domain.$img->attr('src'));
 		}

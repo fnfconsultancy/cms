@@ -56,12 +56,18 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	deselect: function (){
+		if(this.element == current_selected_component){
+			current_selected_component=undefined;
+			$('.xepan-toolbar').xepanEditor('hideOptions');
+		}
 		$(this.element).removeClass('selected');
 	},
 
 	remove:function(){
 		$(this.element).remove();
-		$('.xepan-toolbar').xepanEditor('hideOptions');
+		if(this.element == current_selected_component){
+			$('.xepan-toolbar').xepanEditor('hideOptions');
+		}
 	},
 
 	sortable_options: {

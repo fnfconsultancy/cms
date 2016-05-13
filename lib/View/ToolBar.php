@@ -8,12 +8,7 @@ class View_ToolBar extends \View {
 	function init(){
 		parent::init();
 
-		$save_vp = $this->add('VirtualPage');
-		$save_vp->set(function($p){
-			$p->js(true)->univ()->successMessage("Hello");
-			exit;
-		});
-
+	
 		//load style css
 		$this->app->jui->addStaticStyleSheet($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan-toolbar.css');
 		// $this->js(true)->_css();
@@ -50,10 +45,11 @@ class View_ToolBar extends \View {
 			->appendTo('body')
 			->xepanEditor([
 				'base_url'=>$this->api->url()->absolute()->getBaseURL(),
-				'save_page'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->page_object->template->origin_filename:'false',
+				'file_path'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->page_object->template->origin_filename:'false',
 				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->origin_filename:'false',
 				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1'
 			]);
+		$this->js(true)->appendTo('body')->_selector('.xepan-tools-options');
 		$this->js(true)->xepanComponent()->_selector('.xepan-component');
 	}
 

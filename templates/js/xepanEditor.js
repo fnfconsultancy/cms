@@ -10,7 +10,10 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	setupToolbar: function(){
-		$(this.element).draggable({handle:'.xepan-toolbar-drag-handler'}); // TODO: define handler
+		$(this.element).draggable({
+			handle:'.xepan-toolbar-drag-handler',
+			containment : 'window'
+		}); // TODO: define handler
 		$('.xepan-tools-options').draggable({handle:'.xepan-tools-options-drag-handler'});
 		$('#xepan-savepage-btn').click(function(){
 			$('.xepan-toolbar').xepanEditor('savePage');
@@ -19,24 +22,27 @@ jQuery.widget("ui.xepanEditor",{
 
 	
 	savePage: function(){
-		console.log(this.options.save_url);
-		console.log(this.options.save_page);
+		// console.log(this.options.save_url);
+		// console.log(this.options.file_path);
+
+		self= this;
 
 		// $('body').trigger('beforeSave');
 	    $('body').triggerHandler('beforeSave');
 	    $('body').univ().errorMessage('Wait.. saving your page !!!');
 
 	    $('.xepan-component').xepanComponent('deselect');
+	    $('.xepan-component-hover-bar').remove();
 	    
-	    $('.drag-handler').remove();
-	    $('.remove_btn').remove();
 
 	    var overlay = jQuery('<div id="overlay"> </div>');
 	    overlay.appendTo(document.body);
 
-	    html_body = $('.top-page').clone();
+	    html_body = $('.xepan-page-wrapper').clone();
 	    $(html_body).find('.xepan-serverside-component').html("");
+
 	    html_body = encodeURIComponent($.trim($(html_body).html()));
+
 
 	    html_crc = crc32(html_body);
 
@@ -58,7 +64,8 @@ jQuery.widget("ui.xepanEditor",{
 	            body_attributes: encodeURIComponent($('body').attr('style')),
 	            take_snapshot: save_and_take_snapshot ? 'Y' : 'N',
 	            crc32: html_crc,
-	            length: html_body.length
+	            length: html_body.length,
+	            file_path: self.options.file_path
 	        },
 	    })
 	    .done(function(message) {
