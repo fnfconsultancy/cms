@@ -39,7 +39,7 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 				$this->model->{'addToolCondition_'.$opt}($value, $this->model);
 			}else{
 				$elm = $this->model->hasElement($opt);
-				if($elm && $elm instanceof \Field && $value !=='%'){
+				if($elm && $opt!='id' && $elm instanceof \Field && $value !=='%'){
 					$this->model->addCondition($opt,$value);
 				}
 			}
