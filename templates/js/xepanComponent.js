@@ -65,6 +65,7 @@ jQuery.widget("ui.xepanComponent",{
 	createTextEditable: function(){
 		self=this;
 		$(this.element).attr('contenteditable','true');
+		$.univ().richtext(self.element,self.tinyceme_options,true);
 		window.setTimeout(function(){
 			$.univ().richtext(self.element,{inline:true,forced_root_block: false},true);
 		},200);
@@ -114,6 +115,11 @@ jQuery.widget("ui.xepanComponent",{
 		    origin='page';
 	    }
 	},
+
+	tinyceme_options: {
+		inline:true,
+		forced_root_block: false
+	}
 	
 });
 

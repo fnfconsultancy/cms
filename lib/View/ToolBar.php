@@ -13,6 +13,13 @@ class View_ToolBar extends \View {
 				->_load('jquery.tinymce.min')
 				->_load('xepan-richtext-admin');
 
+		$this->js(true)->_load('shortcut');
+
+		$this->js(true)->_load('elfinder.full');
+        $this->js(true)->_css('elfinder.full');
+        $this->js(true)->_css('jquery-ui');
+        $this->js(true)->_css('elfindertheme');
+
 		//load style css
 		$this->app->jui->addStaticStyleSheet($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan-toolbar.css');
 		// $this->js(true)->_css();
@@ -50,7 +57,7 @@ class View_ToolBar extends \View {
 		$this->js(true)
 			->_load($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/xepanComponent.js')
 			->_load($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/xepanEditor.js')
-			->appendTo('body')
+			->insertAfter('body')
 			->xepanEditor([
 				'base_url'=>$this->api->url()->absolute()->getBaseURL(),
 				'file_path'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->page_object->template->origin_filename:'false',
@@ -58,9 +65,8 @@ class View_ToolBar extends \View {
 				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1'
 			]);
 
-		$this->js(true)->appendTo('body')->_selector('.xepan-tools-options');
-		$this->js(true)->xepanComponent()->_selector('.xepan-component');
-		$this->js(true)->_load('shortcut');
+		$this->js(true)->insertAfter('body')->_selector('.xepan-tools-options');
+		$this->js(true)->xepanComponent()->_selector('body .xepan-component');
 	}
 
 	function defaultTemplate(){
