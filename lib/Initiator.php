@@ -21,6 +21,18 @@ class Initiator extends \Controller_Addon {
         $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>['templates/css','templates/js']))
         ->setBaseURL('./vendor/xepan/cms/');
 
+        $tinymce_addon_base_path=$this->app->locatePath('addons','tinymce\tinymce');
+        $this->addLocation(array('js'=>'.','css'=>'skins'))
+        ->setBasePath($tinymce_addon_base_path)
+        ->setBaseURL('./vendor/tinymce/tinymce/');
+
+
+        $elfinder_addon_base_path=$this->app->locatePath('addons','studio-42\elfinder');
+        $this->addLocation(array('js'=>'js','css'=>'css','image'=>'img'))
+        ->setBasePath($elfinder_addon_base_path)
+        ->setBaseURL('./vendor/studio-42/elfinder/');
+        
+
         $user = $this->add('xepan\base\Model_User');
         
         $auth = $this->app->add('BasicAuth');

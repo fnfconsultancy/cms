@@ -1,5 +1,5 @@
 current_selected_component : undefined;
-origin : '';
+origin : 'page';
 xepan_drop_component_html: '';
 
 jQuery.widget("ui.xepanEditor",{
@@ -34,6 +34,7 @@ jQuery.widget("ui.xepanEditor",{
 
 	    $('.xepan-component').xepanComponent('deselect');
 	    $('.xepan-component-hover-bar').remove();
+	    $('.xepan-component').removeClass('xepan-component-hover-selector');
 	    
 
 	    var overlay = jQuery('<div id="overlay"> </div>');
@@ -177,9 +178,6 @@ jQuery.widget("ui.xepanEditor",{
 
 	
 });
-
-
-
 
 function Utf8Encode(string) {
     string = string.replace(/\r\n/g, "\n");

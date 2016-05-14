@@ -8,7 +8,11 @@ class View_ToolBar extends \View {
 	function init(){
 		parent::init();
 
-	
+		$this->js(true)
+				->_load('tinymce.min')
+				->_load('jquery.tinymce.min')
+				->_load('xepan-richtext-admin');
+
 		//load style css
 		$this->app->jui->addStaticStyleSheet($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan-toolbar.css');
 		// $this->js(true)->_css();
@@ -53,10 +57,10 @@ class View_ToolBar extends \View {
 				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->origin_filename:'false',
 				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1'
 			]);
+
 		$this->js(true)->appendTo('body')->_selector('.xepan-tools-options');
 		$this->js(true)->xepanComponent()->_selector('.xepan-component');
 		$this->js(true)->_load('shortcut');
-		$this->js(true)->_css('popline/themes/default')->_load('popline/scripts/jquery.popline');
 	}
 
 	function defaultTemplate(){

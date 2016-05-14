@@ -8,8 +8,13 @@ jQuery.widget("ui.xepanComponent",{
 
 		self.options.option_panel = $('.xepan-tool-options[for-xepan-component="'+($(this.element).attr('xepan-component'))+'"]');
 
-		if($(this.element).hasClass('xepan-sortable-component'))
+		if($(this.element).hasClass('xepan-sortable-component')){
 			$(this.element).xepanComponent('createSortable');
+		}
+
+		if($(this.element).hasClass('xepan-editable-text')){
+			$(this.element).xepanComponent('createTextEditable');
+		}
 		
 		if(!$(this.element).hasClass('xepan-page-wrapper')){
 			$(this.element).hover(
@@ -22,7 +27,6 @@ jQuery.widget("ui.xepanComponent",{
 					$(remove_btn).click(function(event,ui){
 						$(this).closest('.xepan-component').xepanComponent('remove');
 					});
-
 					event.stopPropagation();				
 				},
 				//remove hover
@@ -58,6 +62,14 @@ jQuery.widget("ui.xepanComponent",{
 		$(this.element).sortable(this.sortable_options);
 	},
 
+	createTextEditable: function(){
+		self=this;
+		$(this.element).attr('contenteditable','true');
+		window.setTimeout(function(){
+			$.univ().richtext(self.element,{inline:true,forced_root_block: false},true);
+		},200);
+	},
+
 	deselect: function (){
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			current_selected_component=undefined;
@@ -74,6 +86,7 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	sortable_options: {
+		handle: ' .xepan-component-drag-handler',
 		helper: function(event, ui) {
 	        return $('<div><h1>Dragging ... </h1></div>');
 	    },
@@ -95,6 +108,7 @@ jQuery.widget("ui.xepanComponent",{
 	    		// Find sub components if any and make components
 	    		$new_component = $(xepan_drop_component_html).xepanComponent();
 				$($new_component).find('.xepan-component').xepanComponent();
+				$($new_component).attr('id',generateUUID());
 		    	$(ui.item).replaceWith($new_component);
 	    	}
 		    origin='page';
@@ -102,3 +116,13 @@ jQuery.widget("ui.xepanComponent",{
 	},
 	
 });
+
+function generateUUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+    });
+    return uuid;
+}

@@ -69,7 +69,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$img->attr('href',$domain.$img->attr('href'));
 		}
 
-		foreach ($dom['script[src=*]']->not('[src^="http"]')->not('[src^="//"]') as $img) {
+		foreach ($dom['script[src]']->not('[src^="http"]')->not('[src^="//"]') as $img) {
 			$img= $this->pq->pq($img);
 			$img->attr('src',$domain.$img->attr('src'));
 		}

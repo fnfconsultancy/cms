@@ -16,7 +16,7 @@
 
 /*DRAG HANDLER*/
 .xepan-tools-options-drag-handler{
-	text-align: right;	
+	text-align: right;
 }
 
 /*GROUPS CSS*/
@@ -181,7 +181,7 @@
 	z-index: 9999999;
 	position: absolute !important;
 	margin-left: 3px;
-	top: 0;
+	top: -20;
 	width: 100%;
 	padding-right:4px;
 	padding-left:4px; 
@@ -189,6 +189,8 @@
 
 .xepan-component-drag-handler{
 	float: left;
+	z-index: 9999999;
+	cursor: pointer;
 }
 
 .xepan-component-remove{
