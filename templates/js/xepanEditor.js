@@ -14,8 +14,11 @@ jQuery.widget("ui.xepanEditor",{
 		$(this.element).draggable({
 			handle:'.xepan-toolbar-drag-handler',
 			containment : 'window'
-		}); // TODO: define handler
-		$('.xepan-tools-options').draggable({handle:'.xepan-tools-options-drag-handler'});
+		});
+		$('.xepan-tools-options').draggable({
+			handle:'.xepan-tools-options-drag-handler',
+			containment : 'window'
+		});
 		$('#xepan-savepage-btn').click(function(){
 			$('.xepan-toolbar').xepanEditor('savePage');
 		});
