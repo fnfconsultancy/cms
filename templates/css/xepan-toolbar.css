@@ -156,10 +156,15 @@
 
 
 /*================================Live Edit/Editing css=======================*/
-.xepan-component{
+.xepan-component {
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
 	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.xepan-component:empty:after {
+	min-height: 20px;
+	content: " (" attr(emptytext) ")";
 }
 
 .xepan-component-hover-selector{
@@ -189,4 +194,15 @@
 .xepan-component-remove{
 	float: right;
 	right:20px;
+}
+
+.xepan-selected-component {
+	outline: 2px dotted rgb(68,192,240);
+}
+
+.ui-sortable-placeholder {
+	outline: 2px solid red;
+	background-color:rgb(200,80,80);
+	min-height: 20px;
+	visibility: visible;
 }

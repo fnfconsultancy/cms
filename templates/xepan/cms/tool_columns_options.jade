@@ -1,20 +1,29 @@
-.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/base/Tool_Columns')
+.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_Columns')
 	h3 Columns
 	.xepan-tool-option
-		.xepan-tool-option-title Columns
+		.xepan-tool-option-title Size
 		.xepan-tool-option-value 
 			select#column-option-size
 				option 1
 				option 2
 				option 3
-				option 4
+				option(selected) 4
 				option 6
 				option 12
 	script.
 		$('#column-option-size').on('change',function(){
-			$(current_selected_component).css('border','2px solid red');
+			$(current_selected_component).removeClass (function (index, css) {
+			    return (css.match (/(^|\s)col-\S+/g) || []).join(' ');
+			});
+			$(current_selected_component).addClass('col-md-'+$(this).val());
+		});
+
+		$('\#{$_name} [data-attr]').on('change',function(){
+			$(current_selected_component).attr($(this).data('attr'),$(this).val());
 		});
 
 		$('\#{$_name}').on('show',function(event){
-			console.log('Loading From '+ $(current_selected_component).attr('xepan-component'));
+			$('\#{$_name} [data-attr]').each(function(index,value){
+				$(this).val($(current_selected_component).attr($(this).data('attr')));				
+			});
 		})

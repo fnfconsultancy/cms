@@ -7,6 +7,7 @@ jQuery.widget("ui.xepanEditor",{
 	_create: function(){
 		self = this;
 		self.setupToolbar();
+		self.setUpShortCuts();
 	},
 
 	setupToolbar: function(){
@@ -69,31 +70,109 @@ jQuery.widget("ui.xepanEditor",{
 	        },
 	    })
 	    .done(function(message) {
-	        if (message == 'saved') {
-	            $('body').univ().successMessage('Saved');
-	            $(overlay).remove();
-	        } else {
-	            $(overlay).remove();
-	            $('body').univ().errorMessage('Could Not save Page');
-	            eval(message);
-	        }
+            eval(message);	        
 	        $('body').triggerHandler('saveSuccess');
-	        console.log(message);
 	    })
 	    .fail(function(err) {
 	        $('body').trigger('saveFail');
-	        console.log(err);
-	        console.log('Error goit');
 	    })
 	    .always(function() {
-	        // $('body').trigger('afterSave');
 	        $('body').triggerHandler('afterSave');
-	        console.log("complete");
 	    });
 	},
 
 	hideOptions:function(){
 		$('.xepan-tools-options').hide();
+	},
+
+	setUpShortCuts: function(){
+
+		shortcut.add("Ctrl+s", function(event) {
+	        $('#xepan-savepage-btn').click();
+	        event.stopPropagation();
+	    });
+		shortcut.add("Ctrl+Shift+Up", function(event) {
+	        if (typeof current_selected_component == 'undefined') return;
+	        parent_component = $(current_selected_component).parent('.xepan-component');
+	        if (parent_component.length === 0) {
+	            $('body').univ().errorMessage('On Top Component');
+	            return;
+	        }
+	        $(current_selected_component).xepanComponent('deselect');
+	        $(parent_component).xepanComponent('select');
+	    });
+
+	    shortcut.add("Ctrl+Shift+Left", function(event) {
+	        if (typeof current_selected_component == 'undefined') return;
+	        prev_sibling = $(current_selected_component).prev('.xepan-component');
+	        if (prev_sibling.length === 0) {
+	            $('body').univ().errorMessage('No Next element found');
+	            return;
+	        }
+	        $(current_selected_component).xepanComponent('deselect');
+	        $(prev_sibling).xepanComponent('select');
+	        event.stopPropagation();
+
+	    });
+
+	    shortcut.add("Ctrl+Shift+Right", function(event) {
+	        if (typeof current_selected_component == 'undefined') return;
+	        next_sibling = $(current_selected_component).next('.xepan-component');
+	        if (next_sibling.length === 0) {
+	            $('body').univ().errorMessage('No Next element found');
+	            return;
+	        }
+	        $(current_selected_component).xepanComponent('deselect');
+	        $(next_sibling).xepanComponent('select');
+	        event.stopPropagation();
+
+	    });
+
+		shortcut.add("Tab", function(event) {
+	        if (typeof current_selected_component == 'undefined') {
+	            next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
+	        } else {
+	            var $x = $('.xepan-component:not(.xepan-page-wrapper)');
+	            next_component = $x.eq($x.index($(current_selected_component)) + 1);
+	        }
+
+	        if($(next_component).attr('id') === undefined){
+	            next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
+	            if($(next_component).attr('id') === undefined){
+	                event.stopPropagation();
+	                $.univ.errorMessage('No Component On Screen');
+	                return;
+	            }
+	        }
+
+	        $(next_component).xepanComponent('select');
+	        event.stopPropagation();
+	    }, {
+	        disable_in_input: true
+	    });
+
+	    shortcut.add("Shift+Tab", function(event) {
+	        if (typeof current_selected_component == 'undefined') {
+	            next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
+	        } else {
+	            var $x = $('.xepan-component:not(.xepan-page-wrapper)');
+	            next_component = $x.eq($x.index($(current_selected_component)) - 1);
+	        }
+
+	        if($(next_component).attr('id') === undefined){
+	            next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
+	            if($(next_component).attr('id') === undefined){
+	                event.stopPropagation();
+	                $.univ.errorMessage('No Component On Screen');
+	                return;
+	            }
+	        }
+
+	        $(next_component).xepanComponent('select');
+	        event.stopPropagation();
+	    });
+
+
 	}
 
 	

@@ -1,14 +1,14 @@
 
-<div id="{$_name}" style="display:none" for-xepan-component="xepan/base/Tool_Columns" class="xepan-tool-options">
+<div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_Columns" class="xepan-tool-options">
   <h3>Columns</h3>
   <div class="xepan-tool-option">
-    <div class="xepan-tool-option-title">Columns</div>
+    <div class="xepan-tool-option-title">Size</div>
     <div class="xepan-tool-option-value"> 
       <select id="column-option-size">
         <option>1</option>
         <option>2</option>
         <option>3</option>
-        <option>4</option>
+        <option selected="selected">4</option>
         <option>6</option>
         <option>12</option>
       </select>
@@ -16,11 +16,20 @@
   </div>
   <script>
     $('#column-option-size').on('change',function(){
-    	$(current_selected_component).css('border','2px solid red');
+    	$(current_selected_component).removeClass (function (index, css) {
+    	    return (css.match (/(^|\s)col-\S+/g) || []).join(' ');
+    	});
+    	$(current_selected_component).addClass('col-md-'+$(this).val());
+    });
+    
+    $('#{$_name} [data-attr]').on('change',function(){
+    	$(current_selected_component).attr($(this).data('attr'),$(this).val());
     });
     
     $('#{$_name}').on('show',function(event){
-    	console.log('Loading From '+ $(current_selected_component).attr('xepan-component'));
+    	$('#{$_name} [data-attr]').each(function(index,value){
+    		$(this).val($(current_selected_component).attr($(this).data('attr')));				
+    	});
     })
   </script>
 </div>

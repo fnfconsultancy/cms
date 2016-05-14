@@ -28,15 +28,19 @@ class View_ToolBar extends \View {
 				$t_v = $g_v->add($tool,null,'tools');
 				$t_v->getOptionPanel($this,'tool_options');
 				$t_v_icon = $g_v->add('View',null,'tools',clone $tool_tpl);
+				$tool = explode("\\", $tool);
+				$tool = $tool[count($tool)-1];
+				$tool = str_replace("Tool_", '', $tool);
 				$t_v_icon->template->set('name',$tool);
 				$t_v_icon->js(true)->xepanTool(
 					[
 					'name'=>$tool,
-					'drop_html'=> '<div class="xepan-component '.($t_v->runatServer?'xepan-serverside-component':'').'" xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>'
+					'drop_html'=> $t_v->runatServer ? '<div class="xepan-component xepan-serverside-component xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>': $t_v->getHTML()
 					]
 				);
-
 			}
+
+			$g_v->template->del('tools');
 		}
 
 		$this->js(true)
@@ -51,6 +55,8 @@ class View_ToolBar extends \View {
 			]);
 		$this->js(true)->appendTo('body')->_selector('.xepan-tools-options');
 		$this->js(true)->xepanComponent()->_selector('.xepan-component');
+		$this->js(true)->_load('shortcut');
+		$this->js(true)->_css('popline/themes/default')->_load('popline/scripts/jquery.popline');
 	}
 
 	function defaultTemplate(){

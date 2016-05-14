@@ -18,7 +18,7 @@ class Initiator extends \Controller_Addon {
 
     function setup_frontend(){
         $this->routePages('xepan_cms');
-        $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'templates/css'))
+        $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>['templates/css','templates/js']))
         ->setBaseURL('./vendor/xepan/cms/');
 
         $user = $this->add('xepan\base\Model_User');
@@ -53,8 +53,9 @@ class Initiator extends \Controller_Addon {
             }
         }
 
-        $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
 
         return $this;
     }

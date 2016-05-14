@@ -16,9 +16,24 @@ class page_admin_save_page extends \Page {
 	function init(){
 		parent::init();
 		
+		if(!$this->api->auth->isLoggedIn())	{
+			$this->js()->univ()->errorMessage('You Are Not Logged In')->execute();
+		}
+		
+		if ( $_POST['length'] != strlen( $_POST['body_html'] ) ) {
+			$this->js()->univ()->successMessage( 'Length send ' . $_POST['length'] . " AND Length calculated again is " . strlen( $_POST['body_html'] ) )->execute();
+		}
+
+		if ( $_POST['crc32'] != sprintf("%u",crc32( $_POST['body_html'] ) )) {
+			$this->js()->univ()->successMessage( 'CRC send ' . $_POST['crc32'] . " AND CRC calculated again is " . sprintf("%u",crc32( $_POST['body_html'] )) )->execute();
+		}
+
+		if(strpos($_POST['file_path'], realpath('websites/'.$this->app->current_website_name)!==0)){
+			$this->js()->univ()->errorMessage('You cannot save in this location')->execute();
+		}
+
 		file_put_contents($_POST['file_path'], urldecode( trim( $_POST['body_html'] ) ));
 
-		echo $this->js(true)->_selectorDocument()->univ()->successMessage("hello");
-		exit;
+		$this->js()->_selectorDocument()->univ()->successMessage("Content Saved")->execute();
 	}
 }

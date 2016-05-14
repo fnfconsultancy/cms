@@ -4,12 +4,12 @@
 namespace xepan\cms;
 
 
-class Tool_Columns extends \xepan\cms\View_Tool {
+class Tool_Text extends \xepan\cms\View_Tool {
 	
 	public $runatServer = false;
 
 	function defaultTemplate(){
-		return ['xepan/tool/columns'];
+		return ['xepan/tool/text'];
 	}
 	
 }

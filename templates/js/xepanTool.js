@@ -9,10 +9,10 @@ jQuery.widget("ui.xepanTool",{
 		self = this;
 		$(this.element).disableSelection().draggable({
 			connectToSortable: '.xepan-sortable-component',
-			helper: function(){
-				return $('<div style="width:100px;"></div>').html($(this).xepanTool('getHTML'));
+			helper: function(event, ui){
+				return $($(this).xepanTool('getHTML'));
 			},
-			start: function(){
+			start: function(event, ui){
 				origin='toolbox';
 				xepan_drop_component_html = $($(this).xepanTool('getHTML'));
 			},
