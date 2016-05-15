@@ -8,6 +8,7 @@ jQuery.widget("ui.xepanEditor",{
 		self = this;
 		self.setupToolbar();
 		self.setUpShortCuts();
+		self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
 	},
 
 	setupToolbar: function(){
@@ -45,6 +46,7 @@ jQuery.widget("ui.xepanEditor",{
 
 	    html_body = $('.xepan-page-wrapper').clone();
 	    $(html_body).find('.xepan-serverside-component').html("");
+	    $(html_body).find('.xepan-editable-text').attr('contenteditable','false');
 
 	    html_body = encodeURIComponent($.trim($(html_body).html()));
 
@@ -177,6 +179,10 @@ jQuery.widget("ui.xepanEditor",{
 	    });
 
 
+	},
+
+	cleanup: function(){
+		
 	}
 
 	

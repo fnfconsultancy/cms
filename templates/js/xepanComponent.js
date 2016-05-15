@@ -13,6 +13,7 @@ jQuery.widget("ui.xepanComponent",{
 		}
 
 		if($(this.element).hasClass('xepan-editable-text')){
+			console.log(this.element);
 			$(this.element).xepanComponent('createTextEditable');
 		}
 		
@@ -64,11 +65,9 @@ jQuery.widget("ui.xepanComponent",{
 
 	createTextEditable: function(){
 		self=this;
+		if(!$(this.element).hasClass('xepan-editable-text')) return;
 		$(this.element).attr('contenteditable','true');
 		$.univ().richtext(self.element,self.tinyceme_options,true);
-		window.setTimeout(function(){
-			$.univ().richtext(self.element,{inline:true,forced_root_block: false},true);
-		},200);
 	},
 
 	deselect: function (){
@@ -80,6 +79,11 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	remove:function(){
+		// Remove tinymce from tool if applied
+		if($(this.element).hasClass('xepan-editable-text')){
+			$('.mce-tinymce.mce-panel').hide();
+			tinymce.remove($(this.element).attr('id'));
+		}
 		$(this.element).remove();
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			$('.xepan-toolbar').xepanEditor('hideOptions');
@@ -110,6 +114,9 @@ jQuery.widget("ui.xepanComponent",{
 	    		$new_component = $(xepan_drop_component_html).xepanComponent();
 				$($new_component).find('.xepan-component').xepanComponent();
 				$($new_component).attr('id',generateUUID());
+				window.setTimeout(function(){
+					$.univ().richtext($new_component,self.tinyceme_options,true);
+				},200);
 		    	$(ui.item).replaceWith($new_component);
 	    	}
 		    origin='page';
@@ -118,7 +125,12 @@ jQuery.widget("ui.xepanComponent",{
 
 	tinyceme_options: {
 		inline:true,
-		forced_root_block: false
+		forced_root_block: false,
+		plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
+		toolbar1: "insertfile undo redo | styleselect | bold italic fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",                
+		importcss_append: true
 	}
 	
 });
