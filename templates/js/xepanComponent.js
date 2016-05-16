@@ -115,7 +115,8 @@ jQuery.widget("ui.xepanComponent",{
 				$($new_component).find('.xepan-component').xepanComponent();
 				$($new_component).attr('id',generateUUID());
 				window.setTimeout(function(){
-					$.univ().richtext($new_component,self.tinyceme_options,true);
+					if($($new_component).hasClass('xepan-editable-text'))
+						$.univ().richtext($new_component,self.tinyceme_options,true);
 				},200);
 		    	$(ui.item).replaceWith($new_component);
 	    	}
