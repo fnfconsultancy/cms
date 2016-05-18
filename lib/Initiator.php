@@ -12,8 +12,9 @@ class Initiator extends \Controller_Addon {
             $this->routePages('xepan_cms');
             $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'template/css'))
             ->setBaseURL('../vendor/xepan/cms/');
-            
-        }        
+        }
+
+        return $this;
     }
 
     function setup_frontend(){

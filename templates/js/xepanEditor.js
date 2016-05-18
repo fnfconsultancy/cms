@@ -178,6 +178,11 @@ jQuery.widget("ui.xepanEditor",{
 	        event.stopPropagation();
 	    });
 
+	    shortcut.add("Esc", function(event) {
+	        $('.xepan-component').xepanComponent('deselect');
+	        event.stopPropagation();
+	    });
+
 
 	},
 
