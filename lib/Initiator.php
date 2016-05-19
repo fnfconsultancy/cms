@@ -74,5 +74,10 @@ class Initiator extends \Controller_Addon {
     }
 
     function resetDB(){
+        
+        $truncate_models = ['User_CMSEditor'];
+        foreach ($truncate_models as $t) {
+            $this->add('xepan\cms\Model_'.$t)->deleteAll();
+        }
     }
 }
