@@ -57,10 +57,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		
 		$dom = $this->dom;
 
-		if(strpos(realpath($this->owner->template->origin_filename), 'xepantemplates'))
-			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'xepantemplates/'.$this->app->getConfig('xepan-template').'/';
-		else
-			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
+		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
 
 		foreach ($dom['img']->not('[src^="http"]') as $img) {
 			$img= $this->pq->pq($img);
