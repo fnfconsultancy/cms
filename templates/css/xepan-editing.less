@@ -1,0 +1,153 @@
+///*
+// * Import 3L mixins and have fun with styling your website!
+// */
+
+@import '3L/3L';
+
+///* Safe-mode.
+// * Use this one instead of the @import above if you're using other sets of mixins and their names overlap with 3L.
+// * 
+// * After using the safe-mode, the 3L's mixins are available by typing #3L > .mixin();
+// */
+
+//#3L {@import '3L/3L';} 
+
+///*
+// * Use normalize, reset and/or HTML5 Boiler Plate's CSS rules.
+// */
+
+//.normalize();
+//.reset();
+//.h5bp();
+
+///*
+// * From now on is the place for your awesome LESS work.
+// */
+
+@toolbox-width: 200px;
+@corner-radius : 10px;
+@title-color: #2d4150;
+@seperator-color: #f0f3f5;
+@secondry-color: #3899ec;
+@shadow-color: #9ecaed;
+
+.xepan-toolbar{
+	.normalize();
+	.h5bp();
+	width: @toolbox-width;
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	background-color: rgba(255, 255, 255, 0.94);
+	.border-radius(@corner-radius);
+	max-height: 400px;
+	padding: @corner-radius;
+	z-index: 999999;
+	.box-shadow(0 0 10px @shadow-color);
+
+	.xepan-toolbar-drag-handler {
+		width: @toolbox-width;
+		background-color: @secondry-color;
+		position: relative;
+		top: 0px;
+		height: 20px;
+		.border-top-radius(@corner-radius @corner-radius);
+		margin : -@corner-radius -@corner-radius @corner-radius -@corner-radius;
+		color: @title-color;
+		i {
+			margin : @corner-radius;
+			font-size: 10px;
+		}
+	}
+
+	.seperator {
+		float: clear;
+		border-bottom: 1px solid @title-color;
+		.box-sizing(border-box);
+		margin: 9px 0;
+		width: 100%;
+		.opacity(50%);
+	}
+
+	.xepan-cms-groups-panel{
+		cursor: pointer;
+		.xepan-tool-bar-tool {
+			height: 30px;
+		}
+	}
+}
+
+.xepan-component {
+	position: relative;
+	&:empty:after {
+		min-height: 20px;
+		content: " (" attr(emptytext) ")";
+	}
+	&.xepan-selected-component {
+		outline: 2px dotted rgb(68,192,240);
+	}
+	.xepan-component-hover-selector{
+
+	}
+	.xepan-component-hover-bar{
+		position: absolute;
+		z-index: 999999;
+		top: 0px;
+		height: @corner-radius*2;
+		width: 100%;
+		.border-bottom-radius(@corner-radius @corner-radius);
+		background-color: @secondry-color;
+		.transition (all 1s);
+		border-color: @shadow-color;
+	    box-shadow: 0 0 10px @shadow-color;
+		.xepan-component-drag-handler{
+			float: left;
+			left: 10px;
+			width: 10px;
+			height: 10px;
+			margin : 2px;
+			cursor: pointer;
+		}
+		.xepan-component-remove{
+			float: right;
+			right: 10px;
+			width: 10px;
+			height: 10px;
+			margin : 2px;
+			cursor: pointer;
+		}
+	}
+
+	.ui-sortable-placeholder {
+		outline: 2px solid red;
+		background-color: rgb(200,80,80);
+		min-height: 30px;
+		visibility: visible;
+	}
+}
+
+.xepan-tools-options {
+	.normalize();
+	.h5bp();
+	width: @toolbox-width;
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	background-color: rgba(255, 255, 255, 0.94);
+	.border-radius(@corner-radius);
+	max-height: 400px;
+	padding: @corner-radius;
+	z-index: 999999;
+	.box-shadow(0 0 10px @shadow-color);
+
+	.xepan-tools-options-drag-handler {
+		width: @toolbox-width;
+		background-color: @secondry-color;
+		position: relative;
+		top: 0px;
+		height: 20px;
+		.border-top-radius(@corner-radius @corner-radius);
+		margin : -@corner-radius -@corner-radius @corner-radius -@corner-radius;
+		color: @title-color;
+	}	
+}

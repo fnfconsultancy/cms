@@ -21,7 +21,7 @@ class View_ToolBar extends \View {
         $this->js(true)->_css('elfindertheme');
 
 		//load style css
-		$this->app->jui->addStaticStyleSheet($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan-toolbar.css');
+		$this->app->jui->addStaticStyleSheet($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan-editing.css');
 		// $this->js(true)->_css();
 		$this->js(true)->_load($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/xepanTool.js');
 

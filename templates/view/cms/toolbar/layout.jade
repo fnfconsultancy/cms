@@ -1,19 +1,20 @@
 {toolBar}
-.xepan-toolbar.panel.panel-primary(id='{$_name}' aria-expanded="true")
-	.xepan-toolbar-drag-handler.panel-heading
-		i.fa.fa-minus-square.pull-right.text-success(data-toggle="collapse" data-target="\#xepan-cms-groups-panel" aria-expanded="true")
+.xepan-toolbar(id='{$_name}' aria-expanded="true")
+	.xepan-toolbar-drag-handler
+		i(data-toggle="collapse" data-target="\#xepan-cms-groups-panel" aria-expanded="true")
 	.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
 		{$groups}
 	#xepan-savepage-btn.btn.btn-primary SAVE
-.xepan-tools-options(style="display:none; position:absolute")
-	.xepan-tools-options-drag-handler [ + ]
+.xepan-tools-options(style="display:none;")
+	.xepan-tools-options-drag-handler
 	{$tool_options}
 {/toolBar}
 
 {group}
 div.xepan-cms-group-panel.clearfix
-	H1.collapsed(data-toggle="collapse" data-target="\#{$_name}" aria-expanded="false")
+	H6.collapsed(data-toggle="collapse" data-target="\#{$_name}" aria-expanded="false")
 		span {$name}
+	.seperator
 	.xepan-cms-tools-bar-panel.row-fluid.collapse(id="{$_name}" aria-expanded="false")
 		{$tools}
 {/group}
