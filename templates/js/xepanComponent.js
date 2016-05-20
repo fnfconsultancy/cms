@@ -5,6 +5,7 @@ jQuery.widget("ui.xepanComponent",{
 		self=this;
 
 		if($(this.element).closest('.xepan-toolbar').length !=0) return;
+		if(!$(this.element).attr('id')) $(this.element).attr('id',generateUUID());
 
 		self.options.option_panel = $('.xepan-tool-options[for-xepan-component="'+($(this.element).attr('xepan-component'))+'"]');
 
@@ -131,7 +132,8 @@ jQuery.widget("ui.xepanComponent",{
                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
                 "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
 		toolbar1: "insertfile undo redo | styleselect | bold italic fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",                
-		importcss_append: true
+		importcss_append: true,
+		verify_html: false
 	}
 	
 });
