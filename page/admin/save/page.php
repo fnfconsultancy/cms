@@ -31,8 +31,13 @@ class page_admin_save_page extends \Page {
 		if(strpos($_POST['file_path'], realpath('websites/'.$this->app->current_website_name)!==0)){
 			$this->js()->univ()->errorMessage('You cannot save in this location')->execute();
 		}
+		$html_content = urldecode( trim( $_POST['body_html'] ) );
 
-		file_put_contents($_POST['file_path'], urldecode( trim( $_POST['body_html'] ) ));
+		// convert all absolute url to relative
+		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
+		$html_content = str_replace($domain, '', $html_content);
+
+		file_put_contents($_POST['file_path'], $html_content);
 
 		$this->js()->_selectorDocument()->univ()->successMessage("Content Saved")->execute();
 	}
