@@ -69,6 +69,7 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Image');
 
         return $this;
     }
