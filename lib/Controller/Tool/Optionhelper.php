@@ -68,6 +68,10 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 					$l->current_row_html[$rm]="";
 				}
 				foreach ($this->options as $opt=>$value) {
+					if($value==='true') $value=true;
+					if($value==='false') $value=false;
+					if($value==='null') $value=null;
+					
 					$method = "addToolCondition_row_".$opt;
 
 					if($this->owner->hasMethod($method)){		
