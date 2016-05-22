@@ -23,12 +23,21 @@ jQuery.widget("ui.xepanComponent",{
 				// on hover
 				function(event,ui){
 					$(this).addClass('xepan-component-hover-selector');
-					drag_handler = $('<div class="xepan-component-hover-bar"></div>').appendTo($(this));
-					remove_btn = $('<i class="glyphicon glyphicon-trash xepan-component-remove"></i>').appendTo(drag_handler);
-					drag_btn =  $('<i class="glyphicon glyphicon-move xepan-component-drag-handler"></i>').appendTo(drag_handler);	
-					$(remove_btn).click(function(event,ui){
-						$(this).closest('.xepan-component').xepanComponent('remove');
-					});
+					
+					if(!$(this).hasClass('xepan-disable-move') && !$(this).hasClass('xepan-disable-remove')){
+						drag_handler = $('<div class="xepan-component-hover-bar"></div>').appendTo($(this));
+					}
+
+					if(!$(this).hasClass('xepan-disable-move')){
+						drag_btn =  $('<i class="glyphicon glyphicon-move xepan-component-drag-handler"></i>').appendTo(drag_handler);	
+					}
+
+					if(!$(this).hasClass('xepan-disable-remove')){
+						remove_btn = $('<i class="glyphicon glyphicon-trash xepan-component-remove"></i>').appendTo(drag_handler);
+						$(remove_btn).click(function(event,ui){
+							$(this).closest('.xepan-component').xepanComponent('remove');
+						});
+					}
 					event.stopPropagation();				
 				},
 				//remove hover
