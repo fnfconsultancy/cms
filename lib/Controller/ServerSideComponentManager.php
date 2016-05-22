@@ -57,7 +57,10 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		
 		$dom = $this->dom;
 
-		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
+		if($tp=$this->app->recall('xepan-template-preview',false))
+			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'xepantemplates/'.$tp.'/';
+		else
+			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
 
 		foreach ($dom['img']->not('[src^="http"]') as $img) {
 			$img= $this->pq->pq($img);
