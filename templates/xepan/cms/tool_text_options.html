@@ -1,21 +1,2 @@
 
-<div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_Text" class="xepan-tool-options">
-  <h3>Container</h3>
-  <div class="xepan-tool-option">
-    <div class="xepan-tool-option-title">Width</div>
-    <div class="xepan-tool-option-value">
-      <input id="container-width" value="80%" data-attr="width"/>
-    </div>
-  </div>
-  <script>
-    $('#{$_name} [data-attr]').on('change',function(){
-    	$(current_selected_component).attr($(this).data('attr'),$(this).val());
-    });
-    
-    $('#{$_name}').on('show',function(event){
-    	$('#{$_name} [data-attr]').each(function(index,value){
-    		$(this).val($(current_selected_component).attr($(this).data('attr')));				
-    	});
-    })
-  </script>
-</div>
+<div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_Text" class="xepan-tool-options">No Options for text</div>

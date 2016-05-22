@@ -1,17 +1,2 @@
 .xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_Text')
-	h3 Container
-	.xepan-tool-option
-		.xepan-tool-option-title Width
-		.xepan-tool-option-value
-			input#container-width(value='80%' data-attr='width')
-
-	script.
-		$('\#{$_name} [data-attr]').on('change',function(){
-			$(current_selected_component).attr($(this).data('attr'),$(this).val());
-		});
-
-		$('\#{$_name}').on('show',function(event){
-			$('\#{$_name} [data-attr]').each(function(index,value){
-				$(this).val($(current_selected_component).attr($(this).data('attr')));				
-			});
-		})
+	| No Options for text
