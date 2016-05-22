@@ -41,18 +41,17 @@
 	background-color: rgba(255, 255, 255, 0.94);
 	.border-radius(@corner-radius);
 	max-height: 400px;
-	padding: @corner-radius;
-	z-index: 999999;
+	z-index: 60000;
 	.box-shadow(0 0 10px @shadow-color);
 
 	.xepan-toolbar-drag-handler {
-		width: @toolbox-width;
+		width: 100%;
 		background-color: @secondry-color;
 		position: relative;
 		top: 0px;
 		height: 20px;
 		.border-top-radius(@corner-radius @corner-radius);
-		margin : -@corner-radius -@corner-radius @corner-radius -@corner-radius;
+		margin : -@corner-radius 0 0 0;
 		color: @title-color;
 		i {
 			margin : @corner-radius;
@@ -71,6 +70,7 @@
 
 	.xepan-cms-groups-panel{
 		cursor: pointer;
+		padding: @corner-radius;
 		.xepan-tool-bar-tool {
 			height: 30px;
 		}
@@ -92,10 +92,10 @@
 	.xepan-component-hover-bar{
 		position: absolute;
 		z-index: 999999;
-		top: 0px;
+		top: -@corner-radius*2;
 		height: @corner-radius*2;
 		width: 100%;
-		.border-bottom-radius(@corner-radius @corner-radius);
+		.border-top-radius(@corner-radius @corner-radius);
 		background-color: @secondry-color;
 		.transition (all 1s);
 		border-color: @shadow-color;
@@ -137,7 +137,7 @@
 	.border-radius(@corner-radius);
 	max-height: 400px;
 	padding: @corner-radius;
-	z-index: 999999;
+	z-index: 65535;
 	.box-shadow(0 0 10px @shadow-color);
 
 	.xepan-tools-options-drag-handler {
