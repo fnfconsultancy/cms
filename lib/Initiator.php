@@ -42,10 +42,19 @@ class Initiator extends \Controller_Addon {
 
 
         // execute template server side components
+        $old_js_block = $this->app->template->tags['js_block'];
+        $old_js_include = $this->app->template->tags['js_include'];
+        $old_js_doc_ready = $this->app->template->tags['document_ready'];
+
         $this->app->add('xepan\cms\Controller_ServerSideComponentManager');
-        $this->app->jui->destroy();
-        $this->app->jui=null;
-        $this->app->add('jUI');
+        // $this->app->jui->destroy();
+        // $this->app->jui=null;
+        // $this->app->add('jUI');
+        $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
+        $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
+        $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
+
+
 
         $this->app->isEditing = false;
 
