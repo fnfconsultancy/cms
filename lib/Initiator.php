@@ -17,6 +17,27 @@ class Initiator extends \Controller_Addon {
         return $this;
     }
 
+    function setup_pre_frontend(){
+        $this->app->isEditing = false;
+
+        if($this->app->auth->isLoggedIn()) {
+            $user = $this->add('xepan\cms\Model_User_CMSEditor');
+            $user->tryLoadBy('user_id',$this->app->auth->model->id);
+
+            if($user->loaded() && !$_GET['xepan-template-edit'] && $user['can_edit_page_content']){
+                $this->app->isEditing = true;
+                $this->app->editing_template = null;
+            }elseif($user->loaded() && $_GET['xepan-template-edit']){
+                if($user['can_edit_template']){
+                    $this->app->isEditing = true;
+                    $this->app->editing_template = $_GET['xepan-template-edit'];
+                }else{
+                    throw $this->exception('You are not authorised to edit templates');
+                }
+            }
+        }
+    }
+
     function setup_frontend(){
         $this->routePages('xepan_cms');
         $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>['templates/css','templates/js']))
@@ -53,27 +74,6 @@ class Initiator extends \Controller_Addon {
         $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
         $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
         $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
-
-
-
-        $this->app->isEditing = false;
-
-        if($this->app->auth->isLoggedIn()) {
-            $user = $this->add('xepan\cms\Model_User_CMSEditor');
-            $user->tryLoadBy('user_id',$this->app->auth->model->id);
-
-            if($user->loaded() && !$_GET['xepan-template-edit'] && $user['can_edit_page_content']){
-                $this->app->isEditing = true;
-                $this->app->editing_template = null;
-            }elseif($user->loaded() && $_GET['xepan-template-edit']){
-                if($user['can_edit_template']){
-                    $this->app->isEditing = true;
-                    $this->app->editing_template = $_GET['xepan-template-edit'];
-                }else{
-                    throw $this->exception('You are not authorised to edit templates');
-                }
-            }
-        }
 
         $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
