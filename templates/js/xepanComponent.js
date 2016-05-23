@@ -14,7 +14,6 @@ jQuery.widget("ui.xepanComponent",{
 		}
 
 		if($(this.element).hasClass('xepan-editable-text')){
-			console.log(this.element);
 			$(this.element).xepanComponent('createTextEditable');
 		}
 		
