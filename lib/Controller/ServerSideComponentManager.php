@@ -62,17 +62,17 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		else
 			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
 
-		foreach ($dom['img']->not('[src^="http"]') as $img) {
+		foreach ($dom['img']->not('[src^="http"]')->not('[src^="websites/'.$this->app->current_website_name.'/www/'.'"') as $img) {
 			$img= $this->pq->pq($img);
 			$img->attr('src',$domain.$img->attr('src'));
 		}
 
-		foreach ($dom['link']->not('[href^="http"]') as $img) {
+		foreach ($dom['link']->not('[href^="http"]')->not('[src^="websites/'.$this->app->current_website_name.'/www/'.'"') as $img) {
 			$img= $this->pq->pq($img);
 			$img->attr('href',$domain.$img->attr('href'));
 		}
 
-		foreach ($dom['script[src]']->not('[src^="http"]')->not('[src^="//"]') as $img) {
+		foreach ($dom['script[src]']->not('[src^="http"]')->not('[src^="//"]')->not('[src^="websites/'.$this->app->current_website_name.'/www/'.'"') as $img) {
 			$img= $this->pq->pq($img);
 			$img->attr('src',$domain.$img->attr('src'));
 		}
