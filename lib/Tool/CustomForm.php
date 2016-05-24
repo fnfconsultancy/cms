@@ -11,6 +11,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
+
 		if(!$this->options['customformid']){
 			$this->add("View_Error")->set('please select any custom form');
 			return;
