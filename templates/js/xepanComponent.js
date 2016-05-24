@@ -13,6 +13,8 @@ jQuery.widget("ui.xepanComponent",{
 			$(this.element).xepanComponent('createSortable');
 		}
 
+		$(this.element).find('.xepan-sortable-component').sortable(this.sortable_options);
+
 		if($(this.element).hasClass('xepan-editable-text')){
 			$(this.element).xepanComponent('createTextEditable');
 		}
