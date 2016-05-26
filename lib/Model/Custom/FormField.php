@@ -34,6 +34,7 @@
 		$this->addField('is_mandatory')->type('boolean');
 		$this->addField('hint')->type('text');
 		$this->addField('placeholder');
+		$this->addField('auto_reply')->type('boolean');
 
 	}
 

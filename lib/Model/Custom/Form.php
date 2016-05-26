@@ -9,6 +9,7 @@ class Model_Custom_Form extends \Model_Table{
 	function init(){
 		parent::init();
 
+		$this->hasOne('xepan\hr\Post_Email_MyEmails','emailsetting_id');
 		$this->addField('name');
 		$this->addField('submit_button_name');
 

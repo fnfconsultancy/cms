@@ -29,6 +29,14 @@ class page_customform extends \Page {
 				$crud_field = $page->add('xepan\hr\CRUD');
 				$crud_field->setModel($field_model);
 
+				if($crud_field->isEditing()){
+					$type_field = $crud_field->form->getElement('type');
+					$type_field->js(true)->univ()->bindConditionalShow([
+						'email'=>['auto_reply']
+					],'div.atk-form-row');
+
+				}
+
 		});
 
 	}
