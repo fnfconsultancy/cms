@@ -36,6 +36,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		$content = $this->updateBaseHrefForTemplates();
 		$this->owner->template->loadTemplateFromString($content);
 
+		$this->owner->template->trySet($this->app->page.'_active','active');
 	}
 
 	function renderServerSideComponents(){
