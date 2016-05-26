@@ -2,7 +2,7 @@
 
  namespace xepan\cms;
 
-class Model_Custom_Submission extends \Model_Table{
+class Model_Custom_FormSubmission extends \Model_Table{
 
  	public $table = 'custom_form_submission'; 
 
