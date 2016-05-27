@@ -3,7 +3,7 @@
 	.xepan-tool-option
 		.xepan-tool-option-title Custom Form Id
 		.xepan-tool-option-value 
-			input#customformid(data-attr='customformid')
+			select#custom_form_{$id}(data-attr='customformid')
 				
 	script.
 		$('\#{$_name} [data-attr]').on('change',function(){
@@ -11,7 +11,18 @@
 		});
 
 		$('\#{$_name}').on('show',function(event){
+			
 			$('\#{$_name} [data-attr]').each(function(index,value){
-				$(this).val($(current_selected_component).attr($(this).data('attr')));				
+				$(this).val($(current_selected_component).attr($(this).data('attr')));
+			});
+
+			$.ajax({
+				url: 'index.php?page=xepan_cms_admin_getforms',
+				type: 'GET',
+				data: { },
+				success: function(data){
+					$('\#custom_form_{$id}').html(data);
+					$('\#custom_form_{$id}').val($(current_selected_component).attr('customformid'));
+				}
 			});
 		})
