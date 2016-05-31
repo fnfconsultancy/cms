@@ -29,10 +29,14 @@ class View_ToolBar extends \View {
 		$this->template->del('group');
 		$tool_tpl = $this->template->cloneRegion('tool');
 		$this->template->del('tool');
+		$basic_property = $this->template->cloneRegion('basic_property');
+		$this->template->del('basic_property');
 
 		$tools = $this->app->getFrontEndTools();
-
-						
+		
+		$bs_view=$this->add('View',null,'basic_property',['view/cms/toolbar/basic']);
+		$bs_view->set('Basic Propery');				
+		
 		foreach (array_keys($tools) as $group) {
 			$g_v = $this->add('View',null,'groups',clone $group_tpl);
 			$g_v->template->set('name',$group);
