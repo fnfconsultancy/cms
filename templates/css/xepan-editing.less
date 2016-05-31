@@ -42,6 +42,8 @@
 	.border-radius(@corner-radius);
 	max-height: 400px;
 	z-index: 60000;
+	overflow-x:hidden;
+	overflow-y:auto;
 	.box-shadow(0 0 10px @shadow-color);
 
 	.xepan-toolbar-drag-handler {
@@ -49,7 +51,7 @@
 		background-color: @secondry-color;
 		position: relative;
 		top: 0px;
-		height: 20px;
+		height: 40px;
 		.border-top-radius(@corner-radius @corner-radius);
 		margin : -@corner-radius 0 0 0;
 		color: @title-color;
@@ -72,7 +74,7 @@
 		cursor: pointer;
 		padding: @corner-radius;
 		.xepan-tool-bar-tool {
-			height: 30px;
+			height: auto;
 		}
 	}
 }
