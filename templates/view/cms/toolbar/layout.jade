@@ -16,12 +16,12 @@ div.xepan-cms-group-panel.clearfix
 	H6.collapsed(data-toggle="collapse" data-target="\#{$_name}" aria-expanded="false")
 		span {$name}
 	.seperator
-	.xepan-cms-tools-bar-panel.row-fluid.collapse(id="{$_name}" aria-expanded="false")
+	.xepan-cms-tools-bar-panel.row-fluid.collapse(id="{$_name}" aria-expanded="false" )
 		{$tools}
 {/group}
 
 {tool}
-.col-md-6.col-sm-6.xepan-tool-bar-tool(id='{$_name}')
-	i.glyphicon.glyphicon-asterisk
+.col-md-4.col-sm-4.col-xs-4.xepan-tool-bar-tool(id='{$_name}' style="text-align:center; padding-bottom:10px")
+	img(src="vendor/{$namespace}/templates/images/{$name}_icon.png")
 	div {$name} {$tool_html}
 {/tool}
