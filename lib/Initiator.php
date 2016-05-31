@@ -14,6 +14,8 @@ class Initiator extends \Controller_Addon {
             ->setBaseURL('../vendor/xepan/cms/');
         }
 
+        $this->app->side_menu->addItem(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'xepan_cms_websites');
+
         return $this;
     }
 
