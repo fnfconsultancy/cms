@@ -34,7 +34,7 @@ class View_ToolBar extends \View {
 
 		$tools = $this->app->getFrontEndTools();
 		
-		$bs_view=$this->add('View',null,'basic_property',['view/cms/toolbar/basic']);
+		$bs_view=$this->add('xepan\cms\View_CssOptions',null,'basic_property');
 		$bs_view->set('Basic Propery');				
 		
 		foreach (array_keys($tools) as $group) {

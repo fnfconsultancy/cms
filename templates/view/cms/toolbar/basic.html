@@ -9,30 +9,6 @@
       <table class="table table-condensed table-hover">
         <tbody>
           <tr>
-            <td>
-              <p>Text Color</p>
-            </td>
-            <td>
-              <input id="epan-text-color" type="text" class="epan-color-picker"/>
-            </td>
-            <td>
-              <button onclick="$(current_selected_component).css('color','')" class="btn btn-default btn-xs"> CLR </button>
-            </td>
-          </tr>
-          <tr>
-            <td>Google Font</td>
-            <td colspan="2">
-              <input id="epan-font-select" type="text" class="epan-font-picker"/>
-            </td>
-          </tr>
-          <tr>
-            <td>Font Size</td>
-            <td colspan="2">
-              <button id="epan-font-size-plus">Font Size +</button>
-              <button id="epan-font-size-minus">Font Size -</button>
-            </td>
-          </tr>
-          <tr>
             <td>Comp. Width</td>
             <td colspan="2">
               <input id="epan-component-width-input" type="NUMBER" min="0" max="999999999" size="5"/>
@@ -50,14 +26,6 @@
               <button id="epan-component-height-in-per" type="button" class="btn btn-default btn-xs">%</button>
               <button id="epan-component-height-auto" type="button" class="btn btn-default btn-xs">auto</button>
               <button id="epan-component-height-max" type="button" class="btn btn-default btn-xs">max 100%</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Class</td>
-            <td colspan="2">
-              <input id="epan-component-extra-clases" type="text" style="width:40%"/>
-              <button id="epan-manage-custome-css" type="button" style="width:20%" class="btn btn-default btn-xs">Manage</button>
-              <button id="epan-bs3-css-helper" type="button" class="btn btn-default btn-xs">Css Templates</button>
             </td>
           </tr>
         </tbody>
@@ -523,59 +491,38 @@
   $('#epan-background-color').change(function(){
   $(current_selected_component).css('background-color', '#'+ $(this).val());
   });
-  $('#epan-text-color').change(function(){
-  $(current_selected_component).css('color', '#'+ $(this).val());
-  });
-  //- $('#epan-font-select').fontselect().change(function(){
-  //- var font = $(this).val().replace(/\\+/g, ' ');
-  //- font = font.split(':');
-  //- $(current_selected_component).css('font-family',font[0]);
+  //- $('#epan-component-extra-clases').change(function(event) {
+  //- if($(current_selected_component).attr('data-extra-classes') != undefined){
+  //- $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+  //- }
+  //- $(current_selected_component).addClass($(this).val());
+  //- $(current_selected_component).attr('data-extra-classes',$(this).val());
   //- });
-  $('#epan-font-size-plus').click(function(event) {
-  /* Act on the event */
-  var fontSize = parseInt($(current_selected_component).css("font-size"));
-  fontSize = fontSize + 1 + "px";
-  $(current_selected_component).css({'font-size':fontSize});
-  });
-  $('#epan-font-size-minus').click(function(event) {
-  /* Act on the event */
-  var fontSize = parseInt($(current_selected_component).css("font-size"));
-  // if(fontSize ==1 ) return;
-  fontSize = fontSize - 1 + "px";
-  $(current_selected_component).css({'font-size':fontSize});
-  });
-  $('#epan-component-extra-clases').change(function(event) {
-  if($(current_selected_component).attr('data-extra-classes') != undefined){
-  $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
-  }
-  $(current_selected_component).addClass($(this).val());
-  $(current_selected_component).attr('data-extra-classes',$(this).val());
-  });
-  $('#epan-manage-custome-css').click(function(event) {
-  $('body').univ().successMessage('Put your css in mystyles.css');
-  var fm = $('<div/>').dialogelfinder({
-  url : 'elfinder/php/connector.php',
-  lang : 'en',
-  width : 840,
-  destroyOnClose : true,
-  getFileCallback : function(files, fm) {
-  },
-  commandsOptions : {
-  getfile : {
-  oncomplete : 'close',
-  folders : true
-  }
-  }
-  }).dialogelfinder('instance');
-  });
-  $('#epan-bs3-css-helper').click(function(event) {
-  // Open a div with bootstrap3 playgroung to choose and apply on
-  // current_selected_component
-  $.univ().frameURL('CSS TEMPLATES','epan-addons/componentBase/templates/view/css-templates.html');
-  });
+  //- $('#epan-manage-custome-css').click(function(event) {
+  //- $('body').univ().successMessage('Put your css in mystyles.css');
+  //- var fm = $('<div/>').dialogelfinder({
+  //- url : 'elfinder/php/connector.php',
+  //- lang : 'en',
+  //- width : 840,
+  //- destroyOnClose : true,
+  //- getFileCallback : function(files, fm) {
+  //- },
+  //- commandsOptions : {
+  //- getfile : {
+  //- oncomplete : 'close',
+  //- folders : true
+  //- }
+  //- }
+  //- }).dialogelfinder('instance');
+  //- });
+  //- $('#epan-bs3-css-helper').click(function(event) {
+  //- // Open a div with bootstrap3 playgroung to choose and apply on
+  //- // current_selected_component
+  //- $.univ().frameURL('CSS TEMPLATES','epan-addons/componentBase/templates/view/css-templates.html');
+  //- });
   $('#epan-component-background-image-select-button').click(function(event) {
   var fm = $('<div/>').dialogelfinder({
-  url : 'elfinder/php/connector.php',
+  url : 'index.php?page=xepan_base_elconnector&cut_page=true',
   lang : 'en',
   width : 840,
   destroyOnClose : true,
