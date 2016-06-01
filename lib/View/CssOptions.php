@@ -18,6 +18,10 @@ class View_CssOptions extends \View{
 		parent::render();
 	}
 
+	function getJSID(){
+		return "xepan-basic-css-panel";
+	}
+
 	function defaultTemplate(){
 		return ['view/cms/toolbar/basic'];
 	}

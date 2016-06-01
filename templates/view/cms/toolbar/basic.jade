@@ -1,4 +1,4 @@
-#xepan-basic-css-panel.epan-css-options()
+#xepan-basic-css-panel.epan-css-options
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
   .xepan-cms-group-panel.clearfix
     div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseOne" aria-expanded="false")
@@ -197,7 +197,7 @@
               | Repeat
             td(colspan='2')
               .btn-group
-                .btn.btn-default.btn-primary.btn-xs(repeat-background='repeat') All
+                .btn.btn-default.btn-success.btn-xs(repeat-background='repeat') All
                 .btn.btn-default.btn-xs(repeat-background='repeat-x') X Only
                 .btn.btn-default.btn-xs(repeat-background='repeat-y') Y Only
                 .btn.btn-default.btn-xs(repeat-background='no-repeat') No-Repeat
@@ -446,38 +446,15 @@ script(type='text/javascript').
   margin_unit = 'px';
   is_all_margin_same = false;
   is_all_border_same = true;
+
   $('#epan-background-color').change(function(){
   $(current_selected_component).css('background-color', '#'+ $(this).val());
   });
-  //- $('#epan-component-extra-clases').change(function(event) {
-  //- if($(current_selected_component).attr('data-extra-classes') != undefined){
-  //- $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
-  //- }
-  //- $(current_selected_component).addClass($(this).val());
-  //- $(current_selected_component).attr('data-extra-classes',$(this).val());
-  //- });
-  //- $('#epan-manage-custome-css').click(function(event) {
-  //- $('body').univ().successMessage('Put your css in mystyles.css');
-  //- var fm = $('<div/>').dialogelfinder({
-  //- url : 'elfinder/php/connector.php',
-  //- lang : 'en',
-  //- width : 840,
-  //- destroyOnClose : true,
-  //- getFileCallback : function(files, fm) {
-  //- },
-  //- commandsOptions : {
-  //- getfile : {
-  //- oncomplete : 'close',
-  //- folders : true
-  //- }
-  //- }
-  //- }).dialogelfinder('instance');
-  //- });
-  //- $('#epan-bs3-css-helper').click(function(event) {
-  //- // Open a div with bootstrap3 playgroung to choose and apply on
-  //- // current_selected_component
-  //- $.univ().frameURL('CSS TEMPLATES','epan-addons/componentBase/templates/view/css-templates.html');
-  //- });
+
+  $('\#xepan-basic-css-panel').on('show',function(event){
+    init_css_options();
+  });
+
   $('#epan-component-background-image-select-button').click(function(event) {
   var fm = $('<div/>').dialogelfinder({
   url : 'index.php?page=xepan_base_elconnector&cut_page=true',
@@ -504,13 +481,13 @@ script(type='text/javascript').
   });
   $('#epan-component-background-scroll').click(function(event) {
   $(current_selected_component).css('background-attachment','scroll');
-  $('#epan-component-background-fixed').removeClass('btn-primary');
-  $(this).addClass('btn-primary');
+  $('#epan-component-background-fixed').removeClass('btn-success');
+  $(this).addClass('btn-success');
   });
   $('#epan-component-background-fixed').click(function(event) {
   $(current_selected_component).css('background-attachment','fixed');
-  $('#epan-component-background-scroll').removeClass('btn-primary');
-  $(this).addClass('btn-primary');
+  $('#epan-component-background-scroll').removeClass('btn-success');
+  $(this).addClass('btn-success');
   });
   // INITIAL ONE TIME SETUP ON PAGE LOAD
   $('.epan-component-padding').slider({
@@ -584,8 +561,8 @@ script(type='text/javascript').
   margin_unit = '%';
   });
   $('[repeat-background]').click(function(event) {
-  $('[repeat-background]').removeClass('btn-primary');
-  $(this).addClass('btn-primary');
+  $('[repeat-background]').removeClass('btn-success');
+  $(this).addClass('btn-success');
   $(current_selected_component).css('background-repeat',$(this).attr('repeat-background'));
   });
   $('#epan-all-border-same').click(function(event) {
@@ -732,8 +709,8 @@ script(type='text/javascript').
   $(current_selected_component).css('border-style',$(this).val());
   else
   $(current_selected_component).css('border-'+$(this).attr('pos')+'-style',$(this).val());
-  $(this).siblings().removeClass('btn-primary');
-  $(this).addClass('btn-primary');
+  $(this).siblings().removeClass('btn-success');
+  $(this).addClass('btn-success');
   });
   $('#epan-component-width-in-per').click(function(event) {
   $(current_selected_component).css('width',$('#epan-component-width-input').val()+'%');
@@ -776,9 +753,9 @@ script(type='text/javascript').
   $('#epan-component-extra-clases').val($(current_selected_component).attr('data-extra-classes'));
   $('#epan-component-background-image-input').val($(current_selected_component).css('background-image'));
   if($(current_selected_component).css('background-attachment') == 'fixed'){
-  $('#epan-component-background-fixed').addClass('btn-primary');
+  $('#epan-component-background-fixed').addClass('btn-success');
   }else{
-  $('#epan-component-background-scroll').addClass('btn-primary');
+  $('#epan-component-background-scroll').addClass('btn-success');
   }
   // Set Paddings from current component
   if($(current_selected_component)[0].style.paddingTop.indexOf('px') != -1){
@@ -825,16 +802,16 @@ script(type='text/javascript').
   margin_unit='px';
   }
   // Background Repeat
-  $('[repeat-background]').removeClass('btn-primary');
-  $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('btn-primary');
+  $('[repeat-background]').removeClass('btn-success');
+  $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('btn-success');
   // Border Initialization
   border_positions=['top','right','bottom','left'];
   $.each(border_positions, function(p_index, pos_val) {
   if($(current_selected_component).css('border-'+pos_val+'-width')){
   $('#epan-component-border-'+pos_val+'-width').val($(current_selected_component).css('border-'+pos_val+'-width'));
   $('#epan-component-border-'+pos_val+'-color').val($(current_selected_component).css('border-'+pos_val+'-color'));
-  $('.epan-border-style[pos="'+pos_val+'"]').removeClass('btn-primary');
-  $('.epan-border-style[pos="'+pos_val+'"][style="'+$(current_selected_component).css('border-'+pos_val+'-style')+'"]').addClass('btn-primary');
+  $('.epan-border-style[pos="'+pos_val+'"]').removeClass('btn-success');
+  $('.epan-border-style[pos="'+pos_val+'"][style="'+$(current_selected_component).css('border-'+pos_val+'-style')+'"]').addClass('btn-success');
   $('.epan-component-border-'+pos_val+'-color .current-color').css('background-color',$(current_selected_component).css('border-'+pos_val+'-color'));
   }
   });
