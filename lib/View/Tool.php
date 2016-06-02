@@ -13,6 +13,13 @@ class View_Tool extends \View{
 	
 
 	function initializeTemplate($template_spot = null, $template_branch = null){
+		foreach ($this->_options as $attr => &$value) {
+			if($value==='true') $value=true;
+			if($value==='false') $value=false;
+			if($value==='1') $value=1;
+			if($value==='0') $value=0;
+			if($value==='null') $value=null;
+		}
 		$this->options = $this->_options + $this->options;
 		parent::initializeTemplate($template_spot, $template_branch);
 	}

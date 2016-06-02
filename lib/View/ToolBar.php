@@ -29,9 +29,14 @@ class View_ToolBar extends \View {
 		$this->template->del('group');
 		$tool_tpl = $this->template->cloneRegion('tool');
 		$this->template->del('tool');
+		$basic_property = $this->template->cloneRegion('basic_property');
+		$this->template->del('basic_property');
 
 		$tools = $this->app->getFrontEndTools();
-
+		
+		$bs_view=$this->add('xepan\cms\View_CssOptions',null,'basic_property');
+		$bs_view->set('Basic Propery');				
+		
 		foreach (array_keys($tools) as $group) {
 			$g_v = $this->add('View',null,'groups',clone $group_tpl);
 			$g_v->template->set('name',$group);
@@ -39,10 +44,11 @@ class View_ToolBar extends \View {
 				$t_v = $g_v->add($tool,null,'tools');
 				$t_v->getOptionPanel($this,'tool_options');
 				$t_v_icon = $g_v->add('View',null,'tools',clone $tool_tpl);
-				$tool = explode("\\", $tool);
-				$tool = $tool[count($tool)-1];
-				$tool = str_replace("Tool_", '', $tool);
-				$t_v_icon->template->set('name',$tool);
+				$tool_arr = explode("\\", $tool);
+				$tool_name = array_pop($tool_arr);
+				$tool_name = str_replace("Tool_", '', $tool_name);
+				$t_v_icon->template->set('name',$tool_name);
+				$t_v_icon->template->set('namespace',implode("/", $tool_arr));
 				$t_v_icon->js(true)->xepanTool(
 					[
 					'name'=>$tool,

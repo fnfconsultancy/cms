@@ -24,7 +24,7 @@
 // * From now on is the place for your awesome LESS work.
 // */
 
-@toolbox-width: 200px;
+@toolbox-width: 300px;
 @corner-radius : 10px;
 @title-color: #2d4150;
 @seperator-color: #f0f3f5;
@@ -42,6 +42,8 @@
 	.border-radius(@corner-radius);
 	max-height: 400px;
 	z-index: 60000;
+	overflow-x:hidden;
+	overflow-y:auto;
 	.box-shadow(0 0 10px @shadow-color);
 
 	.xepan-toolbar-drag-handler {
@@ -49,7 +51,7 @@
 		background-color: @secondry-color;
 		position: relative;
 		top: 0px;
-		height: 20px;
+		height: 40px;
 		.border-top-radius(@corner-radius @corner-radius);
 		margin : -@corner-radius 0 0 0;
 		color: @title-color;
@@ -72,7 +74,7 @@
 		cursor: pointer;
 		padding: @corner-radius;
 		.xepan-tool-bar-tool {
-			height: 30px;
+			height: auto;
 		}
 	}
 }
@@ -154,5 +156,39 @@
 		max-height: 400px - (@corner-radius * 4);
 		overflow-y:scroll;
 		overflow-x:initial;
+	}
+	.xepan-tolbar-tool-heading h3{
+	  background-color: #4b4b4b;
+	  border-bottom: 2px solid #252525;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	  margin-bottom: 2px;
+	  padding: 10px !important;
+	}
+
+	.epan-css-options .panel-body , .xepan-tool-options .panel-body{
+		padding:0px;
+	}
+	.epan-css-options .panel , .xepan-tool-options .panel{
+		margin-bottom:10px;
+	}
+	.pick-a-color-markup .basic-colors-list .color-box{
+		width:140px!important;
+	}
+	.pick-a-color-markup .advanced-list .color-box{
+		width:240px!important;
+	}
+	.color-menu{
+		margin-left:-73px!important;
+		width:266px!important;
+	}
+	div.pick-a-color-markup .advanced-content .color-preview{
+		width:240px!important;
+	}
+	div.pick-a-color-markup .color-menu-tabs{
+		font-size:10px!important;
+	}
+	.epan-css-options .btn-success{
+		background-color:#3899ec;
 	}
 }
