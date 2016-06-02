@@ -79,7 +79,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		}
 
 		// $content = preg_replace("/(link.*|img.*|script.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
-		$content = preg_replace('/url\(\s*[\'"]([^(html)(websites\/)])?\/?(.+?)[\'"]?\s*\)/i', 'url('.$domain.'$2)', $dom->html());
+		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$domain.'$1)', $dom->html());
 
 		return $content;
 	}
