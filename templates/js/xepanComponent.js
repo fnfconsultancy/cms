@@ -62,7 +62,7 @@ jQuery.widget("ui.xepanComponent",{
 	select: function (){
 		current_selected_component = this.element;
 		$(this.element).addClass('xepan-selected-component');
-		$('.xepan-tools-options > .xepan-tool-options').hide();
+		$('.xepan-tools-options .xepan-tool-options').hide();
 		this.options.option_panel.show();
 		this.options.option_panel.trigger('show');
 		$('#xepan-basic-css-panel').trigger('show');
