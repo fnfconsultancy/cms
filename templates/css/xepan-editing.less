@@ -23,7 +23,7 @@
 ///*
 // * From now on is the place for your awesome LESS work.
 // */
-
+@top-toolbar-height:30px;
 @toolbox-width: 300px;
 @corner-radius : 10px;
 @title-color: #2d4150;
@@ -36,7 +36,7 @@
 	.h5bp();
 	width: @toolbox-width;
 	position: fixed;
-	top: 10px;
+	top: 40px;
 	right: 10px;
 	background-color: rgba(255, 255, 255, 0.94);
 	.border-radius(@corner-radius);
@@ -194,5 +194,53 @@
 	div.pick-a-color-markup .pick-a-color{
 		font-size:8px!important;
 		padding:0px!important;
+	}
+}
+.epan-editor-top-panel {
+  background-color: #3899ec;
+  color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: @top-toolbar-height;
+  z-index:100;
+  right: 0px!important;
+  border-radius:0;
+  overflow:hidden;
+}
+.epan-editor-top-panel > div {
+  border-right: 1px solid #a5a5a5;
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+}
+.epan-editor-top-panel > div:hover {
+  color: #ffffff;
+}
+.epan-editor-top-panel .epan-editor-current-page {
+  color: #f2f2f2;
+}
+.epan-editor-top-panel .epan-editor-current-page:hover {
+  color: #ffffff;
+}
+.epan-editor-top-panel label{
+	vertical-align:top;
+	margin-top:3px;
+	font-size:12px;
+	font-weight:200;
+}
+
+body{
+	margin-top:@top-toolbar-height;
+}
+.component-outline{
+	outline:2px dotted lightgray !important;
+}
+.epan-sortable-extra-padding{
+	padding-bottom:30px!important;
+	padding-top:30px!important;
+}
+@media screen and (max-width: 980px) and (min-width: 320px) {
+	body{
+		margin-top:0px;
 	}
 }

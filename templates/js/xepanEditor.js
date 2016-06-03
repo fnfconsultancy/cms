@@ -20,8 +20,81 @@ jQuery.widget("ui.xepanEditor",{
 			handle:'.xepan-tools-options-drag-handler',
 			containment : 'window'
 		});
+		
+		/*=====----Setup TopToolBar Editor-----===========*/
+		/*Save page Content*/
 		$('#xepan-savepage-btn').click(function(){
 			$('.xepan-toolbar').xepanEditor('savePage');
+		});
+
+		/*Component Editing outline*/
+		$('#epan-component-border').click(function(event) {
+		    if($('#epan-component-border:checked').size() > 0){
+		        $('.xepan-component').addClass('component-outline');
+		    }else{
+		        $('.xepan-component').removeClass('component-outline');
+		    }
+		});
+		/*Preview Mode*/
+		$('#epan-editor-preview i').click(function(event){
+		    $('#epan-editor-left-panel').visibilityToggle();
+		});
+		/*Access to Admin panel*/
+		 $('#dashboard-btn').click(function(event) {
+	        // TODO check if content is changed
+	        window.location.replace('admin/');
+	    });
+
+		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
+		$('#epan-component-extra-padding').click(function(event) {
+		    if($('#epan-component-extra-padding:checked').size() > 0){
+		        $('.xepan-component').addClass('epan-sortable-extra-padding');
+		    }else{
+		        $('.xepan-component').removeClass('epan-sortable-extra-padding');
+		    }
+		});
+		
+		
+		/*Website Desktop,Laptop,Tablet,Mobile Device Preview*/
+
+		$('#epan-editor-preview-mobile').click(function(event){
+		    $("<div>").append($("<iframe width='100%' height='100%' />")
+		        .attr("src", "index.php?preview=1"))
+		        .dialog({
+		            width: 320,
+		            height: 480,
+		            modal: true
+		        });
+		});
+
+		$('#epan-editor-preview-tablet').click(function(event){
+		    $("<div>").append($("<iframe width='100%' height='100%' />")
+		        .attr("src", "index.php?preview=1"))
+		        .dialog({
+		            width: 768,
+		            height: 480,
+		            modal: true
+		        });
+		});
+
+		$('#epan-editor-preview-laptop').click(function(event){
+		    $("<div>").append($("<iframe width='100%' height='100%' />")
+		        .attr("src", "index.php?preview=1"))
+		        .dialog({
+		            width: 992,
+		            height: 600,
+		            modal: true
+		        });
+		});
+
+		$('#epan-editor-preview-desktop').click(function(event){
+		    $("<div>").append($("<iframe width='100%' height='100%' />")
+		        .attr("src", "index.php?preview=1"))
+		        .dialog({
+		            width: 1024,
+		            height: 768,
+		            modal: true
+		        });
 		});
 	},
 

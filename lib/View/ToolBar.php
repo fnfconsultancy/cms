@@ -35,7 +35,7 @@ class View_ToolBar extends \View {
 		$tools = $this->app->getFrontEndTools();
 		
 		$bs_view=$this->add('xepan\cms\View_CssOptions',null,'basic_property');
-		$bs_view->set('Basic Propery');				
+		$this->add('xepan\cms\View_EditorTopBar',null,'topbar_editor');		
 		
 		foreach (array_keys($tools) as $group) {
 			$g_v = $this->add('View',null,'groups',clone $group_tpl);
@@ -70,7 +70,6 @@ class View_ToolBar extends \View {
 				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->origin_filename:'false',
 				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1'
 			]);
-
 		$this->js(true)->insertAfter('body')->_selector('.xepan-tools-options');
 		$this->js(true)->xepanComponent()->_selector('body .xepan-component');
 		$this->js(true)->resizable()->_selector('.xepan-toolbar');
