@@ -15,10 +15,15 @@ class View_ToolBar extends \View {
 
 		$this->js(true)->_load('shortcut');
 
-		$this->js(true)->_load('elfinder.full');
-        $this->js(true)->_css('elfinder.full');
+		$this->app->jui->addStaticInclude('elfinder.full');
+        $this->app->jui->addStylesheet('elfinder.full');
+        $this->app->jui->addStylesheet('elfindertheme');
+
+		// $this->js(true)->_load('elfinder.full');
+  //       $this->js(true)->_css('elfinder.full');
+        // $this->js(true)->_css('elfindertheme');
+
         $this->js(true)->_css('jquery-ui');
-        $this->js(true)->_css('elfindertheme');
         $this->js(true)->_css('font-awesome');
 
 		//load style css
