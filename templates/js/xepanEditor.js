@@ -64,7 +64,7 @@ jQuery.widget("ui.xepanEditor",{
 		            width: 320,
 		            height: 480,
 		            modal: true
-		        });
+		    });
 		});
 
 		$('#epan-editor-preview-tablet').click(function(event){
@@ -74,7 +74,7 @@ jQuery.widget("ui.xepanEditor",{
 		            width: 768,
 		            height: 480,
 		            modal: true
-		        });
+		    });
 		});
 
 		$('#epan-editor-preview-laptop').click(function(event){
@@ -84,7 +84,7 @@ jQuery.widget("ui.xepanEditor",{
 		            width: 992,
 		            height: 600,
 		            modal: true
-		        });
+		    });
 		});
 
 		$('#epan-editor-preview-desktop').click(function(event){
@@ -94,11 +94,10 @@ jQuery.widget("ui.xepanEditor",{
 		            width: 1024,
 		            height: 768,
 		            modal: true
-		        });
+		    });
 		});
 	},
 
-	
 	savePage: function(){
 		// console.log(this.options.save_url);
 		// console.log(this.options.file_path);
