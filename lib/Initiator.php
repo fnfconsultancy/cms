@@ -10,7 +10,7 @@ class Initiator extends \Controller_Addon {
 
         if($this->app->is_admin){
             $this->routePages('xepan_cms');
-            $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'templates/css'))
+            $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>['templates/css','templates/js']))
             ->setBaseURL('../vendor/xepan/cms/');
         }
 
