@@ -67,7 +67,7 @@ jQuery.widget("ui.xepanComponent",{
 		this.options.option_panel.trigger('show');
 		$('#xepan-basic-css-panel').trigger('show');
 		$('.xepan-tools-options').show();
-
+		updateBreadCrumb();
 		console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
 	},
 
@@ -88,6 +88,7 @@ jQuery.widget("ui.xepanComponent",{
 			$('.xepan-toolbar').xepanEditor('hideOptions');
 		}
 		$(this.element).removeClass('xepan-selected-component');
+		updateBreadCrumb();
 	},
 
 	remove:function(){
@@ -158,3 +159,36 @@ function generateUUID() {
     });
     return uuid;
 }
+
+function updateBreadCrumb() {
+    $('#xepan-editing-toolbar-breadcrumb').html('');
+
+    if (typeof current_selected_component === 'undefined') return;
+
+    $(current_selected_component)
+        .parent('.xepan-component')
+        .andSelf()
+    // .reverse()
+    .each(function(index, el) {
+        var self = this;
+        var current_selected = $(el).attr('xepan-component');
+
+		if (!current_selected) { 
+			current_selected = "Root"; 
+		}
+        
+        var breadCrumbcomponent = current_selected.substring(current_selected.indexOf("_") + 1);
+        new_btn = $('<div class=\'glyphicon glyphicon-forward pull-left\' style=\'margin:0 5px;\'></div>' + '<div class=\' label label-success btn-xs pull-left \'>' + breadCrumbcomponent + '</div>');
+        new_btn.click(function(event) {
+            if (self == current_selected_component) {
+                $(current_selected_component).effect("bounce", "slow");
+                return;
+            }
+            $(self).dblclick();
+        });
+        new_btn.appendTo('#xepan-editing-toolbar-breadcrumb');
+    });
+
+
+
+};
