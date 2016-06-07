@@ -11,6 +11,7 @@ class page_websites extends \xepan\base\Page{
 		// http://codepen.io/kaizoku-kuma/pen/JDxtC
 		$this->app->jui->addStylesheet('codemirror/codemirror-5.15.2/lib/codemirror');
 		$this->app->jui->addStylesheet('codemirror/codemirror-5.15.2/theme/solarized');
+		$this->app->jui->addStylesheet('theme');
 
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/lib/codemirror');
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/htmlmixed/htmlmixed');
@@ -19,13 +20,11 @@ class page_websites extends \xepan\base\Page{
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/xml/xml');
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/css/css');
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/javascript/javascript');
-		// $this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/keymap/sublime');
-		// $this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/keymap/emacs');
-		// $this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/keymap/vim');
 		
 		$this->js(true,'
 				$("#'.$this->name.'").elfinder({
 					url: "index.php?page=xepan_base_adminelconnector",
+					height:450,
 					commandsOptions: {
 						edit : { 
 							// list of allowed mimetypes to edit // if empty - any text files can be edited mimes : [],
