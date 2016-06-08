@@ -178,7 +178,7 @@ function updateBreadCrumb() {
 		}
         
         var breadCrumbcomponent = current_selected.substring(current_selected.indexOf("_") + 1);
-        new_btn = $('<div class=\'glyphicon glyphicon-forward pull-left\' style=\'margin:0 5px;\'></div>' + '<div class=\' label label-success btn-xs pull-left \'>' + breadCrumbcomponent + '</div>');
+        new_btn = $('<div class=\'glyphicon glyphicon-forward pull-left\' style=\'margin:0 5px;\'></div>' + '<div class=\' xepan-breadcrumb-component pull-left \'>' + breadCrumbcomponent + '</div>');
         new_btn.click(function(event) {
             if (self == current_selected_component) {
                 $(current_selected_component).effect("bounce", "slow");
