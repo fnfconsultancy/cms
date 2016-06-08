@@ -8,6 +8,6 @@ class Page_cmseditors extends \xepan\base\Page{
 		parent::init();
 
 		$cmseditors = $this->add('xepan\base\CRUD');
-		$cmseditors->setModel('xepan\cms\Model_User_CMSEditor',['username','can_edit_template','can_edit_page_content']);
+		$cmseditors->setModel('xepan\cms\Model_User_CMSEditor',['username','user_id','can_edit_template','can_edit_page_content']);
 	}
 }
