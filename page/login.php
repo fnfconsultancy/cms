@@ -18,12 +18,10 @@ class page_login extends \Page {
 	function init(){
 		parent::init();
 
-		$user = $this->add('xepan\base\Model_User');
-		
-        $auth = $this->app->auth;
-        $auth->setModel($user,'username','password');
+		$login_tool = $this->add('xepan\base\Tool_UserPanel',['options'=>['show_footer'=>false,'layout'=>'login_view','login_success_url'=>'index']],'login');		
+	}
 
-        $auth->check();
-
+	function defaultTemplate(){
+		return ['view\tool\login'];
 	}
 }
