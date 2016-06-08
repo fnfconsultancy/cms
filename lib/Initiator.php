@@ -92,5 +92,13 @@ class Initiator extends \Controller_Addon {
         foreach ($truncate_models as $t) {
             $this->add('xepan\cms\Model_'.$t)->deleteAll();
         }
+
+        $user = $this->add('xepan\base\Model_User_SuperUser')->tryLoadAny(); 
+        $editor = $this->add('xepan\cms\Model_User_CMSEditor');
+
+        $editor['user_id'] = $user->id;
+        $editor['can_edit_template'] = 1;
+        $editor['can_edit_page_content'] = 1;
+        $editor->save();
     }
 }
