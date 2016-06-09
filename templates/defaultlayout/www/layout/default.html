@@ -29,8 +29,16 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-	{$js_block}
-	{$js_include}
+    <!--xEpan-ATK-Header-Start
+    {$js_block}
+    {$js_include}
+    <script type="text/javascript">
+      $(function(){
+        {$document_ready}
+      });
+    </script>
+    xEpan-ATK-Header-End-->
+	
 </head>
 
 <body>
@@ -78,12 +86,6 @@
             </div>
         </div>
     </footer>
-
-<script type="text/javascript">
-      $(function(){
-        {$document_ready}
-      });
-</script>
 
 <script src="js/bootstrap.min.js"></script>
 </body>
