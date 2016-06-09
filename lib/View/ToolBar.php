@@ -41,7 +41,7 @@ class View_ToolBar extends \View {
 		$tools = $this->app->getFrontEndTools();
 		
 		$bs_view=$this->add('xepan\cms\View_CssOptions',null,'basic_property');
-		$this->add('xepan\cms\View_EditorTopBar',null,'topbar_editor');		
+		$this->add('xepan\cms\View_EditorTopBar',null,'topbar_editor');
 		
 		foreach (array_keys($tools) as $group) {
 			$g_v = $this->add('View',null,'groups',clone $group_tpl);
@@ -65,6 +65,34 @@ class View_ToolBar extends \View {
 
 			$g_v->template->del('tools');
 		}
+		
+		// ========= Widget Tools from Template =========
+		$g_v = $this->add('View',null,'groups',clone $group_tpl);
+		$g_v->template->set('name','Template Widgets');
+		$path = 'widget/';
+		foreach (new \DirectoryIterator("./websites/epan/www/".$path) as $fileInfo) {
+			$file_name=$fileInfo->getFilename();
+			$temp_array=explode('.',$file_name);
+			if($temp_array[1]!="html")continue;
+			$subject = $temp_array[0];
+			$pattern = "/_options/";
+			preg_match($pattern,$subject, $matches, PREG_OFFSET_CAPTURE);
+			if($matches)continue;
+		    if($fileInfo->isDot()) continue;
+		    $file =  $path.$fileInfo->getFilename();
+			$temp=str_replace('.html',"",$file);
+		    $t_v=$g_v->add('xepan\cms\View_Tool',['runatServer'=>false],'tools',[$temp]);
+			$this->add('View',null,'tool_options',[strtolower($temp).'_options']);
+			$wt=explode("/",$temp);
+			$t_v_icon = $g_v->add('View',null,'tools')->setHtml('<img src="./websites/'.$this->app->epan['name'].'/www/widget/'.$wt[1].'_icon.png"/><br/>'.$wt[1])->addClass(' col-md-4 col-sm-4 col-xs-4 text-center');
+			$t_v_icon->js(true)->xepanTool(
+					[
+					'name'=>$tool,
+					'drop_html'=> $t_v->getHTML()
+					]
+				);
+		}
+		$g_v->template->del('tools');
 
 		$this->js(true)
 			->_load($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/xepanComponent.js')
