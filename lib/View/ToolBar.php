@@ -70,7 +70,7 @@ class View_ToolBar extends \View {
 		$g_v = $this->add('View',null,'groups',clone $group_tpl);
 		$g_v->template->set('name','Template Widgets');
 		$path = 'widget/';
-		foreach (new \DirectoryIterator("./websites/epan/www/".$path) as $fileInfo) {
+		foreach (new \DirectoryIterator("./websites/".$this->app->epan['name']."/www/".$path) as $fileInfo) {
 			$file_name=$fileInfo->getFilename();
 			$temp_array=explode('.',$file_name);
 			if($temp_array[1]!="html")continue;
