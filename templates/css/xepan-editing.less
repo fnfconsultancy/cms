@@ -147,7 +147,24 @@ html{
 	max-height: 400px;
 	padding: @corner-radius;
 	z-index: 65535;
+	overflow-x:hidden;
+	overflow-y:auto;
 	.box-shadow(0 0 10px @shadow-color);
+
+	.panel-heading, .panel{
+		background-color:#e6e6e6!important;
+		border-radius:4px!important;
+		border:0px!important;
+	}
+
+	.panel-heading{
+		cursor:pointer;
+		font-size: 12px!important;
+	    padding: 10px 10px important;
+	}
+	h3.collapsed{
+		cursor:pointer;
+	}
 
 	.xepan-tools-options-drag-handler {
 		width: @toolbox-width;
@@ -261,6 +278,8 @@ body{
 	border-bottom:1px solid white;
 	font-size:12px;
 }
+
+
 
 @media screen and (max-width: 980px) and (min-width: 320px) {
 	body{
