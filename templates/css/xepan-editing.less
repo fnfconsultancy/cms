@@ -136,8 +136,7 @@ html{
 }
 
 .xepan-tools-options {
-	.normalize();
-	.h5bp();
+	.reset();
 	width: @toolbox-width;
 	position: fixed;
 	top: 10px;
@@ -160,10 +159,18 @@ html{
 	.panel-heading{
 		cursor:pointer;
 		font-size: 12px!important;
-	    padding: 10px 10px important;
+	    padding: 10px 10px !important;
 	}
-	h3.collapsed{
+	h3{
 		cursor:pointer;
+		font-size:1.8em!important;
+		font-weight:700!important;
+		margin-bottom:1em!important;
+		padding-bottom:0.8em!important;
+		border-bottom: 1px solid #2d4150;
+	    box-sizing: border-box;
+	    opacity: 0.5;
+	    color:#2a3f52!important;
 	}
 
 	.xepan-tools-options-drag-handler {
