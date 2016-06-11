@@ -65,6 +65,10 @@ jQuery.widget("ui.xepanEditor",{
 		            height: 480,
 		            modal: true
 		    });
+		    $('iframe').on("load", function() {
+			    $('iframe').contents().find('body').css('margin-top','0');    
+				$('iframe').contents().find('.xepan-toolbar').css('display','none');
+			});    
 		});
 
 		$('#epan-editor-preview-tablet').click(function(event){
@@ -75,16 +79,24 @@ jQuery.widget("ui.xepanEditor",{
 		            height: 480,
 		            modal: true
 		    });
+		    $('iframe').on("load", function() {
+			    $('iframe').contents().find('body').css('margin-top','0');    
+				$('iframe').contents().find('.xepan-toolbar').css('display','none');
+			});    
 		});
 
 		$('#epan-editor-preview-laptop').click(function(event){
-		    $("<div>").append($("<iframe width='100%' height='100%' />")
+		    $("<div>").append($("<iframe width='100%' height='100%' style='margin-top:10px' />")
 		        .attr("src", "index.php?preview=1"))
 		        .dialog({
 		            width: 992,
-		            height: 600,
+		            height: 500,
 		            modal: true
 		    });
+		    $('iframe').on("load", function() {
+			    $('iframe').contents().find('body').css('margin-top','0');    
+				$('iframe').contents().find('.xepan-toolbar').css('display','none');
+			});    
 		});
 
 		$('#epan-editor-preview-desktop').click(function(event){
@@ -92,9 +104,14 @@ jQuery.widget("ui.xepanEditor",{
 		        .attr("src", "index.php?preview=1"))
 		        .dialog({
 		            width: 1024,
-		            height: 768,
+		            height: 550,
 		            modal: true
 		    });
+		    $('iframe').on("load", function() {
+			    $('iframe').parent().find('.ui-dialog-titlebar').css('margin-top','55px');    
+			    $('iframe').contents().find('body').css('margin-top','0');    
+				$('iframe').contents().find('.xepan-toolbar').css('display','none');
+			});    
 		});
 	},
 
@@ -301,3 +318,7 @@ function crc32(str) {
 
     return (crc ^ (-1)) >>> 0;
 };
+
+// $('iframe').load(function(){
+// 	$(this).find('body').css('margin-top','0');
+// });
