@@ -3,28 +3,28 @@
   .xepan-cms-group-panel.clearfix
     div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseOne" aria-expanded="false")
       span Basic Properties
-  #collapseOne.xepan-cms-tools-bar-panel.row-fluid.collapse
-    .panel-body.xepan-collasp-body
-      table.table.table-condensed.table-hover
-        tbody
-          tr
-            td
-              | Comp. Width
-            td(colspan='2')
-              input#epan-component-width-input(type='NUMBER', min='0', max='999999999', size='5')
-              button#epan-component-width-in-px.btn.btn-default.btn-xs(type='button') PX
-              button#epan-component-width-in-per.btn.btn-default.btn-xs(type='button') %
-              button#epan-component-width-auto.btn.btn-default.btn-xs(type='button') auto
-              button#epan-component-width-max.btn.btn-default.btn-xs(type='button') max 100%
-          tr
-            td
-              | Comp. Height
-            td(colspan='2')
-              input#epan-component-height-input(type='NUMBER', min='0', max='999999999', size='5')
-              button#epan-component-height-in-px.btn.btn-default.btn-xs(type='button') PX
-              button#epan-component-height-in-per.btn.btn-default.btn-xs(type='button') %
-              button#epan-component-height-auto.btn.btn-default.btn-xs(type='button') auto
-              button#epan-component-height-max.btn.btn-default.btn-xs(type='button') max 100%
+    #collapseOne.xepan-cms-tools-bar-panel.row-fluid.collapse
+      .panel-body.xepan-collasp-body
+        table.table.table-condensed.table-hover
+          tbody
+            tr
+              td
+                | Comp. Width
+              td(colspan='2')
+                input#epan-component-width-input(type='NUMBER', min='0', max='999999999', size='5')
+                button#epan-component-width-in-px.btn.btn-default.btn-xs(type='button') PX
+                button#epan-component-width-in-per.btn.btn-default.btn-xs(type='button') %
+                button#epan-component-width-auto.btn.btn-default.btn-xs(type='button') auto
+                button#epan-component-width-max.btn.btn-default.btn-xs(type='button') max 100%
+            tr
+              td
+                | Comp. Height
+              td(colspan='2')
+                input#epan-component-height-input(type='NUMBER', min='0', max='999999999', size='5')
+                button#epan-component-height-in-px.btn.btn-default.btn-xs(type='button') PX
+                button#epan-component-height-in-per.btn.btn-default.btn-xs(type='button') %
+                button#epan-component-height-auto.btn.btn-default.btn-xs(type='button') auto
+                button#epan-component-height-max.btn.btn-default.btn-xs(type='button') max 100%
           //- tr
           //-   td
           //-     | Class
@@ -37,408 +37,408 @@
   .xepan-cms-group-panel.clearfix
     div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false")
       span Padding
-  #collapseTwo.xepan-cms-tools-bar-panel.row-fluid.collapse
-    .panel-body.xepan-collasp-body
-      // Padding panel
-      table.table.table-condensed.table-hover
-        tbody
-          tr
-            td
-              | Effect ALL
-            td(width='58%')
-              input#epan-all-padding-same(type='checkbox')
-            td
-          tr
-            td
-              | Unit
-            td(colspan='2')
-              table
-                tr
-                  td(width='25%')
-                    input#epan-all-padding-unit-px(type='radio', name='padding-unit', checked='')
-                  td(width='25%')
-                    | Px
-                  td(width='25%')
-                    input#epan-all-padding-unit-per(type='radio', name='padding-unit')
-                  td(width='25%')
-                    | %
-          tr
-            td
-              | Top
-            td
-              #epan-component-padding-top.epan-component-padding(css='padding-top')
-            td
-              #padding-top-value
-          tr
-            td
-              | Right
-            td
-              #epan-component-padding-right.epan-component-padding(css='padding-right')
-            td
-              #padding-right-value
-          tr
-            td
-              | Bottom
-            td
-              #epan-component-padding-bottom.epan-component-padding(css='padding-bottom')
-            td
-              #padding-bottom-value
-          tr
-            td
-              | Left
-            td
-              #epan-component-padding-left.epan-component-padding(css='padding-left')
-            td
-          #padding-left-value
+    #collapseTwo.xepan-cms-tools-bar-panel.row-fluid.collapse
+      .panel-body.xepan-collasp-body
+        // Padding panel
+        table.table.table-condensed.table-hover
+          tbody
+            tr
+              td
+                | Effect ALL
+              td(width='58%')
+                input#epan-all-padding-same(type='checkbox')
+              td
+            tr
+              td
+                | Unit
+              td(colspan='2')
+                table
+                  tr
+                    td(width='25%')
+                      input#epan-all-padding-unit-px(type='radio', name='padding-unit', checked='')
+                    td(width='25%')
+                      | Px
+                    td(width='25%')
+                      input#epan-all-padding-unit-per(type='radio', name='padding-unit')
+                    td(width='25%')
+                      | %
+            tr
+              td
+                | Top
+              td
+                #epan-component-padding-top.epan-component-padding(css='padding-top')
+              td
+                #padding-top-value
+            tr
+              td
+                | Right
+              td
+                #epan-component-padding-right.epan-component-padding(css='padding-right')
+              td
+                #padding-right-value
+            tr
+              td
+                | Bottom
+              td
+                #epan-component-padding-bottom.epan-component-padding(css='padding-bottom')
+              td
+                #padding-bottom-value
+            tr
+              td
+                | Left
+              td
+                #epan-component-padding-left.epan-component-padding(css='padding-left')
+              td
+            #padding-left-value
     // MARGIN
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
   .xepan-cms-group-panel.clearfix
     div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseThree" aria-expanded="false")
       span Margin
-  #collapseThree.xepan-cms-tools-bar-panel.row-fluid.collapse  
-    .panel-body.xepan-collasp-body
-      table.table.table-condensed.table-hover
-        tbody
-          tr
-            td
-              | Effect ALL
-            td(width='58%')
-              input#epan-all-margin-same(type='checkbox')
-            td
-          tr
-            td
-              | Unit
-            td(colspan='2')
-              table
-                tr
-                  td(width='25%')
-                    input#epan-all-margin-unit-px(type='radio', name='margin-unit', checked='')
-                  td(width='25%')
-                    | Px
-                  td(width='25%')
-                    input#epan-all-margin-unit-per(type='radio', name='margin-unit')
-                  td(width='25%')
-                    | %
-          tr
-            td Top
-            td
-              table(width='100%')
-                tr
-                  td(width='90%')
-                    #epan-component-margin-top.epan-component-margin(css='margin-top')
-                  td(width='10%')
-                    #margin-top-value
-            td
-              button.btn.btn-default.btn-xs.margin-auto-btn.btn-sm(type='button', pos='top') auto
-          tr
-            td
-              | Right
-            td
-              table(width='100%')
-                tr
-                  td(width='90%')
-                    #epan-component-margin-right.epan-component-margin(css='margin-right')
-                  td(width='10%')
-                    #margin-right-value
-            td
-              button.btn.btn-default.btn-xs.margin-auto-btn(type='button', pos='right') auto
-          tr
-            td
-              | Bottom
-            td
-              table(width='100%')
-                tr
-                  td(width='90%')
-                    #epan-component-margin-bottom.epan-component-margin(css='margin-bottom')
-                  td(width='10%')
-                    #margin-bottom-value
-            td
-              button.btn.btn-default.btn-xs.margin-auto-btn(type='button', pos='bottom') auto
-          tr
-            td
-              | Left
-            td
-              table(width='100%')
-                tr
-                  td(width='90%')
-                    #epan-component-margin-left.epan-component-margin(css='margin-left')
-                  td(width='10%')
-                    #margin-left-value
-            td
-              button.btn.btn-default.btn-xs.margin-auto-btn(type='button', pos='left') auto
+    #collapseThree.xepan-cms-tools-bar-panel.row-fluid.collapse  
+      .panel-body.xepan-collasp-body
+        table.table.table-condensed.table-hover
+          tbody
+            tr
+              td
+                | Effect ALL
+              td(width='58%')
+                input#epan-all-margin-same(type='checkbox')
+              td
+            tr
+              td
+                | Unit
+              td(colspan='2')
+                table
+                  tr
+                    td(width='25%')
+                      input#epan-all-margin-unit-px(type='radio', name='margin-unit', checked='')
+                    td(width='25%')
+                      | Px
+                    td(width='25%')
+                      input#epan-all-margin-unit-per(type='radio', name='margin-unit')
+                    td(width='25%')
+                      | %
+            tr
+              td Top
+              td
+                table(width='100%')
+                  tr
+                    td(width='90%')
+                      #epan-component-margin-top.epan-component-margin(css='margin-top')
+                    td(width='10%')
+                      #margin-top-value
+              td
+                button.btn.btn-default.btn-xs.margin-auto-btn.btn-sm(type='button', pos='top') auto
+            tr
+              td
+                | Right
+              td
+                table(width='100%')
+                  tr
+                    td(width='90%')
+                      #epan-component-margin-right.epan-component-margin(css='margin-right')
+                    td(width='10%')
+                      #margin-right-value
+              td
+                button.btn.btn-default.btn-xs.margin-auto-btn(type='button', pos='right') auto
+            tr
+              td
+                | Bottom
+              td
+                table(width='100%')
+                  tr
+                    td(width='90%')
+                      #epan-component-margin-bottom.epan-component-margin(css='margin-bottom')
+                    td(width='10%')
+                      #margin-bottom-value
+              td
+                button.btn.btn-default.btn-xs.margin-auto-btn(type='button', pos='bottom') auto
+            tr
+              td
+                | Left
+              td
+                table(width='100%')
+                  tr
+                    td(width='90%')
+                      #epan-component-margin-left.epan-component-margin(css='margin-left')
+                    td(width='10%')
+                      #margin-left-value
+              td
+                button.btn.btn-default.btn-xs.margin-auto-btn(type='button', pos='left') auto
     // BACKGROUND
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
   .xepan-cms-group-panel.clearfix
     div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseFour" aria-expanded="false")
       span Background
-  #collapseFour.xepan-cms-tools-bar-panel.row-fluid.collapse  
-    .panel-body.xepan-collasp-body
-      table.table.table-condensed.table-hover
-        tbody
-          tr
-            td
-              | BG Color
-            td
-              input#epan-background-color.epan-color-picker(type='text')
-            td
-              button.btn.btn-default.btn-xs(onclick="$(current_selected_component).css('background-color','')")  CLR 
-          tr
-            td
-              | BG Image
-            td(colspan='2')
-              .input-group
-                span.input-group-btn
-                  button#epan-component-background-image-clear-button.btn.btn-default.btn-xs(type='button') Clr
-                input#epan-component-background-image-input.form-control(style='height:5%;', type='text')
-                span.input-group-btn
-                  button#epan-component-background-image-select-button.btn.btn-default.btn-xs(type='button') Select
-          tr
-            td
-              | Repeat
-            td(colspan='2')
-              .btn-group
-                .btn.btn-default.btn-success.btn-xs(repeat-background='repeat') All
-                .btn.btn-default.btn-xs(repeat-background='repeat-x') X Only
-                .btn.btn-default.btn-xs(repeat-background='repeat-y') Y Only
-                .btn.btn-default.btn-xs(repeat-background='no-repeat') No-Repeat
-          tr
-            td
-              | Background
-            td(colspan='2')
-              .btn-group
-                button#epan-component-background-fixed.btn.btn-default.btn-xs(type='button') Fixed
-                button#epan-component-background-scroll.btn.btn-default.btn-xs(type='button') Scroll
+    #collapseFour.xepan-cms-tools-bar-panel.row-fluid.collapse  
+      .panel-body.xepan-collasp-body
+        table.table.table-condensed.table-hover
+          tbody
+            tr
+              td
+                | BG Color
+              td
+                input#epan-background-color.epan-color-picker(type='text')
+              td
+                button.btn.btn-default.btn-xs(onclick="$(current_selected_component).css('background-color','')")  CLR 
+            tr
+              td
+                | BG Image
+              td(colspan='2')
+                .input-group
+                  span.input-group-btn
+                    button#epan-component-background-image-clear-button.btn.btn-default.btn-xs(type='button') Clr
+                  input#epan-component-background-image-input.form-control(style='height:5%;', type='text')
+                  span.input-group-btn
+                    button#epan-component-background-image-select-button.btn.btn-default.btn-xs(type='button') Select
+            tr
+              td
+                | Repeat
+              td(colspan='2')
+                .btn-group
+                  .btn.btn-default.btn-success.btn-xs(repeat-background='repeat') All
+                  .btn.btn-default.btn-xs(repeat-background='repeat-x') X Only
+                  .btn.btn-default.btn-xs(repeat-background='repeat-y') Y Only
+                  .btn.btn-default.btn-xs(repeat-background='no-repeat') No-Repeat
+            tr
+              td
+                | Background
+              td(colspan='2')
+                .btn-group
+                  button#epan-component-background-fixed.btn.btn-default.btn-xs(type='button') Fixed
+                  button#epan-component-background-scroll.btn.btn-default.btn-xs(type='button') Scroll
     // BORDER
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
   .xepan-cms-group-panel.clearfix
     div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseFive" aria-expanded="false")
       span Border
-  #collapseFive.xepan-cms-tools-bar-panel.row-fluid.collapse  
-    .panel-body.xepan-collasp-body
-      table.table.table-condensed.table-hover
-        tbody
-          tr
-            td(colspan="3")
-              | Effect All
-            td
-              input#epan-all-border-same(type='checkbox', checked='')
-          tr
-            td(width='15%')
-              | Pos.
-            td
-              | Color
-            td
-              | Style
-            td
-              | Width
-          tr
-            td
-              | Top
-            td
-              .epan-component-border-top-color
-                input#epan-component-border-top-color.epan-color-picker.epan-border-color(type='hidden', pos='top')
-            td
-              select.epan-border-style(pos='top')
-                option(value="0")
-                  |Select Style
-                option(value="dashed")
-                  |dash
-                option(value="dotted")
-                  |dotted
-                option(value="double")
-                  |double
-                option(value="groove")
-                  |groove
-                option(value="hidden")
-                  |hidden
-                option(value="inset")
-                  |inset
-                option(value="none")
-                  |none
-                option(value="outset")
-                  |outset
-                option(value="ridge")
-                  |ridge
-                option(value="solid")
-                  |solide
-                option(value="inherit")
-                  |inherit
-            td
-              input#epan-component-border-top-width.epan-border-width(type='text', size='2', pos='top')
-          tr
-            td
-              | Right
-            td
-              .epan-component-border-right-color
-                input#epan-component-border-right-color.epan-color-picker.epan-border-color(type='hidden', pos='right')
-            td
-              select.epan-border-style(pos='right')
-                option(value="0")
-                  |Select Style
-                option(value="dashed")
-                  |dash
-                option(value="dotted")
-                  |dotted
-                option(value="double")
-                  |double
-                option(value="groove")
-                  |groove
-                option(value="hidden")
-                  |hidden
-                option(value="inset")
-                  |inset
-                option(value="none")
-                  |none
-                option(value="outset")
-                  |outset
-                option(value="ridge")
-                  |ridge
-                option(value="solid")
-                  |solide
-                option(value="inherit")
-                  |inherit
-            td
-              input#epan-component-border-right-width.epan-border-width(type='text', size='2', pos='right')
-          tr
-            td
-              | Bottom
-            td
-              .epan-component-border-bottom-color
-                input#epan-component-border-bottom-color.epan-color-picker.epan-border-color(type='hidden', pos='bottom')
-            td
-              select.epan-border-style(pos='bottom')
-                option(value="0")
-                  |Select Style
-                option(value="dashed")
-                  |dash
-                option(value="dotted")
-                  |dotted
-                option(value="double")
-                  |double
-                option(value="groove")
-                  |groove
-                option(value="hidden")
-                  |hidden
-                option(value="inset")
-                  |inset
-                option(value="none")
-                  |none
-                option(value="outset")
-                  |outset
-                option(value="ridge")
-                  |ridge
-                option(value="solid")
-                  |solide
-                option(value="inherit")
-                  |inherit
-            td
-              input#epan-component-border-bottom-width.epan-border-width(type='text', size='2', pos='bottom')
-          tr
-            td
-              | Left
-            td
-              .epan-component-border-left-color
-                input#epan-component-border-left-color.epan-color-picker.epan-border-color(type='hidden', pos='left')
-            td
-              select.epan-border-style(pos='left')
-                option(value="0")
-                  |Select Style
-                option(value="dashed")
-                  |dash
-                option(value="dotted")
-                  |dotted
-                option(value="double")
-                  |double
-                option(value="groove")
-                  |groove
-                option(value="hidden")
-                  |hidden
-                option(value="inset")
-                  |inset
-                option(value="none")
-                  |none
-                option(value="outset")
-                  |outset
-                option(value="ridge")
-                  |ridge
-                option(value="solid")
-                  |solide
-                option(value="inherit")
-                  |inherit
-            td
-              input#epan-component-border-left-width.epan-border-width(type='text', size='2', pos='left')
-          tr
-            td(colspan="2")
-              | Radius Top-Left
-            td(colspan="2")
-              input#epan-border-radius-t-left.epan-border-radius(type='text', pos='border-top-left-radius' placeHolder='exp. 10px, 10em, 10% etc.')
-          tr
-            td(colspan="2")
-              | Radius Top-Right
-            td(colspan="2")
-              input#epan-border-radius-t-right.epan-border-radius(type='text', pos='border-top-right-radius' placeHolder='exp. 10px, 10em, 10% etc.')
-          tr
-            td(colspan="2")
-              | Radius Bottom-Left
-            td(colspan="2")
-              input#epan-border-radius-b-left.epan-border-radius(type='text', pos='border-bottom-left-radius' placeHolder='exp. 10px, 10em, 10% etc.')
-          tr
-            td(colspan="2")
-              | Radius Bottom-Right
-            td(colspan="2")
-              input#epan-border-radius-b-right.epan-border-radius(type='text', pos='border-bottom-right-radius' placeHolder='exp. 10px, 10em, 10% etc.')
+    #collapseFive.xepan-cms-tools-bar-panel.row-fluid.collapse  
+      .panel-body.xepan-collasp-body
+        table.table.table-condensed.table-hover
+          tbody
+            tr
+              td(colspan="3")
+                | Effect All
+              td
+                input#epan-all-border-same(type='checkbox', checked='')
+            tr
+              td(width='15%')
+                | Pos.
+              td
+                | Color
+              td
+                | Style
+              td
+                | Width
+            tr
+              td
+                | Top
+              td
+                .epan-component-border-top-color
+                  input#epan-component-border-top-color.epan-color-picker.epan-border-color(type='hidden', pos='top')
+              td
+                select.epan-border-style(pos='top')
+                  option(value="0")
+                    |Select Style
+                  option(value="dashed")
+                    |dash
+                  option(value="dotted")
+                    |dotted
+                  option(value="double")
+                    |double
+                  option(value="groove")
+                    |groove
+                  option(value="hidden")
+                    |hidden
+                  option(value="inset")
+                    |inset
+                  option(value="none")
+                    |none
+                  option(value="outset")
+                    |outset
+                  option(value="ridge")
+                    |ridge
+                  option(value="solid")
+                    |solide
+                  option(value="inherit")
+                    |inherit
+              td
+                input#epan-component-border-top-width.epan-border-width(type='text', size='2', pos='top')
+            tr
+              td
+                | Right
+              td
+                .epan-component-border-right-color
+                  input#epan-component-border-right-color.epan-color-picker.epan-border-color(type='hidden', pos='right')
+              td
+                select.epan-border-style(pos='right')
+                  option(value="0")
+                    |Select Style
+                  option(value="dashed")
+                    |dash
+                  option(value="dotted")
+                    |dotted
+                  option(value="double")
+                    |double
+                  option(value="groove")
+                    |groove
+                  option(value="hidden")
+                    |hidden
+                  option(value="inset")
+                    |inset
+                  option(value="none")
+                    |none
+                  option(value="outset")
+                    |outset
+                  option(value="ridge")
+                    |ridge
+                  option(value="solid")
+                    |solide
+                  option(value="inherit")
+                    |inherit
+              td
+                input#epan-component-border-right-width.epan-border-width(type='text', size='2', pos='right')
+            tr
+              td
+                | Bottom
+              td
+                .epan-component-border-bottom-color
+                  input#epan-component-border-bottom-color.epan-color-picker.epan-border-color(type='hidden', pos='bottom')
+              td
+                select.epan-border-style(pos='bottom')
+                  option(value="0")
+                    |Select Style
+                  option(value="dashed")
+                    |dash
+                  option(value="dotted")
+                    |dotted
+                  option(value="double")
+                    |double
+                  option(value="groove")
+                    |groove
+                  option(value="hidden")
+                    |hidden
+                  option(value="inset")
+                    |inset
+                  option(value="none")
+                    |none
+                  option(value="outset")
+                    |outset
+                  option(value="ridge")
+                    |ridge
+                  option(value="solid")
+                    |solide
+                  option(value="inherit")
+                    |inherit
+              td
+                input#epan-component-border-bottom-width.epan-border-width(type='text', size='2', pos='bottom')
+            tr
+              td
+                | Left
+              td
+                .epan-component-border-left-color
+                  input#epan-component-border-left-color.epan-color-picker.epan-border-color(type='hidden', pos='left')
+              td
+                select.epan-border-style(pos='left')
+                  option(value="0")
+                    |Select Style
+                  option(value="dashed")
+                    |dash
+                  option(value="dotted")
+                    |dotted
+                  option(value="double")
+                    |double
+                  option(value="groove")
+                    |groove
+                  option(value="hidden")
+                    |hidden
+                  option(value="inset")
+                    |inset
+                  option(value="none")
+                    |none
+                  option(value="outset")
+                    |outset
+                  option(value="ridge")
+                    |ridge
+                  option(value="solid")
+                    |solide
+                  option(value="inherit")
+                    |inherit
+              td
+                input#epan-component-border-left-width.epan-border-width(type='text', size='2', pos='left')
+            tr
+              td(colspan="2")
+                | Radius Top-Left
+              td(colspan="2")
+                input#epan-border-radius-t-left.epan-border-radius(type='text', pos='border-top-left-radius' placeHolder='exp. 10px, 10em, 10% etc.')
+            tr
+              td(colspan="2")
+                | Radius Top-Right
+              td(colspan="2")
+                input#epan-border-radius-t-right.epan-border-radius(type='text', pos='border-top-right-radius' placeHolder='exp. 10px, 10em, 10% etc.')
+            tr
+              td(colspan="2")
+                | Radius Bottom-Left
+              td(colspan="2")
+                input#epan-border-radius-b-left.epan-border-radius(type='text', pos='border-bottom-left-radius' placeHolder='exp. 10px, 10em, 10% etc.')
+            tr
+              td(colspan="2")
+                | Radius Bottom-Right
+              td(colspan="2")
+                input#epan-border-radius-b-right.epan-border-radius(type='text', pos='border-bottom-right-radius' placeHolder='exp. 10px, 10em, 10% etc.')
     //CSS Tranform
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
   .xepan-cms-group-panel.clearfix
     div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseSix" aria-expanded="false")
       span Tranform
-  #collapseSix.xepan-cms-tools-bar-panel.row-fluid.collapse  
-    .panel-body.xepan-collasp-body
-      table.table.table-condensed.table-hover
-        tbody
-          tr
-            td(width='20%')
-              |Rotate
-            td(width='50%')
-              .epan-component-transform.epan-component-transform-rotate(css-syntax='rotate', unit='deg')
-            td(width='30%')
-              .epan-component-transform-rotate-value(rotate='(0deg)')
-          tr
-            td(width='20%')
-              |Scale
-            td(width='50%')
-              |x
-              .epan-component-transform.epan-component-transform-scale(css-syntax='scale', unit='','direction'='x')
-              |y
-              .epan-component-transform.epan-component-transform-scale(css-syntax='scale', unit='','direction'='y')
-            td(width='30%')
-              .epan-component-transform-scale-value(scale='(1,1)')
-              .epan-component-transform-scale-x-value(scale='1')
-              .epan-component-transform-scale-y-value(scale='1')
-          tr
-            td(width='20%')
-              |Skew
-            td(width='50%')
-              |x
-              .epan-component-transform.epan-component-transform-skew(css-syntax='skew', unit='deg','direction'='x')
-              |y
-              .epan-component-transform.epan-component-transform-skew(css-syntax='skew', unit='deg','direction'='y')
-            td(width='30%')
-              .epan-component-transform-skew-value(skew='(0deg,0deg)')
-              .epan-component-transform-skew-x-value(skew='0')
-              .epan-component-transform-skew-y-value(skew='0')
-          tr
-            td(width='20%')
-              |Translate
-            td(width='50%')
-              |x
-              .epan-component-transform.epan-component-transform-translate(css-syntax='translate', unit='px',direction='x')
-              |y
-              .epan-component-transform.epan-component-transform-translate(css-syntax='translate', unit='px',direction='y')
-            td(width='30%')
-              .epan-component-transform-translate-value(translate='(1px,1px)')
-              .epan-component-transform-translate-x-value(translate='1')
-              .epan-component-transform-translate-y-value(translate='1')
+    #collapseSix.xepan-cms-tools-bar-panel.row-fluid.collapse  
+      .panel-body.xepan-collasp-body
+        table.table.table-condensed.table-hover
+          tbody
+            tr
+              td(width='20%')
+                |Rotate
+              td(width='50%')
+                .epan-component-transform.epan-component-transform-rotate(css-syntax='rotate', unit='deg')
+              td(width='30%')
+                .epan-component-transform-rotate-value(rotate='(0deg)')
+            tr
+              td(width='20%')
+                |Scale
+              td(width='50%')
+                |x
+                .epan-component-transform.epan-component-transform-scale(css-syntax='scale', unit='','direction'='x')
+                |y
+                .epan-component-transform.epan-component-transform-scale(css-syntax='scale', unit='','direction'='y')
+              td(width='30%')
+                .epan-component-transform-scale-value(scale='(1,1)')
+                .epan-component-transform-scale-x-value(scale='1')
+                .epan-component-transform-scale-y-value(scale='1')
+            tr
+              td(width='20%')
+                |Skew
+              td(width='50%')
+                |x
+                .epan-component-transform.epan-component-transform-skew(css-syntax='skew', unit='deg','direction'='x')
+                |y
+                .epan-component-transform.epan-component-transform-skew(css-syntax='skew', unit='deg','direction'='y')
+              td(width='30%')
+                .epan-component-transform-skew-value(skew='(0deg,0deg)')
+                .epan-component-transform-skew-x-value(skew='0')
+                .epan-component-transform-skew-y-value(skew='0')
+            tr
+              td(width='20%')
+                |Translate
+              td(width='50%')
+                |x
+                .epan-component-transform.epan-component-transform-translate(css-syntax='translate', unit='px',direction='x')
+                |y
+                .epan-component-transform.epan-component-transform-translate(css-syntax='translate', unit='px',direction='y')
+              td(width='30%')
+                .epan-component-transform-translate-value(translate='(1px,1px)')
+                .epan-component-transform-translate-x-value(translate='1')
+                .epan-component-transform-translate-y-value(translate='1')
 
 script(type='text/javascript').
   padding_unit = 'px';
