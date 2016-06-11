@@ -70,31 +70,33 @@ class View_ToolBar extends \View {
 		$g_v = $this->add('View',null,'groups',clone $group_tpl);
 		$g_v->template->set('name','Template Widgets');
 		$path = 'widget/';
-		foreach (new \DirectoryIterator("./websites/".$this->app->epan['name']."/www/".$path) as $fileInfo) {
-			$file_name=$fileInfo->getFilename();
-			$temp_array=explode('.',$file_name);
-			if($temp_array[1]!="html")continue;
-			$subject = $temp_array[0];
-			$pattern = "/_options/";
-			preg_match($pattern,$subject, $matches, PREG_OFFSET_CAPTURE);
-			if($matches)continue;
-		    if($fileInfo->isDot()) continue;
-		    $file =  $path.$fileInfo->getFilename();
-			$temp=str_replace('.html',"",$file);
-		    $t_v=$g_v->add('xepan\cms\View_Tool',['runatServer'=>false],'tools',[$temp]);
-			$this->add('View',null,'tool_options',[strtolower($temp).'_options']);
-			$wt=explode("/",$temp);
-			$image_url='./websites/'.$this->app->epan['name'].'/www/widget/'.$wt[1].'_icon.png';
+
+		if(file_exists(realpath("./websites/".$this->app->epan['name']."/www/".$path))){
+			foreach (new \DirectoryIterator("./websites/".$this->app->epan['name']."/www/".$path) as $fileInfo) {
+				$file_name=$fileInfo->getFilename();
+				$temp_array=explode('.',$file_name);
+				if($temp_array[1]!="html")continue;
+				$subject = $temp_array[0];
+				$pattern = "/_options/";
+				preg_match($pattern,$subject, $matches, PREG_OFFSET_CAPTURE);
+				if($matches)continue;
+			    if($fileInfo->isDot()) continue;
+			    $file =  $path.$fileInfo->getFilename();
+				$temp=str_replace('.html',"",$file);
+			    $t_v=$g_v->add('xepan\cms\View_Tool',['runatServer'=>false],'tools',[$temp]);
+				$this->add('View',null,'tool_options',[strtolower($temp).'_options']);
+				$wt=explode("/",$temp);
+				$image_url='./websites/'.$this->app->epan['name'].'/www/widget/'.$wt[1].'_icon.png';
 				$t_v_icon = $g_v->add('View',null,'tools')->setHtml('<img src="'.$image_url.'" onerror="this.src=\'./vendor/xepan/cms/templates/images/default_icon.png\'" /><br/>'.$wt[1])->addClass(' col-md-4 col-sm-4 col-xs-4 text-center');
-	
-			$t_v_icon->js(true)->xepanTool(
-					[
-					'name'=>$tool,
-					'drop_html'=> $t_v->getHTML()
-					]
-				);
+				$t_v_icon->js(true)->xepanTool(
+						[
+						'name'=>$tool,
+						'drop_html'=> $t_v->getHTML()
+						]
+					);
+			}
+			$g_v->template->del('tools');
 		}
-		$g_v->template->del('tools');
 
 		$this->js(true)
 			->_load($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/xepanComponent.js')
