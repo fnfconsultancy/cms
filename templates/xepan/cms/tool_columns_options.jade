@@ -7,13 +7,38 @@
 		//- CUSTOM FUNCTION
 		function addColumnToOption(position,droppedcolumn){
 			var col = $('<div class="tool-option-list-item" style="padding:5px;margin-bottom:10px;border:1px solid gray;" data-columnsequence="'+position+'">Column '+position+'</div>').appendTo($('\#{$_name}existingcolumn'));
-			// set column width
-			column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(col);
-			for (i = 1; i <= 12; i++) {
-				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(column_width_select);
-			}
 			
-			$(column_width_select).on('change',function(){
+			// defining column for lg, md, sm, xm width
+			column_option_container = $('<div class="row">').appendTo(col);
+			
+			//
+			lg_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="lg">').appendTo(column_option_container);
+			md_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="md">').appendTo(column_option_container);
+			sm_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="sm">').appendTo(column_option_container);
+			xm_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="xm">').appendTo(column_option_container);
+			
+			// set label
+			$('<p>LG</p>').appendTo(lg_col);
+			$('<p>MD</p>').appendTo(md_col);
+			$('<p>SM</p>').appendTo(sm_col);
+			$('<p>XM</p>').appendTo(xm_col);
+
+			// set column width
+			lg_column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(lg_col);
+			md_column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(md_col);
+			sm_column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(sm_col);
+			xm_column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(xm_col);
+
+			for (i = 1; i <= 12; i++) {
+				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(lg_column_width_select);
+				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(md_column_width_select);
+				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(sm_column_width_select);
+				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(xm_column_width_select);
+			}
+
+
+			
+			$('.tool-option-list-item > select').on('change',function(){
 				//find nth child of current selected xepan-component and apply class of selected column_width_select
 				current_row_column = $(current_selected_component).find('div:eq('+$(this).closest('select').data('columnsequence')+')');
 				$(current_row_column).removeClass('col-md-');				
