@@ -86,7 +86,8 @@ class View_ToolBar extends \View {
 			    $t_v=$g_v->add('xepan\cms\View_Tool',['runatServer'=>false],'tools',[$temp]);
 				$this->add('View',null,'tool_options',[strtolower($temp).'_options']);
 				$wt=explode("/",$temp);
-				$t_v_icon = $g_v->add('View',null,'tools')->setHtml('<img src="./websites/'.$this->app->epan['name'].'/www/widget/'.$wt[1].'_icon.png"/><br/>'.$wt[1])->addClass(' col-md-4 col-sm-4 col-xs-4 text-center');
+				$image_url='./websites/'.$this->app->epan['name'].'/www/widget/'.$wt[1].'_icon.png';
+				$t_v_icon = $g_v->add('View',null,'tools')->setHtml('<img src="'.$image_url.'" onerror="this.src=\'./vendor/xepan/cms/templates/images/default_icon.png\'" /><br/>'.$wt[1])->addClass(' col-md-4 col-sm-4 col-xs-4 text-center');
 				$t_v_icon->js(true)->xepanTool(
 						[
 						'name'=>$tool,

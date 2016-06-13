@@ -30,7 +30,9 @@
 @seperator-color: #f0f3f5;
 @secondry-color: #3899ec;
 @shadow-color: #9ecaed;
-
+html{
+	font-size:62.5%!important;
+}
 .xepan-toolbar{
 	.normalize();
 	.h5bp();
@@ -68,6 +70,11 @@
 		margin: 9px 0;
 		width: 100%;
 		.opacity(50%);
+	}
+	h6{
+		font-size:12px!important;
+		margin:10px 0!important;
+		font-weight:600!important;
 	}
 
 	.xepan-cms-groups-panel{
@@ -129,8 +136,7 @@
 }
 
 .xepan-tools-options {
-	.normalize();
-	.h5bp();
+	.reset();
 	width: @toolbox-width;
 	position: fixed;
 	top: 10px;
@@ -140,7 +146,32 @@
 	max-height: 400px;
 	padding: @corner-radius;
 	z-index: 65535;
+	overflow-x:hidden;
+	overflow-y:auto;
 	.box-shadow(0 0 10px @shadow-color);
+
+	.panel-heading, .panel{
+		background-color:#e6e6e6!important;
+		border-radius:4px!important;
+		border:0px!important;
+	}
+
+	.panel-heading{
+		cursor:pointer;
+		font-size: 12px!important;
+	    padding: 10px 10px !important;
+	}
+	h3{
+		cursor:pointer;
+		font-size:1.8em!important;
+		font-weight:700!important;
+		margin-bottom:1em!important;
+		padding-bottom:0.8em!important;
+		border-bottom: 1px solid #2d4150;
+	    box-sizing: border-box;
+	    opacity: 0.5;
+	    color:#2a3f52!important;
+	}
 
 	.xepan-tools-options-drag-handler {
 		width: @toolbox-width;
@@ -157,6 +188,7 @@
 		overflow-y:scroll;
 		overflow-x:initial;
 	}
+	
 	.xepan-tolbar-tool-heading h3{
 	  background-color: #4b4b4b;
 	  border-bottom: 2px solid #252525;
@@ -253,6 +285,8 @@ body{
 	border-bottom:1px solid white;
 	font-size:12px;
 }
+
+
 
 @media screen and (max-width: 980px) and (min-width: 320px) {
 	body{

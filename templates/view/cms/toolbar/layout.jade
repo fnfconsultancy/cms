@@ -24,7 +24,7 @@ div.xepan-cms-group-panel.clearfix
 
 {tool}
 .col-md-4.col-sm-4.col-xs-4.xepan-tool-bar-tool(id='{$_name}' style="text-align:center; padding-bottom:10px")
-	img(src="vendor/{$namespace}/templates/images/{$name}_icon.png")
+	img(src="vendor/{$namespace}/templates/images/{$name}_icon.png" onerror="this.src='./vendor/xepan/cms/templates/images/default_icon.png'")
 	div {$name} {$tool_html}
 	
 {/tool}
