@@ -12,10 +12,13 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	setupToolbar: function(){
+		self = this;
+
 		$(this.element).draggable({
 			handle:'.xepan-toolbar-drag-handler',
 			containment : 'window'
 		});
+
 		$('.xepan-tools-options').draggable({
 			handle:'.xepan-tools-options-drag-handler',
 			containment : 'window'
@@ -113,6 +116,19 @@ jQuery.widget("ui.xepanEditor",{
 				$('iframe').contents().find('.xepan-toolbar').css('display','none');
 			});    
 		});
+
+		$('#save-as-snapshot').click(function(event){
+
+		});
+
+		$('#template-btn').click(function(event){
+			$('.xepan-toolbar').xepanEditor('editTemplate');
+		});
+
+	},
+
+	editTemplate : function(){
+		
 	},
 
 	savePage: function(){
