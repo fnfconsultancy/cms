@@ -37,6 +37,21 @@ class page_admin_save_page extends \Page {
 		// convert all absolute url to relative
 		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
 		$html_content = str_replace($domain, '', $html_content);
+
+		// add {$Content} tag if its template being saved
+		if(strpos($_POST['file_path'], $this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/layout/')){
+			$this->pq = $pq = new phpQuery();
+			$this->dom = $dom = $pq->newDocument($html_content);
+			foreach ($dom['.xepan-page-wrapper'] as $d) {
+				$d=$pq->pq($d);
+				$d->html('{$Content}');
+			}
+			$html_content = $dom->html();
+			// $this->js()->univ()->errorMessage('Yes its template')->execute();
+		}
+
+		// $this->js()->univ()->errorMessage($this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/layout/')->execute();
+
 		try{
 			file_put_contents($_POST['file_path'], $html_content);
 			$this->js()->_selectorDocument()->univ()->successMessage("Content Saved")->execute();
