@@ -4,44 +4,55 @@
 		div(id="{$_name}addcolumn" style="background-color:#f2f2f2;padding:5px;margin-bottom:5px;") Add Column
 		div(id="{$_name}existingcolumn" class="tool-option-list-group")
 	script.
-		//- CUSTOM FUNCTION
+		//- CUSTOM FUNCTION	
+		// add Column Option
 		function addColumnToOption(position,droppedcolumn){
-			var col = $('<div class="tool-option-list-item" style="padding:5px;margin-bottom:10px;border:1px solid gray;" data-columnsequence="'+position+'">Column '+position+'</div>').appendTo($('\#{$_name}existingcolumn'));
+			var col = $('<div class="tool-option-list-item xepan-cms-basic-tool-column" style="padding:5px;margin-bottom:10px;border:1px solid gray;" data-columnsequence="'+position+'">Column '+(position + 1) +'</div>').appendTo($('\#{$_name}existingcolumn'));
 			
 			// defining column for lg, md, sm, xm width
-			column_option_container = $('<div class="row">').appendTo(col);
+			column_option_container = $('<div class="row xepan-cms-tool-column-width-options">').appendTo(col);
 			
 			//
 			lg_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="lg">').appendTo(column_option_container);
 			md_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="md">').appendTo(column_option_container);
 			sm_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="sm">').appendTo(column_option_container);
-			xm_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="xm">').appendTo(column_option_container);
+			xs_col = $('<div class="col-md-3 col-sm-3" data-columnwidth="xs">').appendTo(column_option_container);
 			
 			// set label
 			$('<p>LG</p>').appendTo(lg_col);
 			$('<p>MD</p>').appendTo(md_col);
 			$('<p>SM</p>').appendTo(sm_col);
-			$('<p>XM</p>').appendTo(xm_col);
+			$('<p>XM</p>').appendTo(xs_col);
 
 			// set column width
-			lg_column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(lg_col);
-			md_column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(md_col);
-			sm_column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(sm_col);
-			xm_column_width_select = $('<select data-columnsequence="'+position+'">').appendTo(xm_col);
+			lg_column_width_select = $('<select data-columnwidth="lg" data-columnsequence="'+position+'">').appendTo(lg_col);
+			md_column_width_select = $('<select data-columnwidth="md" data-columnsequence="'+position+'">').appendTo(md_col);
+			sm_column_width_select = $('<select data-columnwidth="sm" data-columnsequence="'+position+'">').appendTo(sm_col);
+			xs_column_width_select = $('<select data-columnwidth="xs" data-columnsequence="'+position+'">').appendTo(xs_col);
 
 			for (i = 1; i <= 12; i++) {
 				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(lg_column_width_select);
 				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(md_column_width_select);
 				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(sm_column_width_select);
-				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(xm_column_width_select);
+				$('<option data-columnwidth="'+i+'">'+i+'</option>').appendTo(xs_column_width_select);
 			}
 
 
 			
-			$('.tool-option-list-item > select').on('change',function(){
+			$('.xepan-cms-tool-column-width-options > div > select').on('change',function(){
 				//find nth child of current selected xepan-component and apply class of selected column_width_select
-				current_row_column = $(current_selected_component).find('div:eq('+$(this).closest('select').data('columnsequence')+')');
-				$(current_row_column).removeClass('col-md-');				
+				var current_selected_dropdown = $(this).closest('select');
+				current_row_column = $(current_selected_component).find('div:eq('+$(current_selected_dropdown).data('columnsequence')+')');
+				if($(current_row_column).length){
+					var column_type = $(current_selected_dropdown).data('columnwidth'); //-return md,lg, etc
+					// remove old class according to dropdown lg/md with it's value
+					for(i=1; i<=12; i++){
+						$(current_row_column).removeClass('col-'+column_type+'-'+i);
+					}
+					
+					$(current_row_column).addClass('col-'+column_type+'-'+$(this).val());
+					$(current_row_column).attr("data-"+column_type,$(this).val());
+				}
 			});
 
 			//- on hover  highlight the dropped column_width_select
@@ -49,7 +60,6 @@
 			    mouseenter: function () {
 					current_row_column = $(current_selected_component).find('div:eq('+$(this).data('columnsequence')+')');
 					$(current_row_column).addClass("current-row-column-selected");
-					console.log(current_row_column);
 			    },
 			    mouseleave: function () {
 					current_row_column = $(current_selected_component).find('div:eq('+$(this).data('columnsequence')+')');
@@ -71,7 +81,7 @@
 			var count = 0;
 			//remove all html from option row existingcolumn
 			$('\#{$_name}existingcolumn').html("");
-			$(current_selected_component).children("div[data-toolcolumn='xepan-tool-column']").each(function(event){
+			$(current_selected_component).children("div[data-toolcolumnclass='xepan-tool-column']").each(function(event){
 				addColumnToOption(count,$(this));
 				count = count + 1;
 			});
@@ -82,6 +92,6 @@
 			border:1px dotted gray;
 			padding:30px;
 		}
-		div[data-toolcolumn="xepan-tool-column"]{
+		div[data-toolcolumnclass="xepan-tool-column"]{
 			border:1px dotted gray;
 		}
