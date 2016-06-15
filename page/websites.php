@@ -3,6 +3,10 @@
 namespace xepan\cms;
 
 class page_websites extends \xepan\base\Page{
+		public $breadcrumb=[
+						'Dashboard'=>'/','Meta Info'=>'xepan_cms_sitemetainfo'
+					];
+
 	public $title = "Website";
 	function init(){
 		parent::init();
