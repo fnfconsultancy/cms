@@ -39,10 +39,10 @@ class Initiator extends \Controller_Addon {
             }
         }
 
-        $extra_info = json_decode($this->app->epan['extra_info']);
-        $this->app->template->set('title',@$extra_info['title']);
-        $this->app->template->set('meta_keywords',@$extra_info['meta_keywords']);
-        $this->app->template->set('meta_description',@$extra_info['meta_description']);
+        $extra_info = json_decode($this->app->epan['extra_info'],true);
+        $this->app->template->trySet('title',@$extra_info['title']);
+        $this->app->template->trySet('meta_keywords',@$extra_info['meta_keywords']);
+        $this->app->template->trySet('meta_description',@$extra_info['meta_description']);
 
     }
 
@@ -74,6 +74,7 @@ class Initiator extends \Controller_Addon {
         $old_js_block = $this->app->template->tags['js_block'];
         $old_js_include = $this->app->template->tags['js_include'];
         $old_js_doc_ready = $this->app->template->tags['document_ready'];
+
         $old_title = $this->app->template->tags['title'];
         $old_meta_keywords = $this->app->template->tags['meta_keywords'];
         $old_meta_description = $this->app->template->tags['meta_description'];
@@ -85,9 +86,10 @@ class Initiator extends \Controller_Addon {
         $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
         $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
         $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
-        $this->app->template->set('title',implode("\n",$old_title[1]));
-        $this->app->template->set('meta_keywords',implode("\n",$old_meta_keywords[1]));
-        $this->app->template->set('meta_description',implode("\n",$old_meta_description[1]));
+
+        $this->app->template->trySet('title',@implode("\n",$old_title[1]));
+        $this->app->template->trySet('meta_keywords',@implode("\n",$old_meta_keywords[1]));
+        $this->app->template->trySet('meta_description',@implode("\n",$old_meta_description[1]));
 
 
         $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
