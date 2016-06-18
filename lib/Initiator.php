@@ -15,7 +15,9 @@ class Initiator extends \Controller_Addon {
         }
 
         $this->app->side_menu->addItem(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'xepan_cms_websites');
-        $this->app->side_menu->addItem(['CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors')->setAttr(['title'=>'CMS Editors']);
+        $x = $this->app->side_menu->addMenu([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors')->setAttr(['title'=>'CMS Editors']);
+        $x->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors1')->setAttr(['title'=>'CMS Editors']);
+        $x->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors2')->setAttr(['title'=>'CMS Editors']);
         return $this;
     }
 
