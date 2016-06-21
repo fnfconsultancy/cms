@@ -50,7 +50,7 @@ class page_websites extends \xepan\base\Page{
 									this.myCodeMirror = null; 
 								},
 								save : function(textarea, editor) {
-									textarea.value = this.myCodeMirror.getValue(); this.myCodeMirror = null; 
+									textarea.value = this.myCodeMirror.getValue(); 
 								}
 							}] //editors 
 						} //edit
