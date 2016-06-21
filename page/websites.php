@@ -15,7 +15,7 @@ class page_websites extends \xepan\base\Page{
 		// http://codepen.io/kaizoku-kuma/pen/JDxtC
 		$this->app->jui->addStylesheet('codemirror/codemirror-5.15.2/lib/codemirror');
 		$this->app->jui->addStylesheet('codemirror/codemirror-5.15.2/theme/solarized');
-		$this->app->jui->addStylesheet('theme');
+		// $this->app->jui->addStylesheet('theme');
 
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/lib/codemirror');
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/htmlmixed/htmlmixed');
