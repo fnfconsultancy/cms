@@ -29,6 +29,9 @@ jQuery.widget("ui.xepanEditor",{
 		$('#xepan-savepage-btn').click(function(){
 			$('.xepan-toolbar').xepanEditor('savePage');
 		});
+		$('#toolbar-toggle-btn').click(function(){
+			$('.xepan-toolbar-group-component').toggle();
+		});
 
 		/*Component Editing outline*/
 		$('#epan-component-border').click(function(event) {
