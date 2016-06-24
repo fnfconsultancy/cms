@@ -288,6 +288,14 @@ jQuery.widget("ui.xepanEditor",{
 	        event.stopPropagation();
 	    });
 
+	    shortcut.add("F2", function(event) {
+        $('.xepan-toolbar-group-component ').toggle('slideup');
+	    });
+
+	    shortcut.add("F4", function(event) {
+	        $('.xepan-tools-options').toggle('slideup');
+	    });
+
 
 	},
 

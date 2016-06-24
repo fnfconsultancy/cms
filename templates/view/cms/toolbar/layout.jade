@@ -1,11 +1,12 @@
 {toolBar}
 .xepan-toolbar(id='{$_name}' aria-expanded="true")
 	{$topbar_editor}
-	.xepan-toolbar-drag-handler
-		i(data-toggle="collapse" data-target="\#xepan-cms-groups-panel" aria-expanded="true")
-	.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-		{$groups}
-		//- #xepan-savepage-btn.btn.btn-primary SAVE
+	.xepan-toolbar-group-component
+		.xepan-toolbar-drag-handler
+			i(data-toggle="collapse" data-target="\#xepan-cms-groups-panel" aria-expanded="true")
+		.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+			{$groups}
+			//- #xepan-savepage-btn.btn.btn-primary SAVE
 .xepan-tools-options(style="display:none;")
 	.xepan-tools-options-drag-handler
 	.xepan-tools
