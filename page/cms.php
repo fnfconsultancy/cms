@@ -25,6 +25,10 @@ class page_cms extends \Page {
 	function init(){
 		parent::init();
 
+		if($this->page_requested){
+			$this->app->template->trySet('title',$this->page_requested);
+		}
+
 		// $this->api->addHook('post-init',[$this,'createSpots']);		
 		// $this->api->addHook('post-init',[$this,'renderServerSideComponents']);
 
