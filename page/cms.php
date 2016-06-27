@@ -20,7 +20,7 @@ class page_cms extends \Page {
 	public $dom;
 
 	public $spots=1;
-
+	public $page_requested=null;
 
 	function init(){
 		parent::init();
