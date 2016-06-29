@@ -10,6 +10,8 @@ class View_Tool extends \View{
 	public $add_option_helper = true;
 
 	public $runatServer=true;
+
+	public $teplateOverridable = true;
 	
 
 	function initializeTemplate($template_spot = null, $template_branch = null){
