@@ -17,6 +17,7 @@ class Initiator extends \Controller_Addon {
         $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
         $menu->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites')->setAttr(['title'=>'File Manager']);
         $menu->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors')->setAttr(['title'=>'CMS Editors']);
+        $menu->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform')->setAttr(['title'=>'Enquiry Form']);
         return $this;
     }
 

@@ -20,8 +20,8 @@ class Model_Custom_Form extends \Model_Table{
 		$this->addField('recipient_email')->hint('comma separated multiple email ids ');
 		
 		$this->addField('auto_reply')->type('boolean');
-		$this->addField('message_body');
 		$this->addField('email_subject');
+		$this->addField('message_body');
 
 		$this->hasMany('xepan\cms\Custom_FormField','custom_form_id');
 	}
