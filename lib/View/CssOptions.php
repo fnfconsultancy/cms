@@ -3,11 +3,13 @@
 namespace xepan\cms;
 
 class View_CssOptions extends \View{
+
 	function init(){
 		parent::init();
 	}
 
 	function render(){
+		$this->js('click',$this->js()->univ()->frameURL('Override ToolTemplate',[$this->app->url('xepan_cms_overridetemplate'),'xepan-tool-to-clone'=>$this->js()->_selector('.xepan-tools-options div[for-xepan-component]:visible')->attr('for-xepan-component')]))->_selector('#override-xepan-tool-template');
 		$this->api->jquery->addStaticStyleSheet('colorpicker/pick-a-color-1.1.8.min');
 		$this->js()
 			->_load('colorpicker/tinycolor-0.9.15.min')
