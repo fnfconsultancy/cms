@@ -43,7 +43,8 @@ class Initiator extends \Controller_Addon {
 
         $extra_info = json_decode($this->app->epan['extra_info'],true);
         $this->app->template->trySet('title',@$extra_info['title']);
-        $this->app->template->trySet('meta_keywords',@$extra_info['meta_keywords']);
+
+        $this->app->template->trySet('meta_keywords',@$extra_info['meta_keyword']);
         $this->app->template->trySet('meta_description',@$extra_info['meta_description']);
 
     }
