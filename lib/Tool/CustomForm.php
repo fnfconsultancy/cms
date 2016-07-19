@@ -67,7 +67,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			$model_submission->save();
 
 			$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
-			$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);	
+			$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
 
 			$communication->setfrom($email_settings['from_email'],$email_settings['from_name']);
 			$communication->addTo($customform_model['recipient_email']);
@@ -97,6 +97,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 
 			}
 			
+			$form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
 		}
 	}
 }
