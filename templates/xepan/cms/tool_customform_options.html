@@ -1,10 +1,24 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_CustomForm" class="xepan-tool-options">
-  <h3>Custom Form Options</h3>
-  <div class="xepan-tool-option">
-    <div class="xepan-tool-option-title">Custom Form Id</div>
-    <div class="xepan-tool-option-value"> 
-      <select id="custom_form_">{$id}(data-attr='customformid')</select>
+  <h3 data-toggle="collapse" data-target="#collapse-item-images" aria-expanded="false" class="collapsed"><span>Custom Form Option</span></h3>
+  <div id="collapse-item-images" class="xepan-cms-tools-bar-panel row-fluid collapse">
+    <div class="panel-body">
+      <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
+      <div class="xepan-cms-group-panel clearfix">
+        <div data-toggle="collapse" data-target="#show-hide-item-image" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Custom Form</span></div>
+      </div>
+      <div id="show-hide-item-image" class="xepan-cms-tools-bar-panel row-fluid collapse">
+        <table class="table table-condensed table-hover">
+          <tr>
+            <div class="xepan-tool-option">
+              <td class="xepan-tool-option-title">Custom Form Name</td>
+              <td class="xepan-tool-option-value"> 
+                <select id="custom_form_id" data-attr="customformid"></select>
+              </td>
+            </div>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
   <script>
