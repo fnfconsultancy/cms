@@ -42,10 +42,13 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 
 				$new_field = $form->addField("line",$field['name']);
 				$new_field->validate('email');
-			}else
+			}else if($field['type'] === "Captcha"){				
+				$new_field = $form->addField('line',$field['name']);
+				$new_field->add('x_captcha/Controller_Captcha');
+			}else{
 				$new_field = $form->addField($field['type'],$field['name']);
+			}
 			
-
 			if($field['type'] === "DropDown" or $field['type'] === "radio"){
 				$field_array = explode(",", $field['value']);
 				$new_field->setValueList($field_array);
