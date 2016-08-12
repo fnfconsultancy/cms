@@ -14,6 +14,11 @@
 								td.xepan-tool-option-title Custom Form Name
 								td.xepan-tool-option-value 
 									select#custom_form_id(data-attr='customformid')
+						tr
+							.xepan-tool-option
+								td.xepan-tool-option-title Custom Form Layout
+								td.xepan-tool-option-value 
+									input#custom_form_layout(data-attr='template')				
 				
 	script.
 		$('\#{$_name} [data-attr]').on('change',function(){

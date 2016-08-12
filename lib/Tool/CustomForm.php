@@ -3,7 +3,7 @@
 namespace xepan\cms;
 
 class Tool_CustomForm extends \xepan\cms\View_Tool{
-	public $options = ['customformid'=>0];
+	public $options = ['customformid'=>0, 'template'=>''];
 	public $form;
 	public $customform_model;
 	public $customform_field_model;
@@ -35,6 +35,9 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 
 		$this->form = $this->add('Form');
 		$form = $this->form;
+
+		if($this->options['template'])			
+			$form->setLayout('view/tool/form/'.$this->options['template']);
 
 		foreach ($customform_field_model as $field) {
 
