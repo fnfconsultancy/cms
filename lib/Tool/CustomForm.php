@@ -43,7 +43,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				$new_field = $form->addField("line",$field['name']);
 				$new_field->validate('email');
 			}else if($field['type'] === "Captcha"){				
-				$new_field = $form->addField('line',$field['name']);
+				$new_field = $form->addField('line','captcha',$field['name']);
 				$new_field->add('x_captcha/Controller_Captcha');
 			}else{
 				$new_field = $form->addField($field['type'],$field['name']);
@@ -61,7 +61,9 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 		$this->form->addSubmit($customform_model['submit_button_name']);
 
 		if($this->form->isSubmitted()){
-			
+			if(!$form->getElement('captcha')->captcha->isSame($form['captcha'])){
+				$form->displayError('captcha','wrong Captcha');	
+			}
 			$model_submission = $this->add('xepan\cms\Model_Custom_FormSubmission');
 			$form_fields = $form->getAllFields();
 			
