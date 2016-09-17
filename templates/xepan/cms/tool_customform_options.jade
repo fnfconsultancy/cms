@@ -12,8 +12,8 @@
 						tr
 							.xepan-tool-option
 								td.xepan-tool-option-title Custom Form Name
-								td.xepan-tool-option-value 
-									select#custom_form_id(data-attr='customformid')
+								td.xepan-tool-option-value
+									select(id="custom_form_{$id}" data-attr='customformid')
 						tr
 							.xepan-tool-option
 								td.xepan-tool-option-title Custom Form Layout
@@ -21,23 +21,28 @@
 									input#custom_form_layout(data-attr='template')				
 				
 	script.
+
 		$('\#{$_name} [data-attr]').on('change',function(){
 			$(current_selected_component).attr($(this).data('attr'),$(this).val());
+			$(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
 		});
 
 		$('\#{$_name}').on('show',function(event){
-			
 			$('\#{$_name} [data-attr]').each(function(index,value){
 				$(this).val($(current_selected_component).attr($(this).data('attr')));
+				//- $(current_selected_component).attr('customformid',$(this).val());
 			});
-
+		
 			$.ajax({
-				url: 'index.php?page=xepan_cms_admin_getforms',
-				type: 'GET',
-				data: { },
-				success: function(data){
-					$('\#custom_form_{$id}').html(data);
-					$('\#custom_form_{$id}').val($(current_selected_component).attr('customformid'));
-				}
+					url: 'index.php?page=xepan_cms_admin_getforms',
+					type: 'GET',
+					data: { },
+					success: function(data){
+
+						$('\#custom_form_{$id}').html(data);
+						console.log($(current_selected_component).attr('customformid'));
+						$('\#custom_form_{$id}').val($(current_selected_component).attr('customformid'));
+					}
 			});
-		})
+		});
+
