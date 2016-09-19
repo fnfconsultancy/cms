@@ -64,7 +64,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 		$this->form->addSubmit($customform_model['submit_button_name']);
 
 		if($this->form->isSubmitted()){
-			if(!$form->getElement('captcha')->captcha->isSame($form['captcha'])){
+			if($form->hasElement('captcha') && !$form->getElement('captcha')->captcha->isSame($form['captcha'])){
 				$form->displayError('captcha','wrong Captcha');	
 			}
 			$model_submission = $this->add('xepan\cms\Model_Custom_FormSubmission');
