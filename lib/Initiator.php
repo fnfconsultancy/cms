@@ -13,11 +13,11 @@ class Initiator extends \Controller_Addon {
             $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>['templates/css','templates/js']))
             ->setBaseURL('../vendor/xepan/cms/');
         }
-
-        $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
-        $menu->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites')->setAttr(['title'=>'File Manager']);
-        $menu->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors')->setAttr(['title'=>'CMS Editors']);
-        $menu->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform')->setAttr(['title'=>'Enquiry Form']);
+        $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
+        // $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
+        $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
+        $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
+        $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
         return $this;
     }
 
