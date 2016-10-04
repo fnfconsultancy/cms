@@ -8,7 +8,7 @@ class page_customform extends \Page {
 	function init(){
 		parent::init();
 		$model_cust_form = $this->add('xepan\cms\Model_Custom_Form');
-		$crud=$this->add('xepan\hr\CRUD',null,null,['view/cust_form/grid']);
+		$crud=$this->add('xepan\hr\CRUD',null,null,['view/cust-form/grid']);
 
 		$crud->setModel($model_cust_form);
 		$crud->grid->add('VirtualPage')

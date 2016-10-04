@@ -1,6 +1,6 @@
 <?php
 
- namespace xepan\cms;
+namespace xepan\cms;
 
 class Model_Custom_Form extends \xepan\base\Model_Table{
 
@@ -9,6 +9,7 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 		'Active',
 		'InActive'
 	];
+	// public $acl=false;
 	public $actions=[
 		'Active'=>['view','edit','delete','enquiry','deactivate'],
 		'InActive'=>['view','edit','delete','enquiry','activate'],
@@ -30,16 +31,13 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 		$this->addField('auto_reply')->type('boolean');
 		$this->addField('email_subject');
 		$this->addField('message_body');
-		$this->addField('created_at');
-		$this->getElement('created_at')->defaultValue($this->app->now);
+		$this->addField('created_at')->defaultValue($this->app->now);
 
-		$this->addField('created_by_id');
-		$this->getElement('created_by_id')->defaultValue($this->app->employee->id);
+		$this->addField('created_by_id')->defaultValue($this->app->employee->id);
 		
-		$this->addField('type');
-		$this->getElement('type')->defaultValue('CustomForm');
+		$this->addField('type')->defaultValue('Custom_Form');
 
-		$this->addField('status')->enum($this->status)->mandatory(true)->system(true);
+		$this->addField('status')->defaultValue('Active');
 
 		$this->hasMany('xepan\cms\Custom_FormField','custom_form_id');
 	}
