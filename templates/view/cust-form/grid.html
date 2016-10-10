@@ -11,22 +11,20 @@
       <table style="width:100%" class="table user-list table-hover">{header}
         <thead class="xepan-hover-hand">{cols}{col}
           <th>Name</th>
-          <th>Submit Button</th>
           <th>Form Layout</th>
           <th>Recipient Email</th>
-          <th>Email Subject</th>
           <th>Custom Fields</th>
+          <th></th>
           <th> </th>{/}{/}
         </thead>{/}
         {$subheader}
         <tbody>{rows}{row}
           <tr data-id="{$id}" class="{$odd_even}">{cols}
             <td>{$name}</td>
-            <td>{$submit_button_name}</td>
             <td>{$form_layout}</td>
             <td>{$recipient_email}</td>
-            <td>{$email_subject}</td>
             <td>{$Fields}</td>
+            <td>{$action}</td>
             <td style="width: 15%;">
               {$edit}
               {$delete}

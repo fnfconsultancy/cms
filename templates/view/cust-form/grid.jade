@@ -14,11 +14,10 @@
                 thead.xepan-hover-hand
                     {cols}{col}
                     th Name
-                    th Submit Button
                     th Form Layout
                     th Recipient Email
-                    th Email Subject
                     th Custom Fields
+                    th
                     th  
                     {/}{/}
                 {/}
@@ -29,11 +28,10 @@
                     tr(class="{$odd_even}" data-id="{$id}")
                         {cols}
                         td {$name}
-                        td {$submit_button_name}
                         td {$form_layout}
                         td {$recipient_email}
-                        td {$email_subject}
                         td {$Fields}
+                        td {$action}
                         td(style="width: 15%;")
                             {$edit}
                             {$delete}

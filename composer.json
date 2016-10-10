@@ -18,8 +18,8 @@
         "reference": "origin/master"
     },
     "require": {
-        "xepan/base":"dev-master",
-        "tburry/pquery" : "dev-master",
+        "xepan/base":">=0.2",
+        "tburry/pquery" : ">=0.2",
         "php": ">=5.3"
     },
     "autoload": {
