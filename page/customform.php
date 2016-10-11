@@ -20,6 +20,7 @@ class page_customform extends \xepan\base\Page {
 
 				$crud_field = $page->add('xepan\hr\CRUD');
 				$crud_field->setModel($field_model);
+				$crud_field->grid->addQuickSearch(['name']);
 
 				if($crud_field->isEditing()){
 					$type_field = $crud_field->form->getElement('type');
@@ -29,5 +30,6 @@ class page_customform extends \xepan\base\Page {
 
 				}
 		});
+		$crud->grid->addQuickSearch(['name']);
 	}
 }
