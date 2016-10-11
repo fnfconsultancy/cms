@@ -2,7 +2,7 @@
 
 namespace xepan\cms;
 
-class page_customform extends \Page {
+class page_customform extends \xepan\base\Page {
 	public $title='Custom Form';
 
 	function init(){
