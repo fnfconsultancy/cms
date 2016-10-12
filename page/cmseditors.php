@@ -8,6 +8,8 @@ class Page_cmseditors extends \xepan\base\Page{
 		parent::init();
 
 		$cmseditors = $this->add('xepan\base\CRUD');
-		$cmseditors->setModel('xepan\cms\Model_User_CMSEditor',['username','user_id','can_edit_template','can_edit_page_content']);
+		$cmseditors_mdl = $this->add('xepan\cms\Model_User_CMSEditor');
+		$cmseditors->setModel($cmseditors_mdl,['username','user_id','can_edit_template','can_edit_page_content']);
+		$cmseditors->grid->addQuickSearch(['username']);
 	}
 }
