@@ -43,7 +43,7 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 	function activate(){
 		$this['status']='Active';
 		$this->app->employee
-            ->addActivity("CustomForm '".$this['name']."' now active", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,"xepan_cms_customform")
+            ->addActivity("CustomForm : '".$this['name']."' now active, For use on website", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,"xepan_cms_customform")
             ->notifyWhoCan('deactivate','Active',$this);
 		$this->save();
 	}
@@ -51,7 +51,7 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 	function deactivate(){
 		$this['status']='InActive';
 		$this->app->employee
-            ->addActivity("CustomForm '".$this['name']."' has deactivated", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,"xepan_cms_customform")
+            ->addActivity("CustomForm '".$this['name']."' has deactivated, not available use on website", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,"xepan_cms_customform")
             ->notifyWhoCan('activate','InActive',$this);
 		$this->save();
 	}
