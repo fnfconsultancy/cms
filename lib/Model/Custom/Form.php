@@ -30,7 +30,7 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 		
 		$this->addField('auto_reply')->type('boolean');
 		$this->addField('email_subject');
-		$this->addField('message_body');
+		$this->addField('message_body')->type('text')->display(['form'=>'xepan\base\RichText']);
 		$this->addField('created_at')->defaultValue($this->app->now);
 		$this->addField('created_by_id')->defaultValue($this->app->employee->id);
 		$this->addField('type')->defaultValue('Custom_Form');
