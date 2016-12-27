@@ -75,7 +75,7 @@ class Initiator extends \Controller_Addon {
             $this->app->template = $this->app->add('GiTemplate')->loadTemplate('plain');
             $this->app->page_object=$this->app->add('View',null,'Content');
             $this->app->add('View')->setHTML($offline_content);
-            
+
             $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
             $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
             $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
@@ -90,6 +90,7 @@ class Initiator extends \Controller_Addon {
         if($this->isSiteOffline() && !$this->app->recall('offline_continue',false) ){
             $auth->check();
             $this->app->memorize('offline_continue',true);
+            $this->app->redirect($this->app->url());
         }
 
         $old_title = $this->app->template->tags['title'];
