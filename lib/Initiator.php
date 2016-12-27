@@ -65,7 +65,21 @@ class Initiator extends \Controller_Addon {
         $this->addLocation(array('js'=>'js','css'=>'css','image'=>'img'))
         ->setBasePath($elfinder_addon_base_path)
         ->setBaseURL('./vendor/studio-42/elfinder/');
-        
+
+        // execute template server side components
+        $old_js_block = $this->app->template->tags['js_block'];
+        $old_js_include = $this->app->template->tags['js_include'];
+        $old_js_doc_ready = $this->app->template->tags['document_ready'];
+
+        if(($offline_content = $this->isSiteOffline()) && !$this->app->recall('offline_continue',false) ){
+            $this->app->template = $this->app->add('GiTemplate')->loadTemplate('plain');
+            $this->app->page_object=$this->app->add('View',null,'Content');
+            $this->app->add('View')->setHTML($offline_content);
+            
+            $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
+            $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
+            $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
+        }
 
         $user = $this->add('xepan\base\Model_User');
         
@@ -73,11 +87,10 @@ class Initiator extends \Controller_Addon {
         $auth->usePasswordEncryption('md5');
         $auth->setModel($user,'username','password');
 
-
-        // execute template server side components
-        $old_js_block = $this->app->template->tags['js_block'];
-        $old_js_include = $this->app->template->tags['js_include'];
-        $old_js_doc_ready = $this->app->template->tags['document_ready'];
+        if($this->isSiteOffline() && !$this->app->recall('offline_continue',false) ){
+            $auth->check();
+            $this->app->memorize('offline_continue',true);
+        }
 
         $old_title = $this->app->template->tags['title'];
         $old_meta_keywords = $this->app->template->tags['meta_keywords'];
@@ -103,6 +116,23 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_CustomForm');
 
         return $this;
+    }
+
+    function isSiteOffline(){
+        $config_m = $this->add('xepan\base\Model_ConfigJsonModel',
+        [
+            'fields'=>[
+                        'site_offline'=>'Line',
+                        'offline_site_content'=>'xepan\base\RichText',
+                        ],
+                'config_key'=>'FRONTEND_WEBSITE_STATUS',
+                'application'=>'cms'
+        ]);
+        
+        $config_m->tryLoadAny();
+
+        if(!$config_m['site_offline']) return false;
+        return $config_m['offline_site_content'];
     }
 
     function resetDB(){
