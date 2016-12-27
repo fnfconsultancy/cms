@@ -71,6 +71,7 @@ class Initiator extends \Controller_Addon {
         $old_js_include = $this->app->template->tags['js_include'];
         $old_js_doc_ready = $this->app->template->tags['document_ready'];
 
+        $auth_layout = null;
         if(($offline_content = $this->isSiteOffline()) && !$this->app->recall('offline_continue',false) ){
             $this->app->template = $this->app->add('GiTemplate')->loadTemplate('plain');
             $this->app->page_object=$this->app->add('View',null,'Content');
@@ -79,15 +80,27 @@ class Initiator extends \Controller_Addon {
             $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
             $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
             $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
+            $auth_layout = 'xepan\base\Layout_Login';
         }
+
 
         $user = $this->add('xepan\base\Model_User');
         
-        $auth = $this->app->add('BasicAuth');
+        $auth = $this->app->add('BasicAuth',['login_layout_class'=>$auth_layout]);
         $auth->usePasswordEncryption('md5');
         $auth->setModel($user,'username','password');
 
         if($this->isSiteOffline() && !$this->app->recall('offline_continue',false) ){
+            $auth->addHook('createForm',function($a,$p){
+                $f = $p->add('Form',null,null,['form/minimal']);
+                $f->add('H2')->set('Login to proceed')->setAttr('align','center');
+                $f->setLayout(['layout/offlinelogin','form_layout']);
+                $f->addField('Line','username','Email address');
+                $f->addField('Password','password','Password');
+                $f->addStyle(['width'=>'30%','margin-left'=>'auto','margin-right'=>'auto']);
+                $this->breakHook($f);
+            });
+
             $auth->check();
             $this->app->memorize('offline_continue',true);
             $this->app->redirect($this->app->url());
