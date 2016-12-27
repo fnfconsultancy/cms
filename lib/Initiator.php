@@ -18,6 +18,7 @@ class Initiator extends \Controller_Addon {
         $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
         $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
         $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
+        $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
         return $this;
     }
 
