@@ -106,6 +106,10 @@ class Initiator extends \Controller_Addon {
             $this->app->redirect($this->app->url());
         }
 
+        if($_GET['js_redirect_url']){                                    
+            $this->app->js(true)->univ()->dialogOK('Redirecting To Printing Demo', 'Website URL'.$_GET['js_redirect_url'])->redirect($_GET['js_redirect_url']);
+        }
+
         $old_title = $this->app->template->tags['title'];
         $old_meta_keywords = $this->app->template->tags['meta_keywords'];
         $old_meta_description = $this->app->template->tags['meta_description'];
