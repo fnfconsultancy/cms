@@ -47,7 +47,7 @@ jQuery.widget("ui.xepanComponent",{
 				$(this).find('.xepan-component-hover-tool-bar').remove();
 			    e.stopPropagation();
 			});
-			
+
 		}else{
 			$(this.element).css('min-height','200px');
 		}
@@ -106,7 +106,7 @@ jQuery.widget("ui.xepanComponent",{
 	sortable_options: {
 		handle: ' .xepan-component-drag-handler',
 		helper: function(event, ui) {
-	        return $('<div><h1>Dragging ... </h1></div>');
+	        return $('<div style="position:absolute"><h1>Dragging ... </h1></div>');
 	    },
 	    start: function(event, ui) {
 
@@ -119,6 +119,7 @@ jQuery.widget("ui.xepanComponent",{
 	        }
 	    },
 	    sort: function(event, ui) {
+	    	console.log(ui);
 	        $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
 	    },
 	    stop: function(event, ui) {
