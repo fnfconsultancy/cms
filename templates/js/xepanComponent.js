@@ -44,10 +44,13 @@ jQuery.widget("ui.xepanComponent",{
 			$(this.element).on('mouseout', function(e) {
 			    $(this).closest('.xepan-component').toggleClass('xepan-component-hover-selector', e.type === 'mouseover');
 				
-				$(this).find('.xepan-component-hover-tool-bar').remove();
+				// $(this).find('.xepan-component-hover-tool-bar').remove();
 			    e.stopPropagation();
 			});
 
+			$(this.element).on('mouseleave', function(e) {
+				$(this).find('.xepan-component-hover-tool-bar').remove();
+			});
 		}else{
 			$(this.element).css('min-height','200px');
 		}
@@ -119,7 +122,6 @@ jQuery.widget("ui.xepanComponent",{
 	        }
 	    },
 	    sort: function(event, ui) {
-	    	console.log(ui);
 	        $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
 	    },
 	    stop: function(event, ui) {
