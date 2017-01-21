@@ -1,12 +1,8 @@
 {toolBar}
+.xepan-cms-toolbar
+	{$groups}
 .xepan-toolbar(id='{$_name}' aria-expanded="true")
 	{$topbar_editor}
-	.xepan-toolbar-group-component
-		.xepan-toolbar-drag-handler
-			i(data-toggle="collapse" data-target="\#xepan-cms-groups-panel" aria-expanded="true")
-		.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-			{$groups}
-			//- #xepan-savepage-btn.btn.btn-primary SAVE
 .xepan-tools-options(style="display:none;")
 	.xepan-tools-options-drag-handler
 	.xepan-tools
@@ -15,17 +11,14 @@
 {/toolBar}
 
 {group}
-div.xepan-cms-group-panel.clearfix
-	H6.collapsed(data-toggle="collapse" data-target="\#{$_name}" aria-expanded="false")
-		span {$name}
-	.seperator
-	.xepan-cms-tools-bar-panel.row-fluid.collapse(id="{$_name}" aria-expanded="false" )
+div.xepan-cms-group-panel
+	{$name}
+	.xepan-cms-tools-bar-panel
 		{$tools}
 {/group}
 
 {tool}
-.col-md-4.col-sm-4.col-xs-4.xepan-tool-bar-tool(id='{$_name}' style="text-align:center; padding-bottom:10px")
+.xepan-tool-bar-tool(id='{$_name}' style="text-align:center;")
 	img(src="vendor/{$namespace}/templates/images/{$name}_icon.png" onerror="this.src='./vendor/xepan/cms/templates/images/default_icon.png'")
 	div {$name} {$tool_html}
-	
 {/tool}

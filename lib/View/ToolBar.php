@@ -43,13 +43,17 @@ class View_ToolBar extends \View {
 		$bs_view=$this->add('xepan\cms\View_CssOptions',null,'basic_property');
 		$this->add('xepan\cms\View_EditorTopBar',null,'topbar_editor');
 		
+		$tab_toolbar = $this->add('Tabs',null,'groups');
+
 		foreach (array_keys($tools) as $group) {
-			$g_v = $this->add('View',null,'groups',clone $group_tpl);
-			$g_v->template->set('name',$group);
+			$tab = $tab_toolbar->addTab($group);
+
+			$g_v = $tab->add('View',null,null,clone $group_tpl);
+
 			foreach ($tools[$group] as $tool) {
 				$t_v = $g_v->add($tool,null,'tools');
 				$t_v->getOptionPanel($this,'tool_options');
-				$t_v_icon = $g_v->add('View',null,'tools',clone $tool_tpl);
+				$t_v_icon = $tab->add('View',null,null,clone $tool_tpl);
 				$tool_arr = explode("\\", $tool);
 				$tool_name = array_pop($tool_arr);
 				$tool_name = str_replace("Tool_", '', $tool_name);
@@ -67,8 +71,9 @@ class View_ToolBar extends \View {
 		}
 		
 		// ========= Widget Tools from Template =========
-		$g_v = $this->add('View',null,'groups',clone $group_tpl);
-		$g_v->template->set('name','Template Widgets');
+		$tab = $tab_toolbar->addTab("Template Widgets");
+		$g_v = $tab->add('View',null,null,clone $group_tpl);
+		// $g_v->template->set('name','Template Widgets');
 		$path = 'widget/';
 
 		if(file_exists(realpath("./websites/".$this->app->epan['name']."/www/".$path))){
@@ -83,7 +88,7 @@ class View_ToolBar extends \View {
 			    if($fileInfo->isDot()) continue;
 			    $file =  $path.$fileInfo->getFilename();
 				$temp=str_replace('.html',"",$file);
-			    $t_v=$g_v->add('xepan\cms\View_Tool',['runatServer'=>false],'tools',[$temp]);
+			    $t_v=$tab->add('xepan\cms\View_Tool',['runatServer'=>false],'tools',[$temp]);
 				$this->add('View',null,'tool_options',[strtolower($temp).'_options']);
 				$wt=explode("/",$temp);
 				$image_url='./websites/'.$this->app->epan['name'].'/www/widget/'.$wt[1].'_icon.png';
