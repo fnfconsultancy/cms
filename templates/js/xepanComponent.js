@@ -20,34 +20,34 @@ jQuery.widget("ui.xepanComponent",{
 		}
 		
 		if(!$(this.element).hasClass('xepan-page-wrapper')){
-			$(this.element).hover(
-				// on hover
-				function(event,ui){
-					$(this).addClass('xepan-component-hover-selector');
-					
-					if(!$(this).hasClass('xepan-disable-move') && !$(this).hasClass('xepan-disable-remove')){
-						drag_handler = $('<div class="xepan-component-hover-bar"></div>').appendTo($(this));
-					}
 
-					if(!$(this).hasClass('xepan-disable-move')){
-						drag_btn =  $('<i class="glyphicon glyphicon-move xepan-component-drag-handler"></i>').appendTo(drag_handler);	
-					}
-
-					if(!$(this).hasClass('xepan-disable-remove')){
-						remove_btn = $('<i class="glyphicon glyphicon-trash xepan-component-remove"></i>').appendTo(drag_handler);
-						$(remove_btn).click(function(event,ui){
-							$(this).closest('.xepan-component').xepanComponent('remove');
-						});
-					}
-					event.stopPropagation();				
-				},
-				//remove hover
-				function(event,ui){
-					$(this).removeClass('xepan-component-hover-selector');
-					$(this).find('.xepan-component-hover-bar').remove();
-					event.stopPropagation();				
+			$(this.element).on('mouseover', function(e) {
+			    $(this).closest('.xepan-component').toggleClass('xepan-component-hover-selector', e.type === 'mouseover');  
+			    
+			    if(!$(this).hasClass('xepan-disable-move') && !$(this).hasClass('xepan-disable-remove') && $(this).hasClass('xepan-component-hover-selector')){
+					drag_handler = $('<div class="xepan-component-hover-tool-bar"></div>').appendTo($(this));
 				}
-			);
+
+				if(!$(this).hasClass('xepan-disable-move')){
+					drag_btn =  $('<i class="glyphicon glyphicon-move xepan-component-drag-handler"></i>').appendTo(drag_handler);	
+				}
+
+				if(!$(this).hasClass('xepan-disable-remove')){
+					remove_btn = $('<i class="glyphicon glyphicon-trash xepan-component-remove"></i>').appendTo(drag_handler);
+					$(remove_btn).click(function(event,ui){
+						$(this).closest('.xepan-component').xepanComponent('remove');
+					});
+				}
+			    e.stopPropagation();
+			});
+
+			$(this.element).on('mouseout', function(e) {
+			    $(this).closest('.xepan-component').toggleClass('xepan-component-hover-selector', e.type === 'mouseover');
+				
+				$(this).find('.xepan-component-hover-tool-bar').remove();
+			    e.stopPropagation();
+			});
+			
 		}else{
 			$(this.element).css('min-height','200px');
 		}

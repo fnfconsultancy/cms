@@ -36,9 +36,9 @@ jQuery.widget("ui.xepanEditor",{
 		/*Component Editing outline*/
 		$('#epan-component-border').click(function(event) {
 		    if($('#epan-component-border:checked').size() > 0){
-		        $('.xepan-component').addClass('component-outline');
+		        $('.xepan-sortable-component').addClass('component-outline');
 		    }else{
-		        $('.xepan-component').removeClass('component-outline');
+		        $('.xepan-sortable-component').removeClass('component-outline');
 		    }
 		});
 		/*Preview Mode*/
@@ -54,9 +54,9 @@ jQuery.widget("ui.xepanEditor",{
 		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
 		$('#epan-component-extra-padding').click(function(event) {
 		    if($('#epan-component-extra-padding:checked').size() > 0){
-		        $('.xepan-component').addClass('epan-sortable-extra-padding');
+		        $('.xepan-sortable-component').addClass('epan-sortable-extra-padding');
 		    }else{
-		        $('.xepan-component').removeClass('epan-sortable-extra-padding');
+		        $('.xepan-sortable-component').removeClass('epan-sortable-extra-padding');
 		    }
 		});
 		
