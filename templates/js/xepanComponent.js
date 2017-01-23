@@ -30,17 +30,17 @@ jQuery.widget("ui.xepanComponent",{
 					// }
 
 					if(!$(this).hasClass('xepan-disable-move')){
-						drag_btn =  $('<i class="glyphicon glyphicon-move xepan-component-drag-handler"></i>').appendTo($(this));
-						drag_btn.on('mousedown',function(e){
-							$(this).closest('xepan-sortable-component').sortable("option", "disabled", true);
-						});
-						drag_btn.on('mouseup',function(e){
-							$(this).closest('xepan-sortable-component').sortable("option", "disabled", false);
-						});
+						drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo($(this));
+						// drag_btn.on('mousedown',function(e){
+						// 	$(this).closest('xepan-sortable-component').sortable("option", "disabled", true);
+						// });
+						// drag_btn.on('mouseup',function(e){
+						// 	$(this).closest('xepan-sortable-component').sortable("option", "disabled", false);
+						// });
 					}
 
 					if(!$(this).hasClass('xepan-disable-remove')){
-						remove_btn = $('<i class="glyphicon glyphicon-trash xepan-component-remove"></i>').appendTo($(this));
+						remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash "></i></div>').appendTo($(this));
 						$(remove_btn).click(function(event,ui){
 							$(this).closest('.xepan-component').xepanComponent('remove');
 						});
@@ -52,7 +52,6 @@ jQuery.widget("ui.xepanComponent",{
 					// $(this).removeClass('xepan-component-hover-selector');
 					$(this).find('.xepan-component-drag-handler').remove();
 					$(this).find('.xepan-component-remove').remove();
-
 					event.stopPropagation();				
 				}
 			);

@@ -32,15 +32,25 @@ body{
 }
 
 
-.xepan-component-hover-tool-bar{
+.xepan-component-drag-handler,
+.xepan-component-remove
+{
 	z-index:999999;
-	height:20px;
 	position:absolute !important;
-	top:0px !important;
-	padding:0 0.5em !important;
-	background-color: blue;
+	padding:0 10px;
+	top:-15px;
+	background-color:#424242;
 	color: white;
 }
+
+.xepan-component-drag-handler{
+	left:0;
+}
+
+.xepan-component-remove{
+	left:2.6%;
+}
+
 
 .xepan-selected-component .xepan-component-hover-tool-bar{
 	background-color:red !important; 
