@@ -88,7 +88,7 @@ class View_ToolBar extends \View {
 			    if($fileInfo->isDot()) continue;
 			    $file =  $path.$fileInfo->getFilename();
 				$temp=str_replace('.html',"",$file);
-			    $t_v=$tab->add('xepan\cms\View_Tool',['runatServer'=>false],'tools',[$temp]);
+			    $t_v=$tab->add('xepan\cms\View_Tool',['runatServer'=>false],null,[$temp]);
 				$this->add('View',null,'tool_options',[strtolower($temp).'_options']);
 				$wt=explode("/",$temp);
 				$image_url='./websites/'.$this->app->epan['name'].'/www/widget/'.$wt[1].'_icon.png';
