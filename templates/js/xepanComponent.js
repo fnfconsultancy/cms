@@ -1,4 +1,3 @@
-origin: null;
 jQuery.widget("ui.xepanComponent",{
 	self: undefined,
 
@@ -14,43 +13,49 @@ jQuery.widget("ui.xepanComponent",{
 			$(this.element).xepanComponent('createSortable');
 		}
 
-		$(this.element).find('.xepan-sortable-component').sortable(this.sortable_options).disableSelection();
+		$(this.element).find('.xepan-sortable-component').sortable(this.sortable_options);
 
 		if($(this.element).hasClass('xepan-editable-text')){
 			$(this.element).xepanComponent('createTextEditable');
 		}
 		
 		if(!$(this.element).hasClass('xepan-page-wrapper')){
+			$(this.element).hover(
+				// on hover
+				function(event,ui){
+					$(this).addClass('xepan-component-hover-selector');
+					
+					// if(!$(this).hasClass('xepan-disable-move') && !$(this).hasClass('xepan-disable-remove')){
+					// 	drag_handler = $('<div class="xepan-component-hover-bar"></div>').appendTo($(this));
+					// }
 
-			$(this.element).on('mouseover', function(e) {
-			    $(this).closest('.xepan-component').toggleClass('xepan-component-hover-selector', e.type === 'mouseover');  
-			    
-			    if(!$(this).hasClass('xepan-disable-move') && !$(this).hasClass('xepan-disable-remove') && $(this).hasClass('xepan-component-hover-selector')){
-					drag_handler = $('<div class="xepan-component-hover-tool-bar"></div>').appendTo($(this));
+					if(!$(this).hasClass('xepan-disable-move')){
+						drag_btn =  $('<i class="glyphicon glyphicon-move xepan-component-drag-handler"></i>').appendTo($(this));
+						drag_btn.on('mousedown',function(e){
+							$(this).closest('xepan-sortable-component').sortable("option", "disabled", true);
+						});
+						drag_btn.on('mouseup',function(e){
+							$(this).closest('xepan-sortable-component').sortable("option", "disabled", false);
+						});
+					}
+
+					if(!$(this).hasClass('xepan-disable-remove')){
+						remove_btn = $('<i class="glyphicon glyphicon-trash xepan-component-remove"></i>').appendTo($(this));
+						$(remove_btn).click(function(event,ui){
+							$(this).closest('.xepan-component').xepanComponent('remove');
+						});
+					}
+					event.stopPropagation();				
+				},
+				//remove hover
+				function(event,ui){
+					// $(this).removeClass('xepan-component-hover-selector');
+					$(this).find('.xepan-component-drag-handler').remove();
+					$(this).find('.xepan-component-remove').remove();
+
+					event.stopPropagation();				
 				}
-
-				if(!$(this).hasClass('xepan-disable-move')){
-					drag_btn =  $('<i class="glyphicon glyphicon-move xepan-component-drag-handler"></i>').appendTo(drag_handler);	
-				}
-
-				if(!$(this).hasClass('xepan-disable-remove')){
-					remove_btn = $('<i class="glyphicon glyphicon-trash xepan-component-remove"></i>').appendTo(drag_handler);
-					$(remove_btn).click(function(event,ui){
-						$(this).closest('.xepan-component').xepanComponent('remove');
-					});
-				}
-			    e.stopPropagation();
-			});
-
-			$(this.element).on('mouseout', function(e) {
-			    $(this).closest('.xepan-component').toggleClass('xepan-component-hover-selector', e.type === 'mouseover');
-				// $(this).find('.xepan-component-hover-tool-bar').remove();
-			    e.stopPropagation();
-			});
-
-			$(this.element).on('mouseleave', function(e) {
-				$(this).find('.xepan-component-hover-tool-bar').remove();
-			});
+			);
 		}else{
 			$(this.element).css('min-height','200px');
 		}
@@ -75,7 +80,7 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	createSortable: function(){
-		$(this.element).sortable(this.sortable_options).disableSelection();
+		$(this.element).sortable(this.sortable_options);
 	},
 
 	createTextEditable: function(){
@@ -109,7 +114,7 @@ jQuery.widget("ui.xepanComponent",{
 	sortable_options: {
 		appendTo:'body',
 		connectWith:'.xepan-sortable-component',
-		handle: '.xepan-component-drag-handler',
+		handle: '> .xepan-component-drag-handler',
 		cursor: "move",
 		revert: true,
 		tolerance: "pointer",
@@ -118,22 +123,19 @@ jQuery.widget("ui.xepanComponent",{
 	    },
 	    start: function(event, ui) {
 	    	$(ui.placeholder).removeClass("col-md-6 col-sm-6 xepan-tool-bar-tool ui-draggable").css('visibility','visible');
-	    	// console.log(ui.placeholder);
-	    	// console.log($(ui.item));
-	    	// origin='component';
-	    	var t;
-	        if (t = $(ui.item).closest('xepan-sortable-component')) {
-		    	console.log(t);
-	            sortable_disabled = true;
-	            t.sortable("option", "disabled", true);
-	            t.find('.xepan-sortable-component').sortable("option", "disabled", true);
-	        }
+	        // if ($(ui.item).hasClass('ui-sortable')) {
+         //    	sortable_disabled = true;
+         //    	$(ui.item).sortable("option", "disabled", true);
+         //    	$(ui.item).find('.epan-sortable-component').sortable("option", "disabled", true);
+        	// }
 	    },
 	    sort: function(event, ui) {
 	        $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
+
 	    },
 	    stop: function(event, ui) {
-	    	if(origin=='toolbox'){
+
+	    	if(typeof origin == undefined || origin == 'toolbox'){
 	    		// Find sub components if any and make components
 	    		$new_component = $(xepan_drop_component_html).xepanComponent();
 				$($new_component).find('.xepan-component').xepanComponent();
@@ -141,13 +143,20 @@ jQuery.widget("ui.xepanComponent",{
 				window.setTimeout(function(){
 					if($($new_component).hasClass('xepan-editable-text'))
 						$.univ().richtext($new_component,self.tinyceme_options,true);
-				},200);
+				},400);
 		    	$(ui.item).replaceWith($new_component);
-	    	}else{
-	    		console.log(ui);
-	    		$(ui.item).sortable("option", "disabled", false);
-	            $(ui.item).find('.xepan-sortable-component').sortable("option", "disabled", false);
+
+		    	if($('#epan-component-border:checked').size() > 0)
+			        $new_component.addClass('component-outline');
+
+			    if($('#epan-component-extra-padding:checked').size() > 0){
+			        if($new_component.hasClass('xepan-sortable-component')) 
+			        	$new_component.addClass('epan-sortable-extra-padding');
+			        $new_component.find('.xepan-sortable-component').addClass('epan-sortable-extra-padding');
+			    }
+			    
 	    	}
+	    	console.log(origin);
 		    origin='page';
 	    }
 	},
@@ -181,28 +190,28 @@ function updateBreadCrumb() {
     if (typeof current_selected_component === 'undefined') return;
 
     $(current_selected_component)
-        .parent('.xepan-component')
+        .parents('.xepan-component')
         .andSelf()
-    // .reverse()
-    .each(function(index, el) {
-        var self = this;
-        var current_selected = $(el).attr('xepan-component');
+    	// .reverse()
+	    .each(function(index, el) {
+	        var self = el;
+	        var current_selected = $(el).attr('xepan-component');
 
-		if (!current_selected) { 
-			current_selected = "Root"; 
-		}
-        
-        var breadCrumbcomponent = current_selected.substring(current_selected.indexOf("_") + 1);
-        new_btn = $('<div class=\'glyphicon glyphicon-forward pull-left\' style=\'margin:0 5px;\'></div>' + '<div class=\' xepan-breadcrumb-component pull-left \'>' + breadCrumbcomponent + '</div>');
-        new_btn.click(function(event) {
-            if (self == current_selected_component) {
-                $(current_selected_component).effect("bounce", "slow");
-                return;
-            }
-            $(self).dblclick();
-        });
-        new_btn.appendTo('#xepan-editing-toolbar-breadcrumb');
-    });
+			if (!current_selected) { 
+				current_selected = "Root"; 
+			}
+	        
+	        var breadCrumbcomponent = current_selected.substring(current_selected.indexOf("_") + 1);
+	        new_btn = $('<div class=\'glyphicon glyphicon-forward pull-left\' style=\'margin:0 5px;\'></div>' + '<div class=\' xepan-breadcrumb-component pull-left \'>' + breadCrumbcomponent + '</div>');
+	        new_btn.click(function(event) {
+	            if (self === current_selected_component) {
+	                $(current_selected_component).effect("bounce", "slow");
+	                return;
+	            }
+	            $(self).dblclick();
+	        });
+	        new_btn.appendTo('#xepan-editing-toolbar-breadcrumb');
+	    });
 
 
 
