@@ -1,3 +1,4 @@
+origin: null;
 jQuery.widget("ui.xepanComponent",{
 	self: undefined,
 
@@ -13,7 +14,7 @@ jQuery.widget("ui.xepanComponent",{
 			$(this.element).xepanComponent('createSortable');
 		}
 
-		$(this.element).find('.xepan-sortable-component').sortable(this.sortable_options);
+		$(this.element).find('.xepan-sortable-component').sortable(this.sortable_options).disableSelection();
 
 		if($(this.element).hasClass('xepan-editable-text')){
 			$(this.element).xepanComponent('createTextEditable');
@@ -43,7 +44,6 @@ jQuery.widget("ui.xepanComponent",{
 
 			$(this.element).on('mouseout', function(e) {
 			    $(this).closest('.xepan-component').toggleClass('xepan-component-hover-selector', e.type === 'mouseover');
-				
 				// $(this).find('.xepan-component-hover-tool-bar').remove();
 			    e.stopPropagation();
 			});
@@ -75,7 +75,7 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	createSortable: function(){
-		$(this.element).sortable(this.sortable_options);
+		$(this.element).sortable(this.sortable_options).disableSelection();
 	},
 
 	createTextEditable: function(){
@@ -107,18 +107,26 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	sortable_options: {
-		handle: ' .xepan-component-drag-handler',
+		appendTo:'body',
+		connectWith:'.xepan-sortable-component',
+		handle: '.xepan-component-drag-handler',
+		cursor: "move",
+		revert: true,
+		tolerance: "pointer",
 		helper: function(event, ui) {
-	        return $('<div style="position:absolute"><h1>Dragging ... </h1></div>');
+	        return $('<div><h1>Dragging ... </h1></div>');
 	    },
 	    start: function(event, ui) {
-
 	    	$(ui.placeholder).removeClass("col-md-6 col-sm-6 xepan-tool-bar-tool ui-draggable").css('visibility','visible');
-
-	        if ($(ui.item).hasClass('ui-sortable')) {
+	    	// console.log(ui.placeholder);
+	    	// console.log($(ui.item));
+	    	// origin='component';
+	    	var t;
+	        if (t = $(ui.item).closest('xepan-sortable-component')) {
+		    	console.log(t);
 	            sortable_disabled = true;
-	            $(ui.item).sortable("option", "disabled", true);
-	            $(ui.item).find('.xepan-sortable-component').sortable("option", "disabled", true);
+	            t.sortable("option", "disabled", true);
+	            t.find('.xepan-sortable-component').sortable("option", "disabled", true);
 	        }
 	    },
 	    sort: function(event, ui) {
@@ -135,6 +143,10 @@ jQuery.widget("ui.xepanComponent",{
 						$.univ().richtext($new_component,self.tinyceme_options,true);
 				},200);
 		    	$(ui.item).replaceWith($new_component);
+	    	}else{
+	    		console.log(ui);
+	    		$(ui.item).sortable("option", "disabled", false);
+	            $(ui.item).find('.xepan-sortable-component').sortable("option", "disabled", false);
 	    	}
 		    origin='page';
 	    }

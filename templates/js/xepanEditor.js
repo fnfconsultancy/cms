@@ -36,9 +36,9 @@ jQuery.widget("ui.xepanEditor",{
 		/*Component Editing outline*/
 		$('#epan-component-border').click(function(event) {
 		    if($('#epan-component-border:checked').size() > 0){
-		        $('.xepan-sortable-component').addClass('component-outline');
+		        $('.xepan-component').addClass('component-outline');
 		    }else{
-		        $('.xepan-sortable-component').removeClass('component-outline');
+		        $('.xepan-component').removeClass('component-outline');
 		    }
 		});
 		/*Preview Mode*/
