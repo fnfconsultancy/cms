@@ -20,5 +20,7 @@ div.xepan-cms-group-panel
 {tool}
 .xepan-tool-bar-tool(id='{$_name}' style="text-align:center;")
 	img(src="vendor/{$namespace}/templates/images/{$name}_icon.png" onerror="this.src='./vendor/xepan/cms/templates/images/default_icon.png'")
-	div {$name} {$tool_html}
+	br
+	img(src="vendor/xepan/cms/templates/images/tool_shadow.png")
+	div.xepan-cms-tool-name {$name} {$tool_html}
 {/tool}

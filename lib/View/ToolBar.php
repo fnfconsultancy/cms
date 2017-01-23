@@ -18,7 +18,6 @@ class View_ToolBar extends \View {
 		$this->app->jui->addStaticInclude('elfinder.full');
         $this->app->jui->addStylesheet('elfinder.full');
         $this->app->jui->addStylesheet('elfindertheme');
-
 		// $this->js(true)->_load('elfinder.full');
   //       $this->js(true)->_css('elfinder.full');
         // $this->js(true)->_css('elfindertheme');
@@ -29,7 +28,8 @@ class View_ToolBar extends \View {
 		//load style css
 		$this->app->jui->addStaticStyleSheet($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan-editing.css');
 		// $this->js(true)->_css();
-		$this->js(true)->_load($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/xepanTool.js');
+		$this->js(true)
+				->_load($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/xepanTool.js');
 
 		$group_tpl = $this->template->cloneRegion('group');
 		$this->template->del('group');
@@ -118,6 +118,12 @@ class View_ToolBar extends \View {
 		$this->js(true)->insertAfter('body')->_selector('.xepan-cms-toolbar');
 		$this->js(true)->xepanComponent()->_selector('body .xepan-component');
 		// $this->js(true)->resizable()->_selector('.xepan-toolbar');
+		
+	}
+
+	function render(){
+		
+		parent::render();
 	}
 
 	function defaultTemplate(){

@@ -42,6 +42,14 @@ class Initiator extends \Controller_Addon {
             }
         }
 
+        if($this->app->isEditing){
+            $this->app->template->appendHTML('js_include','<link rel="stylesheet" type="text/css" href="'.$this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan_editor_loader.css" />');
+            $this->app->jui->addStaticInclude($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/pace.js');
+            $this->app->js(true,"Pace.on('done',function(){
+                ".(string) $this->app->js()->_selector('.xepan-toolbar,.xepan-cms-toolbar')->show().";
+            });");
+        }
+
         $extra_info = json_decode($this->app->epan['extra_info'],true);
         $this->app->template->trySet('title',@$extra_info['title']);
 

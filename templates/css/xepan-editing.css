@@ -55,6 +55,18 @@ body{
 	margin: 2px 5px 2px 2px;
 }
 
+.xepan-cms-toolbar > div.atk-tabs.ui-tabs{
+	border: 0px;
+	border-top:1px solid black;
+	border-radius:0px;
+	padding:0px;
+}
+
+.xepan-cms-toolbar ul.ui-widget-header{
+	font-size:12px;
+	border-radius:0px; 
+}
+
 .xepan-cms-toolbar ul.ui-widget-header,
 .xepan-cms-toolbar ul > li.ui-state-default
 {
@@ -71,3 +83,24 @@ body{
 	background: #212121;
 }
 
+.xepan-cms-tool-name{
+	font-size:12px;
+}
+
+.xepan-tool-bar-tool{
+	border-right: 1px solid #9e9e9e;
+	margin-bottom:10px;
+}
+
+.xepan-cms-toolbar div.ui-tabs-panel{
+	box-shadow:2px 2px 5px gray inset;
+}
+
+.xepan-toolbar,
+.xepan-cms-toolbar{
+	display: none;
+}
+/*.xepan-tool-bar-tool:hover{
+	background: #757575;
+	color: #f5f5f5;
+}*/
