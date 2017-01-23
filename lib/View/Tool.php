@@ -11,7 +11,7 @@ class View_Tool extends \View{
 
 	public $runatServer=true;
 
-	public $teplateOverridable = true;
+	public $templateOverridable = true;
 	
 
 	function initializeTemplate($template_spot = null, $template_branch = null){
@@ -38,8 +38,18 @@ class View_Tool extends \View{
 		return $m;
 	}
 
+	function getTemplate(){
+		return $this->template;
+	}
+
 	function getTemplateFile($options=null){
-		return $this->template->origin_filename;
+		return $this->getTemplate()->origin_filename;
+	}
+
+	function getDefaultTemplate($options=null){
+		if(!$this->templateOverridable) return $this->getTemplateFile($options);
+
+		return $this->getTemplate()->template_file;
 	}
 
 	function getOptionPanel($parent,$spot){

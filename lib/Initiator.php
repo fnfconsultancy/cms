@@ -48,6 +48,7 @@ class Initiator extends \Controller_Addon {
             $this->app->js(true,"Pace.on('done',function(){
                 ".(string) $this->app->js()->_selector('.xepan-toolbar,.xepan-cms-toolbar')->show().";
             });");
+
         }
 
         $extra_info = json_decode($this->app->epan['extra_info'],true);
@@ -112,6 +113,16 @@ class Initiator extends \Controller_Addon {
             $auth->check();
             $this->app->memorize('offline_continue',true);
             $this->app->redirect($this->app->url());
+        }
+
+        if($this->app->isEditing){
+            $this->app->js(true)
+                ->_load('ace/ace/ace')
+                ->_load('ace/ace/mode-html')
+                ->_load('ace/ace/mode-php')
+                ->_load('ace/ace/mode-css')
+                ->_load('ace/ace/theme-tomorrow')
+                ->_load('ace/jquery-ace.min');
         }
 
         if($_GET['js_redirect_url']){                                    
