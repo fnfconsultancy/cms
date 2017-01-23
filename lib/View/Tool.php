@@ -38,6 +38,10 @@ class View_Tool extends \View{
 		return $m;
 	}
 
+	function getTemplateFile($options=null){
+		return $this->template->origin_filename;
+	}
+
 	function getOptionPanel($parent,$spot){
 		return $parent->add('View',null,$spot,[strtolower(get_class($this)).'_options']);
 	}
