@@ -116,6 +116,7 @@ class View_ToolBar extends \View {
 		
 		$this->js(true)->insertAfter('body')->_selector('.xepan-tools-options');
 		$this->js(true)->insertAfter('body')->_selector('.xepan-cms-toolbar');
+		$this->js(true)->insertAfter('body')->_selector('.epan-editor-top-panel');
 		$this->js(true)->xepanComponent()->_selector('body .xepan-component');
 		// $this->js(true)->resizable()->_selector('.xepan-toolbar');
 		
