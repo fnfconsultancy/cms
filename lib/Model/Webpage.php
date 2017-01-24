@@ -33,10 +33,25 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		]);
 
 		$this->addHook('beforeSave',$this);
+		$this->addHook('beforeDelete',$this);
 	}
 
 	function beforeSave(){
 
+		// check for same entry or not
+		$old_webpage = $this->add('xepan\cms\Model_Webpage');
+		$old_webpage->addCondition('path',$this['path']);
+		if($this['is_template'])
+			$old_webpage->addCondition('is_template',1);
+		else
+			$old_webpage->addCondition([['is_template',0],['is_template',null]]);
+
+		$old_webpage->tryLoadAny();
+		if($old_webpage->loaded()){
+			throw $this->exception('file already exist on this path, change the path','ValidityCheck')->setField('path');
+		}
+
+		// creating file System
 		$path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www";
 		if($this['is_template']){
 			$path .= "/layout";
@@ -82,4 +97,31 @@ class Model_Webpage extends \xepan\base\Model_Table{
 
 		$this['path'] = $original_name;
 	}
+
+	function beforeDelete(){
+
+		if($this['is_template']){
+			$count = $this->add('xepan\cms\Model_Page')
+				->addCondition('template_id',$this->id)
+				->count()
+				->getOne()
+				;
+			if($count)
+				throw new \Exception($count." Pages uses this template, first unlink this templete from all pages" );
+		}
+
+		\Nette\Utils\FileSystem::delete($this->getPagePath());
+	}
+
+	function getPagePath($include_file_name=true){
+		$path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www";
+		if($this['is_template']){
+			$path .= "/layout";
+		}
+
+		if($include_file_name) $path .= "/".$this['path'];
+
+		return $path;
+	}
+
 }
