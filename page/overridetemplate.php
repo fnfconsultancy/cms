@@ -67,8 +67,10 @@ class page_overridetemplate extends \Page {
 			$f->js()->univ()->successMessage('Saved at '. $override_path)->execute();
 		}
 
+		$class = new \ReflectionClass($tool);
 
-		$original_tab->add('View')->set($tool->getDefaultTemplate());
+		$original_file = getcwd(). '/vendor/'.str_replace("\\", "/", $class->getNamespaceName()).'/templates/'.$tool->getDefaultTemplate().'.html';
+		$original_tab->add('View')->set(file_get_contents($original_file));
 
 
 		$tool->destroy();

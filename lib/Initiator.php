@@ -49,6 +49,9 @@ class Initiator extends \Controller_Addon {
                 ".(string) $this->app->js()->_selector('.xepan-toolbar,.xepan-cms-toolbar')->show().";
             });");
 
+            $this->app->js(true,'$("body").on("beforeSave",function(){$("body").find(".pace").remove();$("body").find("meta"); });');
+            // $this->app->js(true,'$("body").find("[http-equiv=\"Content-Type\"]").css("border","2px solid red");');
+
         }
 
         $extra_info = json_decode($this->app->epan['extra_info'],true);

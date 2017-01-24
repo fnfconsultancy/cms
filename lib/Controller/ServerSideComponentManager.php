@@ -36,8 +36,8 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 
 		$content = $this->updateBaseHrefForTemplates();
 
-	    $content = str_replace('<!--xEpan-ATK-Header-Start', '', $content);
-	    $content = str_replace('xEpan-ATK-Header-End-->', '', $content);
+	    $content = str_replace('<!--xEpan-ATK-Header-Start', '<!--xEpan-ATK-Header-Start-->', $content);
+	    $content = str_replace('xEpan-ATK-Header-End-->', '<!--xEpan-ATK-Header-End-->', $content);
 		$this->owner->template->loadTemplateFromString($content);
 
 		$this->owner->template->trySet($this->app->page.'_active','active');

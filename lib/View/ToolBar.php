@@ -110,8 +110,10 @@ class View_ToolBar extends \View {
 			->xepanEditor([
 				'base_url'=>$this->api->url()->absolute()->getBaseURL(),
 				'file_path'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->page_object->template->origin_filename):'false',
-				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->template->origin_filename):'false',
-				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1'
+				'template_file'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->template->origin_filename):'false',
+				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->template_file:'false',
+				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1',
+				'template_editing'=> isset($_GET['xepan-template-edit'])
 			])->_selector('.xepan-toolbar');
 		
 		$this->js(true)->insertAfter('body')->_selector('.xepan-tools-options');
