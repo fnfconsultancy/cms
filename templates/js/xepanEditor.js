@@ -9,6 +9,9 @@ jQuery.widget("ui.xepanEditor",{
 		self.setupToolbar();
 		self.setUpShortCuts();
 		self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
+		if(self.options.template_editing){
+			$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
+		}
 	},
 
 	setupToolbar: function(){
@@ -54,9 +57,9 @@ jQuery.widget("ui.xepanEditor",{
 		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
 		$('#epan-component-extra-padding').click(function(event) {
 		    if($('#epan-component-extra-padding:checked').size() > 0){
-		        $('.xepan-component').addClass('epan-sortable-extra-padding');
+		        $('.xepan-sortable-component').addClass('epan-sortable-extra-padding');
 		    }else{
-		        $('.xepan-component').removeClass('epan-sortable-extra-padding');
+		        $('.xepan-sortable-component').removeClass('epan-sortable-extra-padding');
 		    }
 		});
 		
@@ -131,7 +134,9 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	editTemplate : function(){
-		
+		// alert(this.options.template);
+		// alert(this.options.template_file);
+		$.univ().location(document.location.href+'?page='+this.options.template+'&xepan-template-edit='+this.options.template);
 	},
 
 	savePage: function(){
@@ -140,12 +145,14 @@ jQuery.widget("ui.xepanEditor",{
 
 		self= this;
 
+
 		// $('body').trigger('beforeSave');
 	    $('body').triggerHandler('beforeSave');
 	    $('body').univ().errorMessage('Wait.. saving your page !!!');
 
 	    $('.xepan-component').xepanComponent('deselect');
-	    $('.xepan-component-hover-bar').remove();
+	    $('.xepan-component-drag-handler').remove();
+	    $('.xepan-component-remove').remove();
 	    $('.xepan-component').removeClass('xepan-component-hover-selector');
 	    
 
@@ -153,6 +160,14 @@ jQuery.widget("ui.xepanEditor",{
 	    overlay.appendTo(document.body);
 
 	    html_body = $('.xepan-page-wrapper').clone();
+		
+		if(self.options.template_editing){
+		    html_body = $('body').clone();
+		    $(html_body).find("#overlay").remove();
+		    $(html_body).find(".ui-pnotify").remove();
+		    self.options.file_path = self.options.template_file;
+		}
+		
 	    $(html_body).find('.xepan-serverside-component').html("");
 	    $(html_body).find('.xepan-editable-text').attr('contenteditable','false');
 
@@ -180,7 +195,8 @@ jQuery.widget("ui.xepanEditor",{
 	            take_snapshot: save_and_take_snapshot ? 'Y' : 'N',
 	            crc32: html_crc,
 	            length: html_body.length,
-	            file_path: self.options.file_path
+	            file_path: self.options.file_path,
+	            is_template: self.options.template_editing
 	        },
 	    })
 	    .done(function(message) {
@@ -345,6 +361,26 @@ function crc32(str) {
 
     return (crc ^ (-1)) >>> 0;
 };
+
+(function(old) {
+  $.fn.attr = function() {
+    if(arguments.length === 0) {
+      if(this.length === 0) {
+        return null;
+      }
+
+      var obj = {};
+      $.each(this[0].attributes, function() {
+        if(this.specified) {
+          obj[this.name] = this.value;
+        }
+      });
+      return obj;
+    }
+
+    return old.apply(this, arguments);
+  };
+})($.fn.attr);
 
 // $('iframe').load(function(){
 // 	$(this).find('body').css('margin-top','0');

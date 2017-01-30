@@ -47,6 +47,17 @@ class page_admin_save_page extends \Page {
 				$d->html('{$Content}');
 			}
 			$html_content = $dom->html();
+
+			// open existing file load in pq
+			$old_dom = $pq->newDocument(file_get_contents($_POST['file_path']));
+			foreach ($old_dom['body'] as $one_body) {
+				// replace body with coming content 
+				$d=$pq->pq($one_body);
+				$d->html($html_content);	
+			}
+
+			// assign to html_contet
+			$html_content = $old_dom->html();
 			// $this->js()->univ()->errorMessage('Yes its template')->execute();
 		}
 

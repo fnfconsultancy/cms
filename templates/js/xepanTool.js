@@ -8,10 +8,13 @@ jQuery.widget("ui.xepanTool",{
 	setupTool: function(){
 		self = this;
 		$(this.element).disableSelection().draggable({
+			inertia:true,
+			appendTo: 'body',
 			connectToSortable: '.xepan-sortable-component',
-			helper: function(event, ui){
-				return $($(this).xepanTool('getHTML'));
-			},
+			// helper: function(event, ui){
+			// 	return $($(this).xepanTool('getHTML'));
+			// },
+			helper: "clone",
 			start: function(event, ui){
 				origin='toolbox';
 				xepan_drop_component_html = $($(this).xepanTool('getHTML'));

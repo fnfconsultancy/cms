@@ -11,7 +11,7 @@ class View_Tool extends \View{
 
 	public $runatServer=true;
 
-	public $teplateOverridable = true;
+	public $templateOverridable = true;
 	
 
 	function initializeTemplate($template_spot = null, $template_branch = null){
@@ -36,6 +36,20 @@ class View_Tool extends \View{
 		if($this->add_option_helper)
 			$this->add('xepan\cms\Controller_Tool_Optionhelper');
 		return $m;
+	}
+
+	function getTemplate(){
+		return $this->template;
+	}
+
+	function getTemplateFile($options=null){
+		return $this->getTemplate()->origin_filename;
+	}
+
+	function getDefaultTemplate($options=null){
+		if(!$this->templateOverridable) return $this->getTemplateFile($options);
+
+		return $this->getTemplate()->template_file;
 	}
 
 	function getOptionPanel($parent,$spot){

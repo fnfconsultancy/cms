@@ -1,11 +1,6 @@
 {toolBar}
-<div id="{$_name}" aria-expanded="true" class="xepan-toolbar">{$topbar_editor}
-  <div class="xepan-toolbar-group-component">
-    <div class="xepan-toolbar-drag-handler"><i data-toggle="collapse" data-target="#xepan-cms-groups-panel" aria-expanded="true"></i></div>
-    <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in">{$groups}
-    </div>
-  </div>
-</div>
+<div class="xepan-cms-toolbar">{$groups}</div>
+<div id="{$_name}" aria-expanded="true" class="xepan-toolbar">{$topbar_editor}</div>
 <div style="display:none;" class="xepan-tools-options">
   <div class="xepan-tools-options-drag-handler"></div>
   <div class="xepan-tools">
@@ -14,12 +9,10 @@
   </div>
 </div>{/toolBar}
 {group}
-<div class="xepan-cms-group-panel clearfix">
-  <H6 data-toggle="collapse" data-target="#{$_name}" aria-expanded="false" class="collapsed"><span>{$name}</span></H6>
-  <div class="seperator"></div>
-  <div id="{$_name}" aria-expanded="false" class="xepan-cms-tools-bar-panel row-fluid collapse">{$tools}</div>
+<div class="xepan-cms-group-panel">{$name}
+  <div class="xepan-cms-tools-bar-panel">{$tools}</div>
 </div>{/group}
 {tool}
-<div id="{$_name}" style="text-align:center; padding-bottom:10px" class="col-md-4 col-sm-4 col-xs-4 xepan-tool-bar-tool"><img src="vendor/{$namespace}/templates/images/{$name}_icon.png" onerror="this.src='./vendor/xepan/cms/templates/images/default_icon.png'"/>
-  <div>{$name} {$tool_html}</div>
+<div id="{$_name}" style="text-align:center;" class="xepan-tool-bar-tool"><img src="vendor/{$namespace}/templates/images/{$name}_icon.png" onerror="this.src='./vendor/xepan/cms/templates/images/default_icon.png'"/><br/><img src="vendor/xepan/cms/templates/images/tool_shadow.png"/>
+  <div class="xepan-cms-tool-name">{$name} {$tool_html}</div>
 </div>{/tool}

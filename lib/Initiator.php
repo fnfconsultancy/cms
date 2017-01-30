@@ -42,6 +42,18 @@ class Initiator extends \Controller_Addon {
             }
         }
 
+        if($this->app->isEditing){
+            $this->app->template->appendHTML('js_include','<link rel="stylesheet" type="text/css" href="'.$this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan_editor_loader.css" />');
+            $this->app->jui->addStaticInclude($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/js/pace.js');
+            $this->app->js(true,"Pace.on('done',function(){
+                ".(string) $this->app->js()->_selector('.xepan-toolbar,.xepan-cms-toolbar,.epan-editor-top-panel')->show().";
+            });");
+
+            $this->app->js(true,'$("body").on("beforeSave",function(){$("body").find(".pace").remove();$("body").find("meta"); });');
+            // $this->app->js(true,'$("body").find("[http-equiv=\"Content-Type\"]").css("border","2px solid red");');
+
+        }
+
         $extra_info = json_decode($this->app->epan['extra_info'],true);
         $this->app->template->trySet('title',@$extra_info['title']);
 
@@ -73,14 +85,17 @@ class Initiator extends \Controller_Addon {
 
         $auth_layout = null;
         if(($offline_content = $this->isSiteOffline()) && !$this->app->recall('offline_continue',false) ){
-            $this->app->template = $this->app->add('GiTemplate')->loadTemplate('plain');
-            $this->app->page_object=$this->app->add('View',null,'Content');
-            $this->app->add('View')->setHTML($offline_content);
+            if($offline_content['continue_crons'] && $this->app->page == 'xepan_base_cron'){
+            }else{
+                $this->app->template = $this->app->add('GiTemplate')->loadTemplate('plain');
+                $this->app->page_object=$this->app->add('View',null,'Content');
+                $this->app->add('View')->setHTML($offline_content['offline_site_content']);
 
-            $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
-            $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
-            $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
-            $auth_layout = 'xepan\base\Layout_Login';
+                $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
+                $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
+                $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
+                $auth_layout = 'xepan\base\Layout_Login';
+            }
         }
 
 
@@ -101,9 +116,23 @@ class Initiator extends \Controller_Addon {
                 $this->breakHook($f);
             });
 
-            $auth->check();
-            $this->app->memorize('offline_continue',true);
-            $this->app->redirect($this->app->url());
+            if($offline_content['continue_crons'] && $this->app->page == 'xepan_base_cron'){
+            }
+            else{
+                $auth->check();
+                $this->app->memorize('offline_continue',true);
+                $this->app->redirect($this->app->url());
+            }
+        }
+
+        if($this->app->isEditing){
+            $this->app->js(true)
+                ->_load('ace/ace/ace')
+                ->_load('ace/ace/mode-html')
+                ->_load('ace/ace/mode-php')
+                ->_load('ace/ace/mode-css')
+                ->_load('ace/ace/theme-tomorrow')
+                ->_load('ace/jquery-ace.min');
         }
 
         if($_GET['js_redirect_url']){                                    
@@ -142,6 +171,7 @@ class Initiator extends \Controller_Addon {
             'fields'=>[
                         'site_offline'=>'Line',
                         'offline_site_content'=>'xepan\base\RichText',
+                        'continue_crons'=>'Checkbox',
                         ],
                 'config_key'=>'FRONTEND_WEBSITE_STATUS',
                 'application'=>'cms'
@@ -150,7 +180,7 @@ class Initiator extends \Controller_Addon {
         $config_m->tryLoadAny();
 
         if(!$config_m['site_offline']) return false;
-        return $config_m['offline_site_content'];
+        return $config_m;
     }
 
     function resetDB(){
