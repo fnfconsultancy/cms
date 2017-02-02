@@ -70,6 +70,9 @@ class page_overridetemplate extends \Page {
 		$class = new \ReflectionClass($tool);
 
 		$original_file = getcwd(). '/vendor/'.str_replace("\\", "/", $class->getNamespaceName()).'/templates/'.$tool->getDefaultTemplate().'.html';
+		
+		if(!file_exists($original_file)) $original_file = $override_path;
+
 		$original_tab->add('View')->set(file_get_contents($original_file));
 
 
