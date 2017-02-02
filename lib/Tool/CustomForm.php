@@ -108,4 +108,11 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			$form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
 		}
 	}
+
+	function getTemplate(){
+		if($this->options['template'])
+			return $this->form->layout->template;
+		return $this->form->template;
+	}
+
 }
