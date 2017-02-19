@@ -74,37 +74,38 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			$model_submission['custom_form_id'] = $this->options['customformid'];
 			$model_submission->save();
 
-			$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
-			$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
+			if($customform_model['emailsetting_id']){
+				$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
+				$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
 
-			$communication->setfrom($email_settings['from_email'],$email_settings['from_name']);
-			$communication->addTo($customform_model['recipient_email']);
-			$communication->setSubject('You have a new enquiry');
-			$communication->setBody($model_submission['value']);
-			$communication->send($email_settings);
+				$communication->setfrom($email_settings['from_email'],$email_settings['from_name']);
+				$communication->addTo($customform_model['recipient_email']);
+				$communication->setSubject('You have a new enquiry');
+				$communication->setBody($model_submission['value']);
+				$communication->send($email_settings);
 
-			if($customform_model['auto_reply']){
-				$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);	
-				$communication1 = $this->add('xepan\communication\Model_Communication_Email_Sent');
-				$to_array = [];
-				foreach ($customform_field_model as $field) {
-					if( !($field['type'] == "email" and $field['auto_reply']))
-						continue;
+				if($customform_model['auto_reply']){
+					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);	
+					$communication1 = $this->add('xepan\communication\Model_Communication_Email_Sent');
+					$to_array = [];
+					foreach ($customform_field_model as $field) {
+						if( !($field['type'] == "email" and $field['auto_reply']))
+							continue;
 
-					$to_array[] = $this->form[$field['name']];
+						$to_array[] = $this->form[$field['name']];
+					}
+
+					
+					foreach ($to_array as $email) {
+						$communication1->setfrom($email_settings['from_email'],$email_settings['from_name']);
+						$communication1->addTo($email);
+						$communication1->setSubject($customform_model['email_subject']);
+						$communication1->setBody($customform_model['message_body']);
+						$communication1->send($email_settings);					
+					}
+
 				}
-
-				
-				foreach ($to_array as $email) {
-					$communication1->setfrom($email_settings['from_email'],$email_settings['from_name']);
-					$communication1->addTo($email);
-					$communication1->setSubject($customform_model['email_subject']);
-					$communication1->setBody($customform_model['message_body']);
-					$communication1->send($email_settings);					
-				}
-
 			}
-			
 			$form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
 		}
 	}
