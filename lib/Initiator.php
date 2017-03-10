@@ -15,10 +15,12 @@ class Initiator extends \Controller_Addon {
         }
         $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
         // $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
+        $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
         $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
         $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
         $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
         $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
+        
         return $this;
     }
 
@@ -161,6 +163,7 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Image');
         $this->app->exportFrontEndTool('xepan\cms\Tool_CustomForm');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Carousel');
 
         return $this;
     }

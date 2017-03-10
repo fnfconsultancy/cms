@@ -1,0 +1,72 @@
+.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/webwidgets/Tool_Carousel')
+	.xepan-cms-group-panel.clearfix
+		h3.collapsed(data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false")
+			span Carousel
+		#collapse-testimonials.xepan-cms-tools-bar-panel.row-fluid.collapse
+			.panel-body
+				.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+				.xepan-cms-group-panel.clearfix
+					div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#show-hide-carousel-option" aria-expanded="false")
+						span Options 
+				#show-hide-carousel-option.xepan-cms-tools-bar-panel.row-fluid.collapse
+					table.table.table-condensed.table-hover
+						tr.show-text
+							.xepan-tool-option
+								td.xepan-tool-option-title Show Text
+								td.xepan-tool-option-value 
+									input#show_text(data-attr='show_text')
+						tr.category
+							.xepan-tool-option
+								td.xepan-tool-option-value(colspan="2")
+									select.chosen-select.option-category(id="{$_name}_dropdown" style="width:350px;" data-attr='carousel_category')
+script.
+	$.ajax({
+		url: 'index.php?page=xepan_cms_getcategory',
+		type: 'GET',
+		data: { },
+		success: function ( data ){
+			$('\#{$_name}_dropdown').html(data);
+			
+			$('\#{$_name}_dropdown').chosen();
+			$('\#{$_name}_dropdown').chosen({allow_single_deselect: true });
+		}
+	});
+
+	$('\#{$_name} [data-attr]').on('change',function(){
+		$(current_selected_component).attr($(this).data('attr'),$(this).val());
+	});
+
+	$('\#{$_name}').on('show',function(event){
+		$('\#{$_name} [data-attr]').each(function(index,value){
+			$(this).val($(current_selected_component).attr($(this).data('attr')));				
+		});
+
+		//- chosen multiselect options
+		if(typeof $(current_selected_component).attr('carousel_category') === 'undefined' ){
+			$("\#{$_name}_dropdown").val("\{\}").trigger("chosen:updated");
+		}else{
+			var str = $(current_selected_component).attr('carousel_category');
+			$("\#{$_name}_dropdown").val(str.split(',')).trigger("chosen:updated");
+		}
+	})
+
+	$(document).ready(function(){
+	    $('#template_type').on('change', function() {
+	      if (this.value == 'corusel')
+	      {
+	        $(".add-paginator").hide();
+	        $(".column-width").hide();
+	        $(".paginator-limit").hide();
+	      }
+	      else if(this.value == 'grid')
+	      {
+	        $(".column-width").hide();
+	      }
+		  else{
+			$(".add-paginator").show();
+			$(".column-width").show();
+			$(".paginator-limit").show();
+	  	  }
+
+	    });
+	});
