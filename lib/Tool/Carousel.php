@@ -12,11 +12,11 @@ class Tool_Carousel extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
-		// if(!$this->options['category'])
-		// 	return;
+		if(!$this->options['category'])
+			return;
 
 		$image_m = $this->add('xepan\cms\Model_CarouselImage');
-		// $image_m->addCondition('carousel_category_id',$this->options['category']);
+		$image_m->addCondition('carousel_category_id',$this->options['category']);
 		$image_m->setOrder('order','asc');
 
 		$carousel_cl = $this->add('CompleteLister',null,null,['view\tool\cmscarousel']);

@@ -9,7 +9,7 @@ class page_getcategory extends \Page{
 		$c = $this->add('xepan\cms\Model_CarouselCategory');
 
 		$rows = $c->getRows(['id','name']);
-		$option = "";
+		$option = "<option value='0'>Please Select </option>";
 		foreach ($rows as $row) {
 			$option .= "<option value='".$row['id']."'>".$row['name']."</option>";
 		}
