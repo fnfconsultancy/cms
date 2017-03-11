@@ -18,6 +18,10 @@ class page_carousel extends \xepan\base\Page{
 
         $image_m = $image->add('xepan\cms\Model_CarouselImage');
         $image_c = $image->add('xepan\hr\CRUD',null,null,['grid\carouselimage']);
-        $image_c->setModel($image_m,['title','text_to_display','alt_text','order','link','carousel_category_id','file_id'],['title','text_to_display','alt_text','order','link','status','file']);
+        $image_c->setModel($image_m,['title','text_to_display','alt_text','order','link','carousel_category_id','file_id'],['title','text_to_display','alt_text','order','link','status','file','carousel_category']);
+    
+        $image_c->grid->addHook('formatRow',function($g){
+            $g->current_row_html['text_to_display'] = $g->model['text_to_display']; 
+        });
     }
 }

@@ -8,6 +8,13 @@ class page_customform extends \xepan\base\Page {
 	function init(){
 		parent::init();
 		$model_cust_form = $this->add('xepan\cms\Model_Custom_Form');
+
+		$model_cust_form->addExpression('total_enquiry')->set(function($m,$q){
+			return $this->add('xepan\cms\Model_Custom_FormSubmission')
+					    ->addCondition('custom_form_id',$m->getElement('id'))
+					    ->count();
+		});
+
 		$crud=$this->add('xepan\hr\CRUD',null,null,['view/cust-form/grid']);
 
 		$crud->setModel($model_cust_form);

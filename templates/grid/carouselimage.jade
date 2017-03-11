@@ -19,11 +19,11 @@
                 th
                     span Text To Display
                 th
-                    span Alt Text
-                th
                     span Order
                 th
                     span Link
+                th
+                    span Category
                 th 
                 {/}{/}
             {/}
@@ -38,13 +38,13 @@
                     td 
                       span {$title}
                     td
-                      span {$text_to_display}
+                      span {$text_to_display} 
                     td
-                      span Alt Text  
+                      span {$order}  
                     td
-                      span Order  
+                      span {$link}  
                     td
-                      span Link  
+                      span {$carousel_category}  
                     td
                         {$action}
                     td(style="width: 15%;")
