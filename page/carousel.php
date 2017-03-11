@@ -14,8 +14,10 @@ class page_carousel extends \xepan\base\Page{
     }
 
     function page_Images(){        
+        $category_id = $this->app->stickyGET('carouselcategory_id');
+
         $image_m = $this->add('xepan\cms\Model_CarouselImage');
-        $image_m->addCondition('carousel_category_id',$_GET['carouselcategory_id']);
+        $image_m->addCondition('carousel_category_id',$category_id);
 
         $image_c = $this->add('xepan\hr\CRUD',null,null,['grid\carouselimage']);
         $image_c->setModel($image_m,['file_id','title','text_to_display','alt_text','order','link','carousel_category_id'],['file','title','text_to_display','alt_text','order','link','status']);
