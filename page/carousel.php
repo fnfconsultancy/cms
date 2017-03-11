@@ -5,20 +5,20 @@ namespace xepan\cms;
 class page_carousel extends \xepan\base\Page{
 	public $title = "Carousel";
 
-	function init(){
-	    parent::init();
-
-    	$tabs = $this->add('Tabs');
-        $category = $tabs->addTab('Carousel Category');
-        $image = $tabs->addTab('Carousel Image');
-
-        $category_m = $category->add('xepan\cms\Model_CarouselCategory');
-        $category_c = $category->add('xepan\hr\CRUD',null,null,['grid\carouselcategory']);
+	function page_index(){
+        $category_m = $this->add('xepan\cms\Model_CarouselCategory');
+        $category_c = $this->add('xepan\hr\CRUD',null,null,['grid\carouselcategory']);
         $category_c->setModel($category_m,['name'],['name','status']);
 
-        $image_m = $image->add('xepan\cms\Model_CarouselImage');
-        $image_c = $image->add('xepan\hr\CRUD',null,null,['grid\carouselimage']);
-        $image_c->setModel($image_m,['title','text_to_display','alt_text','order','link','carousel_category_id','file_id'],['title','text_to_display','alt_text','order','link','status','file','carousel_category']);
+        $category_c->grid->addColumn('expander','Images');
+    }
+
+    function page_Images(){        
+        $image_m = $this->add('xepan\cms\Model_CarouselImage');
+        $image_m->addCondition('carousel_category_id',$_GET['carouselcategory_id']);
+
+        $image_c = $this->add('xepan\hr\CRUD',null,null,['grid\carouselimage']);
+        $image_c->setModel($image_m,['file_id','title','text_to_display','alt_text','order','link','carousel_category_id'],['file','title','text_to_display','alt_text','order','link','status']);
     
         $image_c->grid->addHook('formatRow',function($g){
             $g->current_row_html['text_to_display'] = $g->model['text_to_display']; 

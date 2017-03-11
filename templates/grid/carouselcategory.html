@@ -10,12 +10,14 @@
     <table style="width:100%" class="table user-list table-hover footable toggle-circle-filled">{header}
       <thead class="xepan-hover-hand">{cols}{col}
         <th><span>Category</span></th>
+        <th><span> </span></th>
         <th> </th>{/}{/}
       </thead>{/}
       {$subheader}
       <tbody>{rows}{row}
         <tr data-id="{$id}" class="{$odd_even}">{cols}  
           <td><span>{$name}</span></td>
+          <td><span>{$Images}  </span></td>
           <td>{$action}</td>
           <td style="width: 15%;">
             {$edit}
