@@ -60,14 +60,22 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 		$custom_form_sub_m = $p->add('xepan\cms\Model_Custom_FormSubmission');		
 		$custom_form_sub_m->addCondition('custom_form_id',$this->id);
 
-		$grid = $p->add('Grid');
-		$grid->setModel($custom_form_sub_m,['value']);
+		$grid = $p->add('xepan\hr\Grid');
+		$grid->setModel($custom_form_sub_m,['value','created_at'])->setOrder('created_at','desc');
+		
+		$grid->addPaginator(10);
 
-		// $make_lead = $grid->addColumn('button','Convert');
-		$grid->add('VirtualPage')
-			->addColumn('Convert')
-			->set(function($page){
-			$page->add('xepan/marketing/page_leaddetails');
+		$grid->addHook('formatRow',function($g){
+			$array = json_decode($g->model['value'],true);
+			$g->current_row_html['value'] = implode("<br/>",
+										array_map(
+											    function($k, $v) {
+											        return "$k : $v";
+											    }, 
+											    array_keys($array), 
+											      $array
+										)
+									);
 		});
 	}
 }
