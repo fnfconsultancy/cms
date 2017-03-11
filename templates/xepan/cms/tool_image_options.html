@@ -27,6 +27,15 @@
             <input id="xepan-image-link" type="text" placeholder=""/>
           </td>
         </tr>
+        <tr>
+          <td>Target</td>
+          <td colspan="2">
+            <select id="xepan-image-link-target">
+              <option value="none">None</option>
+              <option value="_blank">New Window</option>
+            </select>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -46,11 +55,28 @@
   $(current_selected_component).find('img').attr('data-extra-classes',$(this).val());
   $(current_selected_component).find('img').addClass($(this).val());
   });
+
+  // link change event
   $('#xepan-image-link').change(function(event) {
   $(current_selected_component).attr('xepan-image-link',$(this).val());
-  $(current_selected_component).find('a').attr('href',$(this).val());
-  $(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
+  if($(this).val()){
+    inner_html = $(current_selected_component).html();
+    $(current_selected_component).html(" ");
+    $(current_selected_component).append('<a href="'+$(this).val()+'" target="'+$('#xepan-image-link-target').val()+'">'+inner_html+'</a>');
+  }else{
+    img = $(current_selected_component).find('img');
+    inner_html = $(img)[0];
+    $(current_selected_component).html(" ");
+    $(current_selected_component).append(inner_html);
+  }
+  // $(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
   });
+  
+  // target change event
+  $('#xepan-image-link-target').change(function(event) {
+    $(current_selected_component).find('a').attr('target',$(this).val());
+  });
+
   $('#xepan-image-option-select').click(function(event) {
   var fm = $('<div/>').dialogelfinder({
   url : '?page=xepan_base_elconnector',
