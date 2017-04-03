@@ -144,10 +144,14 @@ jQuery.widget("ui.xepanEditor",{
 		// console.log(this.options.file_path);
 
 		self= this;
-
-
+		
 		// $('body').trigger('beforeSave');
-	    $('body').triggerHandler('beforeSave');
+		try{
+	    	$('body').triggerHandler('beforeSave');
+		}catch(err){
+			console.log(err);
+		}
+
 	    $('body').univ().errorMessage('Wait.. saving your page !!!');
 
 	    $('.xepan-component').xepanComponent('deselect');

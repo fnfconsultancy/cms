@@ -1,5 +1,8 @@
 jQuery.widget("ui.xepanComponent",{
 	self: undefined,
+	options:{
+		editing_template:0
+	},
 
 	_create: function(){
 		self=this;
@@ -19,7 +22,16 @@ jQuery.widget("ui.xepanComponent",{
 			$(this.element).xepanComponent('createTextEditable');
 		}
 		
-		if(!$(this.element).hasClass('xepan-page-wrapper')){
+		var enable_hover = true;
+
+		if($(this.element).is('body')){
+			enable_hover = false;
+		}else if($(this.element).hasClass('.xepan-page-wrapper') && !this.options.editing_template ){
+			enable_hover = false;
+		}
+
+		if(enable_hover){
+
 			$(this.element).hover(
 				// on hover
 				function(event,ui){
