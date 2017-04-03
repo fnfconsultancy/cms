@@ -119,7 +119,13 @@ class View_ToolBar extends \View {
 		$this->js(true)->insertAfter('body')->_selector('.xepan-tools-options');
 		$this->js(true)->insertAfter('body')->_selector('.xepan-cms-toolbar');
 		$this->js(true)->insertAfter('body')->_selector('.epan-editor-top-panel');
-		$this->js(true)->xepanComponent()->_selector('body .xepan-component');
+	
+		if($this->app->editing_template){
+			$this->js(true)->_selector('body')->addClass('xepan-component xepan-sortable-component');
+			$this->js(true)->xepanComponent(['editing_template'=>$this->app->editing_template])->_selector('body.xepan-component, body .xepan-component');
+			$this->js(true)->_selector('.xepan-page-wrapper')->removeClass('xepan-component xepan-sortable-component');
+		}else
+			$this->js(true)->xepanComponent()->_selector('body .xepan-component');
 		// $this->js(true)->resizable()->_selector('.xepan-toolbar');
 		
 	}

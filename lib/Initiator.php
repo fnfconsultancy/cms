@@ -162,7 +162,9 @@ class Initiator extends \Controller_Addon {
         $this->app->template->trySet('meta_keywords',@implode("\n",$old_meta_keywords[1]));
         $this->app->template->trySet('meta_description',@implode("\n",$old_meta_description[1]));
 
-
+        if($this->app->editing_template)
+            $this->app->exportFrontEndTool('xepan\cms\Tool_TemplateContentRegion');
+            
         $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
