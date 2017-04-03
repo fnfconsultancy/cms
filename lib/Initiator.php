@@ -16,6 +16,7 @@ class Initiator extends \Controller_Addon {
         $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
         // $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
         $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
+        $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_templateandpage');
         $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
         $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
         $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
@@ -162,7 +163,7 @@ class Initiator extends \Controller_Addon {
         $this->app->template->trySet('meta_keywords',@implode("\n",$old_meta_keywords[1]));
         $this->app->template->trySet('meta_description',@implode("\n",$old_meta_description[1]));
 
-        if($this->app->editing_template)
+        if(isset($this->app->editing_template))
             $this->app->exportFrontEndTool('xepan\cms\Tool_TemplateContentRegion');
             
         $this->app->exportFrontEndTool('xepan\cms\Tool_Text');

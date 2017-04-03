@@ -16,7 +16,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 	public $acl_type = 'Webpage';
 
 	function init(){
-		parent::init();		
+		parent::init();
 
 		$this->hasOne('xepan\cms\Template','template_id');
 
@@ -24,6 +24,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->addField('path')->hint('folder_1/folder_2/template_name.html');
 		$this->addField('is_template')->type('boolean');
 		$this->addField('is_muted')->type('boolean')->hint('for show or hide on menu');
+		$this->addField('is_active')->type('boolean')->defaultValue(1);
 
 		$this->hasMany('xepan\cms\Webpage','template_id',null,'Pages');
 
