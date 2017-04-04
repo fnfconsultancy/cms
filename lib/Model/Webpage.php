@@ -47,6 +47,8 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		else
 			$old_webpage->addCondition([['is_template',0],['is_template',null]]);
 
+		$old_webpage->addCondition('id','<>', $this->id);
+		
 		$old_webpage->tryLoadAny();
 		if($old_webpage->loaded()){
 			throw $this->exception('file already exist on this path, change the path','ValidityCheck')->setField('path');

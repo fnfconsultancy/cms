@@ -17,6 +17,10 @@ class Model_Page extends \xepan\cms\Model_Webpage{
 	function init(){
 		parent::init();
 
+		$this->addExpression('template_path')->set(function($m,$q){
+			return $m->refSQL('template_id')->fieldQuery('path');
+		});
+
 		$this->addCondition('is_template',false);
 	}
 }
