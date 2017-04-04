@@ -146,7 +146,7 @@ jQuery.widget("ui.xepanComponent",{
 	    },
 	    stop: function(event, ui) {
 
-	    	if(typeof origin == undefined || origin == 'toolbox'){
+	    	if(typeof origin === undefined || origin == 'toolbox'){
 	    		// Find sub components if any and make components
 	    		$new_component = $(xepan_drop_component_html).xepanComponent();
 				$($new_component).find('.xepan-component').xepanComponent();

@@ -3,15 +3,105 @@ origin : 'page';
 xepan_drop_component_html: '';
 
 jQuery.widget("ui.xepanEditor",{
-	
+	options:{
+		base_url:undefined,
+		file_path:undefined,
+		template_file:undefined,
+		template:undefined,
+		save_url:undefined,
+		template_editing:undefined,
+		tools:{}
+	},
+
+	topbar:{},
+	leftbar:{},
+	rightbar:{},
+
 	_create: function(){
 		self = this;
-		self.setupToolbar();
-		self.setUpShortCuts();
-		self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
-		if(self.options.template_editing){
-			$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
-		}
+
+		self.setupEnvironment();
+		self.setupTools();
+		// self.setupToolbar();
+		// self.setUpShortCuts();
+		// self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
+		// if(self.options.template_editing){
+		// 	$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
+		// }
+	},
+
+	setupEnvironment: function(){
+		self = this;
+
+		// right bar
+		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="container sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
+		// right bar content
+		$('<h2>Options Panel</h2>').appendTo(self.rightbar);
+		
+		self.rightbar_toggle_btn = $('<div class="toggler"><span class="glyphicon glyphicon-chevron-right" style="display: block;">&nbsp;</span> <span class="glyphicon glyphicon-chevron-left" style="display: none;">&nbsp;</span></div>').appendTo(self.rightbar);
+		$(self.rightbar_toggle_btn).click(function(){
+			$('#xepan-cms-toolbar-right-side-panel').toggleClass('toggleSideBar');
+		});
+
+
+		// left bar
+		self.leftbar = $('<div id="xepan-cms-toolbar-left-side-panel" class="container sidebar sidebar-left" style="left: -230px;" data-status="opened"></div>').insertAfter('body');
+		// right bar content
+		$('<h2>Tool Bar</h2>').appendTo(self.leftbar);
+		
+		self.leftbar_toggle_btn = $('<div class="toggler"><span class="glyphicon glyphicon-chevron-right" style="display: block;">&nbsp;</span> <span class="glyphicon glyphicon-chevron-left" style="display: none;">&nbsp;</span></div>').appendTo(self.leftbar);
+		$(self.leftbar_toggle_btn).click(function(){
+			$('#xepan-cms-toolbar-left-side-panel').toggleClass('toggleSideBar');
+		});
+		
+		// top bar
+		self.topbar = $('<div id="xepan-cms-toolbar-top-side-panel" class="container sidebar sidebar-top" style="top:-50px;" data-status="opened"></div>').insertAfter('body');
+		// top bar content
+		$('<h2>Top Bar</h2>').appendTo(self.topbar);
+		self.topbar_toggle_btn = $('<div class="toggler"><span class="glyphicon glyphicon-chevron-down" style="display: block;">&nbsp;</span> <span class="glyphicon glyphicon-chevron-up" style="display: none;">&nbsp;</span></div>').appendTo(self.topbar);
+		$(self.topbar_toggle_btn).click(function(){
+			$('#xepan-cms-toolbar-top-side-panel').toggleClass('toggleSideBar');
+		});
+	},
+
+	setupTools: function(){
+		var self = this;
+
+		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(self.leftbar);
+		var option = '<option value="0">select </option>';
+		$.each(self.options.tools,function(app_name,tools){
+			option += '<option value="'+app_name+'">'+app_name+'</option>';			
+			
+			var app_tool_wrapper = $('<div class="xepan-cms-toolbar-tool '+app_name+'">').appendTo(self.leftbar);
+			var tools_html = "";
+			$.each(tools,function(tool_name_with_namespace,tool_data){
+				$('<div class="xepan-cms-tool"><img src="'+tool_data.icon_img+'"/><p>'+tool_data.name+'</p></div>')
+					.appendTo(app_tool_wrapper)
+					.disableSelection()
+					.draggable({
+						inertia:true,
+						appendTo:'body',
+						connectToSortable:'.xepan-sortable-component',
+						helper:'clone',
+						start: function(event,ui){
+							origin:'toolbox',
+							xepan_drop_component_html= tool_data.drag_html
+						},
+						revert: 'invalid',
+						tolerance: 'pointer'
+					})
+					;
+			});
+
+			$(app_tool_wrapper).hide();
+		});
+		$(option).appendTo(apps_dropdown);
+
+		$(apps_dropdown).change(function(){
+			selected_app = $(this).val();
+			$('.xepan-cms-toolbar-tool').hide();
+			$('.xepan-cms-toolbar-tool.'+selected_app).show();
+		});
 	},
 
 	setupToolbar: function(){

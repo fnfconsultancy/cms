@@ -5,7 +5,79 @@ namespace xepan\cms;
 
 
 class View_ToolBar extends \View {
+
 	function init(){
+		parent::init();
+		
+        $this->app->jui->addStylesheet('elfinder.full');
+        $this->app->jui->addStylesheet('elfindertheme');
+        $this->app->jui->addStylesheet('xepan-editing');
+
+
+		$this->app->jui->addStaticInclude('elfinder.full');
+		$this->js(true)
+				->_load('tinymce.min')
+				->_load('jquery.tinymce.min')
+				->_load('xepan-richtext-admin')
+				->_load('shortcut')
+				// ->_load('xepanEditor')
+				// ->_load('xepanComponent')
+				->_load('jquery.livequery')
+				;
+		$this->app->jui->addStaticInclude('xepanEditor');
+		$this->app->jui->addStaticInclude('xepanComponent');
+
+		$tools = $this->app->getFrontEndTools();
+
+		$view = $this->add('AbstractController');
+
+		$tools_array = [];
+		//tools_array
+		foreach (array_keys($tools) as $group) {
+			$tools_array[$group] = [];
+
+			foreach ($tools[$group] as $key => $tool) {
+
+				$t_v = $view->add($tool);
+				$t_v->getOptionPanel($view,null);
+
+				$tool_arr = explode("\\", $tool);
+				$tool_name = array_pop($tool_arr);
+				$tool_name = str_replace("Tool_", '', $tool_name);
+
+				$drop_html = $t_v->runatServer ? '<div class="xepan-component xepan-serverside-component" xepan-component-name="'.$tool_name.'" xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>': $t_v->getHTML();
+				$tools_array[$group][$tool] = [
+											'name'=>$tool_name,
+											'drop_html'=>$drop_html,
+											'icon_img'=>'./vendor/xepan/cms/templates/images/default_icon.png'
+										];
+
+			}
+		}
+
+		$this->js(true)
+			// ->_load('xepanComponent')
+			->_load('xepanEditor')
+			->xepanEditor([
+				'base_url'=>$this->api->url()->absolute()->getBaseURL(),
+				'file_path'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->page_object->template->origin_filename):'false',
+				'template_file'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->template->origin_filename):'false',
+				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->template_file:'false',
+				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1',
+				'template_editing'=> isset($this->app->editing_template),
+				'tools'=>$tools_array
+			]);
+
+		// $this->template->del('temp_tool_options');
+			if($this->app->editing_template){
+				$this->js(true)->_selector('body')->addClass('xepan-component xepan-sortable-component');
+				$this->js(true)->xepanComponent(['editing_template'=>$this->app->editing_template])->_selector('body.xepan-component, body .xepan-component');
+				$this->js(true)->_selector('.xepan-page-wrapper')->removeClass('xepan-component xepan-sortable-component');
+			}else
+				$this->js(true)->xepanComponent()->_selector('body .xepan-component');
+	}
+
+	function initold(){
 		parent::init();
 
 		$this->js(true)
@@ -22,8 +94,8 @@ class View_ToolBar extends \View {
   //       $this->js(true)->_css('elfinder.full');
         // $this->js(true)->_css('elfindertheme');
 
-        $this->js(true)->_css('jquery-ui');
-        $this->js(true)->_css('font-awesome');
+        // $this->js(true)->_css('jquery-ui');
+        // $this->js(true)->_css('font-awesome');
 
 		//load style css
 		$this->app->jui->addStaticStyleSheet($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan-editing.css');
