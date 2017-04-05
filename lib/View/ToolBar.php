@@ -44,12 +44,13 @@ class View_ToolBar extends \View {
 				$tool_arr = explode("\\", $tool);
 				$tool_name = array_pop($tool_arr);
 				$tool_name = str_replace("Tool_", '', $tool_name);
+				$tool_namespace = implode("/", $tool_arr);
 
 				$drop_html = $t_v->runatServer ? '<div class="xepan-component xepan-serverside-component" xepan-component-name="'.$tool_name.'" xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>': $t_v->getHTML();
 				$tools_array[$group][$tool] = [
 											'name'=>$tool_name,
 											'drop_html'=>$drop_html,
-											'icon_img'=>'./vendor/xepan/cms/templates/images/default_icon.png'
+											'icon_img'=>'./vendor/'.$tool_namespace.'/templates/images/'.$tool_name.'_icon.png'
 										];
 
 			}
