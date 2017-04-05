@@ -53,7 +53,7 @@ jQuery.widget("ui.xepanEditor",{
 		});
 		
 		// top bar
-		self.topbar = $('<div id="xepan-cms-toolbar-top-side-panel" class="container sidebar sidebar-top" style="top:-50px;" data-status="opened"></div>').insertAfter('body');
+		self.topbar = $('<div id="xepan-cms-toolbar-top-side-panel" class="container sidebar sidebar-top toggleSideBar" style="top:-50px;" data-status="opened"></div>').insertAfter('body');
 		// top bar content
 		$('<h2>Top Bar</h2>').appendTo(self.topbar);
 		self.topbar_toggle_btn = $('<div class="toggler"><span class="glyphicon glyphicon-chevron-down" style="display: block;">&nbsp;</span> <span class="glyphicon glyphicon-chevron-up" style="display: none;">&nbsp;</span></div>').appendTo(self.topbar);

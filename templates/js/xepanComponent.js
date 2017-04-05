@@ -32,69 +32,52 @@ jQuery.widget("ui.xepanComponent",{
 		}
 
 		if(enable_hover){
-			$(this.element).click(function(event,ui){
-				$('.xepan-component-hover-selector').removeClass('.xepan-component-hover-selector');
-				$('.xepan-component-hoverbar').remove();
+			$(this.element).hover(
 
-				$(this).addClass('xepan-component-hover-selector');
-				var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(this));
-				var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
-				var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
-				
-				$(remove_btn).click(function(){
-					$('<div></div>')
-						.appendTo('body')
-						.html('<div><h6>Are you sure ?</h6></div>')
-						.dialog({
-							modal: true, 
-							title: 'message', 
-							autoOpen: true,
-							resizable: false,
-							dialogClass:'xepan-component-remove-confirm',
-							buttons: {
-						    	Yes: function () {
-									$(self.element).closest('.xepan-component').xepanComponent('remove');
-						            $(this).dialog("close");
-						          },
-						        No: function () {
-						            $(this).dialog("close");
-						          }
-						      },
-						      close: function (event, ui) {
-						          $(this).remove();
-						      }
+				function(event,ui){
+					$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+					$('.xepan-component-hoverbar').remove();
+
+					$(this).addClass('xepan-component-hover-selector');
+					var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(this));				
+					var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
+					var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
+					
+					$(remove_btn).click(function(){
+						$('<div></div>')
+							.appendTo('body')
+							.html('<div><h6>Are you sure ?</h6></div>')
+							.dialog({
+								modal: true, 
+								title: 'message', 
+								autoOpen: true,
+								resizable: false,
+								dialogClass:'xepan-component-remove-confirm',
+								buttons: {
+							    	Yes: function () {
+										$(self.element).closest('.xepan-component').xepanComponent('remove');
+							            $(this).dialog("close");
+							          },
+							        No: function () {
+							            $(this).dialog("close");
+							          }
+							      },
+							      close: function (event, ui) {
+							          $(this).remove();
+							      }
+							});
 						});
-				});
 				
 				event.stopPropagation();
-			});
+			},
 
-			// $(this.element).hover(
-			// 	// on hover
-			// 	function(event,ui){
+				function(event,ui){
+					$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+					$('.xepan-component-hoverbar').remove();
+					event.stopPropagation();
+				}
+			);
 
-			// 		$(this).addClass('xepan-component-hover-selector');
-			// 		var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(this));
-			// 		var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
-			// 		var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
-			// 		// if(!$(this).hasClass('xepan-disable-move')){
-			// 		// 	var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
-			// 		// }
-			// 		// if(!$(this).hasClass('xepan-disable-remove')){
-			// 		// 	remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash "></i></div>').appendTo($(this));
-			// 		// 	$(remove_btn).click(function(event,ui){
-			// 		// 		$(this).closest('.xepan-component').xepanComponent('remove');
-			// 		// 	});
-			// 		// }
-			// 		event.stopPropagation();				
-			// 	},
-			// 	//remove hover
-			// 	function(event,ui){
-			// 		$(this).removeClass('xepan-component-hover-selector');
-			// 		$(this).find('.xepan-component-hoverbar').remove();
-			// 		event.stopPropagation();				
-			// 	}
-			// );
 		}else{
 			$(this.element).css('min-height','200px');
 		}
