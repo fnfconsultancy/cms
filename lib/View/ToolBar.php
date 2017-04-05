@@ -55,6 +55,16 @@ class View_ToolBar extends \View {
 			}
 		}
 
+		$component_selector="body .xepan-component";
+		$editing_template = null;
+
+		if($this->app->editing_template){
+			$editing_template = $this->app->editing_template;
+			$component_selector="body.xepan-component, body .xepan-component";
+			$this->js(true)->_selector('body')->addClass('xepan-component xepan-sortable-component');
+			$this->js(true)->_selector('.xepan-page-wrapper')->removeClass('xepan-component xepan-sortable-component');
+		}
+
 		$this->js(true)
 			// ->_load('xepanComponent')
 			->_load('xepanEditor')
@@ -68,13 +78,7 @@ class View_ToolBar extends \View {
 				'tools'=>$tools_array
 			]);
 
-		// $this->template->del('temp_tool_options');
-			if($this->app->editing_template){
-				$this->js(true)->_selector('body')->addClass('xepan-component xepan-sortable-component');
-				$this->js(true)->xepanComponent(['editing_template'=>$this->app->editing_template])->_selector('body.xepan-component, body .xepan-component');
-				$this->js(true)->_selector('.xepan-page-wrapper')->removeClass('xepan-component xepan-sortable-component');
-			}else
-				$this->js(true)->xepanComponent()->_selector('body .xepan-component');
+		$this->js(true)->xepanComponent(['editing_template'=>$editing_template,'component_selector'=>$component_selector])->_selector($component_selector);
 	}
 
 	function initold(){

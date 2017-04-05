@@ -1,7 +1,8 @@
 jQuery.widget("ui.xepanComponent",{
 	self: undefined,
 	options:{
-		editing_template:0
+		editing_template:0,
+		component_selector:null
 	},
 
 	_create: function(){
@@ -73,7 +74,7 @@ jQuery.widget("ui.xepanComponent",{
 
 		$(this.element).dblclick(function(event,ui){
 			event.stopPropagation();
-			$('.xepan-component').xepanComponent('deselect');
+			$(self.options.component_selector).xepanComponent('deselect');
 			$(this).xepanComponent('select');
 		});
 	},
@@ -146,7 +147,7 @@ jQuery.widget("ui.xepanComponent",{
 	    },
 	    stop: function(event, ui) {
 
-	    	if(typeof origin === undefined || origin == 'toolbox'){
+	    	if(typeof origin == 'undefined' || origin == 'toolbox'){
 	    		// Find sub components if any and make components
 	    		$new_component = $(xepan_drop_component_html).xepanComponent();
 				$($new_component).find('.xepan-component').xepanComponent();
@@ -167,7 +168,7 @@ jQuery.widget("ui.xepanComponent",{
 			    }
 			    
 	    	}
-	    	console.log(origin);
+	    	// console.log(origin);
 		    origin='page';
 	    }
 	},
