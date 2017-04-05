@@ -263,3 +263,58 @@
     background-color: #f3f3f3;
     border: 1px solid gray;
 }
+
+.xepan-component{
+    border: 1px solid #f3f3f3;
+}
+
+/*hover bar css*/
+.xepan-component-hover-selector{
+    margin-left: 40px;
+    min-height: 70px;
+    transition: 0.3s;
+}
+
+.xepan-component-hoverbar{
+    color: rgba(200, 200, 200, 0.8);
+    font-size: 15px;
+    position: absolute;
+    top: 0;
+    width: 30px;
+    z-index: 2;
+    left:-35px;
+}
+
+.ui-dialog.xepan-component-remove-confirm{
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+.ui-dialog.xepan-component-remove-confirm .ui-dialog-titlebar{
+    background:white !important;
+    border:0px !important;
+}
+
+
+.xepan-component-hoverbar > div{
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+    font-size: 15px;
+}
+
+.xepan-component-drag-handler{
+    background: rgb(175, 206, 1) none repeat scroll 0 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: move;
+}
+
+.xepan-component-remove{
+    background: rgb(247, 99, 46) none repeat scroll 0 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+}
+
+/*end hover bar css*/
