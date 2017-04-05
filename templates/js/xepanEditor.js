@@ -84,8 +84,13 @@ jQuery.widget("ui.xepanEditor",{
 						connectToSortable:'.xepan-sortable-component',
 						helper:'clone',
 						start: function(event,ui){
-							origin:'toolbox',
-							xepan_drop_component_html= tool_data.drag_html
+							origin:'toolbox';
+							xepan_drop_component_html= tool_data.drag_html;
+							self.leftbar.hide();
+						},
+
+						stop: function(event,ui){
+							self.leftbar.show();
 						},
 						revert: 'invalid',
 						tolerance: 'pointer'
