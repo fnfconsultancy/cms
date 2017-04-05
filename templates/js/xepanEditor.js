@@ -47,8 +47,6 @@ jQuery.widget("ui.xepanEditor",{
 		// left bar
 		self.leftbar = $('<div id="xepan-cms-toolbar-left-side-panel" class="container sidebar sidebar-left" style="left: -230px;" data-status="opened"></div>').insertAfter('body');
 		// right bar content
-		$('<h2>Tool Bar</h2>').appendTo(self.leftbar);
-		
 		self.leftbar_toggle_btn = $('<div class="toggler"><span class="glyphicon glyphicon-chevron-right" style="display: block;">&nbsp;</span> <span class="glyphicon glyphicon-chevron-left" style="display: none;">&nbsp;</span></div>').appendTo(self.leftbar);
 		$(self.leftbar_toggle_btn).click(function(){
 			$('#xepan-cms-toolbar-left-side-panel').toggleClass('toggleSideBar');
@@ -68,14 +66,14 @@ jQuery.widget("ui.xepanEditor",{
 		var self = this;
 
 		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(self.leftbar);
-		var option = '<option value="0">select </option>';
+		var option = '<option value="0">Select</option>';
 		$.each(self.options.tools,function(app_name,tools){
 			option += '<option value="'+app_name+'">'+app_name+'</option>';			
 			
 			var app_tool_wrapper = $('<div class="xepan-cms-toolbar-tool '+app_name+'">').appendTo(self.leftbar);
 			var tools_html = "";
 			$.each(tools,function(tool_name_with_namespace,tool_data){
-				$('<div class="xepan-cms-tool"><img src="'+tool_data.icon_img+'"/><p>'+tool_data.name+'</p></div>')
+				$('<div class="xepan-cms-tool"><img src="'+tool_data.icon_img+'"/ onerror=this.src="./vendor/xepan/cms/templates/images/default_icon.png"><p>'+tool_data.name+'</p></div>')
 					.appendTo(app_tool_wrapper)
 					.disableSelection()
 					.draggable({
@@ -85,7 +83,7 @@ jQuery.widget("ui.xepanEditor",{
 						helper:'clone',
 						start: function(event,ui){
 							origin:'toolbox';
-							xepan_drop_component_html= tool_data.drag_html;
+							xepan_drop_component_html= tool_data.drop_html;
 							self.leftbar.hide();
 						},
 

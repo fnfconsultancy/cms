@@ -130,6 +130,13 @@ jQuery.widget("ui.xepanComponent",{
 		cursor: "move",
 		revert: true,
 		tolerance: "pointer",
+		activate: function(event,ui){
+			$(this).addClass('xepan-droppable-highlight');
+		},
+		deactivate:function(event,ui){
+			$(this).removeClass('xepan-droppable-highlight');
+		},
+
 		helper: function(event, ui) {
 	        return $('<div><h1>Dragging ... </h1></div>');
 	    },
