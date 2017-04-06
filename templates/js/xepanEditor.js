@@ -26,6 +26,7 @@ jQuery.widget("ui.xepanEditor",{
 		self.setupTools();
 		// self.setupToolbar();
 		self.setUpShortCuts();
+		self.setUpPagesAndTemplates();
 		// self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
 		// if(self.options.template_editing){
 		// 	$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
@@ -120,6 +121,14 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		$(self.options.basic_properties).appendTo(tools_options);
+	},
+
+	setUpPagesAndTemplates: function(){
+		var self = this;
+		var $page_btn = $('<button class="btn input-block-level form-control btn-primary">'+self.options.current_page+'</button>').appendTo(self.leftbar);
+		$page_btn.click(function(event) {
+			$.univ().frameURL('Pages & Templates','index.php?page=page_xepan_cms_websitepage');
+		});
 	},
 
 	setupToolbar: function(){
@@ -268,14 +277,14 @@ jQuery.widget("ui.xepanEditor",{
 	    $('.xepan-component').removeClass('xepan-component-hover-selector');
 	    
 
-	    var overlay = jQuery('<div id="overlay"> </div>');
-	    overlay.appendTo(document.body);
+	    var overlay = jQuery('<div id="xepan-cms-page-save-overlay"> </div>');
+	    overlay.appendTo(document.body).css('z-index','10000');
 
 	    html_body = $('.xepan-page-wrapper').clone();
 		
 		if(self.options.template_editing){
 		    html_body = $('body').clone();
-		    $(html_body).find("#overlay").remove();
+		    $(html_body).find("#xepan-cms-page-save-overlay").remove();
 		    $(html_body).find(".ui-pnotify").remove();
 		    self.options.file_path = self.options.template_file;
 		}

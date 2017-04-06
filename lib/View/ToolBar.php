@@ -81,7 +81,8 @@ class View_ToolBar extends \View {
 				'tools'=>$tools_array,
 				'basic_properties'=>$bs_view->getHTML(),
 				'component_selector'=>$component_selector,
-				'editor_id'=>$this->getJSID()
+				'editor_id'=>$this->getJSID(),
+				'current_page'=> ucwords($this->app->xepan_cms_page['name'])
 			]);
 
 		$this->js(true)->xepanComponent(['editing_template'=>$editing_template,'component_selector'=>$component_selector,'editor_id'=>$this->getJSID()])->_selector($component_selector);
