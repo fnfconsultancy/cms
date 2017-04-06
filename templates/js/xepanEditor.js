@@ -18,12 +18,12 @@ jQuery.widget("ui.xepanEditor",{
 	rightbar:{},
 
 	_create: function(){
-		self = this;
+		var self = this;
 
 		self.setupEnvironment();
 		self.setupTools();
 		// self.setupToolbar();
-		// self.setUpShortCuts();
+		self.setUpShortCuts();
 		// self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
 		// if(self.options.template_editing){
 		// 	$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
@@ -31,7 +31,7 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	setupEnvironment: function(){
-		self = this;
+		var self = this;
 
 		// right bar
 		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="container sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
@@ -108,7 +108,7 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	setupToolbar: function(){
-		self = this;
+		var self = this;
 
 		$(this.element).draggable({
 			handle:'.xepan-toolbar-drag-handler',
@@ -236,7 +236,7 @@ jQuery.widget("ui.xepanEditor",{
 		// console.log(this.options.save_url);
 		// console.log(this.options.file_path);
 
-		self= this;
+		var self= this;
 		
 		// $('body').trigger('beforeSave');
 		try{
