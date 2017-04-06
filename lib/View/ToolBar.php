@@ -79,7 +79,8 @@ class View_ToolBar extends \View {
 				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1',
 				'template_editing'=> isset($this->app->editing_template),
 				'tools'=>$tools_array,
-				'basic_properties'=>$bs_view->getHTML()
+				'basic_properties'=>$bs_view->getHTML(),
+				'component_selector'=>$component_selector
 			]);
 
 		$this->js(true)->xepanComponent(['editing_template'=>$editing_template,'component_selector'=>$component_selector])->_selector($component_selector);
