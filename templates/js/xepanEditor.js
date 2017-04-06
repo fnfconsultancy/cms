@@ -10,7 +10,8 @@ jQuery.widget("ui.xepanEditor",{
 		template:undefined,
 		save_url:undefined,
 		template_editing:undefined,
-		tools:{}
+		tools:{},
+		basic_properties: undefined
 	},
 
 	topbar:{},
@@ -94,10 +95,12 @@ jQuery.widget("ui.xepanEditor",{
 						tolerance: 'pointer'
 					})
 					;
+	
+					$(tool_data.option_html).appendTo(self.rightbar);
 			});
-
 			$(app_tool_wrapper).hide();
 		});
+
 		$(option).appendTo(apps_dropdown);
 
 		$(apps_dropdown).change(function(){
@@ -105,6 +108,8 @@ jQuery.widget("ui.xepanEditor",{
 			$('.xepan-cms-toolbar-tool').hide();
 			$('.xepan-cms-toolbar-tool.'+selected_app).show();
 		});
+
+		$(self.options.basic_properties).appendTo(self.rightbar);
 	},
 
 	setupToolbar: function(){

@@ -148,7 +148,7 @@ jQuery.widget("ui.xepanComponent",{
 	sortable_options: {
 		appendTo:'body',
 		connectWith:'.xepan-sortable-component',
-		handle: '> .xepan-component-drag-handler',
+		handle: '.xepan-component-drag-handler',
 		cursor: "move",
 		revert: true,
 		tolerance: "pointer",
