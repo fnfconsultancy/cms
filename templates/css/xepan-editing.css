@@ -261,12 +261,13 @@
 
 .xepan-droppable-highlight{
     background-color: #f1c74e;
-    border: 1px solid #ef7c2a;
 }
 
-/*.xepan-component{
+.xepan-sortable-component{
+    /*border: 1px solid #ef7c2a;*/
     border: 1px solid #f3f3f3;
-}*/
+    min-height: 50px;
+}
 
 /*hover bar css*/
 .xepan-component-hover-selector{
@@ -317,9 +318,8 @@
 
 /*end hover bar css*/
 
-.xepan-component{
-    /*background-color: #faf6f5;*/
+/*.xepan-component{
     margin-top: 1px;
     border: 1px dotted #1f2041;
     padding: 20px 0px 20px 0px;
-}
+}*/
