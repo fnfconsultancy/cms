@@ -1,6 +1,6 @@
-current_selected_component : undefined;
-origin : 'page';
-xepan_drop_component_html: '';
+current_selected_component = undefined;
+origin = 'page';
+xepan_drop_component_html= '';
 
 jQuery.widget("ui.xepanEditor",{
 	options:{
@@ -82,7 +82,7 @@ jQuery.widget("ui.xepanEditor",{
 						connectToSortable:'.xepan-sortable-component',
 						helper:'clone',
 						start: function(event,ui){
-							origin:'toolbox';
+							origin='toolbox';
 							xepan_drop_component_html= tool_data.drop_html;
 							self.leftbar.hide();
 						},

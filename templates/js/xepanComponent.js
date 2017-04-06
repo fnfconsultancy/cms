@@ -1,3 +1,15 @@
+xepan_cms_tinymce_options={
+		inline:true,
+		forced_root_block: false,
+		plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
+		toolbar1: "insertfile undo redo | styleselect | bold italic fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",                
+		importcss_append: true,
+		verify_html: false
+	};
+
+
 jQuery.widget("ui.xepanComponent",{
 	self: undefined,
 	options:{
@@ -167,12 +179,12 @@ jQuery.widget("ui.xepanComponent",{
 
 	    	if(typeof origin == 'undefined' || origin == 'toolbox'){
 	    		// Find sub components if any and make components
-	    		$new_component = $(xepan_drop_component_html).xepanComponent(self.options);
-				$($new_component).find('.xepan-component').xepanComponent(self.options);
+	    		$new_component = $(xepan_drop_component_html).xepanComponent();
+				$($new_component).find('.xepan-component').xepanComponent();
 				$($new_component).attr('id',generateUUID());
 				window.setTimeout(function(){
 					if($($new_component).hasClass('xepan-editable-text'))
-						$.univ().richtext($new_component,self.tinyceme_options,true);
+						$.univ().richtext($new_component,xepan_cms_tinymce_options,true);
 				},400);
 		    	$(ui.item).replaceWith($new_component);
 
@@ -189,17 +201,6 @@ jQuery.widget("ui.xepanComponent",{
 	    	// console.log(origin);
 		    origin='page';
 	    }
-	},
-
-	tinyceme_options: {
-		inline:true,
-		forced_root_block: false,
-		plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
-		toolbar1: "insertfile undo redo | styleselect | bold italic fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",                
-		importcss_append: true,
-		verify_html: false
 	}
 	
 });
