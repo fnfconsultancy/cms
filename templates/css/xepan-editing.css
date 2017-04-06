@@ -318,11 +318,13 @@
 /*end hover bar css*/
 
 /*draggable component*/
-.xepan-cms-tool.ui-draggable-dragging.ui-sortable-helper{
+.xepan-cms-tool.ui-draggable-dragging.ui-sortable-helper,
+.xepan-cms-tool.ui-draggable-dragging{
     width:230px !important;
 }
 
-/*.xepan-component{
-    border: 1px dotted black;
-    min-height: 100px;
-}*/
+/*droppable placeholder*/
+.xepan-cms-tool.ui-sortable-placeholder{
+    height:30px;
+    background-color: #fdfcdf;
+}
