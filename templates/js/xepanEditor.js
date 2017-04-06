@@ -35,6 +35,9 @@ jQuery.widget("ui.xepanEditor",{
 	setupEnvironment: function(){
 		var self = this;
 
+		// throw self html out of body
+		$(self.element).appendTo('body');
+
 		// right bar
 		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="container sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
 		// right bar content
