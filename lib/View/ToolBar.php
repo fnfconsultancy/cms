@@ -30,6 +30,7 @@ class View_ToolBar extends \View {
 		$tools = $this->app->getFrontEndTools();
 
 		$view = $this->add('AbstractController');
+		$bs_view=$view->add('xepan\cms\View_CssOptions');
 
 		$tools_array = [];
 		//tools_array
@@ -39,7 +40,7 @@ class View_ToolBar extends \View {
 			foreach ($tools[$group] as $key => $tool) {
 
 				$t_v = $view->add($tool);
-				$t_v->getOptionPanel($view,null);
+				$t_option_v = $t_v->getOptionPanel($view,null);
 
 				$tool_arr = explode("\\", $tool);
 				$tool_name = array_pop($tool_arr);
@@ -50,6 +51,7 @@ class View_ToolBar extends \View {
 				$tools_array[$group][$tool] = [
 											'name'=>$tool_name,
 											'drop_html'=>$drop_html,
+											'option_html'=>$t_option_v->getHTML(),
 											'icon_img'=>'./vendor/'.$tool_namespace.'/templates/images/'.$tool_name.'_icon.png'
 										];
 
@@ -76,7 +78,8 @@ class View_ToolBar extends \View {
 				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->template_file:'false',
 				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1',
 				'template_editing'=> isset($this->app->editing_template),
-				'tools'=>$tools_array
+				'tools'=>$tools_array,
+				'basic_properties'=>$bs_view->getHTML()
 			]);
 
 		$this->js(true)->xepanComponent(['editing_template'=>$editing_template,'component_selector'=>$component_selector])->_selector($component_selector);
