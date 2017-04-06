@@ -11,7 +11,8 @@ jQuery.widget("ui.xepanEditor",{
 		save_url:undefined,
 		template_editing:undefined,
 		tools:{},
-		basic_properties: undefined
+		basic_properties: undefined,
+		component_selector: '.xepan-component'
 	},
 
 	topbar:{},
@@ -143,9 +144,9 @@ jQuery.widget("ui.xepanEditor",{
 		/*Component Editing outline*/
 		$('#epan-component-border').click(function(event) {
 		    if($('#epan-component-border:checked').size() > 0){
-		        $('.xepan-component').addClass('component-outline');
+		        $(self.options.component_selector).addClass('component-outline');
 		    }else{
-		        $('.xepan-component').removeClass('component-outline');
+		        $(self.options.component_selector).removeClass('component-outline');
 		    }
 		});
 		/*Preview Mode*/
@@ -161,9 +162,9 @@ jQuery.widget("ui.xepanEditor",{
 		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
 		$('#epan-component-extra-padding').click(function(event) {
 		    if($('#epan-component-extra-padding:checked').size() > 0){
-		        $('.xepan-sortable-component').addClass('epan-sortable-extra-padding');
+		        $(self.options.component_selector + ' .xepan-sortable-component').addClass('epan-sortable-extra-padding');
 		    }else{
-		        $('.xepan-sortable-component').removeClass('epan-sortable-extra-padding');
+		        $(self.options.component_selector + ' .xepan-sortable-component').removeClass('epan-sortable-extra-padding');
 		    }
 		});
 		
@@ -411,7 +412,9 @@ jQuery.widget("ui.xepanEditor",{
 	    });
 
 	    shortcut.add("Esc", function(event) {
-	        $('.xepan-component').xepanComponent('deselect');
+	        $(self.options.component_selector).xepanComponent('deselect');
+	        $('#xepan-cms-toolbar-right-side-panel').removeClass('toggleSideBar');
+	        $('#xepan-cms-toolbar-left-side-panel').removeClass('toggleSideBar');
 	        event.stopPropagation();
 	    });
 
