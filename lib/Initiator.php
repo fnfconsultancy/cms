@@ -165,6 +165,8 @@ class Initiator extends \Controller_Addon {
 
         if(isset($this->app->editing_template))
             $this->app->exportFrontEndTool('xepan\cms\Tool_TemplateContentRegion');
+
+        $this->app->jui->addStylesheet('jquery-ui');
             
         $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
