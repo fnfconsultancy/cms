@@ -40,7 +40,7 @@ jQuery.widget("ui.xepanComponent",{
 
 		if($(this.element).is('body')){
 			enable_hover = false;
-		}else if($(this.element).hasClass('.xepan-page-wrapper') && !this.options.editing_template ){
+		}else if($(this.element).hasClass('xepan-page-wrapper') && !this.options.editing_template ){
 			enable_hover = false;
 		}
 

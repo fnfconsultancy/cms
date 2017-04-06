@@ -2,14 +2,18 @@
 
 namespace xepan\cms;
 
-class page_websitepage extends \xepan\base\Page{
+class page_cmspagemanager extends \xepan\base\Page{
+	
 	public $title = "Website Pages and Templates";
+	
 	function init(){
 		parent::init();
 
+		$this->app->muteACL = true;
+
 		$tab = $this->add('Tabs');
-		$temp_tab = $tab->addTab('Template');
 		$page_tab = $tab->addTab('Page');
+		$temp_tab = $tab->addTab('Template');
 
 		// Website Template
 		$template = $temp_tab->add('xepan\cms\Model_Template');
