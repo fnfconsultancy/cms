@@ -269,29 +269,29 @@
     min-height: 100px;
 }
 
-/*hover bar css*/
-.xepan-component-hover-selector{
-    
-}
-
-.xepan-component-hoverbar{
-    color: rgba(200, 200, 200, 0.8);
-    font-size: 15px;
-    position: absolute;
-    top: 0;
-    width: 30px;
-    z-index: 999999;
-    /*left:-30px;*/
-}
-
 .ui-dialog.xepan-component-remove-confirm{
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
+
 .ui-dialog.xepan-component-remove-confirm .ui-dialog-titlebar{
     background:white !important;
     border:0px !important;
 }
 
+/*hover bar css*/
+.xepan-component-hover-selector{
+    position: relative !important;
+}
+
+.xepan-component-hoverbar{
+    position: absolute !important;
+    color: rgba(200, 200, 200, 0.8);
+    font-size: 15px;
+    width: 30px;
+    z-index: 999999;
+    top:0px;
+    /*left:-30px;*/
+}
 
 .xepan-component-hoverbar > div{
     color: #fff;
@@ -316,11 +316,9 @@
     cursor: pointer;
 }
 
-
 /*end hover bar css*/
 
 /*.xepan-component{
-    margin-top: 1px;
-    border: 1px dotted #1f2041;
-    padding: 20px 0px 20px 0px;
+    border: 1px dotted black;
+    min-height: 100px;
 }*/
