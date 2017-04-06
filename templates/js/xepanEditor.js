@@ -321,7 +321,7 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	hideOptions:function(){
-		$('.xepan-tools-options').hide();
+		$('.xepan-tool-options').hide();
 	},
 
 	setUpShortCuts: function(){

@@ -14,7 +14,8 @@ jQuery.widget("ui.xepanComponent",{
 	self: undefined,
 	options:{
 		editing_template:0,
-		component_selector:null
+		component_selector:null,
+		editor_id: null
 	},
 
 	_create: function(){
@@ -129,7 +130,7 @@ jQuery.widget("ui.xepanComponent",{
 	deselect: function (){
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			current_selected_component=undefined;
-			$('.xepan-toolbar').xepanEditor('hideOptions');
+			$('#'+this.options.editor_id).xepanEditor('hideOptions');
 		}
 		$(this.element).removeClass('xepan-selected-component');
 		updateBreadCrumb();
@@ -143,7 +144,7 @@ jQuery.widget("ui.xepanComponent",{
 		}
 		$(this.element).remove();
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
-			$('.xepan-toolbar').xepanEditor('hideOptions');
+			$('#'+this.options.editor_id).xepanEditor('hideOptions');
 		}
 	},
 
