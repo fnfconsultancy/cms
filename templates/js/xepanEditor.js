@@ -322,7 +322,7 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	setUpShortCuts: function(){
-		console.log(shortcut);
+
 		shortcut.add("Ctrl+s", function(event) {
 	        $('#xepan-savepage-btn').click();
 	        event.stopPropagation();
@@ -410,6 +410,8 @@ jQuery.widget("ui.xepanEditor",{
 
 	    shortcut.add("Esc", function(event) {
 	        $(self.options.component_selector).xepanComponent('deselect');
+	        $('#xepan-cms-toolbar-right-side-panel').removeClass('toggleSideBar');
+	        $('#xepan-cms-toolbar-left-side-panel').removeClass('toggleSideBar');
 	        event.stopPropagation();
 	    });
 
