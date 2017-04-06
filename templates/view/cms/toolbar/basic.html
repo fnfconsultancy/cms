@@ -33,6 +33,14 @@
                 <button id="epan-component-height-max" type="button" class="btn btn-default btn-xs">max 100%</button>
               </td>
             </tr>
+            <tr>
+              <td>css class</td>
+            </tr>
+            <tr>
+              <td 0colspan="2">
+                <input id="xepan-image-option-classess" type="text"/>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -519,6 +527,18 @@
   margin_unit = 'px';
   is_all_margin_same = false;
   is_all_border_same = true;
+  
+  //-option Class
+  $('#xepan-image-option-classess').change(function(event){
+    //- alert("hchcsfhkdshfkfs");
+    $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+    $(current_selected_component).attr('data-extra-classes',$(this).val());
+    $(current_selected_component).addClass($(this).val());
+  });
+  //- $('#xepan-image-option-classess').change(function(event) {
+  //-   alert('hello');
+  //- });
+  
   
   $('#epan-background-color').change(function(){
   $(current_selected_component).css('background-color', '#'+ $(this).val());
