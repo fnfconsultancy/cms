@@ -315,8 +315,12 @@
     border-bottom-right-radius: 5px;
     cursor: pointer;
 }
-
 /*end hover bar css*/
+
+/*draggable component*/
+.xepan-cms-tool.ui-draggable-dragging.ui-sortable-helper{
+    width:230px !important;
+}
 
 /*.xepan-component{
     border: 1px dotted black;
