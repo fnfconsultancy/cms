@@ -77,7 +77,10 @@ jQuery.widget("ui.xepanEditor",{
 			var app_tool_wrapper = $('<div class="xepan-cms-toolbar-tool '+app_name+'">').appendTo(self.leftbar);
 			var tools_html = "";
 			$.each(tools,function(tool_name_with_namespace,tool_data){
-				$('<div class="xepan-cms-tool"><img src="'+tool_data.icon_img+'"/ onerror=this.src="./vendor/xepan/cms/templates/images/default_icon.png"><p>'+tool_data.name+'</p></div>')
+				var t_name = tool_name_with_namespace;
+				t_name = t_name.replace(/\\/g, "");
+
+				$('<div class="xepan-cms-tool" data-toolname="'+t_name+'"><img src="'+tool_data.icon_img+'"/ onerror=this.src="./vendor/xepan/cms/templates/images/default_icon.png"><p>'+tool_data.name+'</p></div>')
 					.appendTo(app_tool_wrapper)
 					.disableSelection()
 					.draggable({

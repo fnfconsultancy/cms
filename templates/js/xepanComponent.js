@@ -161,7 +161,13 @@ jQuery.widget("ui.xepanComponent",{
 		},
 
 		helper: function(event, ui) {
-	        return $('<div><h1>Dragging ... </h1></div>');
+			var t_name = $(ui).closest('.xepan-component').attr('xepan-component');
+			var tool_drag_html = '<div class="xepan-cms-component-dragging">Dragging ...</div>';
+			if(t_name != 'undefined'){
+				t_name = t_name.replace(/\//g, "");
+				tool_drag_html = $('.xepan-cms-tool[data-toolname="'+t_name+'"]').prop('outerHTML');
+			}
+	        return $(tool_drag_html);
 	    },
 	    start: function(event, ui) {
 	    	$(ui.placeholder).removeClass("col-md-6 col-sm-6 xepan-tool-bar-tool ui-draggable").css('visibility','visible');
@@ -174,7 +180,6 @@ jQuery.widget("ui.xepanComponent",{
 	    sort: function(event, ui) {
 	        // $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
 	        $(ui.placeholder).html('<div class="xepan-cms-droppable-placeholder"> Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??'+'</div>');
-
 	    },
 	    stop: function(event, ui) {
 	    	var self = this;
