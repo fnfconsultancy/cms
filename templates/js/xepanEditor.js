@@ -68,6 +68,9 @@ jQuery.widget("ui.xepanEditor",{
 
 		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(self.leftbar);
 		var option = '<option value="0">Select</option>';
+
+		var tools_options = $('<div class="xepan-tools-options">').appendTo(self.rightbar);
+
 		$.each(self.options.tools,function(app_name,tools){
 			option += '<option value="'+app_name+'">'+app_name+'</option>';			
 			
@@ -96,7 +99,7 @@ jQuery.widget("ui.xepanEditor",{
 					})
 					;
 	
-					$(tool_data.option_html).appendTo(self.rightbar);
+					$(tool_data.option_html).appendTo(tools_options);
 			});
 			$(app_tool_wrapper).hide();
 		});
@@ -109,7 +112,7 @@ jQuery.widget("ui.xepanEditor",{
 			$('.xepan-cms-toolbar-tool.'+selected_app).show();
 		});
 
-		$(self.options.basic_properties).appendTo(self.rightbar);
+		$(self.options.basic_properties).appendTo(tools_options);
 	},
 
 	setupToolbar: function(){
