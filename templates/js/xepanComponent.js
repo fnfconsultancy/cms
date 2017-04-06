@@ -1,12 +1,12 @@
 xepan_cms_tinymce_options={
 		inline:true,
-		forced_root_block: false,
+		forced_root_block: 'p',
 		plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
                 "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
 		toolbar1: "insertfile undo redo | styleselect | bold italic fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",                
 		importcss_append: true,
-		verify_html: false
+		verify_html: true
 	};
 
 
@@ -121,7 +121,7 @@ jQuery.widget("ui.xepanComponent",{
 		self=this;
 		if(!$(this.element).hasClass('xepan-editable-text')) return;
 		$(this.element).attr('contenteditable','true');
-		$.univ().richtext(self.element,self.tinyceme_options,true);
+		$.univ().richtext(self.element,xepan_cms_tinymce_options,true);
 	},
 
 	deselect: function (){
