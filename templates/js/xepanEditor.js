@@ -325,9 +325,10 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	setUpShortCuts: function(){
+		var self = this;
 
 		shortcut.add("Ctrl+s", function(event) {
-	        $('#xepan-savepage-btn').click();
+	        $('#'+self.options.editor_id).xepanEditor('savePage');
 	        event.stopPropagation();
 	    });
 		shortcut.add("Ctrl+Shift+Up", function(event) {

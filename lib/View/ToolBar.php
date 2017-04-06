@@ -80,7 +80,8 @@ class View_ToolBar extends \View {
 				'template_editing'=> isset($this->app->editing_template),
 				'tools'=>$tools_array,
 				'basic_properties'=>$bs_view->getHTML(),
-				'component_selector'=>$component_selector
+				'component_selector'=>$component_selector,
+				'editor_id'=>$this->getJSID()
 			]);
 
 		$this->js(true)->xepanComponent(['editing_template'=>$editing_template,'component_selector'=>$component_selector])->_selector($component_selector);
