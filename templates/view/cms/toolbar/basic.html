@@ -1,6 +1,7 @@
 
 <div id="xepan-basic-css-panel" class="epan-css-options">
   <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
+  <hr/>
   <div class="xepan-cms-group-panel clearfix">
     <div data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Basic Properties</span></div>
     <div id="collapseOne" class="xepan-cms-tools-bar-panel row-fluid collapse">
@@ -8,7 +9,10 @@
         <table class="table table-condensed table-hover">
           <tbody>
             <tr>
-              <td>Comp. Width</td>
+              <td>Component Width
+              </td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <input id="epan-component-width-input" type="NUMBER" min="0" max="999999999" size="5"/>
                 <button id="epan-component-width-in-px" type="button" class="btn btn-default btn-xs">PX</button>
@@ -19,6 +23,8 @@
             </tr>
             <tr>
               <td>Comp. Height</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <input id="epan-component-height-input" type="NUMBER" min="0" max="999999999" size="5"/>
                 <button id="epan-component-height-in-px" type="button" class="btn btn-default btn-xs">PX</button>
@@ -224,8 +230,10 @@
           <tbody>
             <tr>
               <td>BG Color</td>
+            </tr>
+            <tr>
               <td>
-                <input id="epan-background-color" type="text" class="epan-color-picker"/>
+                <input id="epan-background-color" type="text" style="width: 80%;" class="epan-color-picker"/>
               </td>
               <td>
                 <button onclick="$(current_selected_component).css('background-color','')" class="btn btn-default btn-xs"> CLR </button>
@@ -233,6 +241,8 @@
             </tr>
             <tr>
               <td>BG Image</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <div class="input-group"><span class="input-group-btn">
                     <button id="epan-component-background-image-clear-button" type="button" class="btn btn-default btn-xs">Clr</button></span>
@@ -243,6 +253,8 @@
             </tr>
             <tr>
               <td>Repeat</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <div class="btn-group">
                   <div repeat-background="repeat" class="btn btn-default btn-success btn-xs">All</div>
@@ -254,6 +266,8 @@
             </tr>
             <tr>
               <td>Background</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <div class="btn-group">
                   <button id="epan-component-background-fixed" type="button" class="btn btn-default btn-xs">Fixed</button>
@@ -275,7 +289,7 @@
         <table class="table table-condensed table-hover">
           <tbody>
             <tr>
-              <td colspan="3">Effect All</td>
+              <td colspan="">Effect All</td>
               <td>
                 <input id="epan-all-border-same" type="checkbox" checked=""/>
               </td>
@@ -396,24 +410,32 @@
             </tr>
             <tr>
               <td colspan="2">Radius Top-Left</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <input id="epan-border-radius-t-left" type="text" pos="border-top-left-radius" placeHolder="exp. 10px, 10em, 10% etc." class="epan-border-radius"/>
               </td>
             </tr>
             <tr>
               <td colspan="2">Radius Top-Right</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <input id="epan-border-radius-t-right" type="text" pos="border-top-right-radius" placeHolder="exp. 10px, 10em, 10% etc." class="epan-border-radius"/>
               </td>
             </tr>
             <tr>
               <td colspan="2">Radius Bottom-Left</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <input id="epan-border-radius-b-left" type="text" pos="border-bottom-left-radius" placeHolder="exp. 10px, 10em, 10% etc." class="epan-border-radius"/>
               </td>
             </tr>
             <tr>
               <td colspan="2">Radius Bottom-Right</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <input id="epan-border-radius-b-right" type="text" pos="border-bottom-right-radius" placeHolder="exp. 10px, 10em, 10% etc." class="epan-border-radius"/>
               </td>
@@ -433,6 +455,8 @@
           <tbody>
             <tr>
               <td width="20%">Rotate</td>
+            </tr>
+            <tr>
               <td width="50%">
                 <div css-syntax="rotate" unit="deg" class="epan-component-transform epan-component-transform-rotate"></div>
               </td>
@@ -442,6 +466,8 @@
             </tr>
             <tr>
               <td width="20%">Scale</td>
+            </tr>
+            <tr>
               <td width="50%">x
                 <div css-syntax="scale" unit="" direction="x" class="epan-component-transform epan-component-transform-scale"></div>y
                 <div css-syntax="scale" unit="" direction="y" class="epan-component-transform epan-component-transform-scale"></div>
@@ -454,6 +480,8 @@
             </tr>
             <tr>
               <td width="20%">Skew</td>
+            </tr>
+            <tr>
               <td width="50%">x
                 <div css-syntax="skew" unit="deg" direction="x" class="epan-component-transform epan-component-transform-skew"></div>y
                 <div css-syntax="skew" unit="deg" direction="y" class="epan-component-transform epan-component-transform-skew"></div>
@@ -466,6 +494,8 @@
             </tr>
             <tr>
               <td width="20%">Translate</td>
+            </tr>
+            <tr>
               <td width="50%">x
                 <div css-syntax="translate" unit="px" direction="x" class="epan-component-transform epan-component-transform-translate"></div>y
                 <div css-syntax="translate" unit="px" direction="y" class="epan-component-transform epan-component-transform-translate"></div>

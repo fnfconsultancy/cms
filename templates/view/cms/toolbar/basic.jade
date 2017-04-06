@@ -1,5 +1,6 @@
 #xepan-basic-css-panel.epan-css-options
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+  hr
   .xepan-cms-group-panel.clearfix
     div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseOne" aria-expanded="false")
       span Basic Properties
@@ -9,7 +10,9 @@
           tbody
             tr
               td
-                | Comp. Width
+                //- | Comp. Width
+                |Component Width
+            tr
               td(colspan='2')
                 input#epan-component-width-input(type='NUMBER', min='0', max='999999999', size='5')
                 button#epan-component-width-in-px.btn.btn-default.btn-xs(type='button') PX
@@ -19,6 +22,7 @@
             tr
               td
                 | Comp. Height
+            tr
               td(colspan='2')
                 input#epan-component-height-input(type='NUMBER', min='0', max='999999999', size='5')
                 button#epan-component-height-in-px.btn.btn-default.btn-xs(type='button') PX
@@ -178,13 +182,15 @@
             tr
               td
                 | BG Color
+            tr
               td
-                input#epan-background-color.epan-color-picker(type='text')
+                input#epan-background-color.epan-color-picker(type='text' style="width: 80%;")
               td
                 button.btn.btn-default.btn-xs(onclick="$(current_selected_component).css('background-color','')")  CLR 
             tr
               td
                 | BG Image
+            tr
               td(colspan='2')
                 .input-group
                   span.input-group-btn
@@ -195,6 +201,7 @@
             tr
               td
                 | Repeat
+            tr
               td(colspan='2')
                 .btn-group
                   .btn.btn-default.btn-success.btn-xs(repeat-background='repeat') All
@@ -204,6 +211,7 @@
             tr
               td
                 | Background
+            tr
               td(colspan='2')
                 .btn-group
                   button#epan-component-background-fixed.btn.btn-default.btn-xs(type='button') Fixed
@@ -218,7 +226,7 @@
         table.table.table-condensed.table-hover
           tbody
             tr
-              td(colspan="3")
+              td(colspan="")
                 | Effect All
               td
                 input#epan-all-border-same(type='checkbox', checked='')
@@ -370,21 +378,25 @@
             tr
               td(colspan="2")
                 | Radius Top-Left
+            tr
               td(colspan="2")
                 input#epan-border-radius-t-left.epan-border-radius(type='text', pos='border-top-left-radius' placeHolder='exp. 10px, 10em, 10% etc.')
             tr
               td(colspan="2")
                 | Radius Top-Right
+            tr
               td(colspan="2")
                 input#epan-border-radius-t-right.epan-border-radius(type='text', pos='border-top-right-radius' placeHolder='exp. 10px, 10em, 10% etc.')
             tr
               td(colspan="2")
                 | Radius Bottom-Left
+            tr
               td(colspan="2")
                 input#epan-border-radius-b-left.epan-border-radius(type='text', pos='border-bottom-left-radius' placeHolder='exp. 10px, 10em, 10% etc.')
             tr
               td(colspan="2")
                 | Radius Bottom-Right
+            tr
               td(colspan="2")
                 input#epan-border-radius-b-right.epan-border-radius(type='text', pos='border-bottom-right-radius' placeHolder='exp. 10px, 10em, 10% etc.')
     //CSS Tranform
@@ -399,6 +411,7 @@
             tr
               td(width='20%')
                 |Rotate
+            tr
               td(width='50%')
                 .epan-component-transform.epan-component-transform-rotate(css-syntax='rotate', unit='deg')
               td(width='30%')
@@ -406,6 +419,7 @@
             tr
               td(width='20%')
                 |Scale
+            tr
               td(width='50%')
                 |x
                 .epan-component-transform.epan-component-transform-scale(css-syntax='scale', unit='','direction'='x')
@@ -418,6 +432,7 @@
             tr
               td(width='20%')
                 |Skew
+            tr
               td(width='50%')
                 |x
                 .epan-component-transform.epan-component-transform-skew(css-syntax='skew', unit='deg','direction'='x')
@@ -430,6 +445,7 @@
             tr
               td(width='20%')
                 |Translate
+            tr
               td(width='50%')
                 |x
                 .epan-component-transform.epan-component-transform-translate(css-syntax='translate', unit='px',direction='x')
