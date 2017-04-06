@@ -163,11 +163,12 @@ jQuery.widget("ui.xepanComponent",{
 
 	    },
 	    stop: function(event, ui) {
+	    	var self = this;
 
 	    	if(typeof origin == 'undefined' || origin == 'toolbox'){
 	    		// Find sub components if any and make components
-	    		$new_component = $(xepan_drop_component_html).xepanComponent();
-				$($new_component).find('.xepan-component').xepanComponent();
+	    		$new_component = $(xepan_drop_component_html).xepanComponent(self.options);
+				$($new_component).find('.xepan-component').xepanComponent(self.options);
 				$($new_component).attr('id',generateUUID());
 				window.setTimeout(function(){
 					if($($new_component).hasClass('xepan-editable-text'))
