@@ -172,7 +172,8 @@ jQuery.widget("ui.xepanComponent",{
         	// }
 	    },
 	    sort: function(event, ui) {
-	        $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
+	        // $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
+	        $(ui.placeholder).html('<div class="xepan-cms-droppable-placeholder"> Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??'+'</div>');
 
 	    },
 	    stop: function(event, ui) {
