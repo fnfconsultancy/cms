@@ -265,7 +265,7 @@
 
 .xepan-sortable-component{
     /*border: 1px solid #ef7c2a;*/
-    border: 1px solid #f3f3f3;
+    outline: 1px solid #f3f3f3;
     min-height: 100px;
 }
 
