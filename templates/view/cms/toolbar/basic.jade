@@ -29,6 +29,12 @@
                 button#epan-component-height-in-per.btn.btn-default.btn-xs(type='button') %
                 button#epan-component-height-auto.btn.btn-default.btn-xs(type='button') auto
                 button#epan-component-height-max.btn.btn-default.btn-xs(type='button') max 100%
+            tr
+              td
+                | css class
+            tr
+              td( 0colspan='2')
+                input#xepan-image-option-classess(type='text')
           //- tr
           //-   td
           //-     | Class
@@ -463,6 +469,18 @@ script(type='text/javascript').
   margin_unit = 'px';
   is_all_margin_same = false;
   is_all_border_same = true;
+
+  //-option Class
+  $('#xepan-image-option-classess').change(function(event){
+    //- alert("hchcsfhkdshfkfs");
+    $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+    $(current_selected_component).attr('data-extra-classes',$(this).val());
+    $(current_selected_component).addClass($(this).val());
+  });
+  //- $('#xepan-image-option-classess').change(function(event) {
+  //-   alert('hello');
+  //- });
+  
 
   $('#epan-background-color').change(function(){
   $(current_selected_component).css('background-color', '#'+ $(this).val());
