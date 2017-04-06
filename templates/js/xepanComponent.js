@@ -19,7 +19,7 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	_create: function(){
-		self=this;
+		var self=this;
 
 		if($(this.element).closest('.xepan-toolbar').length !=0) return;
 		if(!$(this.element).attr('id')) $(this.element).attr('id',generateUUID());
@@ -55,20 +55,24 @@ jQuery.widget("ui.xepanComponent",{
 					var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(this));				
 					var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
 					var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
-					
+
 					$(remove_btn).click(function(){
+						var comp_temp = $(this).closest('.xepan-component');
+						var t_name = $(comp_temp).attr('xepan-component');
+						t_name = t_name.replace(/\\/g, "");
+
 						$('<div></div>')
 							.appendTo('body')
-							.html('<div><h6>Are you sure ?</h6></div>')
+							.html('<div>Are you sure to remove '+ t_name+' ?</div>')
 							.dialog({
 								modal: true, 
-								title: 'message', 
+								title: 'Remove', 
 								autoOpen: true,
 								resizable: false,
 								dialogClass:'xepan-component-remove-confirm',
 								buttons: {
 							    	Yes: function () {
-										$(self.element).closest('.xepan-component').xepanComponent('remove');
+										$(comp_temp).xepanComponent('remove');
 							            $(this).dialog("close");
 							          },
 							        No: function () {
