@@ -96,14 +96,9 @@
   }
   }).dialogelfinder('instance');
   });
-  var {$component_type}_options = {
-  show: function (){
-  // ===== THIS CODE RUNS EVERY TIME YOU DOUBLE CLICK YOUR COMPONENT
-  // TO TAKE VALUES FROM COMPONENT AND FILL OPTIONS
-  //
-  // $(your_option_html_element).text($(current_selected_component).css('border'));
-  $('#xepan-image-option-src').val($(current_selected_component).find('img').attr('src'));
-  $('#xepan-image-link').val($(current_selected_component).find('a').attr('href'));
-  }
-  }
+
+  $('#{$_name}').on('show',function(event){
+    $('#xepan-image-option-src').val($(current_selected_component).find('img').attr('src'));
+    $('#xepan-image-link').val($(current_selected_component).find('a').attr('href'));
+  });
 </script>

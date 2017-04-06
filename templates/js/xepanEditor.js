@@ -127,7 +127,7 @@ jQuery.widget("ui.xepanEditor",{
 		var self = this;
 		var $page_btn = $('<button class="btn input-block-level form-control btn-primary">'+self.options.current_page+'</button>').appendTo(self.leftbar);
 		$page_btn.click(function(event) {
-			$.univ().frameURL('Pages & Templates','index.php?page=page_xepan_cms_websitepage');
+			$.univ().frameURL('Pages & Templates','index.php?page=xepan_cms_cmspagemanager&cut_page=1');
 		});
 	},
 
