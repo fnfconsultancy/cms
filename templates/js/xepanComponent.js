@@ -111,12 +111,14 @@ jQuery.widget("ui.xepanComponent",{
 		$(this.element).addClass('xepan-selected-component');
 		$('.xepan-tool-options').hide();
 		this.options.option_panel.show();
-		// this.options.option_panel.trigger('show');
-		// $('#xepan-basic-css-panel').trigger('show');
+		$('#'+this.options.option_panel.attr('id')).trigger('show');
+		$('#xepan-basic-css-panel').trigger('show');
+
 		$(this.options.option_panel).closest('.xepan-tool-options').show();
 		$('#xepan-cms-toolbar-right-side-panel').addClass('toggleSideBar');
 
 		updateBreadCrumb();
+		console.log($(this.options.option_panel).closest('.xepan-tool-options'));
 		console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
 	},
 
