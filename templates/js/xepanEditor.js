@@ -343,6 +343,13 @@ jQuery.widget("ui.xepanEditor",{
 	        $('#'+self.options.editor_id).xepanEditor('savePage');
 	        event.stopPropagation();
 	    });
+
+	    shortcut.add("Ctrl+backspace", function(event) {
+	    	if (typeof current_selected_component == 'undefined') return;
+	        $(current_selected_component).xepanEditor('remove');
+	        event.stopPropagation();
+	    });
+
 		shortcut.add("Ctrl+Shift+Up", function(event) {
 	        if (typeof current_selected_component == 'undefined') return;
 	        parent_component = $(current_selected_component).parent('.xepan-component');
@@ -397,6 +404,7 @@ jQuery.widget("ui.xepanEditor",{
 	            }
 	        }
 
+	        $(self.options.component_selector).xepanComponent('deselect');
 	        $(next_component).xepanComponent('select');
 	        event.stopPropagation();
 	    }, {
@@ -420,6 +428,7 @@ jQuery.widget("ui.xepanEditor",{
 	            }
 	        }
 
+	        $(self.options.component_selector).xepanComponent('deselect');
 	        $(next_component).xepanComponent('select');
 	        event.stopPropagation();
 	    });
