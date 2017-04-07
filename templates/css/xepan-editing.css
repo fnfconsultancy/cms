@@ -265,7 +265,7 @@
 
 .xepan-sortable-component{
     /*border: 1px solid #ef7c2a;*/
-    outline: 1px solid #f3f3f3;
+    border: 1px solid #f3f3f3;
     min-height: 100px;
 }
 
@@ -325,17 +325,9 @@
 }
 
 /*droppable placeholder*/
-.ui-sortable-placeholder,
 .xepan-cms-tool.ui-sortable-placeholder{
-    height:auto;
+    height:30px;
     background-color: #fdfcdf;
-    margin:0 10px 12px 10px;
-    box-shadow:2px 5px 5px #acacac;
-    border-radius:2px; 
-    text-align:center;
-    padding-top:10px;
-    padding-bottom:10px;
-    font-size:14px;
 }
 
 .xepan-cms-component-dragging{
@@ -346,10 +338,24 @@
 }
 
 .xepan-selected-component{
-    outline: 2px dashed #b82005;
+    border: 2px dashed #b82005;
 }
 .xepan-tools-options {
-    margin: 0 10px 12px;
+    /*margin: 0 10px 12px;*/
     overflow-y: auto;
     height: 90%;
+}
+.xepan-toolbar-panel-body{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.xepan-toolbar-panel-body{
+    text-align: left;
+    font-size: 12px;
+}
+.xepan-cms-toolbar-heading{
+    font-size: 16px;
+    font-weight: 300;
+    cursor: pointer;
+    text-align: center;
 }
