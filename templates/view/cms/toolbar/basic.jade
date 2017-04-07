@@ -35,7 +35,7 @@
               td
                 | css class
             tr
-              td( 0colspan='2')
+              td( colspan='2')
                 input#xepan-image-option-classess(style="width:95%" type='text')
           //- tr
           //-   td
@@ -786,6 +786,7 @@ script(type='text/javascript').
   //  GET OPTIONS FROM CURRENT SELECTED COMPONENT
   function init_css_options(){
   $('#epan-background-color').val($(current_selected_component).css('background-color'));
+  $('#xepan-image-option-classess').val($(current_selected_component).attr('data-extra-classes'));
   $('.epan-background-color .current-color').css('background-color',$(current_selected_component).css('background-color'));
   $('#epan-text-color').val($(current_selected_component).css('color'));
   $('.epan-text-color .current-color').css('background-color',$(current_selected_component).css('color'));
