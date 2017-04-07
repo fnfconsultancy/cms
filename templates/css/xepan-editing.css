@@ -346,7 +346,7 @@
 }
 
 .xepan-selected-component{
-    border: 2px dashed #b82005;
+    outline: 2px dashed #b82005;
 }
 .xepan-tools-options {
     margin: 0 10px 12px;

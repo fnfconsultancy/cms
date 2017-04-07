@@ -100,9 +100,9 @@ jQuery.widget("ui.xepanComponent",{
 		}
 
 		$(this.element).dblclick(function(event,ui){
-			event.stopPropagation();
 			$(self.options.component_selector).xepanComponent('deselect');
 			$(this).xepanComponent('select');
+			event.stopPropagation();
 		});
 	},
 
@@ -190,8 +190,6 @@ jQuery.widget("ui.xepanComponent",{
 	        $(ui.placeholder).html('<div class="xepan-cms-droppable-placeholder"> Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??'+'</div>');
 	    },
 	    stop: function(event, ui) {
-	    	var self = this;
-
 	    	if(typeof origin == 'undefined' || origin == 'toolbox'){
 	    		// Find sub components if any and make components
 	    		$new_component = $(xepan_drop_component_html).xepanComponent();
