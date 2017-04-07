@@ -265,7 +265,7 @@
 
 .xepan-sortable-component{
     /*border: 1px solid #ef7c2a;*/
-    border: 1px solid #f3f3f3;
+    outline: 1px solid #f3f3f3;
     min-height: 100px;
 }
 
@@ -325,9 +325,17 @@
 }
 
 /*droppable placeholder*/
+.ui-sortable-placeholder,
 .xepan-cms-tool.ui-sortable-placeholder{
-    height:30px;
+    height:40px;
     background-color: #fdfcdf;
+    margin:0 10px 12px 10px;
+    box-shadow:2px 5px 5px #acacac;
+    border-radius:2px; 
+    text-align:center;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:14px;
 }
 
 .xepan-cms-component-dragging{
@@ -338,10 +346,10 @@
 }
 
 .xepan-selected-component{
-    border: 2px dashed #b82005;
+    outline: 2px dashed #b82005;
 }
 .xepan-tools-options {
-    /*margin: 0 10px 12px;*/
+    margin: 0 10px 12px;
     overflow-y: auto;
     height: 90%;
 }
