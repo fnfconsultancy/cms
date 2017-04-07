@@ -1,13 +1,13 @@
-.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_Columns')
+.xepan-tool-options(id='{$_name}columns' style="display:none" for-xepan-component='xepan/cms/Tool_Columns')
 	h3 Columns
 	.xepan-tool-option
-		div(id="{$_name}addcolumn") Add Column
-		div(id="{$_name}existingcolumn" class="tool-option-list-group")
+		div(id="{$_name}columnsaddcolumn") Add Column
+		div(id="{$_name}columnsexistingcolumn" class="tool-option-list-group")
 	script.
 		//- CUSTOM FUNCTION	
 		// add Column Option
 		function addColumnToOption(position,droppedcolumn){
-			var col = $('<div class="tool-option-list-item xepan-cms-basic-tool-column" style="padding:5px;margin-bottom:10px;border:1px solid gray;" data-columnsequence="'+position+'"></div>').appendTo($('\#{$_name}existingcolumn'));
+			var col = $('<div class="tool-option-list-item xepan-cms-basic-tool-column" style="padding:5px;margin-bottom:10px;border:1px solid gray;" data-columnsequence="'+position+'"></div>').appendTo($('\#{$_name}columnsexistingcolumn'));
 			
 			action_panel = $('<div></div>').appendTo(col);
 			$(action_panel).addClass('row xepan-tool-column-action-panel')
@@ -89,20 +89,20 @@
 			//- for each child column row add column in existingcolumn
 			var count = 0;
 			//remove all html from option row existingcolumn
-			$('\#{$_name}existingcolumn').html("");
+			$('\#{$_name}columnsexistingcolumn').html("");
 			$(current_selected_component).children("div[data-toolcolumnclass='xepan-tool-column']").each(function(event){
 				addColumnToOption(count,$(this));
 				count = count + 1;
 			});
 		}
 
-		$('\#{$_name} [data-attr]').on('change',function(){
+		$('\#{$_name}columns [data-attr]').on('change',function(){
 			$(current_selected_component).attr($(this).data('attr'),$(this).val());
 		});
 
-		$('\#{$_name}').on('show',function(event){
+		$('\#{$_name}columns').on('show',function(event){
 			updateColumnOption();
-			var option_row_section = $(this).find('.tool-option-list-group').css('border','5px solid yellow');
+			var option_row_section = $(this).find('.tool-option-list-group');
 			
 			$(current_selected_component).find('> div').each(function(index,column){
 
@@ -111,20 +111,11 @@
 				$('select[data-columnwidth="md"][data-columnsequence="'+index+'"]').val($(column).attr('data-md'));
 				$('select[data-columnwidth="sm"][data-columnsequence="'+index+'"]').val($(column).attr('data-sm'));
 				$('select[data-columnwidth="xs"][data-columnsequence="'+index+'"]').val($(column).attr('data-xs'));
-
-				//- console.log("curent lg = "+$(column).attr('data-lg'));
-				//- console.log($(op_r).find('select[data-columnwidth="lg"]'));
 			});
-
-			//- $(current_selected_component+" > div").each(function(column){
-			//- 	console.log(column);
-			//- 	//- $(this).val($(current_selected_component).attr($(this).data('attr')));
-			//- });
-			
 		});
 
 		//- ADD NEW COLUMN
-		$('\#{$_name}addcolumn').on('click',function(){
+		$('\#{$_name}columnsaddcolumn').on('click',function(){
 			// Append the column  of width 4 by default
 			new_col = $('<div emptytext=\"Column 4\" data-toolcolumnclass=\"xepan-tool-column\" data-lg=\"4\" data-md=\"4\" data-sm=\"12\" data-xs=\"12\"></div>').appendTo($(current_selected_component));
 			$(new_col).addClass("col-md-4 col-sm-12 col-xs-12 col-lg-4 xepan-sortable-component" );
