@@ -152,6 +152,11 @@ jQuery.widget("ui.xepanComponent",{
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			$('#'+this.options.editor_id).xepanEditor('hideOptions');
 		}
+
+		// hide options panel
+		if($('#xepan-cms-toolbar-right-side-panel').hasClass('toggleSideBar')){
+			$('#xepan-cms-toolbar-right-side-panel').removeClass('toggleSideBar');
+		}
 	},
 
 	sortable_options: {
