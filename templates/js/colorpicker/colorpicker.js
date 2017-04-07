@@ -2,7 +2,7 @@ $.each({
 	xEpanColorPicker: function(){
 		$(this.jquery).colorpicker({
 			parts:'full',
-	        alpha:false,
+	        alpha:true,
 	        showOn:'both',
 	        buttonColorize:true,
 	        showNoneButton:true,
@@ -12,7 +12,14 @@ $.each({
 				of: window
 			},
 			modal: true,
-			buttonImage:'vendor/xepan/cms/templates/css/colorpicker/images/ui-colorpicker.png'
+			buttonImage:'vendor/xepan/cms/templates/css/colorpicker/images/ui-colorpicker.png',
+			// ok: function(event,color){
+			// 	console.log('ok '+color.formatted);
+			// },
+			// cancel: function(event,color){
+			// 	console.log('cancel '+color.formatted);
+			// }
+
 		});
 		// $(this.jquery).pickAColor();
 	}
