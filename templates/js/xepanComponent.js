@@ -118,8 +118,8 @@ jQuery.widget("ui.xepanComponent",{
 		$('#xepan-cms-toolbar-right-side-panel').addClass('toggleSideBar');
 
 		updateBreadCrumb();
-		console.log($(this.options.option_panel).closest('.xepan-tool-options'));
-		console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
+		// console.log($(this.options.option_panel).closest('.xepan-tool-options'));
+		// console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
 	},
 
 	createSortable: function(){

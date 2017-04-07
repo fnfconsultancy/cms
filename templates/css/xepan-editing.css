@@ -325,9 +325,17 @@
 }
 
 /*droppable placeholder*/
+.ui-sortable-placeholder,
 .xepan-cms-tool.ui-sortable-placeholder{
-    height:30px;
+    height:auto;
     background-color: #fdfcdf;
+    margin:0 10px 12px 10px;
+    box-shadow:2px 5px 5px #acacac;
+    border-radius:2px; 
+    text-align:center;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:14px;
 }
 
 .xepan-cms-component-dragging{
