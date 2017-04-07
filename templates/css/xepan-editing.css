@@ -353,3 +353,17 @@
     overflow-y: auto;
     height: 90%;
 }
+.xepan-toolbar-panel-body{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.xepan-toolbar-panel-body{
+    text-align: left;
+    font-size: 12px;
+}
+.xepan-cms-toolbar-heading{
+    font-size: 16px;
+    font-weight: 300;
+    cursor: pointer;
+    text-align: center;
+}
