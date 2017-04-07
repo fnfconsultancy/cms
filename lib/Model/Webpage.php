@@ -19,6 +19,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		parent::init();
 
 		$this->hasOne('xepan\cms\Template','template_id');
+		$this->hasOne('xepan\cms\ParentPage','parent_page_id');
 
 		$this->addField('name')->hint('used for display ie. menu');
 		$this->addField('path')->hint('folder_1/folder_2/template_name.html');
@@ -27,6 +28,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->addField('is_active')->type('boolean')->defaultValue(1);
 
 		$this->hasMany('xepan\cms\Webpage','template_id',null,'Pages');
+		$this->hasMany('xepan\cms\Webpage','parent_page_id',null,'SubPages');
 
 		$this->is([
 			'name|to_trim|required',

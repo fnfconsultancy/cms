@@ -21,6 +21,10 @@ class page_templateandpage extends \xepan\base\Page{
 		$crud->setModel('xepan\cms\Page');
 		$crud->grid->removeColumn('action');
 		$crud->grid->removeColumn('attachment_icon');
-		
+		if($crud->isEditing()){
+			$form =$crud->form;
+			$form->getElement('parent_page_id')->getModel()->addCondition('is_template',false);
+		}
+
 	}
 }
