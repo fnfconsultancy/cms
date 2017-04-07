@@ -265,10 +265,10 @@
             <tr>
               <td colspan="2">
                 <div class="btn-group">
-                  <div repeat-background="repeat" class="btn btn-default btn-success btn-xs">All</div>
-                  <div repeat-background="repeat-x" class="btn btn-default btn-xs">X Only</div>
-                  <div repeat-background="repeat-y" class="btn btn-default btn-xs">Y Only</div>
-                  <div repeat-background="no-repeat" class="btn btn-default btn-xs">No-Repeat</div>
+                  <div repeat-background="repeat" class="xepan-btn xepan-btn-default xepan-btn-success btn-xs">All</div>
+                  <div repeat-background="repeat-x" class="xepan-btn xepan-btn-default btn-xs">X Only</div>
+                  <div repeat-background="repeat-y" class="xepan-btn xepan-btn-default btn-xs">Y Only</div>
+                  <div repeat-background="no-repeat" class="xepan-btn xepan-btn-default btn-xs">No-Repeat</div>
                 </div>
               </td>
             </tr>
@@ -278,8 +278,8 @@
             <tr>
               <td colspan="2">
                 <div class="btn-group">
-                  <button id="epan-component-background-fixed" type="button" class="btn btn-default btn-xs">Fixed</button>
-                  <button id="epan-component-background-scroll" type="button" class="btn btn-default btn-xs">Scroll</button>
+                  <button id="epan-component-background-fixed" type="button" class="xepan-btn xepan-btn-default btn-xs">Fixed</button>
+                  <button id="epan-component-background-scroll" type="button" class="xepan-btn xepan-btn-default btn-xs">Scroll</button>
                 </div>
               </td>
             </tr>
@@ -509,7 +509,7 @@
     </div>
   </div>
 </div>
-<div id="override-xepan-tool-template" style="margin-top:10px; padding: 8px 20px" class="btn btn-block btn-primary">Override Template</div>
+<div id="override-xepan-tool-template" style="margin-top:10px; padding: 8px 20px" class="xepan-btn btn-block btn-primary">Override Template</div>
 <script type="text/javascript">
   padding_unit = 'px';
   is_all_padding_same = false;
@@ -524,10 +524,6 @@
     $(current_selected_component).attr('data-extra-classes',$(this).val());
     $(current_selected_component).addClass($(this).val());
   });
-  //- $('#xepan-image-option-classess').change(function(event) {
-  //-   alert('hello');
-  //- });
-  
   
   $('#epan-background-color').change(function(){
   $(current_selected_component).css('background-color', '#'+ $(this).val());
@@ -563,13 +559,13 @@
   });
   $('#epan-component-background-scroll').click(function(event) {
   $(current_selected_component).css('background-attachment','scroll');
-  $('#epan-component-background-fixed').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('#epan-component-background-fixed').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   $('#epan-component-background-fixed').click(function(event) {
   $(current_selected_component).css('background-attachment','fixed');
-  $('#epan-component-background-scroll').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('#epan-component-background-scroll').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   // INITIAL ONE TIME SETUP ON PAGE LOAD
   $('.epan-component-padding').slider({
@@ -643,8 +639,8 @@
   margin_unit = '%';
   });
   $('[repeat-background]').click(function(event) {
-  $('[repeat-background]').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('[repeat-background]').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   $(current_selected_component).css('background-repeat',$(this).attr('repeat-background'));
   });
   $('#epan-all-border-same').click(function(event) {
@@ -791,8 +787,8 @@
   $(current_selected_component).css('border-style',$(this).val());
   else
   $(current_selected_component).css('border-'+$(this).attr('pos')+'-style',$(this).val());
-  $(this).siblings().removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $(this).siblings().removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   $('#epan-component-width-in-per').click(function(event) {
   $(current_selected_component).css('width',$('#epan-component-width-input').val()+'%');
@@ -836,9 +832,9 @@
   $('#epan-component-extra-clases').val($(current_selected_component).attr('data-extra-classes'));
   $('#epan-component-background-image-input').val($(current_selected_component).css('background-image'));
   if($(current_selected_component).css('background-attachment') == 'fixed'){
-  $('#epan-component-background-fixed').addClass('btn-success');
+  $('#epan-component-background-fixed').addClass('xepan-btn-success');
   }else{
-  $('#epan-component-background-scroll').addClass('btn-success');
+  $('#epan-component-background-scroll').addClass('xepan-btn-success');
   }
   // Set Paddings from current component
   if($(current_selected_component)[0].style.paddingTop.indexOf('px') != -1){
@@ -885,16 +881,16 @@
   margin_unit='px';
   }
   // Background Repeat
-  $('[repeat-background]').removeClass('btn-success');
-  $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('btn-success');
+  $('[repeat-background]').removeClass('xepan-btn-success');
+  $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('xepan-btn-success');
   // Border Initialization
   border_positions=['top','right','bottom','left'];
   $.each(border_positions, function(p_index, pos_val) {
   if($(current_selected_component).css('border-'+pos_val+'-width')){
   $('#epan-component-border-'+pos_val+'-width').val($(current_selected_component).css('border-'+pos_val+'-width'));
   $('#epan-component-border-'+pos_val+'-color').val($(current_selected_component).css('border-'+pos_val+'-color'));
-  $('.epan-border-style[pos="'+pos_val+'"]').removeClass('btn-success');
-  $('.epan-border-style[pos="'+pos_val+'"][style="'+$(current_selected_component).css('border-'+pos_val+'-style')+'"]').addClass('btn-success');
+  $('.epan-border-style[pos="'+pos_val+'"]').removeClass('xepan-btn-success');
+  $('.epan-border-style[pos="'+pos_val+'"][style="'+$(current_selected_component).css('border-'+pos_val+'-style')+'"]').addClass('xepan-btn-success');
   $('.epan-component-border-'+pos_val+'-color .current-color').css('background-color',$(current_selected_component).css('border-'+pos_val+'-color'));
   }
   });
