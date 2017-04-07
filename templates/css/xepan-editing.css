@@ -327,7 +327,7 @@
 /*droppable placeholder*/
 .ui-sortable-placeholder,
 .xepan-cms-tool.ui-sortable-placeholder{
-    height:auto;
+    height:40px;
     background-color: #fdfcdf;
     margin:0 10px 12px 10px;
     box-shadow:2px 5px 5px #acacac;

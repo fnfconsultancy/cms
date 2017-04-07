@@ -73,11 +73,12 @@
 			//- on hover  highlight the dropped column_width_select
 			$(col).on({
 			    mouseenter: function () {
-					current_row_column = $(current_selected_component).children('div:eq('+$(this).data('columnsequence')+')');
+					var current_row_column = $(current_selected_component).children('div:eq('+$(this).data('columnsequence')+')');
+			    	console.log(current_row_column);
 					$(current_row_column).addClass("current-row-column-selected");
 			    },
 			    mouseleave: function () {
-					current_row_column = $(current_selected_component).children('div:eq('+$(this).data('columnsequence')+')');
+					var current_row_column = $(current_selected_component).children('div:eq('+$(this).data('columnsequence')+')');
 					$(current_row_column).removeClass('current-row-column-selected');
 			    }
 			});
