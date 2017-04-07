@@ -219,6 +219,11 @@ jQuery.widget("ui.xepanComponent",{
 	    	// console.log(origin);
 		    origin='page';
 	    }
+	},
+
+	getComponentSelector: function(){
+		var self =  this;
+		return self.options.component_selector;
 	}
 	
 });

@@ -346,7 +346,7 @@ jQuery.widget("ui.xepanEditor",{
 
 	    shortcut.add("Ctrl+backspace", function(event) {
 	    	if (typeof current_selected_component == 'undefined') return;
-	        $(current_selected_component).xepanEditor('remove');
+	        $(current_selected_component).xepanComponent('remove');
 	        event.stopPropagation();
 	    });
 
