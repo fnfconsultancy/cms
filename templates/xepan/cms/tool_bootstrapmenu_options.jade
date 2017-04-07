@@ -1,0 +1,72 @@
+.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_BootStrapMenu')
+	.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+	.xepan-cms-group-panel.clearfix
+		h3.collapsed(data-toggle="collapse" data-target="#collapse-boot-menu" aria-expanded="false")
+			span| BootStrap Menu Options
+		#collapse-boot-menu.xepan-cms-tools-bar-panel.row-fluid.collapse.in
+			.xepan-toolbar-panel-body
+				table.table.table-condensed.table-hover
+						tr
+							.xepan-tool-option
+								td.xepan-tool-option-title Brand
+								td.xepan-tool-option-value
+									select#show_brand(data-attr='show_brand' data-defaultvalue="true")
+										option(value="true") Show
+										option(value="false") Hide
+						tr
+							td
+								| Get Pages
+							td
+								button#xmenu-bootstrap-get-pages.btn.btn-default.btn-xs Get Pages
+						tr
+							.xepan-tool-option
+								td.xepan-tool-option-title Navbar Position
+								td.xepan-tool-option-value
+									button#xepan-bootstrap-menu-default-nav.btn.btn-default.btn-xs(type='button') Default
+									button#xepan-bootstrap-menu-fixed-top.btn.btn-default.btn-xs(type='button') Fixed to Top
+									button#xepan-bootstrap-menu-fixed-bottom.btn.btn-default.btn-xs(type='button') Fixed to Bottom
+									button#xepan-bootstrap-menu-static-top.btn.btn-default.btn-xs(type='button') Static Top
+									button#xepan-bootstrap-menu-inverted-nav.btn.btn-default.btn-xs(type='button') Inverted Navbar
+
+				.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+				
+	script.
+		$('\#{$_name} [data-attr]').on('change',function(){
+			$(current_selected_component).attr($(this).data('attr'),$(this).val());
+		});
+
+		$('\#{$_name}').on('show',function(event){
+			$('\#{$_name} [data-attr]').each(function(index,value){
+				
+				var default_value = $(this).attr('data-defaultvalue');
+				if($(current_selected_component).attr($(this).data('attr')))
+					default_value = $(current_selected_component).attr($(this).data('attr'));
+				
+				$(this).val(default_value);
+			});
+		})
+
+		$('#xepan-bootstrap-menu-default-nav').click(function(event) {
+		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-bottom navbar-fixed-top navbar-static-top navbar-inverse');
+		  $(current_selected_component).find('.navbar').addClass('navbar-default');
+		});
+
+		$('#xepan-bootstrap-menu-fixed-top').click(function(event) {
+		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-bottom navbar-static-top navbar-inverse');
+		  $(current_selected_component).find('.navbar').addClass('navbar-fixed-top');
+		});
+		
+		$('#xepan-bootstrap-menu-fixed-bottom').click(function(event) {
+		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-top navbar-static-top navbar-inverse');
+		  $(current_selected_component).find('.navbar').addClass('navbar-fixed-bottom');
+		});
+
+		$('#xepan-bootstrap-menu-static-top').click(function(event) {
+		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-bottom navbar-fixed-top navbar-inverse');
+		  $(current_selected_component).find('.navbar').addClass('navbar-static-top');
+		});
+
+		$('#xepan-bootstrap-menu-inverted-nav').click(function(event) {
+		  $(current_selected_component).find('.navbar').removeClass('navbar-default navbar-fixed-bottom navbar-fixed-top navbar-static-top ');
+		  $(current_selected_component).find('.navbar').addClass('navbar-inverse');
+		});

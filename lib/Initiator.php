@@ -175,6 +175,7 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_CustomForm');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Carousel');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Marquee');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_BootStrapMenu');
 
         return $this;
     }
