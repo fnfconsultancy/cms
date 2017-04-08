@@ -1,22 +1,19 @@
 nav.navbar.navbar-default(id='{$_name}', {$attributes}='', class='{$class}', style=' {$style}', role='navigation')
-	// Brand and toggle get grouped for better mobile display
 	.navbar-header
 		button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
 			span.sr-only Toggle navigation
 			span.icon-bar
 			span.icon-bar
 			span.icon-bar
-		.xepan-brand.xepan-component.xepan-sortable-component.xepan-page-wrapper.navbar-form.navbar-left(id="0e66fa7d-9916-4bbd-ac19-ef44a9419542" xepan-component="xepan/cms/Tool_Container" emptytext="Container" class="xepan-component xepan-sortable-component container ui-sortable")
-			#5de93f3a-3f6c-4a15-e7fe-4e1a9aa82538.xepan-component.xepan-editable-text.mce-content-body.xepan-selected-component(xepan-component='xepan/cms/Tool_Text', emptytext='Edit this text', style='position: relative;', contenteditable='true')
+		.xepan-brand.xepan-component.xepan-sortable-component.navbar-form.navbar-left(xepan-component="xepan/cms/Tool_Container" emptytext="Container")
+			.xepan-component.xepan-editable-text.mce-content-body(xepan-component='xepan/cms/Tool_Text' emptytext='Edit this text')
 				p Edit this text
-	
 	.collapse.navbar-collapse.navbar-ex1-collapse
 		ul#xepan-boostrap-ul.nav.navbar-nav
 			li.active
 				a(href='#') Home
 			li
 				a(href='#') About
-		.xepan-component.xepan-sortable-component.xepan-page-wrapper.navbar-form.navbar-left(id="a1bc3687-0946-4bbd-b811-d18756458d52" xepan-component="xepan/cms/Tool_Container" emptytext="Container" class="xepan-component xepan-sortable-component container ui-sortable")
 	//- script.
 	//- 	$(document).ready(function(){
 	//- 		$('\#{$_name} .dropdown-toggle').dropdown();
