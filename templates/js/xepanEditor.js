@@ -338,9 +338,8 @@ jQuery.widget("ui.xepanEditor",{
 
 	setUpShortCuts: function(){
 		var self = this;
-
 		shortcut.add("Ctrl+s", function(event) {
-	        $('#'+self.options.editor_id).xepanEditor('savePage');
+	        $(self.element).xepanEditor('savePage');
 	        event.stopPropagation();
 	    });
 
