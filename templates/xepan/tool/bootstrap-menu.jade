@@ -1,13 +1,8 @@
-nav.navbar.navbar-default(id='{$_name}', {$attributes}='', class='{$class}', style=' {$style}', role='navigation')
+nav.navbar.navbar-default.xepan-component(id='{$_name}' class='{$Class}' style='{$style}'  role='navigation' xepan-component='xepan/cms/Tool_BootStrapMenu')
 	.navbar-header
 		button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
 			span.sr-only Toggle navigation
-			span.icon-bar
-			span.icon-bar
-			span.icon-bar
-		.xepan-brand.xepan-component.xepan-sortable-component.navbar-form.navbar-left(xepan-component="xepan/cms/Tool_Container" emptytext="Container")
-			.xepan-component.xepan-editable-text.mce-content-body(xepan-component='xepan/cms/Tool_Text' emptytext='Edit this text')
-				p Edit this text
+		.xepan-brand.navbar-form.navbar-left Brand Name
 	.collapse.navbar-collapse.navbar-ex1-collapse
 		ul#xepan-boostrap-ul.nav.navbar-nav
 			li.active

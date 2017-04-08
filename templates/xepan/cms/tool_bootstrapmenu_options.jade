@@ -6,13 +6,17 @@
 		#collapse-boot-menu.xepan-cms-tools-bar-panel.row-fluid.collapse.in
 			.xepan-toolbar-panel-body
 				table.table.table-condensed.table-hover
+						tr							
+							td.xepan-tool-option-title Brand Name
+							td.xepan-tool-option-value
+								input#xbmenu-brand-name(data-attr='xbmenu-brand-name')
 						tr
-							.xepan-tool-option
-								td.xepan-tool-option-title Brand
-								td.xepan-tool-option-value
-									select#show_brand(data-attr='show_brand' data-defaultvalue="true")
-										option(value="1") Show
-										option(value="0") Hide
+							td.xepan-tool-option-title Logo
+							td.xepan-tool-option-value
+								.btn-group
+									input#xbmenu-logo-src.btn(type='text', disabled='true' data-attr="xbmenu-logo-src")
+									button#xbmenu-logo-select(type='button') Select
+									button#xbmenu-image-option-default(type='button') Default
 						tr
 							td
 								| Get Pages
@@ -45,15 +49,7 @@
 				$(this).val(default_value);
 			});
 		})
-
-		$('#show_brand').change(function(){
-		  if($(this).val() == '0'){ // or this.value == 'volvo'
-		    $(current_selected_component).find('.xepan-brand').css('display','none');
-		  }else{
-		    $(current_selected_component).find('.xepan-brand').css('display','block');
-		    }
-		});
-
+		
 		$('#xepan-bootstrap-menu-default-nav').click(function(event) {
 		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-bottom navbar-fixed-top navbar-static-top navbar-inverse');
 		  $(current_selected_component).find('.navbar').addClass('navbar-default');

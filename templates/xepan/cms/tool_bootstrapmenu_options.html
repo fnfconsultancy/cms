@@ -6,16 +6,21 @@
     <div id="collapse-boot-menu" class="xepan-cms-tools-bar-panel row-fluid collapse in">
       <div class="xepan-toolbar-panel-body">
         <table class="table table-condensed table-hover">
+          <tr>							
+            <td class="xepan-tool-option-title">Brand Name</td>
+            <td class="xepan-tool-option-value">
+              <input id="xbmenu-brand-name" data-attr="xbmenu-brand-name"/>
+            </td>
+          </tr>
           <tr>
-            <div class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Brand</td>
-              <td class="xepan-tool-option-value">
-                <select id="show_brand" data-attr="show_brand" data-defaultvalue="true">
-                  <option value="1">Show</option>
-                  <option value="0">Hide</option>
-                </select>
-              </td>
-            </div>
+            <td class="xepan-tool-option-title">Logo</td>
+            <td class="xepan-tool-option-value">
+              <div class="btn-group">
+                <input id="xbmenu-logo-src" type="text" disabled="true" data-attr="xbmenu-logo-src" class="btn"/>
+                <button id="xbmenu-logo-select" type="button">Select</button>
+                <button id="xbmenu-image-option-default" type="button">Default</button>
+              </div>
+            </td>
           </tr>
           <tr>
             <td>Get Pages</td>
