@@ -2,9 +2,13 @@ nav.navbar.navbar-default.xepan-component(id='{$_name}' class='{$Class}' style='
 	.navbar-header
 		button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
 			span.sr-only Toggle navigation
-		.xepan-brand.navbar-form.navbar-left Brand Name
+			span.icon-bar
+			span.icon-bar
+			span.icon-bar
+		div.navbar-brand-wrapper.navbar-brand
+			a.xepan-brand(title="Brand Name") Brand Name
 	.collapse.navbar-collapse.navbar-ex1-collapse
-		ul#xepan-boostrap-ul.nav.navbar-nav
+		ul#xepan-boostrap-ul.nav.navbar-nav.navbar-right
 			li.active
 				a(href='#') Home
 			li
