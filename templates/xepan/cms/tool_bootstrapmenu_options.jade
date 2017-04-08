@@ -46,8 +46,6 @@
 			});
 		})
 
-
-
 		$('#show_brand').change(function(){
 		  if($(this).val() == '0'){ // or this.value == 'volvo'
 		    $(current_selected_component).find('.xepan-brand').css('display','none');
@@ -55,8 +53,6 @@
 		    $(current_selected_component).find('.xepan-brand').css('display','block');
 		    }
 		});
-
-
 
 		$('#xepan-bootstrap-menu-default-nav').click(function(event) {
 		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-bottom navbar-fixed-top navbar-static-top navbar-inverse');
@@ -81,4 +77,47 @@
 		$('#xepan-bootstrap-menu-inverted-nav').click(function(event) {
 		  $(current_selected_component).find('.navbar').removeClass('navbar-default navbar-fixed-bottom navbar-fixed-top navbar-static-top ');
 		  $(current_selected_component).find('.navbar').addClass('navbar-inverse');
+		});
+
+		function getSubPageHtml(path,page_data){
+
+			if($(page_data.subpage).length){
+				var html = '<li class="dropdown dropdown-submenu">';
+					html += '<a href="'+path+'" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'+page_data.name+' <span class="caret"></span></a>';
+					html += '<ul class="dropdown-menu">';
+				$.each(page_data.subpage,function(sub_page_path,sub_page_data){
+					html += getSubPageHtml(sub_page_path,sub_page_data);
+				});
+				html += '</ul></li>';
+			}else{
+				var html = '<li><a href="path">'+page_data.name+'</a></li>';
+			}
+
+			return html;
+		}
+		//- get Pages
+		$("\#{$_name} \#xmenu-bootstrap-get-pages").click(function(){
+			$.ajax({
+				url: 'index.php?page=xepan_cms_getpage',
+				type: 'GET',
+				data: { },
+				success: function (data){
+					var pages = JSON.parse(data);
+					var list_html = "" ;
+					$.each(pages,function(path,page_data){
+						list_html += getSubPageHtml(path,page_data);
+					});
+
+					$(current_selected_component).find('#xepan-boostrap-ul').html("");
+					$(list_html).appendTo($(current_selected_component).find('#xepan-boostrap-ul'));
+					
+					//- //- manual call dropdown after get page and also coded at document ready in view tool html file
+					//- $(current_selected_component).find('.dropdown-toggle').dropdown();
+					//- $(current_selected_component).find('.dropdown-submenu a').on('click',function(e){
+					//- 	$(this).next('ul').toggle();
+					//-     e.stopPropagation();
+					//-     e.preventDefault();
+					//- });
+				}
+			});
 		});

@@ -19,10 +19,10 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		parent::init();
 
 		$this->hasOne('xepan\cms\Template','template_id');
-		$this->hasOne('xepan\cms\ParentPage','parent_page_id');
+		$this->hasOne('xepan\cms\ParentPage','parent_page_id')->defaultValue(0);
 
 		$this->addField('name')->hint('used for display ie. menu');
-		$this->addField('path')->hint('folder_1/folder_2/template_name.html');
+		$this->addField('path')->hint('folder_1/folder_2/file_name.html');
 		$this->addField('is_template')->type('boolean');
 		$this->addField('is_muted')->type('boolean')->hint('for show or hide on menu');
 		$this->addField('is_active')->type('boolean')->defaultValue(1);
