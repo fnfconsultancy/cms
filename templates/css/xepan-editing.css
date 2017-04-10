@@ -452,3 +452,7 @@
 .xepan-responsive-lg{
     width:100%;
 }
+
+.xepan-editor-customcss-form textarea{
+    width:100%;
+}
