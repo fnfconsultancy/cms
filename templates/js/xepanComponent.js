@@ -6,7 +6,12 @@ xepan_cms_tinymce_options={
                 "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
 		toolbar1: "insertfile undo redo | styleselect | bold italic fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",                
 		importcss_append: true,
-		verify_html: true
+		verify_html: true,
+		setup: function(editor) {
+        	editor.on("init", function(){
+            	editor.addShortcut("ctrl+u", "", "");
+        	});
+    	}
 	};
 
 
