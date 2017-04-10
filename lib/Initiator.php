@@ -140,8 +140,21 @@ class Initiator extends \Controller_Addon {
                 // ->_load('ace/ace/mode-php')
                 ->_load('ace/ace/mode-css')
                 ->_load('ace/ace/theme-tomorrow')
-                ->_load('ace/jquery-ace.min');
+                ->_load('ace/jquery-ace.min');          
         }
+
+        // check my style css is exist or not
+        $path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/css";
+        if(!file_exists($path)){
+            $folder = \Nette\Utils\FileSystem::createDir($path);
+        }  
+        $path .= "/mystyle.css";
+        $mystyle = " /*Define Your Custom CSS*/";
+        if(!file_exists($path)){
+            $file = \Nette\Utils\FileSystem::write($path,$mystyle);
+        }
+        $this->app->template->appendHTML('js_include','<link id="xepan-cms-custom-mystylecss" type="text/css" href="websites/'.$this->app->current_website_name.'/www/css/mystyle.css" rel="stylesheet" />'."\n");
+        // end of custom css include 
 
         if($_GET['js_redirect_url']){                                    
             $this->app->js(true)->univ()->dialogOK('Redirecting To Page', 'Website URL'.$_GET['js_redirect_url'])->redirect($_GET['js_redirect_url']);
