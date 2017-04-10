@@ -116,7 +116,7 @@ jQuery.widget("ui.xepanEditor",{
 		var $screen_md_btn = $('<button id="epan-editor-preview-screen-md" title="Laptop Preview" type="button" class="btn btn-default" ><span class="fa fa-laptop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_sm_btn = $('<button id="epan-editor-preview-screen-sm" title="Tablet Preview" type="button" class="btn btn-default" ><span class="fa fa-tablet" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_xs_btn = $('<button id="epan-editor-preview-screen-xm" title="Mobile Preview" type="button" class="btn btn-default" ><span class="fa fa-mobile" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
-		var $screen_custom_btn = $('<button id="epan-editor-preview-screen-xm" title="Custom Size Preview" type="button" class="btn btn-default" ><span class="fa fa-plus" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
+		// var $screen_custom_btn = $('<button id="epan-editor-preview-screen-xm" title="Custom Size Preview" type="button" class="btn btn-default" ><span class="fa fa-plus" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 
 		$screen_reset_btn.click(function(event) {
 			$('body').removeClass('xepan-cms-responsive-wrapper xepan-responsive-xs xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
@@ -366,7 +366,9 @@ jQuery.widget("ui.xepanEditor",{
 	    $('.xepan-component-drag-handler').remove();
 	    $('.xepan-component-remove').remove();
 	    $('.xepan-component').removeClass('xepan-component-hover-selector');
-	    
+	   	
+	   	// responsive classes
+	    $('body').removeClass('xepan-cms-responsive-wrapper xepan-responsive-xs xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
 
 	    var overlay = jQuery('<div id="xepan-cms-page-save-overlay"> </div>');
 	    overlay.appendTo(document.body).css('z-index','10000');
