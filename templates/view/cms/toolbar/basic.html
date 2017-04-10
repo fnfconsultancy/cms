@@ -9,7 +9,8 @@
         <table class="table table-condensed table-hover">
           <tbody>
             <tr>
-              <td>Component Width
+              <td>Component Width<span class="pull-right">Reset
+                  <input id="epan-component-width-reset" type="checkbox"/></span>
               </td>
             </tr>
             <tr>
@@ -22,7 +23,8 @@
               </td>
             </tr>
             <tr>
-              <td>Comp. Height</td>
+              <td>Comp. Height<span class="pull-right">Reset
+                  <input id="epan-component-height-reset" type="checkbox"/></span></td>
             </tr>
             <tr>
               <td colspan="2">
@@ -34,7 +36,8 @@
               </td>
             </tr>
             <tr>
-              <td>css class</td>
+              <td>css class<span class="pull-right">Reset
+                  <input id="epan-component-extra-css-reset" type="checkbox"/></span></td>
             </tr>
             <tr>
               <td colspan="2">
@@ -60,7 +63,10 @@
               <td width="58%">
                 <input id="epan-all-padding-same" type="checkbox"/>
               </td>
-              <td></td>
+              <td>Clear All</td>
+              <td width="58%">
+                <input id="epan-all-padding-reset" type="checkbox"/>
+              </td>
             </tr>
             <tr>
               <td>Unit</td>
@@ -132,7 +138,10 @@
               <td width="58%">
                 <input id="epan-all-margin-same" type="checkbox"/>
               </td>
-              <td></td>
+              <td>Clear All</td>
+              <td width="58%">
+                <input id="epan-all-margin-reset" type="checkbox"/>
+              </td>
             </tr>
             <tr>
               <td>Unit</td>
@@ -301,6 +310,10 @@
               <td>
                 <input id="epan-all-border-same" type="checkbox" checked=""/>
               </td>
+              <td>Reset Border</td>
+              <td width="58%">
+                <input id="epan-all-border-reset" type="checkbox"/>
+              </td>
             </tr>
             <tr>
               <td colspan="2">Top Border</td>
@@ -445,11 +458,17 @@
   </div>
   <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
   <div class="xepan-cms-group-panel clearfix xepan-cms-tool">
-    <div data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" class="collapsed xepan-cms-toolbar-heading"><span>Tranform</span></div>
+    <div data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" class="collapsed xepan-cms-toolbar-heading"><span>Transform</span></div>
     <div id="collapseSix" class="xepan-cms-tools-bar-panel row-fluid collapse"> 
       <div class="xepan-toolbar-panel-body xepan-collasp-body">
         <table class="table table-condensed table-hover">
           <tbody>
+            <tr>
+              <td>Reset Transform</td>
+              <td width="58%">
+                <input id="epan-all-transform-reset" type="checkbox"/>
+              </td>
+            </tr>
             <tr>
               <td width="20%">Rotate</td>
             </tr>
@@ -618,6 +637,43 @@
   is_all_padding_same =false;
   }
   });
+  
+  //- Reset Width on current_selected_component
+  $('#epan-component-width-reset').click(function(event){
+      $(current_selected_component).css('width','');
+      $(current_selected_component).css('max-width','');
+      $(current_selected_component).css('min-width','');
+  });
+  //- Reset Height on current_selected_component
+  $('#epan-component-height-reset').click(function(event){
+      $(current_selected_component).css('height','');
+      $(current_selected_component).css('max-height','');
+      $(current_selected_component).css('min-height','');
+  });
+  //- Reset Width on current_selected_component
+  $('#epan-component-extra-css-reset').click(function(event){
+      $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+  });
+  //- Reset Padding on current_selected_component
+  $('#epan-all-padding-reset').click(function(event){
+      $(current_selected_component).css('padding','');
+  });
+  
+  //- Reset Margin on current_selected_component
+  $('#epan-all-margin-reset').click(function(event){
+      $(current_selected_component).css('margin','');
+  });
+  
+  //- Reset Border on current_selected_component
+  $('#epan-all-border-reset').click(function(event){
+      $(current_selected_component).css('border','');
+  });
+  
+  //- Reset Tranform on current_selected_component
+  $('#epan-all-transform-reset').click(function(event){
+      $(current_selected_component).css('transform','');
+  });
+  
   $('#epan-all-margin-same').click(function(event) {
   if($('#epan-all-margin-same:checked').size() > 0){
   $('.epan-component-margin').not('#epan-component-margin-top').slider('disable');
@@ -766,6 +822,7 @@
     min: -100,
     max: 100,
   });
+  
   
   
   $('.epan-border-width').keyup(function(event) {

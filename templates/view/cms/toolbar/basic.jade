@@ -12,6 +12,10 @@
               td
                 //- | Comp. Width
                 |Component Width
+                span.pull-right
+                  | Reset
+                  input#epan-component-width-reset(type='checkbox')
+                
             tr
               td(colspan='2')
                 input#epan-component-width-input(type='NUMBER', min='0', max='999999999', size='5')
@@ -23,6 +27,9 @@
             tr
               td
                 | Comp. Height
+                span.pull-right
+                  | Reset
+                  input#epan-component-height-reset(type='checkbox')
             tr
               td(colspan='2')
                 input#epan-component-height-input(type='NUMBER', min='0', max='999999999', size='5')
@@ -34,6 +41,9 @@
             tr
               td
                 | css class
+                span.pull-right
+                  | Reset
+                  input#epan-component-extra-css-reset(type='checkbox')
             tr
               td( colspan='2')
                 input#xepan-image-option-classess(style="width:95%" type='text')
@@ -60,6 +70,9 @@
               td(width='58%')
                 input#epan-all-padding-same(type='checkbox')
               td
+                |Clear All
+              td(width='58%')
+                input#epan-all-padding-reset(type='checkbox')               
             tr
               td
                 | Unit
@@ -117,6 +130,9 @@
               td(width='58%')
                 input#epan-all-margin-same(type='checkbox')
               td
+                |Clear All
+              td(width='58%')
+                input#epan-all-margin-reset(type='checkbox')
             tr
               td
                 | Unit
@@ -238,6 +254,10 @@
                 | Effect All
               td
                 input#epan-all-border-same(type='checkbox', checked='')
+              td
+                |Reset Border
+              td(width='58%')
+                input#epan-all-border-reset(type='checkbox')    
             tr
               td(colspan="2")
                 |Top Border
@@ -420,11 +440,16 @@
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
     div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseSix" aria-expanded="false")
-      span Tranform
+      span Transform
     #collapseSix.xepan-cms-tools-bar-panel.row-fluid.collapse  
       .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
           tbody
+            tr
+              td
+                |Reset Transform
+              td(width='58%')
+                input#epan-all-transform-reset(type='checkbox') 
             tr
               td(width='20%')
                 |Rotate
@@ -582,6 +607,43 @@ script(type='text/javascript').
   is_all_padding_same =false;
   }
   });
+
+  //- Reset Width on current_selected_component
+  $('#epan-component-width-reset').click(function(event){
+      $(current_selected_component).css('width','');
+      $(current_selected_component).css('max-width','');
+      $(current_selected_component).css('min-width','');
+  });
+  //- Reset Height on current_selected_component
+  $('#epan-component-height-reset').click(function(event){
+      $(current_selected_component).css('height','');
+      $(current_selected_component).css('max-height','');
+      $(current_selected_component).css('min-height','');
+  });
+  //- Reset Width on current_selected_component
+  $('#epan-component-extra-css-reset').click(function(event){
+      $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+  });
+  //- Reset Padding on current_selected_component
+  $('#epan-all-padding-reset').click(function(event){
+      $(current_selected_component).css('padding','');
+  });
+
+  //- Reset Margin on current_selected_component
+  $('#epan-all-margin-reset').click(function(event){
+      $(current_selected_component).css('margin','');
+  });
+
+  //- Reset Border on current_selected_component
+  $('#epan-all-border-reset').click(function(event){
+      $(current_selected_component).css('border','');
+  });
+
+  //- Reset Tranform on current_selected_component
+  $('#epan-all-transform-reset').click(function(event){
+      $(current_selected_component).css('transform','');
+  });
+
   $('#epan-all-margin-same').click(function(event) {
   if($('#epan-all-margin-same:checked').size() > 0){
   $('.epan-component-margin').not('#epan-component-margin-top').slider('disable');
@@ -730,6 +792,7 @@ script(type='text/javascript').
     min: -100,
     max: 100,
   });
+
 
 
   $('.epan-border-width').keyup(function(event) {
