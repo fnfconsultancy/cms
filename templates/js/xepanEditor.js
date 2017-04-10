@@ -1,6 +1,7 @@
 current_selected_component = undefined;
 origin = 'page';
 xepan_drop_component_html= '';
+xepan_editor_element = null;
 
 jQuery.widget("ui.xepanEditor",{
 	options:{
@@ -21,6 +22,7 @@ jQuery.widget("ui.xepanEditor",{
 
 	_create: function(){
 		var self = this;
+		xepan_editor_element = self.element;
 
 		self.setupEnvironment();
 		self.setupTools();
