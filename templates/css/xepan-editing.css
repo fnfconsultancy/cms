@@ -413,3 +413,8 @@
     border-color: #398439;
     color: #fff;
 }
+
+/*left bar editor helper*/
+.xepan-cms-editor-helper-wrraper{
+    padding:10px;
+}
