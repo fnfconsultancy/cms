@@ -136,7 +136,7 @@ jQuery.widget("ui.xepanComponent",{
 	deselect: function (){
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			current_selected_component=undefined;
-			$('#'+this.options.editor_id).xepanEditor('hideOptions');
+			$(xepan_editor_element).xepanEditor('hideOptions');
 		}
 		$(this.element).removeClass('xepan-selected-component');
 		updateBreadCrumb();
