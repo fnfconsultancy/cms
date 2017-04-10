@@ -1,12 +1,15 @@
 xepan_cms_tinymce_options={
 		inline:true,
+		menubar: false,
 		forced_root_block: 'p',
 		plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
                 "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
-		toolbar1: "insertfile undo redo | styleselect | bold italic fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",                
+		toolbar1: "undo redo | styleselect | bold italic underline strikethrough fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | fullpage | forecolor backcolor emoticons",                
 		importcss_append: true,
 		verify_html: true,
+		theme_url: 'vendor/tinymce/tinymce/themes/modern/theme.min.js',
+		theme: 'modern',
 		setup: function(editor) {
         	editor.on("init", function(){
             	editor.addShortcut("ctrl+u", "", "");
