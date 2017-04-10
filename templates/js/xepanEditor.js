@@ -88,14 +88,13 @@ jQuery.widget("ui.xepanEditor",{
 
 		// show border and easy drop
 		var easy_wrapper = $('<div class="input-group xepan-cms-easy-drop-wrapper">').appendTo(self.editor_helper_wrapper);
-		var easy_drop = $('<span class="input-group-addon"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"><p>Easy Drop</p></span>').appendTo(easy_wrapper);
-		var show_border = $('<span class="input-group-addon"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"><p>Show Border</p></span>').appendTo(easy_wrapper);
+		var easy_drop = $('<span class="input-group-addon"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"><p>Easy Drop</p></span>').appendTo(easy_wrapper);
+		var show_border = $('<span class="input-group-addon"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"><p>Show Border</p></span>').appendTo(easy_wrapper);
 
 		/*Component Editing outline show border*/
 		$("#epan-component-border").click(function(event) {
 		    if($('#epan-component-border:checked').size() > 0){
 		        $('.xepan-component').addClass('component-outline');
-		    	
 		    }else{
 		        $('.xepan-component').removeClass('component-outline');
 		    }
