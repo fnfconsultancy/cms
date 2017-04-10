@@ -13,7 +13,6 @@ class View_ToolBar extends \View {
         $this->app->jui->addStylesheet('elfindertheme');
         $this->app->jui->addStylesheet('xepan-editing');
 
-
 		$this->app->jui->addStaticInclude('elfinder.full');
 		$this->js(true)
 				->_load('tinymce.min')
@@ -24,6 +23,8 @@ class View_ToolBar extends \View {
 				// ->_load('xepanComponent')
 				->_load('jquery.livequery')
 				;
+        $this->js(true)->_css('font-awesome');
+        
 		$this->app->jui->addStaticInclude('xepanEditor');
 		$this->app->jui->addStaticInclude('xepanComponent');
 
