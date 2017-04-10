@@ -28,7 +28,6 @@ jQuery.widget("ui.xepanEditor",{
 		self.setupTools();
 		// self.setupToolbar();
 		self.setUpShortCuts();
-		self.setUpPagesAndTemplates();
 		// self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
 		// if(self.options.template_editing){
 		// 	$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
@@ -46,7 +45,7 @@ jQuery.widget("ui.xepanEditor",{
 		// right bar content
 		$('<h2>Options Panel</h2>').appendTo(self.rightbar);
 		
-		self.rightbar_toggle_btn = $('<div class="toggler"><span class="glyphicon glyphicon-chevron-right" style="display: block;">&nbsp;</span> <span class="glyphicon glyphicon-chevron-left" style="display: none;">&nbsp;</span></div>').appendTo(self.rightbar);
+		self.rightbar_toggle_btn = $('<div class="toggler"><span class="fa fa-chevron-left fa-2x" style="display: block;">&nbsp;</span> <span class="fa fa-chevron-right fa-2x" style="display: none;">&nbsp;</span></div>').appendTo(self.rightbar);
 		$(self.rightbar_toggle_btn).click(function(){
 			$('#xepan-cms-toolbar-right-side-panel').toggleClass('toggleSideBar');
 		});
@@ -55,7 +54,7 @@ jQuery.widget("ui.xepanEditor",{
 		// left bar
 		self.leftbar = $('<div id="xepan-cms-toolbar-left-side-panel" class="container sidebar sidebar-left" style="left: -230px;" data-status="opened"></div>').insertAfter('body');
 		// right bar content
-		self.leftbar_toggle_btn = $('<div class="toggler"><span class="glyphicon glyphicon-chevron-right" style="display: block;">&nbsp;</span> <span class="glyphicon glyphicon-chevron-left" style="display: none;">&nbsp;</span></div>').appendTo(self.leftbar);
+		self.leftbar_toggle_btn = $('<div class="toggler"><span class="fa fa-chevron-right fa-2x" style="display: block;">&nbsp;</span> <span class="fa fa-chevron-left fa-2x" style="display: none;">&nbsp;</span></div>').appendTo(self.leftbar);
 		$(self.leftbar_toggle_btn).click(function(){
 			$('#xepan-cms-toolbar-left-side-panel').toggleClass('toggleSideBar');
 		});
@@ -68,6 +67,31 @@ jQuery.widget("ui.xepanEditor",{
 		// $(self.topbar_toggle_btn).click(function(){
 		// 	$('#xepan-cms-toolbar-top-side-panel').toggleClass('toggleSideBar');
 		// });
+		
+		self.editor_helper_wrapper = $('<div class="xepan-cms-editor-helper-wrraper">').appendTo(self.leftbar);
+		// page and template management
+		self.setUpPagesAndTemplates();
+		// save and snapshot btn
+		var save_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
+		var save_btn_group = $('<div class="btn-group">').appendTo(save_tool_bar);
+		var $snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
+		var $save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
+		var $logout_btn = $('<button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button>').appendTo(save_btn_group);
+		
+		// show border and easy drop
+		var easy_wrapper = $('<div class="input-group xepan-cms-easy-drop-wrapper">').appendTo(self.editor_helper_wrapper);
+		var easy_drop_wrapper = $('<span class="input-group-addon"> <input aria-label="Checkbox for following text input" type="checkbox"><p>Easy Drop</p></span>').appendTo(easy_wrapper);
+		var show_border = $('<span class="input-group-addon"> <input aria-label="Checkbox for following text input" type="checkbox"><p>Show Border</p></span>').appendTo(easy_wrapper);
+
+		// settings up tool buttons
+		var responsive_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
+		var responsive_btn_group =	$('<div class="btn-group">').appendTo(responsive_tool_bar);
+		var $screen_lg_btn = $('<button id="epan-editor-preview-screen-lg" title="Desktop Preview" type="button" class="btn btn-default"><span class="fa fa-desktop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
+		var $screen_md_btn = $('<button id="epan-editor-preview-screen-md" title="Laptop Preview" type="button" class="btn btn-default" ><span class="fa fa-laptop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
+		var $screen_sm_btn = $('<button id="epan-editor-preview-screen-sm" title="Tablet Preview" type="button" class="btn btn-default" ><span class="fa fa-tablet" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
+		var $screen_xs_btn = $('<button id="epan-editor-preview-screen-xm" title="Mobile Preview" type="button" class="btn btn-default" ><span class="fa fa-mobile" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
+		var $screen_custom_btn = $('<button id="epan-editor-preview-screen-xm" title="Custom Size Preview" type="button" class="btn btn-default" ><span class="fa fa-plus" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
+		
 	},
 
 	setupTools: function(){
@@ -127,7 +151,9 @@ jQuery.widget("ui.xepanEditor",{
 
 	setUpPagesAndTemplates: function(){
 		var self = this;
-		var $page_btn = $('<button class="btn input-block-level form-control btn-primary">'+self.options.current_page+'</button>').appendTo(self.leftbar);
+		
+		var $page_btn = $('<div class="input-group xepan-cms-template-page-management"><span class="input-group-addon" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></span> <input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="Page: '+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span></div>').appendTo(self.editor_helper_wrapper);
+		// var $page_btn = $('<button class="input-block-level">'+self.options.current_page+'</button>').appendTo(self.leftbar);
 		$page_btn.click(function(event) {
 			$.univ().frameURL('Pages & Templates','index.php?page=xepan_cms_cmspagemanager&cut_page=1');
 		});
