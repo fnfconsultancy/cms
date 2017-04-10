@@ -72,24 +72,77 @@ jQuery.widget("ui.xepanEditor",{
 		// save and snapshot btn
 		var save_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
 		var save_btn_group = $('<div class="btn-group">').appendTo(save_tool_bar);
-		var $snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
-		var $save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
-		var $logout_btn = $('<button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button>').appendTo(save_btn_group);
+		var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
+		var save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
+		var logout_btn = $('<button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button>').appendTo(save_btn_group);
 		
+		$(save_btn).click(function(){
+			$(self.element).xepanEditor('savePage');
+		});
+
+		$(logout_btn).click(function(event) {
+			window.location.href='?page=logout';
+		});
+
 		// show border and easy drop
 		var easy_wrapper = $('<div class="input-group xepan-cms-easy-drop-wrapper">').appendTo(self.editor_helper_wrapper);
-		var easy_drop_wrapper = $('<span class="input-group-addon"> <input aria-label="Checkbox for following text input" type="checkbox"><p>Easy Drop</p></span>').appendTo(easy_wrapper);
-		var show_border = $('<span class="input-group-addon"> <input aria-label="Checkbox for following text input" type="checkbox"><p>Show Border</p></span>').appendTo(easy_wrapper);
+		var easy_drop = $('<span class="input-group-addon"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"><p>Easy Drop</p></span>').appendTo(easy_wrapper);
+		var show_border = $('<span class="input-group-addon"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"><p>Show Border</p></span>').appendTo(easy_wrapper);
+
+		/*Component Editing outline show border*/
+		$("#epan-component-border").click(function(event) {
+		    if($('#epan-component-border:checked').size() > 0){
+		        $('.xepan-component').addClass('component-outline');
+		    	
+		    }else{
+		        $('.xepan-component').removeClass('component-outline');
+		    }
+		});
+
+		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
+		$('#epan-component-extra-padding').click(function(event) {
+		    if($('#epan-component-extra-padding:checked').size() > 0){
+		        $('.xepan-sortable-component').addClass('epan-sortable-extra-padding');
+		    }else{
+		        $('.xepan-sortable-component').removeClass('epan-sortable-extra-padding');
+		    }
+		});
 
 		// settings up tool buttons
 		var responsive_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
-		var responsive_btn_group =	$('<div class="btn-group">').appendTo(responsive_tool_bar);
+		var responsive_btn_group =	$('<div class="btn-group btn-group-sm">').appendTo(responsive_tool_bar);
+		var $screen_reset_btn = $('<button id="epan-editor-preview-screen-reset" title="Reset to original Preview" type="button" class="btn btn-default"><span class="fa fa-undo" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_lg_btn = $('<button id="epan-editor-preview-screen-lg" title="Desktop Preview" type="button" class="btn btn-default"><span class="fa fa-desktop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_md_btn = $('<button id="epan-editor-preview-screen-md" title="Laptop Preview" type="button" class="btn btn-default" ><span class="fa fa-laptop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_sm_btn = $('<button id="epan-editor-preview-screen-sm" title="Tablet Preview" type="button" class="btn btn-default" ><span class="fa fa-tablet" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_xs_btn = $('<button id="epan-editor-preview-screen-xm" title="Mobile Preview" type="button" class="btn btn-default" ><span class="fa fa-mobile" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_custom_btn = $('<button id="epan-editor-preview-screen-xm" title="Custom Size Preview" type="button" class="btn btn-default" ><span class="fa fa-plus" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
-		
+
+		$screen_reset_btn.click(function(event) {
+			$('body').removeClass('xepan-cms-responsive-wrapper xepan-responsive-xs xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
+		});
+
+		$screen_xs_btn.click(function(event) {
+			$('body').removeClass('xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
+			$('body').addClass('xepan-cms-responsive-wrapper xepan-responsive-xs');
+		});
+
+		$screen_sm_btn.click(function(event) {
+			$('body').removeClass('xepan-responsive-xs xepan-responsive-md xepan-responsive-lg');
+			$('body').addClass('xepan-cms-responsive-wrapper xepan-responsive-sm');
+		});
+
+		$screen_md_btn.click(function(event) {
+			$('body').removeClass('xepan-responsive-xs xepan-responsive-sm xepan-responsive-lg');
+			$('body').addClass('xepan-cms-responsive-wrapper xepan-responsive-md');
+		});
+
+		$screen_lg_btn.click(function(event) {
+			$('body').removeClass('xepan-responsive-xs xepan-responsive-sm xepan-responsive-md');
+			$('body').addClass('xepan-cms-responsive-wrapper xepan-responsive-lg');
+		});
+
+
 	},
 
 	setupTools: function(){
@@ -150,11 +203,23 @@ jQuery.widget("ui.xepanEditor",{
 	setUpPagesAndTemplates: function(){
 		var self = this;
 		
-		var $page_btn = $('<div class="input-group xepan-cms-template-page-management"><span class="input-group-addon" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></span> <input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="Page: '+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span></div>').appendTo(self.editor_helper_wrapper);
-		// var $page_btn = $('<button class="input-block-level">'+self.options.current_page+'</button>').appendTo(self.leftbar);
+		var page_btn_wrapper = $('<div class="input-group xepan-cms-template-page-management"></div>').appendTo(self.editor_helper_wrapper);
+		var $template_edit_btn = $('<span class="input-group-addon" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></span>').appendTo(page_btn_wrapper);
+		var $page_btn = $('<input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="'+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
+		
+		if(self.options.template_editing != true){
+			$template_edit_btn.click(function(event) {
+				$(self.element).xepanEditor('editTemplate');
+			});
+		}else{
+			$template_edit_btn.addClass('xepan-editor-btn-disabled');
+		}
+
 		$page_btn.click(function(event) {
 			$.univ().frameURL('Pages & Templates','index.php?page=xepan_cms_cmspagemanager&cut_page=1');
 		});
+
+
 	},
 
 	setupToolbar: function(){
@@ -279,7 +344,7 @@ jQuery.widget("ui.xepanEditor",{
 	editTemplate : function(){
 		// alert(this.options.template);
 		// alert(this.options.template_file);
-		$.univ().location(document.location.href+'?page='+this.options.template+'&xepan-template-edit='+this.options.template);
+		$.univ().location('index.php?page='+this.options.template+'&xepan-template-edit='+this.options.template);
 	},
 
 	savePage: function(){

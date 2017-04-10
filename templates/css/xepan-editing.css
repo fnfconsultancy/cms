@@ -418,3 +418,37 @@
 .xepan-cms-editor-helper-wrraper{
     padding:10px;
 }
+
+.component-outline{
+    outline:2px dotted gray !important
+}
+
+.epan-sortable-extra-padding{
+    padding-bottom:30px !important;
+    padding-top:30px !important
+}
+
+.xepan-cms-responsive-wrapper{
+    margin:0 auto !important;
+    box-shadow:1px 5px 10px !important;
+    transition: 0.3s;
+}
+
+.xepan-responsive-xs{
+    width:320px;
+    height: 480px;
+}
+
+.xepan-responsive-sm{
+    width:768px;
+    height: 480px;
+}
+
+.xepan-responsive-md{
+    width:992px;
+    height:500px;
+}
+
+.xepan-responsive-lg{
+    width:100%;
+}
