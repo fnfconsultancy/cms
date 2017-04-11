@@ -260,13 +260,13 @@
 }
 
 .xepan-droppable-highlight{
-    background-color: #f1c74e;
+    /*background-color: #f1c74e;*/
 }
 
 .xepan-sortable-component{
     /*border: 1px solid #ef7c2a;*/
-    outline:/* 1px solid #f3f3f3;
-    min-heig*/ht: 100px;
+    /*outline: 1px solid #f3f3f3;*/
+    /*min-height: 100px;*/
 }
 
 .ui-dialog.xepan-component-remove-confirm{

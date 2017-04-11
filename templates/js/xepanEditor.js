@@ -3,6 +3,7 @@ origin = 'page';
 xepan_drop_component_html= '';
 xepan_editor_element = null;
 xepan_component_selector = null;
+xepan_component_layout_optioned_added = false;
 
 jQuery.widget("ui.xepanEditor",{
 	options:{
@@ -167,7 +168,8 @@ jQuery.widget("ui.xepanEditor",{
 			var tools_html = "";
 			$.each(tools,function(tool_name_with_namespace,tool_data){
 				var t_name = tool_name_with_namespace;
-				t_name = t_name.replace(/\\/g, "");
+				if(t_name.length >0 )
+					t_name = t_name.replace(/\\/g, "");
 
 				$('<div class="xepan-cms-tool" data-toolname="'+t_name+'"><img src="'+tool_data.icon_img+'"/ onerror=this.src="./vendor/xepan/cms/templates/images/default_icon.png"><p>'+tool_data.name+'</p></div>')
 					.appendTo(app_tool_wrapper)
@@ -190,8 +192,12 @@ jQuery.widget("ui.xepanEditor",{
 						tolerance: 'pointer'
 					})
 					;
-	
-					$(tool_data.option_html).appendTo(tools_options);
+					
+					if(tool_data.tool =='xepan/cms/Tool_Layout' && xepan_component_layout_optioned_added==true ){
+					}else{
+						$(tool_data.option_html).appendTo(tools_options);
+						if(tool_data.tool =='xepan/cms/Tool_Layout') xepan_component_layout_optioned_added = true;
+					}
 			});
 			$(app_tool_wrapper).hide();
 		});
