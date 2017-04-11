@@ -5,7 +5,7 @@ xepan_cms_tinymce_options={
 		plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
                 "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
-		toolbar1: "undo redo | styleselect | bold italic underline strikethrough fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | fullpage | forecolor backcolor emoticons",                
+		toolbar1: "undo redo | styleselect | bold italic underline strikethrough fontselect fontsizeselect hr| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | fullpage | forecolor backcolor emoticons",                
 		importcss_append: true,
 		verify_html: true,
 		theme_url: 'vendor/tinymce/tinymce/themes/modern/theme.min.js',
