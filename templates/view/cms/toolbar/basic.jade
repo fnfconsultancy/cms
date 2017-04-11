@@ -12,9 +12,8 @@
               td
                 //- | Comp. Width
                 |Component Width
-                span.pull-right
+                button#epan-component-width-reset.pull-right.btn.btn-warning.btn-xs
                   | Reset
-                  input#epan-component-width-reset(type='checkbox')
                 
             tr
               td(colspan='2')
@@ -27,9 +26,8 @@
             tr
               td
                 | Comp. Height
-                span.pull-right
-                  | Reset
-                  input#epan-component-height-reset(type='checkbox')
+                button#epan-component-height-reset.pull-right.btn.btn-warning.btn-xs
+                  |Reset
             tr
               td(colspan='2')
                 input#epan-component-height-input(type='NUMBER', min='0', max='999999999', size='5')
@@ -41,9 +39,8 @@
             tr
               td
                 | css class
-                span.pull-right
-                  | Reset
-                  input#epan-component-extra-css-reset(type='checkbox')
+                button#epan-component-extra-css-reset.pull-right.btn.btn-warning.btn-xs
+                  |Reset
             tr
               td( colspan='2')
                 input#xepan-image-option-classess(style="width:95%" type='text')
@@ -70,9 +67,8 @@
               td(width='58%')
                 input#epan-all-padding-same(type='checkbox')
               td
-                |Clear All
-              td(width='58%')
-                input#epan-all-padding-reset(type='checkbox')               
+                button#epan-all-padding-reset.pull-right.btn.btn-warning.btn-xs               
+                  |Reset
             tr
               td
                 | Unit
@@ -130,9 +126,8 @@
               td(width='58%')
                 input#epan-all-margin-same(type='checkbox')
               td
-                |Clear All
-              td(width='58%')
-                input#epan-all-margin-reset(type='checkbox')
+                button#epan-all-margin-reset.pull-right.btn.btn-warning.btn-xs
+                  |Reset
             tr
               td
                 | Unit
@@ -255,9 +250,8 @@
               td
                 input#epan-all-border-same(type='checkbox', checked='')
               td
-                |Reset Border
-              td(width='58%')
-                input#epan-all-border-reset(type='checkbox')    
+                button#epan-all-border-reset.pull-right.btn.btn-warning.btn-xs    
+                  |Reset
             tr
               td(colspan="2")
                 |Top Border
@@ -447,9 +441,9 @@
           tbody
             tr
               td
-                |Reset Transform
+                button#epan-all-transform-reset.pull-right.btn.btn-warning.btn-xs 
+                  |Reset
               td(width='58%')
-                input#epan-all-transform-reset(type='checkbox') 
             tr
               td(width='20%')
                 |Rotate
