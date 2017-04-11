@@ -30,6 +30,17 @@
           </tr>
           <tr>
             <div class="xepan-tool-option">
+              <td class="xepan-tool-option-title">Align</td>
+              <td class="xepan-tool-option-value">
+                <select id="xmenu-bootstrap-alignment" data-attr="xbootmenu-align" data-defaultvalue="right">
+                  <option value="right">Right</option>
+                  <option value="left">Left</option>
+                </select>
+              </td>
+            </div>
+          </tr>
+          <tr>
+            <div class="xepan-tool-option">
               <td class="xepan-tool-option-title">Navbar Position</td>
               <td class="xepan-tool-option-value">
                 <button id="xepan-bootstrap-menu-default-nav" type="button" class="btn btn-default btn-xs">Default</button>
@@ -128,6 +139,15 @@
       $(current_selected_component).find('.navbar').addClass('navbar-inverse');
     });
     
+    //- set nav Alignment
+    $('#xmenu-bootstrap-alignment').change(function(){
+    	if($(this).val() == "left"){
+    		$(current_selected_component).find('.navbar-collapse').removeClass('navbar-right').addClass('navbar-left');
+    	}else{
+    		$(current_selected_component).find('.navbar-collapse').removeClass('navbar-left').addClass('navbar-right');
+    	}
+    });
+    
     function getSubPageHtml(path,page_data){
     
     	if($(page_data.subpage).length){
@@ -139,7 +159,7 @@
     		});
     		html += '</ul></li>';
     	}else{
-    		var html = '<li><a href="'+path+'">'+page_data.name+'</a></li>';
+    		var html = '<li><a href="path">'+page_data.name+'</a></li>';
     	}
     
     	return html;

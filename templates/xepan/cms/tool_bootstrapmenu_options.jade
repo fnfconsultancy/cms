@@ -24,6 +24,13 @@
 								button#xmenu-bootstrap-get-pages.btn.btn-default.btn-xs Get Pages
 						tr
 							.xepan-tool-option
+								td.xepan-tool-option-title Align
+								td.xepan-tool-option-value
+									select#xmenu-bootstrap-alignment(data-attr='xbootmenu-align' data-defaultvalue="right")
+										option(value="right") Right
+										option(value="left") Left
+						tr
+							.xepan-tool-option
 								td.xepan-tool-option-title Navbar Position
 								td.xepan-tool-option-value
 									button#xepan-bootstrap-menu-default-nav.btn.btn-default.btn-xs(type='button') Default
@@ -115,6 +122,15 @@
 		$('#xepan-bootstrap-menu-inverted-nav').click(function(event) {
 		  $(current_selected_component).find('.navbar').removeClass('navbar-default navbar-fixed-bottom navbar-fixed-top navbar-static-top ');
 		  $(current_selected_component).find('.navbar').addClass('navbar-inverse');
+		});
+
+		//- set nav Alignment
+		$('#xmenu-bootstrap-alignment').change(function(){
+			if($(this).val() == "left"){
+				$(current_selected_component).find('.navbar-collapse').removeClass('navbar-right').addClass('navbar-left');
+			}else{
+				$(current_selected_component).find('.navbar-collapse').removeClass('navbar-left').addClass('navbar-right');
+			}
 		});
 
 		function getSubPageHtml(path,page_data){
