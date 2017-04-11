@@ -4,7 +4,10 @@
   <div class="xepan-tool-option">
     <div class="xepan-tool-option-title">Width</div>
     <div class="xepan-tool-option-value">
-      <input id="container-width" value="80%" data-attr="width"/>
+      <select id="container-tag">(style="width:100%")
+        <option value="div">Div</option>
+        <option value="section">Section</option>
+      </select>
     </div>
   </div>
   <script>
@@ -16,6 +19,10 @@
     	$('#{$_name} [data-attr]').each(function(index,value){
     		$(this).val($(current_selected_component).attr($(this).data('attr')));				
     	});
-    })
+    });
+    
+    $('#{$_name} select#container-tag').change(function(){
+    	alert('TODO '+$(this).val());
+    });
   </script>
 </div>

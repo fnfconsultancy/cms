@@ -345,9 +345,6 @@
     cursor: move;
 }
 
-.xepan-selected-component{
-    outline: 2px dashed #b82005;
-}
 .xepan-tools-options {
     /*margin: 0 10px 12px;*/
     overflow-y: auto;
@@ -423,7 +420,12 @@
     outline:2px dotted gray !important
 }
 
-.epan-sortable-extra-padding{
+.xepan-selected-component{
+    outline: 2px dashed #b82005 !important;
+}
+
+
+.xepan-sortable-extra-padding{
     padding-bottom:30px !important;
     padding-top:30px !important
 }

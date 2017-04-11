@@ -101,18 +101,18 @@ jQuery.widget("ui.xepanEditor",{
 		/*Component Editing outline show border*/
 		$("#epan-component-border").click(function(event) {
 		    if($('#epan-component-border:checked').size() > 0){
-		        $('.xepan-component').addClass('component-outline');
+		        $(xepan_component_selector).find('.xepan-component').addClass('component-outline');
 		    }else{
-		        $('.xepan-component').removeClass('component-outline');
+		        $(xepan_component_selector).find('.xepan-component').removeClass('component-outline');
 		    }
 		});
 
 		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
 		$('#epan-component-extra-padding').click(function(event) {
 		    if($('#epan-component-extra-padding:checked').size() > 0){
-		        $('.xepan-sortable-component').addClass('epan-sortable-extra-padding');
+		        $(xepan_component_selector).find('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
 		    }else{
-		        $('.xepan-sortable-component').removeClass('epan-sortable-extra-padding');
+		        $(xepan_component_selector).find('.xepan-sortable-component').removeClass('xepan-sortable-extra-padding');
 		    }
 		});
 
@@ -314,9 +314,9 @@ jQuery.widget("ui.xepanEditor",{
 		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
 		$('#epan-component-extra-padding').click(function(event) {
 		    if($('#epan-component-extra-padding:checked').size() > 0){
-		        $(self.options.component_selector + ' .xepan-sortable-component').addClass('epan-sortable-extra-padding');
+		        $(self.options.component_selector + ' .xepan-sortable-component').addClass('xepan-sortable-extra-padding');
 		    }else{
-		        $(self.options.component_selector + ' .xepan-sortable-component').removeClass('epan-sortable-extra-padding');
+		        $(self.options.component_selector + ' .xepan-sortable-component').removeClass('xepan-sortable-extra-padding');
 		    }
 		});
 		
@@ -416,6 +416,8 @@ jQuery.widget("ui.xepanEditor",{
 	    $('.xepan-component-remove').remove();
 	    $('.xepan-component').removeClass('xepan-component-hover-selector');
 	    $('.xepan-component').removeClass('component-outline');
+	    $('.xepan-component').removeClass('xepan-selected-component');
+	    $('.xepan-component').removeClass('xepan-sortable-extra-padding');
 	   	
 	   	// responsive classes
 	    $('body').removeClass('xepan-cms-responsive-wrapper xepan-responsive-xs xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
