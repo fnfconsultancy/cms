@@ -233,7 +233,7 @@
     height: 60%;
 }
 
-.xepan-layout-selector{
+.sidebar-left select{
     margin:0 10px 12px 10px;     
     background-color:white;
     border-radius:2px;
@@ -243,7 +243,7 @@
     font-size:16px;
 }
 
-.xepan-layout-selector option{
+.sidebar-left select > option{
     padding-left:5px; 
 }
 
