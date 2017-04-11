@@ -2,7 +2,7 @@
 <div id="{$_name}columns" style="display:none" for-xepan-component="xepan/cms/Tool_Columns" class="xepan-tool-options">
   <h3>Row</h3>
   <div class="xepan-tool-option">
-    <div id="{$_name}columnsaddcolumn"><button>Add Column</button></div>
+    <div id="{$_name}columnsaddcolumn">Add Column</div>
     <div id="{$_name}columnsexistingcolumn" class="tool-option-list-group"></div>
   </div>
   <script>
@@ -59,7 +59,8 @@
     	$('.xepan-cms-tool-column-width-options > div > select').on('change',function(){
     		//find nth child of current selected xepan-component and apply class of selected column_width_select
     		var current_selected_dropdown = $(this).closest('select');
-    		current_row_column = $(current_selected_component).find('div:eq('+$(current_selected_dropdown).data('columnsequence')+')');
+    		var current_row_column = $(current_selected_component).find('div.xepan-cms-column:eq('+$(this).data('columnsequence')+')');
+    
     		if($(current_row_column).length){
     			var column_type = $(current_selected_dropdown).data('columnwidth'); //-return md,lg, etc
     			// remove old class according to dropdown lg/md with it's value
@@ -76,7 +77,6 @@
     	$(col).on({
     	    mouseenter: function () {
     			var current_row_column = $(current_selected_component).children('div:eq('+$(this).data('columnsequence')+')');
-    	    	console.log(current_row_column);
     			$(current_row_column).addClass("current-row-column-selected");
     	    },
     	    mouseleave: function () {
@@ -119,7 +119,7 @@
     //- ADD NEW COLUMN
     $('#{$_name}columnsaddcolumn').on('click',function(){
     	// Append the column  of width 4 by default
-    	new_col = $('<div xepan-component=\"xepan/cms/Tool_Column\" emptytext=\"Column 4\" data-toolcolumnclass=\"xepan-tool-column\" data-lg=\"4\" data-md=\"4\" data-sm=\"12\" data-xs=\"12\"></div>').appendTo($(current_selected_component));
+    	new_col = $('<div emptytext=\"Column 4\" data-toolcolumnclass=\"xepan-tool-column\" data-lg=\"4\" data-md=\"4\" data-sm=\"12\" data-xs=\"12\"></div>').appendTo($(current_selected_component));
     	$(new_col).addClass("xepan-cms-column col-md-4 col-sm-12 col-xs-12 col-lg-4 xepan-sortable-component xepan-component" );
     	$(new_col).xepanComponent();
     	//and call addColumnToOption
@@ -131,11 +131,8 @@
     .row.xepan-component .tool-option-list-item,.tool-option-list-item{
     	border:1px dotted gray;
     }
-/*    div[data-toolcolumnclass="xepan-tool-column"]{
-    	border:1px dotted gray;
-    	padding:20px;
-    }
-*/    .current-row-column-selected{
+    
+    .current-row-column-selected{
     	background-color:#c0dee6;
     	transition: 0.3s;
     }
@@ -145,8 +142,8 @@
 <div id="{$_name}column" style="display:none" for-xepan-component="xepan/cms/Tool_Column" class="xepan-tool-options">
   <h3>Column</h3>
   <div class="xepan-tool-option">
-    <div id="{$_name}columnaddcolumn"><button> Add Column</button></div>
-    <div id="{$_name}columnselectrow"><button>Select Row</button></div>
+    <div id="{$_name}columnaddcolumn">Add Column</div>
+    <div id="{$_name}columnselectrow">Select Row</div>
     <div id="{$_name}columnexistingcolumn" class="tool-option-list-group"></div>
   </div>
   <script>
@@ -230,7 +227,7 @@
     	$('select[data-columnwidth="sm"][data-columnsequence="'+position+'"]').val($(current_selected_component).attr('data-sm'));
     	$('select[data-columnwidth="xs"][data-columnsequence="'+position+'"]').val($(current_selected_component).attr('data-xs'));
     
-    	// //- for current selected component
+    	//- for current selected component
     	$('.xepan-cms-column').removeClass('xepan-selected-component');
     	$(current_selected_component).addClass('xepan-selected-component');
     });
@@ -257,11 +254,8 @@
     .row.xepan-component .tool-option-list-item,.tool-option-list-item{
     	border:1px dotted gray;
     }
-/*    div[data-toolcolumnclass="xepan-tool-column"]{
-    	border:1px dotted gray;
-    	padding:20px;
-    }
-*/    .current-row-column-selected{
+    
+    .current-row-column-selected{
     	background-color:#c0dee6;
     	transition: 0.3s;
     }

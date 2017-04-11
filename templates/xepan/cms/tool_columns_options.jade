@@ -58,7 +58,8 @@
 			$('.xepan-cms-tool-column-width-options > div > select').on('change',function(){
 				//find nth child of current selected xepan-component and apply class of selected column_width_select
 				var current_selected_dropdown = $(this).closest('select');
-				current_row_column = $(current_selected_component).find('div:eq('+$(current_selected_dropdown).data('columnsequence')+')');
+				var current_row_column = $(current_selected_component).find('div.xepan-cms-column:eq('+$(this).data('columnsequence')+')');
+
 				if($(current_row_column).length){
 					var column_type = $(current_selected_dropdown).data('columnwidth'); //-return md,lg, etc
 					// remove old class according to dropdown lg/md with it's value
@@ -75,7 +76,6 @@
 			$(col).on({
 			    mouseenter: function () {
 					var current_row_column = $(current_selected_component).children('div:eq('+$(this).data('columnsequence')+')');
-			    	console.log(current_row_column);
 					$(current_row_column).addClass("current-row-column-selected");
 			    },
 			    mouseleave: function () {
