@@ -1,0 +1,73 @@
+.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_Icon')
+	h3.collapsed(data-toggle="collapse" data-target="#collapse-xepan-icon" aria-expanded="false")
+			span|Icon Option
+		#collapse-xepan-icon.xepan-cms-tools-bar-panel.row-fluid.collapse.in
+			.xepan-toolbar-panel-body
+				table.table.table-condensed.table-hover
+					tr
+						.xepan-tool-option
+							td.xepan-tool-option-title Icon Class
+							td.xepan-tool-option-value
+								input#xepan-cms-icon-class(data-attr="icon-class")
+								button#xepan-cms-icon-dialog-btn Select Icon
+					tr
+						.xepan-tool-option
+							td.xepan-tool-option-title Link
+							td.xepan-tool-option-value
+								input#xepan-cms-icon-link(data-attr='icon-link')
+					tr
+						.xepan-tool-option
+							td.xepan-tool-option-title Target
+							td.xepan-tool-option-value
+								select#xepan-cms-icon-target(data-attr='icon-link-target' data-defaultvalue="none")
+										option(value="none" selected) None
+										option(value="window") New Window
+	script.
+		$('\#{$_name} [data-attr]').on('change',function(){
+			$(current_selected_component).attr($(this).data('attr'),$(this).val());
+		});
+
+		$('\#{$_name}').on('show',function(event){
+			$('\#{$_name} [data-attr]').each(function(index,value){
+				$(this).val($(current_selected_component).attr($(this).data('attr')));
+			});
+		});
+
+		//- icon input box changed
+		$('#xepan-cms-icon-class').on('change',function(){
+			$(current_selected_component).removeClass (function (index, className) {
+				return (className.match (/(^|\s)fa-\S+/g) || []).join(' ');
+			}).addClass($(this).val());
+		});
+
+		//-icon click event
+		$('#xepan-cms-icon-link').change(function(){
+			var link  = $(this).val();
+			if(link.length > 0){
+				if($('#xepan-cms-icon-target').val() == "window"){
+					$(current_selected_component).attr('onClick',"window.open('"+link+"', '_blank');");
+				}else
+					$(current_selected_component).attr('onClick',"location.href = '"+link+"';");
+
+			}else{
+				$(current_selected_component).removeAttr('onClick');
+			}
+		}); 
+
+		$('#xepan-cms-icon-target').change(function(){
+			var link = $('#xepan-cms-icon-link').val();
+
+			if($(this).val() == "window"){
+				$(current_selected_component).attr('onClick',"window.open('"+link+"', '_blank');");
+			}else
+				$(current_selected_component).attr('onClick',"location.href = '"+link+"';");
+
+			if(link.length < 0){
+				$(current_selected_component).removeAttr('onClick');
+			}
+		});
+		//- show dialoge box for icon-link
+		//- $('#xepan-cms-icon-dialog-btn').click(function(){
+
+		//- });
+

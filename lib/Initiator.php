@@ -27,7 +27,7 @@ class Initiator extends \Controller_Addon {
 
     function exportEntities($app,&$array){
         $array['CarouselCategory'] = ['caption'=>'CarouselCategory','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselCategory'];
-        $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];
+        $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];        
     }
 
     function setup_pre_frontend(){
@@ -194,6 +194,7 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Image');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Icon');
         $this->app->exportFrontEndTool('xepan\cms\Tool_CustomForm');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Carousel');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Marquee');
