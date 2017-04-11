@@ -68,6 +68,7 @@ class View_ToolBar extends \View {
 			$tools_array['Layouts'][] = [
 											'name'=>'',
 											'tool'=>'xepan/cms/Tool_Layout',
+											'category'=>explode("-", str_replace(".html", "", $l['name']))[0],
 											'drop_html'=>$t_v->getHTML(),
 											'option_html'=>$t_option_v->getHTML(),
 											'icon_img'=>'./vendor/'.$tool_namespace.'/templates/xepan/tool/layouts/'.str_replace(".html", ".png", $l['name'])
