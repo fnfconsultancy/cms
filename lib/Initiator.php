@@ -142,7 +142,16 @@ class Initiator extends \Controller_Addon {
                 ->addStaticInclude('ace/ace/theme-tomorrow')
                 ->addStaticInclude('ace/jquery-ace.min');          
         }
-        $this->app->js(true)->_css('font-awesome');
+
+        $this->app->jui->addStaticInclude('pnotify.custom.min');
+        $this->app->jui->addStaticInclude('xepan.pnotify');
+        $this->app->jui->addStaticStyleSheet('pnotify.custom.min');
+        $this->app->jui->addStaticStyleSheet('animate');
+        $this->app->jui->addStaticInclude('xepan_jui');
+        $this->app->jui->addStaticInclude('xepan_jui');
+        $this->app->jui->addStaticStyleSheet('bootstrap.min');
+        $this->app->jui->addStaticInclude('bootstrap.min');
+        $this->app->jui->addStaticStyleSheet('font-awesome');
         // check my style css is exist or not
         $path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/css";
         if(!file_exists($path)){

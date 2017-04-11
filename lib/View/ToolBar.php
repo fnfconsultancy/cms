@@ -23,7 +23,6 @@ class View_ToolBar extends \View {
 				// ->_load('xepanComponent')
 				->_load('jquery.livequery')
 				;
-        // $this->js(true)->_css('font-awesome');
         
 		$this->app->jui->addStaticInclude('xepanEditor');
 		$this->app->jui->addStaticInclude('xepanComponent');
@@ -133,12 +132,6 @@ class View_ToolBar extends \View {
 		$this->app->jui->addStaticInclude('elfinder.full');
         $this->app->jui->addStylesheet('elfinder.full');
         $this->app->jui->addStylesheet('elfindertheme');
-		// $this->js(true)->_load('elfinder.full');
-  //       $this->js(true)->_css('elfinder.full');
-        // $this->js(true)->_css('elfindertheme');
-
-        // $this->js(true)->_css('jquery-ui');
-        // $this->js(true)->_css('font-awesome');
 
 		//load style css
 		$this->app->jui->addStaticStyleSheet($this->api->url()->absolute()->getBaseURL().'vendor/xepan/cms/templates/css/xepan-editing.css');
