@@ -367,6 +367,7 @@ jQuery.widget("ui.xepanEditor",{
 	    $('.xepan-component-drag-handler').remove();
 	    $('.xepan-component-remove').remove();
 	    $('.xepan-component').removeClass('xepan-component-hover-selector');
+	    $('.xepan-component').removeClass('component-outline');
 	   	
 	   	// responsive classes
 	    $('body').removeClass('xepan-cms-responsive-wrapper xepan-responsive-xs xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
