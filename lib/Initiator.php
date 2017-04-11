@@ -142,7 +142,7 @@ class Initiator extends \Controller_Addon {
                 ->_load('ace/ace/theme-tomorrow')
                 ->_load('ace/jquery-ace.min');          
         }
-
+        $this->app->js(true)->_css('font-awesome');
         // check my style css is exist or not
         $path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/css";
         if(!file_exists($path)){

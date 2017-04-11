@@ -23,7 +23,7 @@ class View_ToolBar extends \View {
 				// ->_load('xepanComponent')
 				->_load('jquery.livequery')
 				;
-        $this->js(true)->_css('font-awesome');
+        // $this->js(true)->_css('font-awesome');
         
 		$this->app->jui->addStaticInclude('xepanEditor');
 		$this->app->jui->addStaticInclude('xepanComponent');
