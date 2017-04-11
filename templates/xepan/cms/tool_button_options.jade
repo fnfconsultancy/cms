@@ -1,0 +1,65 @@
+.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_Button')
+	.xepan-cms-group-panel.clearfix
+		h3.collapsed(data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false")
+			span Button
+		#collapse-carousel.xepan-cms-tools-bar-panel.row-fluid.collapse.in
+			.panel-body
+				.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+				.xepan-cms-group-panel.clearfix
+					div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#bootstrap-btn-options" aria-expanded="false")
+						span Options 
+				#bootstrap-btn-options.xepan-cms-tools-bar-panel.row-fluid.collapse
+					table.table.table-condensed.table-hover
+						tr
+							td
+								|Button Color
+								button#epan-component-btn-class-reset.pull-right.btn.btn-warning.btn-xs
+									| Reset
+						tr
+							td(colspan='2')
+								.btn-group.btn-group-btn-group-lg(role='group', aria-label='...')
+									button.xepan-cms-apply-btn.btn.btn-primary(type='button' data-attr="xepan-cms-btn-class" data-btn-class="btn-primary")
+									button.xepan-cms-apply-btn.btn.btn-success(type='button' data-attr="xepan-cms-btn-class" data-btn-class="btn-success")
+									button.xepan-cms-apply-btn.btn.btn-warning(type='button' data-attr="xepan-cms-btn-class" data-btn-class="btn-warning")
+									button.xepan-cms-apply-btn.btn.btn-danger(type='button' data-attr="xepan-cms-btn-class" data-btn-class="btn-danger")
+	script.
+
+		$('\#{$_name} [data-attr]').on('change',function(){
+			$(current_selected_component).attr($(this).data('attr'),$(this).val());
+		});
+
+		$('\#{$_name}').on('show',function(event){
+			$('\#{$_name} [data-attr]').each(function(index,value){
+				$(this).val($(current_selected_component).attr($(this).data('attr')));				
+			});
+		});
+
+		$('#epan-component-btn-class-reset').click(function(event){
+		      $(current_selected_component).removeClass(function(index,classname){
+		      	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
+		      }).addClass('btn-default');
+		});
+		
+		$('\#{$_name} .xepan-cms-apply-btn').click(function(event){
+		    $(current_selected_component).removeClass(function(index,classname){
+		      	return (classname.match(/(^|\s)btn-\S+/g) || []).join(' ');
+		      }).addClass($(this).attr('data-btn-class'));
+		});
+		
+		//- $('#btn-success').click(function(event){
+		//-       $(current_selected_component).children('button').removeClass(function(index,classname){
+		//-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
+		//-       }).addClass('btn-success');
+		//- });
+		
+		//- $('#btn-warning').click(function(event){
+		//-       $(current_selected_component).children('button').removeClass(function(index,classname){
+		//-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
+		//-       }).addClass('btn-warning');
+		//- });
+
+		//- $('#btn-danger').click(function(event){
+		//-       $(current_selected_component).children('button').removeClass(function(index,classname){
+		//-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
+		//-       }).addClass('btn-danger');
+		//- });
