@@ -2,6 +2,7 @@ current_selected_component = undefined;
 origin = 'page';
 xepan_drop_component_html= '';
 xepan_editor_element = null;
+xepan_component_selector = null;
 
 jQuery.widget("ui.xepanEditor",{
 	options:{
@@ -13,7 +14,7 @@ jQuery.widget("ui.xepanEditor",{
 		template_editing:undefined,
 		tools:{},
 		basic_properties: undefined,
-		component_selector: '.xepan-component'
+		component_selector: '.xepan-component',
 	},
 
 	topbar:{},
@@ -23,6 +24,7 @@ jQuery.widget("ui.xepanEditor",{
 	_create: function(){
 		var self = this;
 		xepan_editor_element = self.element;
+		xepan_component_selector = self.options.component_selector;
 
 		self.setupEnvironment();
 		self.setupTools();
@@ -38,7 +40,7 @@ jQuery.widget("ui.xepanEditor",{
 		var self = this;
 
 		// throw self html out of body
-		$(self.element).appendTo('body');
+		$(self.element).insertAfter('body');
 
 		// right bar
 		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="container sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
@@ -363,7 +365,7 @@ jQuery.widget("ui.xepanEditor",{
 
 	    $('body').univ().errorMessage('Wait.. saving your page !!!');
 
-	    $('.xepan-component').xepanComponent('deselect');
+	    $(xepan_component_selector).xepanComponent('deselect');
 	    $('.xepan-component-drag-handler').remove();
 	    $('.xepan-component-remove').remove();
 	    $('.xepan-component').removeClass('xepan-component-hover-selector');
@@ -373,7 +375,7 @@ jQuery.widget("ui.xepanEditor",{
 	    $('body').removeClass('xepan-cms-responsive-wrapper xepan-responsive-xs xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
 
 	    var overlay = jQuery('<div id="xepan-cms-page-save-overlay"> </div>');
-	    overlay.appendTo(document.body).css('z-index','10000');
+	    overlay.insertAfter(document.body).css('z-index','10000');
 
 	    html_body = $('.xepan-page-wrapper').clone();
 		
@@ -400,6 +402,7 @@ jQuery.widget("ui.xepanEditor",{
 	    $("body").css("cursor", "default");
 
 	    var save_and_take_snapshot='Y';
+
 
 	    $.ajax({
 	        url: this.options.save_url,
@@ -498,7 +501,7 @@ jQuery.widget("ui.xepanEditor",{
 	            }
 	        }
 
-	        $(self.options.component_selector).xepanComponent('deselect');
+	        $(xepan_component_selector).xepanComponent('deselect');
 	        $(next_component).xepanComponent('select');
 	        event.stopPropagation();
 	    }, {
@@ -522,13 +525,13 @@ jQuery.widget("ui.xepanEditor",{
 	            }
 	        }
 
-	        $(self.options.component_selector).xepanComponent('deselect');
+	        $(xepan_component_selector).xepanComponent('deselect');
 	        $(next_component).xepanComponent('select');
 	        event.stopPropagation();
 	    });
 
 	    shortcut.add("Esc", function(event) {
-	        $(self.options.component_selector).xepanComponent('deselect');
+	        $(xepan_component_selector).xepanComponent('deselect');
 	        $('#xepan-cms-toolbar-right-side-panel').removeClass('toggleSideBar');
 	        $('#xepan-cms-toolbar-left-side-panel').removeClass('toggleSideBar');
 	        event.stopPropagation();

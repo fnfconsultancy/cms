@@ -59,7 +59,7 @@ class View_ToolBar extends \View {
 			}
 		}
 
-		$component_selector="body .xepan-component";
+		$component_selector=".xepan-page-wrapper.xepan-component, .xepan-page-wrapper .xepan-component";
 		$editing_template = null;
 
 		if($this->app->editing_template){
