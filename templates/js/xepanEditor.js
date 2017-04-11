@@ -158,20 +158,31 @@ jQuery.widget("ui.xepanEditor",{
 
 		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(self.leftbar);
 		var option = '<option value="0">Select</option>';
+		
+		var category_dropdown = $('<select class="xepan-layout-selector-category"></select>').appendTo(self.leftbar);
+		$(category_dropdown).hide();
 
 		var tools_options = $('<div class="xepan-tools-options">').appendTo(self.rightbar);
 
+		var layout_category = [];
+
 		$.each(self.options.tools,function(app_name,tools){
-			option += '<option value="'+app_name+'">'+app_name+'</option>';			
-			
+
+			option += '<option value="'+app_name+'">'+app_name+'</option>';
 			var app_tool_wrapper = $('<div class="xepan-cms-toolbar-tool '+app_name+'">').appendTo(self.leftbar);
 			var tools_html = "";
 			$.each(tools,function(tool_name_with_namespace,tool_data){
+
+				// category
+				if(tool_data.category != undefined && $.inArray(tool_data.category, layout_category) < 0){
+					layout_category.push(tool_data.category);
+				}
+
 				var t_name = tool_name_with_namespace;
 				if(t_name.length >0 )
 					t_name = t_name.replace(/\\/g, "");
 
-				$('<div class="xepan-cms-tool" data-toolname="'+t_name+'"><img src="'+tool_data.icon_img+'"/ onerror=this.src="./vendor/xepan/cms/templates/images/default_icon.png"><p>'+tool_data.name+'</p></div>')
+				$('<div class="xepan-cms-tool '+tool_data.category+'" data-toolname="'+t_name+'"><img src="'+tool_data.icon_img+'"/ onerror=this.src="./vendor/xepan/cms/templates/images/default_icon.png"><p>'+tool_data.name+'</p></div>')
 					.appendTo(app_tool_wrapper)
 					.disableSelection()
 					.draggable({
@@ -204,10 +215,35 @@ jQuery.widget("ui.xepanEditor",{
 
 		$(option).appendTo(apps_dropdown);
 
+		var category_option = '<option value="0">All Category</option>';
+		$.each(layout_category, function(index, cat_name) {
+			category_option += '<option value="'+cat_name+'">'+cat_name+'</option>';
+		});
+		$(category_option).appendTo(category_dropdown);
+
 		$(apps_dropdown).change(function(){
 			selected_app = $(this).val();
 			$('.xepan-cms-toolbar-tool').hide();
 			$('.xepan-cms-toolbar-tool.'+selected_app).show();
+			
+			if(selected_app == "Layouts"){
+				$(category_dropdown).show();
+			}else{
+				$(category_dropdown).hide();
+			}
+		});
+
+		$(category_dropdown).change(function(event) {
+			/* Act on the event */
+			selected_cat = $(this).val();
+			$('.xepan-cms-toolbar-tool.Layouts .xepan-cms-tool').hide();
+			$('.xepan-cms-toolbar-tool.Layouts').show();
+			if(selected_cat == 0){
+				$('.xepan-cms-toolbar-tool.Layouts .xepan-cms-tool').show();
+			}else{
+				$('.xepan-cms-toolbar-tool.Layouts .'+selected_cat).show();
+			}
+
 		});
 
 		$(self.options.basic_properties).appendTo(tools_options);
