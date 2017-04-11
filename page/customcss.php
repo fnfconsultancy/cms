@@ -41,8 +41,10 @@ class page_customcss extends \Page {
 
 		$form = $this->add('Form',null,null,['form/stacked']);
 		$form->addClass('xepan-editor-customcss-form');
-		$code_editor = $form->addField('text','custom_css');
-		// $code_editor->lang = "css";
+		$code_editor = $form->addField('xepan\base\CodeEditor','custom_css');
+		$code_editor->lang = "css";
+		$code_editor->worker = "css";
+		$code_editor->setRows(25);
 		$code_editor->set($mystyle);
 
 		$form->addSubmit('update');

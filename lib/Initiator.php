@@ -134,13 +134,13 @@ class Initiator extends \Controller_Addon {
         }
 
         if($this->app->isEditing){
-            $this->app->js(true)
-                ->_load('ace/ace/ace')
-                // ->_load('ace/ace/mode-html')
-                // ->_load('ace/ace/mode-php')
-                ->_load('ace/ace/mode-css')
-                ->_load('ace/ace/theme-tomorrow')
-                ->_load('ace/jquery-ace.min');          
+            $this->app->jui
+                ->addStaticInclude('ace/ace/ace')
+                ->addStaticInclude('ace/ace/mode-html')
+                ->addStaticInclude('ace/ace/mode-php')
+                ->addStaticInclude('ace/ace/mode-css')
+                ->addStaticInclude('ace/ace/theme-tomorrow')
+                ->addStaticInclude('ace/jquery-ace.min');          
         }
 
         // check my style css is exist or not
