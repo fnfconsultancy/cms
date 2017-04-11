@@ -66,7 +66,7 @@ class View_ToolBar extends \View {
 			$editing_template = $this->app->editing_template;
 			$component_selector="body.xepan-component, body .xepan-component";
 			$this->js(true)->_selector('body')->addClass('xepan-component xepan-sortable-component');
-			$this->js(true)->_selector('.xepan-page-wrapper')->removeClass('xepan-component xepan-sortable-component');
+			// $this->js(true)->_selector('.xepan-page-wrapper')->removeClass('xepan-component xepan-sortable-component');
 		}
 
 		$this->js(true)

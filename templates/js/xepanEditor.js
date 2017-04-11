@@ -25,15 +25,19 @@ jQuery.widget("ui.xepanEditor",{
 		var self = this;
 		xepan_editor_element = self.element;
 		xepan_component_selector = self.options.component_selector;
+		
+		if(self.options.template_editing){
+			$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
+		}else{
+			$('.xepan-page-wrapper').addClass('xepan-component');
+			$('.xepan-page-wrapper').addClass('xepan-sortable-component');
+		}
 
 		self.setupEnvironment();
 		self.setupTools();
 		// self.setupToolbar();
 		self.setUpShortCuts();
 		// self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
-		// if(self.options.template_editing){
-		// 	$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
-		// }
 	},
 
 	setupEnvironment: function(){
