@@ -6,10 +6,18 @@
       <table class="table table-condensed table-hover">
         <tr>
           <div class="xepan-tool-option">
-            <td class="xepan-tool-option-title">Icon Class</td>
-            <td class="xepan-tool-option-value">
-              <input id="xepan-cms-icon-class" data-attr="icon-class"/>
-              <button id="xepan-cms-icon-dialog-btn">Select Icon</button>
+            <td colspan="2" class="xepan-tool-option-value">
+              <div class="input-group"><span class="input-group-btn">
+                  <button id="xepan-cms-icon-dialog-btn" data-align="left" data-icon="fa-leaf" role="iconpicker" class="btn btn-default">Select Icon<i class="fa fa-leaf"></i></button></span>
+                <input id="xepan-cms-icon-class" type="text" value="fa-leaf" data-attr="icon-class" class="form-control"/><span style="padding:0px;margin:0px;background-color:white;" class="input-group-addon">
+                  <select id="xepan-cms-icon-size" data-attr="icon-size" data-defaultvalue="fa-1x">
+                    <option value="fa-1x" selected="selected">1x</option>
+                    <option value="fa-2x">2x</option>
+                    <option value="fa-3x">3x</option>
+                    <option value="fa-4x">4x</option>
+                    <option value="fa-5x">5x</option>
+                  </select></span>
+              </div>
             </td>
           </div>
         </tr>
@@ -32,6 +40,18 @@
             </td>
           </div>
         </tr>
+        <tr>
+          <div class="xepan-tool-option">
+            <td class="xepan-tool-option-title">Alignment</td>
+            <td class="xepan-tool-option-value">
+              <div class="btn-group">
+                <button type="button" aria-label="Left Align" icon-align="text-left" title="Left" class="btn btn-default xepan-cms-icon-alignment"><span class="glyphicon glyphicon-align-left"></span></button>
+                <button type="button" aria-label="Left Align" icon-align="text-center" title="Center" class="btn btn-default xepan-cms-icon-alignment active"><span class="glyphicon glyphicon-align-center"></span></button>
+                <button type="button" aria-label="Left Align" icon-align="text-right" title="Right" class="btn btn-default xepan-cms-icon-alignment"><span class="glyphicon glyphicon-align-right"></span></button>
+              </div>
+            </td>
+          </div>
+        </tr>
       </table>
     </div>
   </div>
@@ -44,17 +64,29 @@
     	$('#{$_name} [data-attr]').each(function(index,value){
     		$(this).val($(current_selected_component).attr($(this).data('attr')));
     	});
+    
+    	$('#{$_name} #xepan-cms-icon-dialog-btn').iconpicker('setIcon',$(current_selected_component).attr('icon-class'));
+    	
+    	$('#{$_name} .xepan-cms-icon-alignment[icon-align="'+$(current_selected_component).attr('icon-align')+'"]').addClass('active');
     });
     
     //- icon input box changed
-    $('#xepan-cms-icon-class').on('change',function(){
+    $('#{$_name} #xepan-cms-icon-class').on('change',function(){
     	$(current_selected_component).removeClass (function (index, className) {
     		return (className.match (/(^|\s)fa-\S+/g) || []).join(' ');
     	}).addClass($(this).val());
     });
     
-    //-icon click event
-    $('#xepan-cms-icon-link').change(function(){
+    //- icon size chnage event
+    $('#{$_name} #xepan-cms-icon-size').on('change',function(){
+    	$(current_selected_component).removeClass (function (index, className) {
+    		return (className.match (/(^|\s)fa-\S+/g) || []).join(' ');
+    	}).addClass($('#{$_name} #xepan-cms-icon-class').val())
+    	.addClass($(this).val());
+    });
+    
+    //-icon link event
+    $('#{$_name} #xepan-cms-icon-link').change(function(){
     	var link  = $(this).val();
     	if(link.length > 0){
     		if($('#xepan-cms-icon-target').val() == "window"){
@@ -67,7 +99,8 @@
     	}
     }); 
     
-    $('#xepan-cms-icon-target').change(function(){
+    //-  target into new window or reload the page
+    $('#{$_name} #xepan-cms-icon-target').change(function(){
     	var link = $('#xepan-cms-icon-link').val();
     
     	if($(this).val() == "window"){
@@ -79,9 +112,52 @@
     		$(current_selected_component).removeAttr('onClick');
     	}
     });
-    //- show dialoge box for icon-link
-    //- $('#xepan-cms-icon-dialog-btn').click(function(){
     
-    //- });
+    //- icon picker
+    $('#{$_name} #xepan-cms-icon-dialog-btn').iconpicker({ 
+        align: 'left', // Only in div tag
+        arrowClass: 'btn-danger',
+        arrowPrevIconClass: 'glyphicon glyphicon-chevron-left',
+        arrowNextIconClass: 'glyphicon glyphicon-chevron-right',
+        cols: 10,
+        footer: true,
+        header: true,
+        icon: 'fa-leaf',
+        iconset: 'fontawesome',
+        labelHeader: '{0} of {1} pages',
+        labelFooter: '{0} - {1} of {2} icons',
+        placement: 'bottom', // Only in button tag
+        rows: 5,
+        search: true,
+        searchText: 'Search',
+        selectedClass: 'btn-success',
+        unselectedClass: ''
+    });
+    
+    //- icon picker on change
+    $('#{$_name} #xepan-cms-icon-dialog-btn').on('change', function(e) {
+       $(current_selected_component).removeClass (function (index, className) {
+    		return (className.match (/(^|\s)fa-\S+/g) || []).join(' ');
+    	}).addClass(e.icon)
+    	.addClass($('#{$_name} #xepan-cms-icon-size').val())
+    	.attr('icon-class',e.icon);
+    
+       $('#{$_name} #xepan-cms-icon-class').val(e.icon);
+    });
+    
+    //- icon Alignment
+    $('#{$_name} .xepan-cms-icon-alignment').click(function(){
+    	var old_selected = $(current_selected_component).attr('icon-align');
+    	if(old_selected == undefined || old_selected=="undefined")
+    		old_selected = "text-center";
+    
+    	var reg_exp = old_selected;
+    	$(current_selected_component).removeClass (function (index, className) {
+    		return (className.match(reg_exp) || []).join(' ');
+    	}).addClass($(this).attr('icon-align'));
+    	$('#{$_name} .xepan-cms-icon-alignment').removeClass('active');
+    	$(this).addClass('active');
+    	$(current_selected_component).attr('icon-align',$(this).attr('icon-align'));
+    });
   </script>
 </div>

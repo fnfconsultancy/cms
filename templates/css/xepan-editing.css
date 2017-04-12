@@ -1,5 +1,5 @@
 .sidebar {
-    z-index: 999999;
+    z-index: 99999;
     position: fixed;
     top: -1px;
     bottom: -1px;
@@ -266,7 +266,7 @@
 .xepan-sortable-component{
     /*border: 1px solid #ef7c2a;*/
     /*outline: 1px solid #f3f3f3;*/
-    min-height: 100px;
+    min-height: 15px;
 }
 
 .ui-dialog.xepan-component-remove-confirm{
@@ -457,4 +457,13 @@
 
 .xepan-editor-customcss-form textarea{
     width:100%;
+}
+
+/*icon picker*/
+.popover.iconpicker-popover{
+    z-index: 999999 !important;
+    margin-left: -120px;
+}
+.popover{
+    z-index: 999999 !important;
 }

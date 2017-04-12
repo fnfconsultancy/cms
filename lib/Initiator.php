@@ -140,7 +140,13 @@ class Initiator extends \Controller_Addon {
                 ->addStaticInclude('ace/ace/mode-php')
                 ->addStaticInclude('ace/ace/mode-css')
                 ->addStaticInclude('ace/ace/theme-tomorrow')
-                ->addStaticInclude('ace/jquery-ace.min');          
+                ->addStaticInclude('ace/jquery-ace.min')
+
+                ->addStaticInclude('iconset/iconset-glyphicon.min')
+                ->addStaticInclude('iconset/iconset-fontawesome-4.0.0.min')
+                ->addStaticInclude('bootstrap-iconpicker.min')
+                ->addStaticStyleSheet('bootstrap-iconpicker.min')
+                ;
         }
 
         $this->app->jui->addStaticInclude('pnotify.custom.min');
@@ -200,6 +206,8 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_Marquee');
         $this->app->exportFrontEndTool('xepan\cms\Tool_BootStrapMenu');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Button');
+        $this->app->exportFrontEndTool('xepan\base\Tool_UserPanel');
+        $this->app->exportFrontEndTool('xepan\base\Tool_Location');
 
         return $this;
     }
