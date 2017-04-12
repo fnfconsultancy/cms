@@ -1,5 +1,5 @@
 .sidebar {
-    z-index: 999999;
+    z-index: 99999;
     position: fixed;
     top: -1px;
     bottom: -1px;
@@ -457,4 +457,13 @@
 
 .xepan-editor-customcss-form textarea{
     width:100%;
+}
+
+/*icon picker*/
+.popover.iconpicker-popover{
+    z-index: 999999 !important;
+    margin-left: -120px;
+}
+.popover{
+    z-index: 999999 !important;
 }
