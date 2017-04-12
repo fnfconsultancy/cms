@@ -16,6 +16,7 @@
 						tr
 							td
 								input#xepan-button-text-label(style="width:95%" type='text' data-attr="xepan-button-label" data-value="Button Label" value="Button label")
+
 						tr
 							td
 								|Button Color
@@ -75,17 +76,24 @@
 				$(this).val($(current_selected_component).attr($(this).data('attr')));				
 			});
 		});
-
 		
 		$('\#{$_name} .xepan-cms-apply-btn').click(function(event){
 		    //- $(current_selected_component).removeClass(function(index,classname){
 		    //-   	return (classname.match(/(^|\s)btn-\S+/g) || []).join(' ');
 		    //-   }).addClass($(this).val());
-			$(current_selected_component).removeClass('btn-success btn-default btn-primary btn-info btn-warning btn-danger').addClass($(this).val());
+			$(current_selected_component).removeClass('btn-success btn-default btn-primary btn-info btn-warning btn-danger').addClass($(this).attr('data-btn-class'));
 		});
 
 		$('#xepan-button-text-label').change(function(event) {
-			$(current_selected_component).html($("#xepan-button-text-label").val());
+			var icon_class = $(current_selected_component).attr('data-button-icon-class'); 
+			if( $(current_selected_component).attr('data-icon-position') == "right"){
+				$(current_selected_component).html(' '+$(this).val()+' <i class="fa '+icon_class+'"></i>');
+			}else 
+				$(current_selected_component).html('<i class="fa '+icon_class+'"></i> '+$(this).val());
+			//- $('<i></i>').appendTo($(current_selected_component));
+			//- var icon_class = $(current_selected_component).attr('data-button-icon-class');
+			//- $(current_selected_component).html(""+
+			//- $('<i class="fa '+icon_class+'></i>'+$(this).val()).appendTo($(current_selected_component));
 		});
 
 		$('#btn-sizes button').on('click', function(e) {
@@ -118,19 +126,22 @@
 		});
 
 		$('#btn-icon').on('change', function(e) {
-			$(current_selected_component).find('i').remove();
-			$(current_selected_component).append(' <i class="fa '+e.icon+'"></i> ');
+			$(current_selected_component).attr('data-button-icon-class',e.icon);
+			$(current_selected_component).find('i').attr('class',"");
+			$(current_selected_component).find('i').addClass('fa '+e.icon);
 		});
 
 		$('#btn-icon-positions button').on('click', function(e) {
-			$(current_selected_component).html();
-			var text = $('#xepan-button-text-label').val();
+			var text = $(current_selected_component).attr('xepan-button-label');
 			var icon = $(current_selected_component).find('i');
+			$(current_selected_component).attr('data-icon-position',$(this).val());
+			$(current_selected_component).empty();
 			if($(this).val() == 'left'){
-				$(' <i class="fa '+e.icon+'"></i>').appendTo($(current_selected_component));
-				$(current_selected_component).html(' <i class="fa '+e.icon+'"></i> '+text);
+				$(current_selected_component).append(icon).append(' ' + text);
+				//- $(' <i class="fa '+icon+'"></i> '+ text).appendTo($(current_selected_component));
 			}
 			else{
-				$(current_selected_component).html(text+' <i class="fa '+e.icon+'"></i> ');
+				$(current_selected_component).append(text + ' ').append(icon);
+				//- $(text +'  <i class="fa '+icon+'"></i> ').appendTo($(current_selected_component));
 			}
 		});
