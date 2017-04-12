@@ -12,16 +12,47 @@
 					table.table.table-condensed.table-hover
 						tr
 							td
-								|Button Color
-								button#epan-component-btn-class-reset.pull-right.btn.btn-warning.btn-xs
-									| Reset
+								|Button Label
 						tr
-							td(colspan='2')
-								.btn-group.btn-group-btn-group-lg(role='group', aria-label='...')
-									button.xepan-cms-apply-btn.btn.btn-primary(type='button' data-attr="xepan-cms-btn-class" data-btn-class="btn-primary")
-									button.xepan-cms-apply-btn.btn.btn-success(type='button' data-attr="xepan-cms-btn-class" data-btn-class="btn-success")
-									button.xepan-cms-apply-btn.btn.btn-warning(type='button' data-attr="xepan-cms-btn-class" data-btn-class="btn-warning")
-									button.xepan-cms-apply-btn.btn.btn-danger(type='button' data-attr="xepan-cms-btn-class" data-btn-class="btn-danger")
+							td
+								input#xepan-button-text-label(style="width:95%" type='text')
+						tr
+							td
+								|Button Color
+						tr
+							td
+								#btn-colors.btn-group.btn-group-xs(role='group', aria-label='...')
+									button.xepan-cms-apply-btn.btn.btn-default(name='color', type='button', value='btn-default') Default
+									button.xepan-cms-apply-btn.btn.btn-primary(name='color', type='button', value='btn-primary') Primary
+									button.xepan-cms-apply-btn.btn.btn-info(name='color', type='button', value='btn-info') Info
+									button.xepan-cms-apply-btn.btn.btn-success(name='color', type='button', value='btn-success') Success
+									button.xepan-cms-apply-btn.btn.btn-warning(name='color', type='button', value='btn-warning') Warning
+									button.xepan-cms-apply-btn.btn.btn-danger(name='color', type='button', value='btn-danger') Danger
+						tr
+							td
+								|Size			
+						tr
+							td
+								#btn-sizes
+									p
+										button.btn.btn-xs.btn-default(value='btn-xs', type='button') Mini
+										button.btn.btn-sm.btn-default(value='btn-sm', type='button') Small
+										button.btn.btn-default(value='btn-default', type='button') Default
+										button.btn.btn-default.btn-lg(value='btn-lg', type='button') Large
+									p
+										//- button.btn.btn-default.btn-block(value='btn-block', type='button') Full width button
+										a.btn.btn-default.btn-block.active(href='#', data-toggle='button') Full width button
+
+						tr
+							td
+								//- <!-- Button tag -->
+								button.btn.btn-default(role="iconpicker")
+								//- <!-- Div tag -->
+								div(role="iconpicker")
+
+				
+
+
 	script.
 
 		$('\#{$_name} [data-attr]').on('change',function(){
@@ -34,32 +65,25 @@
 			});
 		});
 
-		$('#epan-component-btn-class-reset').click(function(event){
-		      $(current_selected_component).removeClass(function(index,classname){
-		      	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
-		      }).addClass('btn-default');
-		});
 		
 		$('\#{$_name} .xepan-cms-apply-btn').click(function(event){
-		    $(current_selected_component).removeClass(function(index,classname){
-		      	return (classname.match(/(^|\s)btn-\S+/g) || []).join(' ');
-		      }).addClass($(this).attr('data-btn-class'));
+		    //- $(current_selected_component).removeClass(function(index,classname){
+		    //-   	return (classname.match(/(^|\s)btn-\S+/g) || []).join(' ');
+		    //-   }).addClass($(this).val());
+			$(current_selected_component).removeClass('btn-success btn-default btn-primary btn-info btn-warning btn-danger').addClass($(this).val());
 		});
-		
-		//- $('#btn-success').click(function(event){
-		//-       $(current_selected_component).children('button').removeClass(function(index,classname){
-		//-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
-		//-       }).addClass('btn-success');
-		//- });
-		
-		//- $('#btn-warning').click(function(event){
-		//-       $(current_selected_component).children('button').removeClass(function(index,classname){
-		//-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
-		//-       }).addClass('btn-warning');
-		//- });
 
-		//- $('#btn-danger').click(function(event){
-		//-       $(current_selected_component).children('button').removeClass(function(index,classname){
-		//-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
-		//-       }).addClass('btn-danger');
-		//- });
+		$('#xepan-button-text-label').change(function(event) {
+			$(current_selected_component).html($("#xepan-button-text-label").val());
+		});
+
+		$('#btn-sizes button').on('click', function(e) {
+			$(current_selected_component).removeClass('btn-xs btn-sm btn-lg').addClass($(this).val());
+		});
+
+		$('#btn-sizes a').on('click', function(e) {
+			$(current_selected_component).toggleClass('btn-block');
+		});
+
+
+		
