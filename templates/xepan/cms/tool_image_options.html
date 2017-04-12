@@ -87,8 +87,9 @@
     $(current_selected_component).find('img').attr('src',$(this).val());
   });
   
-  $('').on('show',function(event){
+  $('#{$_name}').on('show',function(event){
   var src_val = $(current_selected_component).find('img').attr('src');
+  
   if(src_val.startsWith("data:")){
   $('#xepan-image-base64data').val(src_val);
   $('#xepan-image-option-src').val('');
