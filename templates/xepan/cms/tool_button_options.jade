@@ -94,7 +94,7 @@
 		
 		//- Button Color 
 		$('\#{$_name} .xepan-cms-apply-btn').click(function(event){
-			$(current_selected_component).find('a').removeClass('btn-success btn-default btn-primary btn-info btn-warning btn-danger').addClass($(this).attr('data-btn-class'));
+			$(current_selected_component).removeClass('btn-success btn-default btn-primary btn-info btn-warning btn-danger').addClass($(this).attr('data-btn-class'));
 		    //- $(current_selected_component).removeClass(function(index,classname){
 		    //-   	return (classname.match(/(^|\s)btn-\S+/g) || []).join(' ');
 		    //-   }).addClass($(this).val());
@@ -104,9 +104,9 @@
 		$('#xepan-button-text-label').change(function(event) {
 			var icon_class = $(current_selected_component).attr('data-button-icon-class'); 
 			if( $(current_selected_component).attr('data-icon-position') == "right"){
-				$(current_selected_component).find('a').html(' '+$(this).val()+' <i class="fa '+icon_class+'"></i>');
+				$(current_selected_component).html(' '+$(this).val()+' <i class="fa '+icon_class+'"></i>');
 			}else 
-				$(current_selected_component).find('a').html('<i class="fa '+icon_class+'"></i> '+$(this).val());
+				$(current_selected_component).html('<i class="fa '+icon_class+'"></i> '+$(this).val());
 		});
 
 		//- button Anchor Links
@@ -126,12 +126,12 @@
 
 		//-Button Size 
 		$('#btn-sizes button').on('click', function(e) {
-			$(current_selected_component).find('a').removeClass('btn-xs btn-sm btn-lg').addClass($(this).val());
+			$(current_selected_component).removeClass('btn-xs btn-sm btn-lg').addClass($(this).val());
 		});
 
 		//-Button Size  full Width
 		$('#btn-sizes a').on('click', function(e) {
-			$(current_selected_component).find('a').toggleClass('btn-block');
+			$(current_selected_component).toggleClass('btn-block');
 		});
 
 		//-Button Icon
@@ -167,12 +167,12 @@
 		$('#btn-icon-positions button').on('click', function(e) {
 			var icon = $(current_selected_component).find('i');
 			var text = $(current_selected_component).attr('xepan-button-label');
-			$(current_selected_component).find('a').empty();
+			$(current_selected_component).empty();
 			if($(this).val() == 'left'){
-				$(current_selected_component).find('a').append(icon).append(' ' + text);
+				$(current_selected_component).append(icon).append(' ' + text);
 			}
 			else{
-				$(current_selected_component).find('a').append(text + ' ').append(icon);
+				$(current_selected_component).append(text + ' ').append(icon);
 			}
 			$(current_selected_component).data('icon-position', $(this).val());
 		});
