@@ -260,7 +260,9 @@
 }
 
 .xepan-cms-tool img{
-    width:100%;
+    min-width: auto;
+    width:auto;
+    max-width: 100%;
 }
 
 .xepan-droppable-highlight{
