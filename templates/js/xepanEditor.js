@@ -412,12 +412,6 @@ jQuery.widget("ui.xepanEditor",{
 	    $('body').univ().errorMessage('Wait.. saving your page !!!');
 
 	    $(xepan_component_selector).xepanComponent('deselect');
-	    $('.xepan-component-drag-handler').remove();
-	    $('.xepan-component-remove').remove();
-	    $('.xepan-component').removeClass('xepan-component-hover-selector');
-	    $('.xepan-component').removeClass('component-outline');
-	    $('.xepan-component').removeClass('xepan-selected-component');
-	    $('.xepan-component').removeClass('xepan-sortable-extra-padding');
 	   	
 	   	// responsive classes
 	    $('body').removeClass('xepan-cms-responsive-wrapper xepan-responsive-xs xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
@@ -436,6 +430,15 @@ jQuery.widget("ui.xepanEditor",{
 		
 	    $(html_body).find('.xepan-serverside-component').html("");
 	    $(html_body).find('.xepan-editable-text').attr('contenteditable','false');
+	    $(html_body).find('.mce-tinymce').remove();
+	    $(html_body).find('.mce-tooltip').remove();
+
+	    $(html_body).find('.xepan-component-drag-handler').remove();
+	    $(html_body).find('.xepan-component-remove').remove();
+	    $(html_body).find('.xepan-component').removeClass('xepan-component-hover-selector');
+	    $(html_body).find('.xepan-component').removeClass('component-outline');
+	    $(html_body).find('.xepan-component').removeClass('xepan-selected-component');
+	    $(html_body).find('.xepan-component').removeClass('xepan-sortable-extra-padding');
 
 	    html_body = encodeURIComponent($.trim($(html_body).html()));
 

@@ -30,9 +30,10 @@ class View_ToolBar extends \View {
 		$tools = $this->app->getFrontEndTools();
 
 		$view = $this->add('AbstractController');
-		$bs_view=$view->add('xepan\cms\View_CssOptions');
+		$bs_view=$view->add('xepan\cms\View_CssOptions',['name'=>'xepan_cms_basic_options']);
 
 		$tools_array = [];
+		$tool_number=1;
 		//tools_array
 		foreach (array_keys($tools) as $group) {
 			$tools_array[$group] = [];
@@ -40,7 +41,7 @@ class View_ToolBar extends \View {
 			foreach ($tools[$group] as $key => $tool) {
 
 				$t_v = $view->add($tool);
-				$t_option_v = $t_v->getOptionPanel($view,null);
+				$t_option_v = $t_v->getOptionPanel($view,null,$tool_number++);
 
 				$tool_arr = explode("\\", $tool);
 				$tool_name = array_pop($tool_arr);
@@ -63,7 +64,7 @@ class View_ToolBar extends \View {
 		$layouts= $this->add('xepan/cms/Model_Layout');
 		foreach ($layouts as $l) {
 			$t_v = $view->add('xepan\cms\Tool_Layout',null,null,["xepan\\tool\\layouts\\".str_replace(".html", "", $l['name']) ]);
-			$t_option_v = $t_v->getOptionPanel($view,null);
+			$t_option_v = $t_v->getOptionPanel($view,null,$tool_number++);
 			$tools_array['Layouts'][] = [
 											'name'=>'',
 											'tool'=>'xepan/cms/Tool_Layout',

@@ -52,7 +52,7 @@ class View_Tool extends \View{
 		return $this->getTemplate()->template_file;
 	}
 
-	function getOptionPanel($parent,$spot){
-		return $parent->add('View',null,$spot,[strtolower(get_class($this)).'_options']);
+	function getOptionPanel($parent,$spot,$tool_number=null){
+		return $parent->add('View',['name'=>'options_'.$tool_number],$spot,[strtolower(get_class($this)).'_options']);
 	}
 }
