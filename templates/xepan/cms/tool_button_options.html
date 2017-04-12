@@ -31,7 +31,10 @@
             </tr>
             <tr>
               <td>
-                <input id="xepan-btn-link-behaivor" style="width:95%" type="checkbox" data-attr="xepan-button-link-behavior"/>
+                <select id="xepan-btn-link-behaivor" data-attr="xepan-button-link-behavior" value="0" data-value="0">
+                  <option value="1">True</option>
+                  <option value="0">False																							</option>
+                </select>
               </td>
             </tr>
             <tr>
@@ -120,8 +123,7 @@
     
     //- button Anchor Links Behaivor
     $('#xepan-btn-link-behaivor').change(function() {
-    	//- if($('#xepan-btn-link-behaivor') === 1){
-    	if($('#xepan-btn-link-behaivor:checked').size() > 0){
+    	if($(current_selected_component).attr('xepan-button-link-behavior') == "1"){
     		$('a.custom-btn-links').attr('target','_blank');
     	}else{
     		$('a.custom-btn-links').attr('target','');
