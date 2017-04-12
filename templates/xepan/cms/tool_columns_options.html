@@ -119,8 +119,8 @@
     //- ADD NEW COLUMN
     $('#{$_name}columnsaddcolumn').on('click',function(){
     	// Append the column  of width 4 by default
-    	new_col = $('<div emptytext=\"Column 4\" data-toolcolumnclass=\"xepan-tool-column\" data-lg=\"4\" data-md=\"4\" data-sm=\"12\" data-xs=\"12\"></div>').appendTo($(current_selected_component));
-    	$(new_col).addClass("xepan-cms-column col-md-4 col-sm-12 col-xs-12 col-lg-4 xepan-sortable-component xepan-component" );
+    	new_col = $('<div xepan-component="xepan/cms/Tool_Column" emptytext=\"Column 4\" data-toolcolumnclass=\"xepan-tool-column\" data-lg=\"4\" data-md=\"4\" data-sm=\"12\" data-xs=\"12\"></div>').appendTo($(current_selected_component));
+    	$(new_col).addClass("xepan-cms-column xepan-sortable-component xepan-component col-md-4 col-sm-12 col-xs-12 col-lg-4" );
     	$(new_col).xepanComponent();
     	//and call addColumnToOption
     	addColumnsToOption(($(current_selected_component).children("div[data-toolcolumnclass='xepan-tool-column']").length - 1) ,$(new_col));
