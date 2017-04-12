@@ -160,5 +160,15 @@
     	$(this).addClass('active');
     	$(current_selected_component).attr('icon-align',$(this).attr('icon-align'));
     });
+    
+    $('body').on('beforeSave',function(){
+    	$('body').find('i.xepan-cms-icon').each(function(index, el) {
+    		if($(el).attr('icon-link').length>0) $(el).attr('onclick',"window.open('"+$(el).attr('icon-link')+"', '"+($(el).attr('icon-link-target')=='none'?'_self':'_blank')+"');");
+    	});
+    });
+    
+    $('body').on('afterSave',function(){
+    	$('body').find('i.xepan-cms-icon').removeAttr('onclick');
+    });
   </script>
 </div>

@@ -63,6 +63,7 @@ class View_ToolBar extends \View {
 		$tools_array['Layouts']=[];
 		$layouts= $this->add('xepan/cms/Model_Layout');
 		foreach ($layouts as $l) {
+			if(strpos($l['name'], ".png")) continue;
 			$t_v = $view->add('xepan\cms\Tool_Layout',null,null,["xepan\\tool\\layouts\\".str_replace(".html", "", $l['name']) ]);
 			$t_option_v = $t_v->getOptionPanel($view,null,$tool_number++);
 			$tools_array['Layouts'][] = [
@@ -71,7 +72,7 @@ class View_ToolBar extends \View {
 											'category'=>explode("-", str_replace(".html", "", $l['name']))[0],
 											'drop_html'=>$t_v->getHTML(),
 											'option_html'=>$t_option_v->getHTML(),
-											'icon_img'=>'./vendor/'.$tool_namespace.'/templates/xepan/tool/layouts/'.str_replace(".html", ".png", $l['name'])
+											'icon_img'=>'./vendor/xepan/cms/templates/xepan/tool/layouts/'.str_replace(".html", ".png", $l['name'])
 										];
 		}
 

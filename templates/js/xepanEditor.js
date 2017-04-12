@@ -57,6 +57,10 @@ jQuery.widget("ui.xepanEditor",{
 			$('#xepan-cms-toolbar-right-side-panel').toggleClass('toggleSideBar');
 		});
 
+		// disable all clicks
+		$('body').find('a').click(function(){ return false});
+		$('body').find('i.xepan-cms-icon').removeAttr('onclick');
+
 
 		// left bar
 		self.leftbar = $('<div id="xepan-cms-toolbar-left-side-panel" class="container sidebar sidebar-left" style="left: -230px;" data-status="opened"></div>').insertAfter('body');
@@ -426,7 +430,7 @@ jQuery.widget("ui.xepanEditor",{
 		    $(html_body).find("#xepan-cms-page-save-overlay").remove();
 		    $(html_body).find(".ui-pnotify").remove();
 		    self.options.file_path = self.options.template_file;
-		}
+		}		
 		
 	    $(html_body).find('.xepan-serverside-component').html("");
 	    $(html_body).find('.xepan-editable-text').attr('contenteditable','false');

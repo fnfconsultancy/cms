@@ -11,11 +11,30 @@
         <div id="bootstrap-btn-options" class="xepan-cms-tools-bar-panel row-fluid collapse">
           <table class="table table-condensed table-hover">
             <tr>
-              <td>Button Label</td>
+              <td>Button Text</td>
             </tr>
             <tr>
               <td>
-                <input id="xepan-button-text-label" style="width:95%" type="text"/>
+                <input id="xepan-button-text-label" style="width:95%" type="text" data-attr="xepan-button-label" data-value="Button Text" value="Button Text"/>
+              </td>
+            </tr>
+            <tr>
+              <td>Button Links</td>
+            </tr>
+            <tr>
+              <td>
+                <input id="xepan-button-links" style="width:95%" type="text" data-attr="xepan-button-link" data-value="#" value="#"/>
+              </td>
+            </tr>
+            <tr>
+              <td>Open New Window</td>
+            </tr>
+            <tr>
+              <td>
+                <select id="xepan-btn-link-behaivor" data-attr="xepan-button-link-behavior" value="0" data-value="0">
+                  <option value="1">Yes</option>
+                  <option value="0">No																							</option>
+                </select>
               </td>
             </tr>
             <tr>
@@ -24,12 +43,12 @@
             <tr>
               <td>
                 <div id="btn-colors" role="group" aria-label="..." class="btn-group btn-group-xs">
-                  <button name="color" type="button" value="btn-default" class="xepan-cms-apply-btn btn btn-default">Default</button>
-                  <button name="color" type="button" value="btn-primary" class="xepan-cms-apply-btn btn btn-primary">Primary</button>
-                  <button name="color" type="button" value="btn-info" class="xepan-cms-apply-btn btn btn-info">Info</button>
-                  <button name="color" type="button" value="btn-success" class="xepan-cms-apply-btn btn btn-success">Success</button>
-                  <button name="color" type="button" value="btn-warning" class="xepan-cms-apply-btn btn btn-warning">Warning</button>
-                  <button name="color" type="button" value="btn-danger" class="xepan-cms-apply-btn btn btn-danger">Danger</button>
+                  <button name="color" type="button" value="btn-default" data-attr="xepan-cms-btn-class" data-btn-class="btn-default" class="xepan-cms-apply-btn btn btn-default">Default</button>
+                  <button name="color" type="button" value="btn-primary" data-attr="xepan-cms-btn-class" data-btn-class="btn-primary" class="xepan-cms-apply-btn btn btn-primary">Primary</button>
+                  <button name="color" type="button" value="btn-info" data-attr="xepan-cms-btn-class" data-btn-class="btn-info" class="xepan-cms-apply-btn btn btn-info">Info</button>
+                  <button name="color" type="button" value="btn-success" data-attr="xepan-cms-btn-class" data-btn-class="btn-success" class="xepan-cms-apply-btn btn btn-success">Success</button>
+                  <button name="color" type="button" value="btn-warning" data-attr="xepan-cms-btn-class" data-btn-class="btn-warning" class="xepan-cms-apply-btn btn btn-warning">Warning</button>
+                  <button name="color" type="button" value="btn-danger" data-attr="xepan-cms-btn-class" data-btn-class="btn-danger" class="xepan-cms-apply-btn btn btn-danger">Danger</button>
                 </div>
               </td>
             </tr>
@@ -50,10 +69,17 @@
                 </div>
               </td>
             </tr>
-            <tr>
+            <tr> 
               <td>
-                <button role="iconpicker" class="btn btn-default"></button>
-                <div role="iconpicker"></div>
+                <div style="font-size: 20px;" class="text-center">Icons</div>
+                <hr/>
+                <div id="btn-icon" role="iconpicker"></div>
+                <div style="font-size: 20px;" class="text-center">Icon Position</div>
+                <hr/>
+                <div id="btn-icon-positions" class="btn-group">
+                  <button value="left" type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Left</button>
+                  <button value="right" type="button" class="btn btn-default">Right <span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
               </td>
             </tr>
           </table>
@@ -72,24 +98,89 @@
     	});
     });
     
-    
+    //- Button Color 
     $('#{$_name} .xepan-cms-apply-btn').click(function(event){
+    	$(current_selected_component).find('a').removeClass('btn-success btn-default btn-primary btn-info btn-warning btn-danger').addClass($(this).attr('data-btn-class'));
         //- $(current_selected_component).removeClass(function(index,classname){
         //-   	return (classname.match(/(^|\s)btn-\S+/g) || []).join(' ');
         //-   }).addClass($(this).val());
-    	$(current_selected_component).removeClass('btn-success btn-default btn-primary btn-info btn-warning btn-danger').addClass($(this).val());
     });
     
+    //-Button Text Label Change  
     $('#xepan-button-text-label').change(function(event) {
-    	$(current_selected_component).html($("#xepan-button-text-label").val());
+    	var icon_class = $(current_selected_component).attr('data-button-icon-class'); 
+    	if( $(current_selected_component).attr('data-icon-position') == "right"){
+    		$(current_selected_component).find('a').html(' '+$(this).val()+' <i class="fa '+icon_class+'"></i>');
+    	}else 
+    		$(current_selected_component).find('a').html('<i class="fa '+icon_class+'"></i> '+$(this).val());
     });
     
+    //- button Anchor Links
+    $('#xepan-button-links').change(function() {
+    	var newurl = $('#xepan-button-links').val();
+    	$('a.custom-btn-links').attr('href', newurl);
+    });
+    
+    //- button Anchor Links Behaivor
+    $('#xepan-btn-link-behaivor').change(function() {
+    	if($(current_selected_component).attr('xepan-button-link-behavior') == "1"){
+    		$('a.custom-btn-links').attr('target','_blank');
+    	}else{
+    		$('a.custom-btn-links').attr('target','');
+    	}
+    });
+    
+    //-Button Size 
     $('#btn-sizes button').on('click', function(e) {
-    	$(current_selected_component).removeClass('btn-xs btn-sm btn-lg').addClass($(this).val());
+    	$(current_selected_component).find('a').removeClass('btn-xs btn-sm btn-lg').addClass($(this).val());
     });
     
+    //-Button Size  full Width
     $('#btn-sizes a').on('click', function(e) {
-    	$(current_selected_component).toggleClass('btn-block');
+    	$(current_selected_component).find('a').toggleClass('btn-block');
+    });
+    
+    //-Button Icon
+    
+    $('#btn-icon').iconpicker({
+    	  	//- align: 'center', // Only in div tag
+    	   //-  arrowClass: 'btn-danger',
+    	   //-  arrowPrevIconClass: 'glyphicon glyphicon-chevron-left',
+    	   //-  arrowNextIconClass: 'glyphicon glyphicon-chevron-right',
+    	   //-  cols: 10,
+    	   //-  footer: true,
+    	   //-  header: true,
+    	    icon: 'fa-bomb',
+    	    iconset: 'fontawesome',   
+    	    labelHeader: '{0} of {1} pages',
+    	    labelFooter: '{0} - {1} of {2} icons',
+    	    placement: 'bottom', // Only in button tag
+    	    rows: 3,
+    	    search: true,
+    	    searchText: 'Search',
+    	    selectedClass: 'btn-success',
+    	    unselectedClass: ''
+    });
+    
+    //-Button Icon change
+    $('#btn-icon').on('change', function(e) {
+    	$(current_selected_component).attr('data-button-icon-class',e.icon);
+    	$(current_selected_component).find('i').attr('class',"");
+    	$(current_selected_component).find('i').addClass('fa '+e.icon);
+    });
+    
+    //-Button Icon Position
+    $('#btn-icon-positions button').on('click', function(e) {
+    	var icon = $(current_selected_component).find('i');
+    	var text = $(current_selected_component).attr('xepan-button-label');
+    	$(current_selected_component).find('a').empty();
+    	if($(this).val() == 'left'){
+    		$(current_selected_component).find('a').append(icon).append(' ' + text);
+    	}
+    	else{
+    		$(current_selected_component).find('a').append(text + ' ').append(icon);
+    	}
+    	$(current_selected_component).data('icon-position', $(this).val());
     });
   </script>
 </div>
