@@ -27,7 +27,7 @@ class Initiator extends \Controller_Addon {
 
     function exportEntities($app,&$array){
         $array['CarouselCategory'] = ['caption'=>'CarouselCategory','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselCategory'];
-        $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];
+        $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];        
     }
 
     function setup_pre_frontend(){
@@ -140,7 +140,13 @@ class Initiator extends \Controller_Addon {
                 ->addStaticInclude('ace/ace/mode-php')
                 ->addStaticInclude('ace/ace/mode-css')
                 ->addStaticInclude('ace/ace/theme-tomorrow')
-                ->addStaticInclude('ace/jquery-ace.min');          
+                ->addStaticInclude('ace/jquery-ace.min')
+
+                ->addStaticInclude('iconset/iconset-glyphicon.min')
+                ->addStaticInclude('iconset/iconset-fontawesome-4.0.0.min')
+                ->addStaticInclude('bootstrap-iconpicker.min')
+                ->addStaticStyleSheet('bootstrap-iconpicker.min')
+                ;
         }
 
         $this->app->jui->addStaticInclude('pnotify.custom.min');
@@ -194,10 +200,12 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Image');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Icon');
         $this->app->exportFrontEndTool('xepan\cms\Tool_CustomForm');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Carousel');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Marquee');
         $this->app->exportFrontEndTool('xepan\cms\Tool_BootStrapMenu');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Button');
 
         return $this;
     }
