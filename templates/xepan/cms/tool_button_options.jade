@@ -22,7 +22,13 @@
 						tr
 							td
 								input#xepan-button-links(style="width:95%" type='text' data-attr="xepan-button-link" data-value="#" value="#")			
-									
+						tr
+							td
+								|Button Links Behaivor
+						tr
+							td
+								input#xepan-btn-link-behaivor(style="width:95%" type='checkbox' data-attr="xepan-button-link-behavior")
+																		
 						tr
 							td
 								|Button Color
@@ -104,6 +110,16 @@
 		$('#xepan-button-links').change(function() {
 			var newurl = $('#xepan-button-links').val();
 			$('a.custom-btn-links').attr('href', newurl);
+		});
+
+		//- button Anchor Links Behaivor
+		$('#xepan-btn-link-behaivor').change(function() {
+			//- if($('#xepan-btn-link-behaivor') === 1){
+			if($('#xepan-btn-link-behaivor:checked').size() > 0){
+				$('a.custom-btn-links').attr('target','_blank');
+			}else{
+				$('a.custom-btn-links').attr('target','');
+			}
 		});
 
 		//-Button Size 

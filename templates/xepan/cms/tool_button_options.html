@@ -27,6 +27,14 @@
               </td>
             </tr>
             <tr>
+              <td>Button Links Behaivor</td>
+            </tr>
+            <tr>
+              <td>
+                <input id="xepan-btn-link-behaivor" style="width:95%" type="checkbox" data-attr="xepan-button-link-behavior"/>
+              </td>
+            </tr>
+            <tr>
               <td>Button Color</td>
             </tr>
             <tr>
@@ -108,6 +116,16 @@
     $('#xepan-button-links').change(function() {
     	var newurl = $('#xepan-button-links').val();
     	$('a.custom-btn-links').attr('href', newurl);
+    });
+    
+    //- button Anchor Links Behaivor
+    $('#xepan-btn-link-behaivor').change(function() {
+    	//- if($('#xepan-btn-link-behaivor') === 1){
+    	if($('#xepan-btn-link-behaivor:checked').size() > 0){
+    		$('a.custom-btn-links').attr('target','_blank');
+    	}else{
+    		$('a.custom-btn-links').attr('target','');
+    	}
     });
     
     //-Button Size 
