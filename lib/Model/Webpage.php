@@ -69,7 +69,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		//for loop check folder or file exist or not
 		for ($i=0; $i < $count ; $i++) {
 			$name = trim($path_array[$i]);
-			$name = $this->app->normalizeName($name,'.');
+			$name = $this->app->normalizeName($name,'-');
 
 			if(!strlen($name)){
 				throw $this->exception('wrong path file name must define','ValidityCheck')->setField('path');
