@@ -182,5 +182,9 @@
     	}
     	$(current_selected_component).data('icon-position', $(this).val());
     });
+    
+    $('body').on('beforeSave',function(){
+    	$('body').find('a').click(function(){ return false});
+    });
   </script>
 </div>
