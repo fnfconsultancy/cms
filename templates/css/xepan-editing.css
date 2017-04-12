@@ -259,6 +259,10 @@
     font-size:14px;
 }
 
+.xepan-cms-tool img{
+    width:100%;
+}
+
 .xepan-droppable-highlight{
     /*background-color: #f1c74e;*/
 }
