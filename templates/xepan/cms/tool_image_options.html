@@ -7,7 +7,7 @@
           <td>Image</td>
           <td>
             <div class="btn-group">
-              <input id="xepan-image-option-src" type="text" disabled="true/" class="btn"/>
+              <input id="xepan-image-option-src" type="text" disabled="true/" class="btn btn-xs"/>
               <button id="xepan-image-option-select" type="button" class="btn btn-default btn-xs">Select</button>
             </div>
           </td>
@@ -28,12 +28,9 @@
           </td>
         </tr>
         <tr>
-          <td>Target</td>
+          <td>base64</td>
           <td colspan="2">
-            <select id="xepan-image-link-target">
-              <option value="none">None</option>
-              <option value="_blank">New Window</option>
-            </select>
+            <textarea id="xepan-image-base64data" placeholder=""></textarea>
           </td>
         </tr>
       </tbody>
@@ -55,29 +52,17 @@
   $(current_selected_component).find('img').attr('data-extra-classes',$(this).val());
   $(current_selected_component).find('img').addClass($(this).val());
   });
-
-  // link change event
   $('#xepan-image-link').change(function(event) {
   $(current_selected_component).attr('xepan-image-link',$(this).val());
-  if($(this).val()){
-    inner_html = $(current_selected_component).html();
-    $(current_selected_component).html(" ");
-    $(current_selected_component).append('<a href="'+$(this).val()+'" target="'+$('#xepan-image-link-target').val()+'">'+inner_html+'</a>');
-  }else{
-    img = $(current_selected_component).find('img');
-    inner_html = $(img)[0];
-    $(current_selected_component).html(" ");
-    $(current_selected_component).append(inner_html);
-  }
-  // $(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
+  $(current_selected_component).find('a').attr('href',$(this).val());
+  $(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
   });
-  
-  // target change event
-  $('#xepan-image-link-target').change(function(event) {
-    $(current_selected_component).find('a').attr('target',$(this).val());
-  });
-
   $('#xepan-image-option-select').click(function(event) {
+  if($('#xepan-image-base64data').val().length > 0){
+    alert("Please clear base64 data first");
+    return;
+  }
+  
   var fm = $('<div/>').dialogelfinder({
   url : '?page=xepan_base_elconnector',
   lang : 'en',
@@ -96,9 +81,21 @@
   }
   }).dialogelfinder('instance');
   });
-
-  $('#{$_name}').on('show',function(event){
-    $('#xepan-image-option-src').val($(current_selected_component).find('img').attr('src'));
-    $('#xepan-image-link').val($(current_selected_component).find('a').attr('href'));
+  
+  $('#xepan-image-base64data').change(function(event){
+    $('#xepan-image-option-src').val("")
+    $(current_selected_component).find('img').attr('src',$(this).val());
+  });
+  
+  $('').on('show',function(event){
+  var src_val = $(current_selected_component).find('img').attr('src');
+  if(src_val.startsWith("data:")){
+  $('#xepan-image-base64data').val(src_val);
+  $('#xepan-image-option-src').val('');
+  }else{
+  $('#xepan-image-option-src').val(src_val);
+  $('#xepan-image-base64data').val('');
+  }
+  $('#xepan-image-link').val($(current_selected_component).find('a').attr('href'));
   });
 </script>
