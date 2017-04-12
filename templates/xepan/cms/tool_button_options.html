@@ -11,18 +11,49 @@
         <div id="bootstrap-btn-options" class="xepan-cms-tools-bar-panel row-fluid collapse">
           <table class="table table-condensed table-hover">
             <tr>
-              <td>Button Color
-                <button id="epan-component-btn-class-reset" class="pull-right btn btn-warning btn-xs">Reset</button>
+              <td>Button Label</td>
+            </tr>
+            <tr>
+              <td>
+                <input id="xepan-button-text-label" style="width:95%" type="text"/>
               </td>
             </tr>
             <tr>
-              <td colspan="2">
-                <div role="group" aria-label="..." class="btn-group btn-group-btn-group-lg">
-                  <button type="button" data-attr="xepan-cms-btn-class" data-btn-class="btn-primary" class="xepan-cms-apply-btn btn btn-primary"></button>
-                  <button type="button" data-attr="xepan-cms-btn-class" data-btn-class="btn-success" class="xepan-cms-apply-btn btn btn-success"></button>
-                  <button type="button" data-attr="xepan-cms-btn-class" data-btn-class="btn-warning" class="xepan-cms-apply-btn btn btn-warning"></button>
-                  <button type="button" data-attr="xepan-cms-btn-class" data-btn-class="btn-danger" class="xepan-cms-apply-btn btn btn-danger"></button>
+              <td>Button Color</td>
+            </tr>
+            <tr>
+              <td>
+                <div id="btn-colors" role="group" aria-label="..." class="btn-group btn-group-xs">
+                  <button name="color" type="button" value="btn-default" class="xepan-cms-apply-btn btn btn-default">Default</button>
+                  <button name="color" type="button" value="btn-primary" class="xepan-cms-apply-btn btn btn-primary">Primary</button>
+                  <button name="color" type="button" value="btn-info" class="xepan-cms-apply-btn btn btn-info">Info</button>
+                  <button name="color" type="button" value="btn-success" class="xepan-cms-apply-btn btn btn-success">Success</button>
+                  <button name="color" type="button" value="btn-warning" class="xepan-cms-apply-btn btn btn-warning">Warning</button>
+                  <button name="color" type="button" value="btn-danger" class="xepan-cms-apply-btn btn btn-danger">Danger</button>
                 </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Size			</td>
+            </tr>
+            <tr>
+              <td>
+                <div id="btn-sizes">
+                  <p>
+                    <button value="btn-xs" type="button" class="btn btn-xs btn-default">Mini</button>
+                    <button value="btn-sm" type="button" class="btn btn-sm btn-default">Small</button>
+                    <button value="btn-default" type="button" class="btn btn-default">Default</button>
+                    <button value="btn-lg" type="button" class="btn btn-default btn-lg">Large</button>
+                  </p>
+                  <p><a href="#" data-toggle="button" class="btn btn-default btn-block active">Full width button</a>
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button role="iconpicker" class="btn btn-default"></button>
+                <div role="iconpicker"></div>
               </td>
             </tr>
           </table>
@@ -41,34 +72,24 @@
     	});
     });
     
-    $('#epan-component-btn-class-reset').click(function(event){
-          $(current_selected_component).removeClass(function(index,classname){
-          	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
-          }).addClass('btn-default');
-    });
     
     $('#{$_name} .xepan-cms-apply-btn').click(function(event){
-        $(current_selected_component).removeClass(function(index,classname){
-          	return (classname.match(/(^|\s)btn-\S+/g) || []).join(' ');
-          }).addClass($(this).attr('data-btn-class'));
+        //- $(current_selected_component).removeClass(function(index,classname){
+        //-   	return (classname.match(/(^|\s)btn-\S+/g) || []).join(' ');
+        //-   }).addClass($(this).val());
+    	$(current_selected_component).removeClass('btn-success btn-default btn-primary btn-info btn-warning btn-danger').addClass($(this).val());
     });
     
-    //- $('#btn-success').click(function(event){
-    //-       $(current_selected_component).children('button').removeClass(function(index,classname){
-    //-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
-    //-       }).addClass('btn-success');
-    //- });
+    $('#xepan-button-text-label').change(function(event) {
+    	$(current_selected_component).html($("#xepan-button-text-label").val());
+    });
     
-    //- $('#btn-warning').click(function(event){
-    //-       $(current_selected_component).children('button').removeClass(function(index,classname){
-    //-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
-    //-       }).addClass('btn-warning');
-    //- });
+    $('#btn-sizes button').on('click', function(e) {
+    	$(current_selected_component).removeClass('btn-xs btn-sm btn-lg').addClass($(this).val());
+    });
     
-    //- $('#btn-danger').click(function(event){
-    //-       $(current_selected_component).children('button').removeClass(function(index,classname){
-    //-       	return (classname.match(/(^|\s)btn-\s+/g) || []).join(' '); 
-    //-       }).addClass('btn-danger');
-    //- });
+    $('#btn-sizes a').on('click', function(e) {
+    	$(current_selected_component).toggleClass('btn-block');
+    });
   </script>
 </div>
