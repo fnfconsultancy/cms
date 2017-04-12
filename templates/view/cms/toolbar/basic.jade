@@ -44,6 +44,14 @@
             tr
               td( colspan='2')
                 input#xepan-image-option-classess(style="width:95%" type='text')
+            tr
+              td(colspan='2') Text Color
+            tr
+              td
+                input#epan-component-text-color.epan-color-picker(type='text' style="width: 80%;")
+              td
+                button.btn.btn-default.btn-xs(onclick='$(current_selected_component).css("color","");$("#epan-component-text-color").colorpicker("setColor","");')  CLR
+
           //- tr
           //-   td
           //-     | Class
@@ -513,6 +521,10 @@ script(type='text/javascript').
   $(current_selected_component).css('background-color', '#'+ $(this).val());
   });
 
+  $('#epan-component-text-color').change(function(){
+    $(current_selected_component).css('color', '#'+ $(this).val()).attr('text-color',$(this).val());
+  });
+
   $('\#xepan-basic-css-panel').on('show',function(event){
     init_css_options();
   });
@@ -842,6 +854,7 @@ script(type='text/javascript').
   $('#epan-background-color').val($(current_selected_component).css('background-color'));
   $('#xepan-image-option-classess').val($(current_selected_component).attr('data-extra-classes'));
   $('.epan-background-color .current-color').css('background-color',$(current_selected_component).css('background-color'));
+  $('#epan-component-text-color').colorpicker('setColor',('#'+$(current_selected_component).attr('text-color')));
   $('#epan-text-color').val($(current_selected_component).css('color'));
   $('.epan-text-color .current-color').css('background-color',$(current_selected_component).css('color'));
   $('#epan-component-padding').val($(current_selected_component).css('padding'));

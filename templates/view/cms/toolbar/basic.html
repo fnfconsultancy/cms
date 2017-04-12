@@ -46,6 +46,17 @@
                 <input id="xepan-image-option-classess" style="width:95%" type="text"/>
               </td>
             </tr>
+            <tr>
+              <td colspan="2">Text Color</td>
+            </tr>
+            <tr>
+              <td>
+                <input id="epan-component-text-color" type="text" style="width: 80%;" class="epan-color-picker"/>
+              </td>
+              <td>
+                <button onclick="$(current_selected_component).css(&quot;color&quot;,&quot;&quot;);$(&quot;#epan-component-text-color&quot;).colorpicker(&quot;setColor&quot;,&quot;&quot;);" class="btn btn-default btn-xs"> CLR</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -557,6 +568,10 @@
   $(current_selected_component).css('background-color', '#'+ $(this).val());
   });
   
+  $('#epan-component-text-color').change(function(){
+    $(current_selected_component).css('color', '#'+ $(this).val()).attr('text-color',$(this).val());
+  });
+  
   $('\#xepan-basic-css-panel').on('show',function(event){
     init_css_options();
   });
@@ -886,6 +901,7 @@
   $('#epan-background-color').val($(current_selected_component).css('background-color'));
   $('#xepan-image-option-classess').val($(current_selected_component).attr('data-extra-classes'));
   $('.epan-background-color .current-color').css('background-color',$(current_selected_component).css('background-color'));
+  $('#epan-component-text-color').colorpicker('setColor',('#'+$(current_selected_component).attr('text-color')));
   $('#epan-text-color').val($(current_selected_component).css('color'));
   $('.epan-text-color .current-color').css('background-color',$(current_selected_component).css('color'));
   $('#epan-component-padding').val($(current_selected_component).css('padding'));
