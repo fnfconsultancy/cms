@@ -15,7 +15,7 @@
             </tr>
             <tr>
               <td>
-                <input id="xepan-button-text-label" style="width:95%" type="text"/>
+                <input id="xepan-button-text-label" style="width:95%" type="text" data-attr="xepan-button-label" value="Button label"/>
               </td>
             </tr>
             <tr>
@@ -50,10 +50,17 @@
                 </div>
               </td>
             </tr>
-            <tr>
+            <tr> 
               <td>
-                <button role="iconpicker" class="btn btn-default"></button>
-                <div role="iconpicker"></div>
+                <div style="font-size: 20px;" class="text-center">Icons</div>
+                <hr/>
+                <div id="btn-icon" role="iconpicker"></div>
+                <div style="font-size: 20px;" class="text-center">Icon Position</div>
+                <hr/>
+                <div id="btn-icon-positions" class="btn-group">
+                  <button value="left" type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Left</button>
+                  <button value="right" type="button" class="btn btn-default">Right <span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
               </td>
             </tr>
           </table>
@@ -90,6 +97,45 @@
     
     $('#btn-sizes a').on('click', function(e) {
     	$(current_selected_component).toggleClass('btn-block');
+    });
+    
+    
+    $('#btn-icon').iconpicker({
+    	  	//- align: 'center', // Only in div tag
+    	   //-  arrowClass: 'btn-danger',
+    	   //-  arrowPrevIconClass: 'glyphicon glyphicon-chevron-left',
+    	   //-  arrowNextIconClass: 'glyphicon glyphicon-chevron-right',
+    	   //-  cols: 10,
+    	   //-  footer: true,
+    	   //-  header: true,
+    	    icon: 'fa-bomb',
+    	    iconset: 'fontawesome',   
+    	    labelHeader: '{0} of {1} pages',
+    	    labelFooter: '{0} - {1} of {2} icons',
+    	    placement: 'bottom', // Only in button tag
+    	    rows: 3,
+    	    search: true,
+    	    searchText: 'Search',
+    	    selectedClass: 'btn-success',
+    	    unselectedClass: ''
+    });
+    
+    $('#btn-icon').on('change', function(e) {
+    	$(current_selected_component).find('i').remove();
+    	$(current_selected_component).append(' <i class="fa '+e.icon+'"></i> ');
+    });
+    
+    $('#btn-icon-positions button').on('click', function(e) {
+    	$(current_selected_component).html();
+    	var text = $('#xepan-button-text-label').val();
+    	var icon = $(current_selected_component).find('i');
+    	if($(this).val() == 'left'){
+    		$(' <i class="fa '+e.icon+'"></i>').appendTo($(current_selected_component));
+    		$(current_selected_component).html(' <i class="fa '+e.icon+'"></i> '+text);
+    	}
+    	else{
+    		$(current_selected_component).html(text+' <i class="fa '+e.icon+'"></i> ');
+    	}
     });
   </script>
 </div>
