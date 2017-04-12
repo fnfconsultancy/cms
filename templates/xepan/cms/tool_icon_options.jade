@@ -55,6 +55,7 @@
 
 			$('\#{$_name} #xepan-cms-icon-dialog-btn').iconpicker('setIcon',$(current_selected_component).attr('icon-class'));
 			
+			$('\#{$_name} .xepan-cms-icon-alignment').removeClass('active');
 			$('\#{$_name} .xepan-cms-icon-alignment[icon-align="'+$(current_selected_component).attr('icon-align')+'"]').addClass('active');
 		});
 
