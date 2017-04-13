@@ -100,28 +100,28 @@
 
 
 		$('#xepan-bootstrap-menu-default-nav').click(function(event) {
-		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-bottom navbar-fixed-top navbar-static-top navbar-inverse');
-		  $(current_selected_component).find('.navbar').addClass('navbar-default');
+		  $(current_selected_component).removeClass('navbar-fixed-bottom navbar-fixed-top navbar-static-top navbar-inverse');
+		  $(current_selected_component).addClass('navbar-default');
 		});
 
 		$('#xepan-bootstrap-menu-fixed-top').click(function(event) {
-		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-bottom navbar-static-top navbar-inverse');
-		  $(current_selected_component).find('.navbar').addClass('navbar-fixed-top');
+		  $(current_selected_component).removeClass('navbar-fixed-bottom navbar-static-top navbar-inverse');
+		  $(current_selected_component).addClass('navbar-fixed-top');
 		});
 		
 		$('#xepan-bootstrap-menu-fixed-bottom').click(function(event) {
-		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-top navbar-static-top navbar-inverse');
-		  $(current_selected_component).find('.navbar').addClass('navbar-fixed-bottom');
+		  $(current_selected_component).removeClass('navbar-fixed-top navbar-static-top navbar-inverse');
+		  $(current_selected_component).addClass('navbar-fixed-bottom');
 		});
 
 		$('#xepan-bootstrap-menu-static-top').click(function(event) {
-		  $(current_selected_component).find('.navbar').removeClass('navbar-fixed-bottom navbar-fixed-top navbar-inverse');
-		  $(current_selected_component).find('.navbar').addClass('navbar-static-top');
+		  $(current_selected_component).removeClass('navbar-fixed-bottom navbar-fixed-top navbar-inverse');
+		  $(current_selected_component).addClass('navbar-static-top');
 		});
 
 		$('#xepan-bootstrap-menu-inverted-nav').click(function(event) {
-		  $(current_selected_component).find('.navbar').removeClass('navbar-default navbar-fixed-bottom navbar-fixed-top navbar-static-top ');
-		  $(current_selected_component).find('.navbar').addClass('navbar-inverse');
+		  $(current_selected_component).removeClass('navbar-default navbar-fixed-bottom navbar-fixed-top navbar-static-top ');
+		  $(current_selected_component).addClass('navbar-inverse');
 		});
 
 		//- set nav Alignment
@@ -166,12 +166,12 @@
 					$(list_html).appendTo($(current_selected_component).find('#xepan-boostrap-ul'));
 					
 					//- //- manual call dropdown after get page and also coded at document ready in view tool html file
-					//- $(current_selected_component).find('.dropdown-toggle').dropdown();
-					//- $(current_selected_component).find('.dropdown-submenu a').on('click',function(e){
-					//- 	$(this).next('ul').toggle();
-					//-     e.stopPropagation();
-					//-     e.preventDefault();
-					//- });
+					$(current_selected_component).find('.dropdown-toggle').dropdown();
+					$(current_selected_component).find('.dropdown-submenu a').on('click',function(e){
+						$(this).next('ul').toggle();
+					    e.stopPropagation();
+					    e.preventDefault();
+					});
 				}
 			});
 		});

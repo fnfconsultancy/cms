@@ -13,14 +13,14 @@ nav.navbar.navbar-default.xepan-component(id='{$_name}' class='{$Class}' style='
 				a(href='#') Home
 			li
 				a(href='#') About
-	//- script.
-	//- 	$(document).ready(function(){
-	//- 		$('\#{$_name} .dropdown-toggle').dropdown();
+	script.
+		$(document).ready(function(){
+			$('\#{$_name} .dropdown-toggle').dropdown();
 			
-	//- 		$('\#{$_name} .dropdown-submenu a').on("click", function(e){
-	//- 		    $(this).next('ul').toggle();
-	//- 		    e.stopPropagation();
-	//- 		    e.preventDefault();
-	//- 		});
-	//- 	});
+			$('\#{$_name} .dropdown-submenu a').on("click", function(e){
+			    $(this).next('ul').toggle();
+			    e.stopPropagation();
+			    e.preventDefault();
+			});
+		});
 
