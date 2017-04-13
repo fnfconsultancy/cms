@@ -536,7 +536,6 @@ script(type='text/javascript').
   width : 840,
   destroyOnClose : true,
   getFileCallback : function(files, fm) {
-  console.log(files.url);
   $('#epan-component-background-image-input').val(files.url);
   $(current_selected_component).css('background-image',"url('" + files.url +"')");
   console.log(files);
