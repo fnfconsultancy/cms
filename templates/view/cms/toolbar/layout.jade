@@ -1,26 +1,3 @@
-{toolBar}
-.xepan-cms-toolbar
-	{$groups}
-.xepan-toolbar(id='{$_name}' aria-expanded="true")
-	{$topbar_editor}
-.xepan-tools-options(style="display:none;")
-	.xepan-tools-options-drag-handler
-	.xepan-tools
-		{$tool_options}
-		{$basic_property}
-{/toolBar}
-
-{group}
-div.xepan-cms-group-panel
-	{$name}
-	.xepan-cms-tools-bar-panel
-		{$tools}
-{/group}
-
-{tool}
-.xepan-tool-bar-tool(id='{$_name}' style="text-align:center;")
-	img(src="vendor/{$namespace}/templates/images/{$name}_icon.png" onerror="this.src='./vendor/xepan/cms/templates/images/default_icon.png'")
-	br
-	img(src="vendor/xepan/cms/templates/images/tool_shadow.png")
-	div.xepan-cms-tool-name {$name} {$tool_html}
-{/tool}
+div(id="{$_name}" class="{$Class}" style="{$style}")
+	{temp_tool_options}{/}
+	{$Content}

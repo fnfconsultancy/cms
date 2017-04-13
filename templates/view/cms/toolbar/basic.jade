@@ -1,17 +1,24 @@
 #xepan-basic-css-panel.epan-css-options
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-  .xepan-cms-group-panel.clearfix
-    div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseOne" aria-expanded="false")
+  hr
+  .xepan-cms-group-panel.clearfix.xepan-cms-tool
+    div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseOne" aria-expanded="false")
       span Basic Properties
     #collapseOne.xepan-cms-tools-bar-panel.row-fluid.collapse
-      .panel-body.xepan-collasp-body
+      .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
           tbody
             tr
               td
-                | Comp. Width
+                //- | Comp. Width
+                |Component Width
+                button#epan-component-width-reset.pull-right.btn.btn-warning.btn-xs
+                  | Reset
+                
+            tr
               td(colspan='2')
                 input#epan-component-width-input(type='NUMBER', min='0', max='999999999', size='5')
+                br
                 button#epan-component-width-in-px.btn.btn-default.btn-xs(type='button') PX
                 button#epan-component-width-in-per.btn.btn-default.btn-xs(type='button') %
                 button#epan-component-width-auto.btn.btn-default.btn-xs(type='button') auto
@@ -19,12 +26,32 @@
             tr
               td
                 | Comp. Height
+                button#epan-component-height-reset.pull-right.btn.btn-warning.btn-xs
+                  |Reset
+            tr
               td(colspan='2')
                 input#epan-component-height-input(type='NUMBER', min='0', max='999999999', size='5')
+                br
                 button#epan-component-height-in-px.btn.btn-default.btn-xs(type='button') PX
                 button#epan-component-height-in-per.btn.btn-default.btn-xs(type='button') %
                 button#epan-component-height-auto.btn.btn-default.btn-xs(type='button') auto
                 button#epan-component-height-max.btn.btn-default.btn-xs(type='button') max 100%
+            tr
+              td
+                | css class
+                button#epan-component-extra-css-reset.pull-right.btn.btn-warning.btn-xs
+                  |Reset
+            tr
+              td( colspan='2')
+                input#xepan-image-option-classess(style="width:95%" type='text')
+            tr
+              td(colspan='2') Text Color
+            tr
+              td
+                input#epan-component-text-color.epan-color-picker(type='text' style="width: 80%;")
+              td
+                button.btn.btn-default.btn-xs(onclick='$(current_selected_component).css("color","");$("#epan-component-text-color").colorpicker("setColor","");')  CLR
+
           //- tr
           //-   td
           //-     | Class
@@ -34,11 +61,11 @@
           //-     button#epan-bs3-css-helper.btn.btn-default.btn-xs(type='button') Css Templates
     // PADDING
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-  .xepan-cms-group-panel.clearfix
-    div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false")
+  .xepan-cms-group-panel.clearfix.xepan-cms-tool
+    div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false")
       span Padding
     #collapseTwo.xepan-cms-tools-bar-panel.row-fluid.collapse
-      .panel-body.xepan-collasp-body
+      .xepan-toolbar-panel-body.xepan-collasp-body
         // Padding panel
         table.table.table-condensed.table-hover
           tbody
@@ -48,6 +75,8 @@
               td(width='58%')
                 input#epan-all-padding-same(type='checkbox')
               td
+                button#epan-all-padding-reset.pull-right.btn.btn-warning.btn-xs               
+                  |Reset
             tr
               td
                 | Unit
@@ -92,11 +121,11 @@
             #padding-left-value
     // MARGIN
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-  .xepan-cms-group-panel.clearfix
-    div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseThree" aria-expanded="false")
+  .xepan-cms-group-panel.clearfix.xepan-cms-tool
+    div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseThree" aria-expanded="false")
       span Margin
     #collapseThree.xepan-cms-tools-bar-panel.row-fluid.collapse  
-      .panel-body.xepan-collasp-body
+      .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
           tbody
             tr
@@ -105,6 +134,8 @@
               td(width='58%')
                 input#epan-all-margin-same(type='checkbox')
               td
+                button#epan-all-margin-reset.pull-right.btn.btn-warning.btn-xs
+                  |Reset
             tr
               td
                 | Unit
@@ -168,23 +199,25 @@
                 button.btn.btn-default.btn-xs.margin-auto-btn(type='button', pos='left') auto
     // BACKGROUND
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-  .xepan-cms-group-panel.clearfix
-    div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseFour" aria-expanded="false")
+  .xepan-cms-group-panel.clearfix.xepan-cms-tool
+    div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseFour" aria-expanded="false")
       span Background
     #collapseFour.xepan-cms-tools-bar-panel.row-fluid.collapse  
-      .panel-body.xepan-collasp-body
+      .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
           tbody
             tr
               td
                 | BG Color
+            tr
               td
-                input#epan-background-color.epan-color-picker(type='text')
+                input#epan-background-color.epan-color-picker(type='text' style="width: 80%;")
               td
                 button.btn.btn-default.btn-xs(onclick="$(current_selected_component).css('background-color','')")  CLR 
             tr
               td
                 | BG Image
+            tr
               td(colspan='2')
                 .input-group
                   span.input-group-btn
@@ -195,52 +228,63 @@
             tr
               td
                 | Repeat
+            tr
               td(colspan='2')
                 .btn-group
-                  .btn.btn-default.btn-success.btn-xs(repeat-background='repeat') All
-                  .btn.btn-default.btn-xs(repeat-background='repeat-x') X Only
-                  .btn.btn-default.btn-xs(repeat-background='repeat-y') Y Only
-                  .btn.btn-default.btn-xs(repeat-background='no-repeat') No-Repeat
+                  .xepan-btn.xepan-btn-default.xepan-btn-success.btn-xs(repeat-background='repeat') All
+                  .xepan-btn.xepan-btn-default.btn-xs(repeat-background='repeat-x') X Only
+                  .xepan-btn.xepan-btn-default.btn-xs(repeat-background='repeat-y') Y Only
+                  .xepan-btn.xepan-btn-default.btn-xs(repeat-background='no-repeat') No-Repeat
             tr
               td
                 | Background
+            tr
               td(colspan='2')
                 .btn-group
-                  button#epan-component-background-fixed.btn.btn-default.btn-xs(type='button') Fixed
-                  button#epan-component-background-scroll.btn.btn-default.btn-xs(type='button') Scroll
+                  button#epan-component-background-fixed.xepan-btn.xepan-btn-default.btn-xs(type='button') Fixed
+                  button#epan-component-background-scroll.xepan-btn.xepan-btn-default.btn-xs(type='button') Scroll
     // BORDER
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-  .xepan-cms-group-panel.clearfix
-    div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseFive" aria-expanded="false")
+  .xepan-cms-group-panel.clearfix.xepan-cms-tool
+    div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseFive" aria-expanded="false")
       span Border
     #collapseFive.xepan-cms-tools-bar-panel.row-fluid.collapse  
-      .panel-body.xepan-collasp-body
+      .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
           tbody
             tr
-              td(colspan="3")
+              td(colspan="")
                 | Effect All
               td
                 input#epan-all-border-same(type='checkbox', checked='')
+              td
+                button#epan-all-border-reset.pull-right.btn.btn-warning.btn-xs    
+                  |Reset
             tr
-              td(width='15%')
-                | Pos.
-              td
-                | Color
-              td
-                | Style
-              td
-                | Width
+              td(colspan="2")
+                |Top Border
             tr
-              td
-                | Top
-              td
-                .epan-component-border-top-color
+              //- td(width='15%')
+              //-   | Pos.
+              td(colspan="2")
+                span(style="padding: 5%")
+                  | Color
+                span(style="padding: 5%")
+                  | Style
+                span(style="padding: 5%")
+                  | Width
+              //- td
+              //- td
+            tr
+              //- td
+              //-   | Top
+              td(colspan="2")
+                .epan-component-border-top-color( style="float: left;")
                   input#epan-component-border-top-color.epan-color-picker.epan-border-color(type='hidden', pos='top')
-              td
-                select.epan-border-style(pos='top')
+                //- td
+                select.epan-border-style(pos='top' style="float: left; width: 35%;")
                   option(value="0")
-                    |Select Style
+                    |Style
                   option(value="dashed")
                     |dash
                   option(value="dotted")
@@ -263,18 +307,19 @@
                     |solide
                   option(value="inherit")
                     |inherit
-              td
-                input#epan-component-border-top-width.epan-border-width(type='text', size='2', pos='top')
+                  //- td
+                input#epan-component-border-top-width.epan-border-width(type='text', size='2', pos='top' style="float: left;")
             tr
-              td
-                | Right
-              td
-                .epan-component-border-right-color
-                  input#epan-component-border-right-color.epan-color-picker.epan-border-color(type='hidden', pos='right')
-              td
-                select.epan-border-style(pos='right')
+              td(colspan="6")
+                | Right Border
+            tr    
+              td(colspan="6")
+                .epan-component-border-right-color(style="float: left;")
+                  input#epan-component-border-right-color.epan-color-picker.epan-border-color(type='hidden', pos='right' )
+                //- td(colspan="2")
+                select.epan-border-style(pos='right' style="float: left; width: 35%;")
                   option(value="0")
-                    |Select Style
+                    |Style
                   option(value="dashed")
                     |dash
                   option(value="dotted")
@@ -297,18 +342,19 @@
                     |solide
                   option(value="inherit")
                     |inherit
-              td
-                input#epan-component-border-right-width.epan-border-width(type='text', size='2', pos='right')
+                //- td
+                input#epan-component-border-right-width.epan-border-width(type='text', size='2', pos='right' style="float: left;")
             tr
-              td
-                | Bottom
-              td
-                .epan-component-border-bottom-color
-                  input#epan-component-border-bottom-color.epan-color-picker.epan-border-color(type='hidden', pos='bottom')
-              td
-                select.epan-border-style(pos='bottom')
+              td(colspan="6")
+                | Bottom Border
+            tr  
+              td(colspan="6")
+                .epan-component-border-bottom-color(style="float: left;")
+                  input#epan-component-border-bottom-color.epan-color-picker.epan-border-color(type='hidden', pos='bottom' )
+                //- td
+                select.epan-border-style(pos='bottom' style="float: left; width: 35%;")
                   option(value="0")
-                    |Select Style
+                    |Style
                   option(value="dashed")
                     |dash
                   option(value="dotted")
@@ -331,18 +377,19 @@
                     |solide
                   option(value="inherit")
                     |inherit
-              td
-                input#epan-component-border-bottom-width.epan-border-width(type='text', size='2', pos='bottom')
+                //- td
+                input#epan-component-border-bottom-width.epan-border-width(type='text', size='2', pos='bottom' style="float: left;")
             tr
-              td
-                | Left
-              td
-                .epan-component-border-left-color
+              td(colspan="6")
+                | Left Border
+            tr    
+              td(colspan="6")
+                .epan-component-border-bottom-color(style="float: left;")
                   input#epan-component-border-left-color.epan-color-picker.epan-border-color(type='hidden', pos='left')
-              td
-                select.epan-border-style(pos='left')
+                //- td
+                select.epan-border-style(pos='left' style="float: left; width: 35%;")
                   option(value="0")
-                    |Select Style
+                    |Style
                   option(value="dashed")
                     |dash
                   option(value="dotted")
@@ -365,40 +412,50 @@
                     |solide
                   option(value="inherit")
                     |inherit
-              td
-                input#epan-component-border-left-width.epan-border-width(type='text', size='2', pos='left')
+                 //- td
+                input#epan-component-border-left-width.epan-border-width(type='text', size='2', pos='left' style="float: left;")
             tr
               td(colspan="2")
                 | Radius Top-Left
+            tr
               td(colspan="2")
-                input#epan-border-radius-t-left.epan-border-radius(type='text', pos='border-top-left-radius' placeHolder='exp. 10px, 10em, 10% etc.')
+                input#epan-border-radius-t-left.epan-border-radius(type='text', pos='border-top-left-radius' placeHolder='exp. 10px, 10em, 10% etc.' style="width:100%")
             tr
               td(colspan="2")
                 | Radius Top-Right
+            tr
               td(colspan="2")
-                input#epan-border-radius-t-right.epan-border-radius(type='text', pos='border-top-right-radius' placeHolder='exp. 10px, 10em, 10% etc.')
+                input#epan-border-radius-t-right.epan-border-radius(type='text', pos='border-top-right-radius' placeHolder='exp. 10px, 10em, 10% etc.' style="width:100%")
             tr
               td(colspan="2")
                 | Radius Bottom-Left
+            tr
               td(colspan="2")
-                input#epan-border-radius-b-left.epan-border-radius(type='text', pos='border-bottom-left-radius' placeHolder='exp. 10px, 10em, 10% etc.')
+                input#epan-border-radius-b-left.epan-border-radius(type='text', pos='border-bottom-left-radius' placeHolder='exp. 10px, 10em, 10% etc.' style="width:100%")
             tr
               td(colspan="2")
                 | Radius Bottom-Right
+            tr
               td(colspan="2")
-                input#epan-border-radius-b-right.epan-border-radius(type='text', pos='border-bottom-right-radius' placeHolder='exp. 10px, 10em, 10% etc.')
+                input#epan-border-radius-b-right.epan-border-radius(type='text', pos='border-bottom-right-radius' placeHolder='exp. 10px, 10em, 10% etc.' style="width:100%")
     //CSS Tranform
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-  .xepan-cms-group-panel.clearfix
-    div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#collapseSix" aria-expanded="false")
-      span Tranform
+  .xepan-cms-group-panel.clearfix.xepan-cms-tool
+    div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseSix" aria-expanded="false")
+      span Transform
     #collapseSix.xepan-cms-tools-bar-panel.row-fluid.collapse  
-      .panel-body.xepan-collasp-body
+      .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
           tbody
             tr
+              td
+                button#epan-all-transform-reset.pull-right.btn.btn-warning.btn-xs 
+                  |Reset
+              td(width='58%')
+            tr
               td(width='20%')
                 |Rotate
+            tr
               td(width='50%')
                 .epan-component-transform.epan-component-transform-rotate(css-syntax='rotate', unit='deg')
               td(width='30%')
@@ -406,6 +463,7 @@
             tr
               td(width='20%')
                 |Scale
+            tr
               td(width='50%')
                 |x
                 .epan-component-transform.epan-component-transform-scale(css-syntax='scale', unit='','direction'='x')
@@ -418,6 +476,7 @@
             tr
               td(width='20%')
                 |Skew
+            tr
               td(width='50%')
                 |x
                 .epan-component-transform.epan-component-transform-skew(css-syntax='skew', unit='deg','direction'='x')
@@ -430,6 +489,7 @@
             tr
               td(width='20%')
                 |Translate
+            tr
               td(width='50%')
                 |x
                 .epan-component-transform.epan-component-transform-translate(css-syntax='translate', unit='px',direction='x')
@@ -439,7 +499,8 @@
                 .epan-component-transform-translate-value(translate='(1px,1px)')
                 .epan-component-transform-translate-x-value(translate='1')
                 .epan-component-transform-translate-y-value(translate='1')
-.btn.btn-block.btn-primary#override-xepan-tool-template(style="margin-top:10px; padding: 8px 20px") Override Template
+.xepan-btn.btn-block.btn-primary#override-xepan-tool-template Override Template
+.xepan-btn.btn-block.btn-primary#xepan-tool-mystyle Custom CSS
 
 script(type='text/javascript').
   padding_unit = 'px';
@@ -448,8 +509,20 @@ script(type='text/javascript').
   is_all_margin_same = false;
   is_all_border_same = true;
 
+  //-option Class
+  $('#xepan-image-option-classess').change(function(event){
+    //- alert("hchcsfhkdshfkfs");
+    $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+    $(current_selected_component).attr('data-extra-classes',$(this).val());
+    $(current_selected_component).addClass($(this).val());
+  });
+
   $('#epan-background-color').change(function(){
   $(current_selected_component).css('background-color', '#'+ $(this).val());
+  });
+
+  $('#epan-component-text-color').change(function(){
+    $(current_selected_component).css('color', '#'+ $(this).val()).attr('text-color',$(this).val());
   });
 
   $('\#xepan-basic-css-panel').on('show',function(event){
@@ -463,7 +536,6 @@ script(type='text/javascript').
   width : 840,
   destroyOnClose : true,
   getFileCallback : function(files, fm) {
-  console.log(files.url);
   $('#epan-component-background-image-input').val(files.url);
   $(current_selected_component).css('background-image',"url('" + files.url +"')");
   console.log(files);
@@ -482,13 +554,13 @@ script(type='text/javascript').
   });
   $('#epan-component-background-scroll').click(function(event) {
   $(current_selected_component).css('background-attachment','scroll');
-  $('#epan-component-background-fixed').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('#epan-component-background-fixed').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   $('#epan-component-background-fixed').click(function(event) {
   $(current_selected_component).css('background-attachment','fixed');
-  $('#epan-component-background-scroll').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('#epan-component-background-scroll').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   // INITIAL ONE TIME SETUP ON PAGE LOAD
   $('.epan-component-padding').slider({
@@ -540,6 +612,43 @@ script(type='text/javascript').
   is_all_padding_same =false;
   }
   });
+
+  //- Reset Width on current_selected_component
+  $('#epan-component-width-reset').click(function(event){
+      $(current_selected_component).css('width','');
+      $(current_selected_component).css('max-width','');
+      $(current_selected_component).css('min-width','');
+  });
+  //- Reset Height on current_selected_component
+  $('#epan-component-height-reset').click(function(event){
+      $(current_selected_component).css('height','');
+      $(current_selected_component).css('max-height','');
+      $(current_selected_component).css('min-height','');
+  });
+  //- Reset Width on current_selected_component
+  $('#epan-component-extra-css-reset').click(function(event){
+      $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+  });
+  //- Reset Padding on current_selected_component
+  $('#epan-all-padding-reset').click(function(event){
+      $(current_selected_component).css('padding','');
+  });
+
+  //- Reset Margin on current_selected_component
+  $('#epan-all-margin-reset').click(function(event){
+      $(current_selected_component).css('margin','');
+  });
+
+  //- Reset Border on current_selected_component
+  $('#epan-all-border-reset').click(function(event){
+      $(current_selected_component).css('border','');
+  });
+
+  //- Reset Tranform on current_selected_component
+  $('#epan-all-transform-reset').click(function(event){
+      $(current_selected_component).css('transform','');
+  });
+
   $('#epan-all-margin-same').click(function(event) {
   if($('#epan-all-margin-same:checked').size() > 0){
   $('.epan-component-margin').not('#epan-component-margin-top').slider('disable');
@@ -562,8 +671,8 @@ script(type='text/javascript').
   margin_unit = '%';
   });
   $('[repeat-background]').click(function(event) {
-  $('[repeat-background]').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('[repeat-background]').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   $(current_selected_component).css('background-repeat',$(this).attr('repeat-background'));
   });
   $('#epan-all-border-same').click(function(event) {
@@ -690,6 +799,7 @@ script(type='text/javascript').
   });
 
 
+
   $('.epan-border-width').keyup(function(event) {
   // console.log('border-'+$(this).attr('pos')+'-width',$(this).val());
   if(is_all_border_same)
@@ -710,8 +820,8 @@ script(type='text/javascript').
   $(current_selected_component).css('border-style',$(this).val());
   else
   $(current_selected_component).css('border-'+$(this).attr('pos')+'-style',$(this).val());
-  $(this).siblings().removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $(this).siblings().removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   $('#epan-component-width-in-per').click(function(event) {
   $(current_selected_component).css('width',$('#epan-component-width-input').val()+'%');
@@ -741,7 +851,9 @@ script(type='text/javascript').
   //  GET OPTIONS FROM CURRENT SELECTED COMPONENT
   function init_css_options(){
   $('#epan-background-color').val($(current_selected_component).css('background-color'));
+  $('#xepan-image-option-classess').val($(current_selected_component).attr('data-extra-classes'));
   $('.epan-background-color .current-color').css('background-color',$(current_selected_component).css('background-color'));
+  $('#epan-component-text-color').colorpicker('setColor',('#'+$(current_selected_component).attr('text-color')));
   $('#epan-text-color').val($(current_selected_component).css('color'));
   $('.epan-text-color .current-color').css('background-color',$(current_selected_component).css('color'));
   $('#epan-component-padding').val($(current_selected_component).css('padding'));
@@ -754,9 +866,9 @@ script(type='text/javascript').
   $('#epan-component-extra-clases').val($(current_selected_component).attr('data-extra-classes'));
   $('#epan-component-background-image-input').val($(current_selected_component).css('background-image'));
   if($(current_selected_component).css('background-attachment') == 'fixed'){
-  $('#epan-component-background-fixed').addClass('btn-success');
+  $('#epan-component-background-fixed').addClass('xepan-btn-success');
   }else{
-  $('#epan-component-background-scroll').addClass('btn-success');
+  $('#epan-component-background-scroll').addClass('xepan-btn-success');
   }
   // Set Paddings from current component
   if($(current_selected_component)[0].style.paddingTop.indexOf('px') != -1){
@@ -803,16 +915,16 @@ script(type='text/javascript').
   margin_unit='px';
   }
   // Background Repeat
-  $('[repeat-background]').removeClass('btn-success');
-  $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('btn-success');
+  $('[repeat-background]').removeClass('xepan-btn-success');
+  $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('xepan-btn-success');
   // Border Initialization
   border_positions=['top','right','bottom','left'];
   $.each(border_positions, function(p_index, pos_val) {
   if($(current_selected_component).css('border-'+pos_val+'-width')){
   $('#epan-component-border-'+pos_val+'-width').val($(current_selected_component).css('border-'+pos_val+'-width'));
   $('#epan-component-border-'+pos_val+'-color').val($(current_selected_component).css('border-'+pos_val+'-color'));
-  $('.epan-border-style[pos="'+pos_val+'"]').removeClass('btn-success');
-  $('.epan-border-style[pos="'+pos_val+'"][style="'+$(current_selected_component).css('border-'+pos_val+'-style')+'"]').addClass('btn-success');
+  $('.epan-border-style[pos="'+pos_val+'"]').removeClass('xepan-btn-success');
+  $('.epan-border-style[pos="'+pos_val+'"][style="'+$(current_selected_component).css('border-'+pos_val+'-style')+'"]').addClass('xepan-btn-success');
   $('.epan-component-border-'+pos_val+'-color .current-color').css('background-color',$(current_selected_component).css('border-'+pos_val+'-color'));
   }
   });

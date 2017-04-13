@@ -16,6 +16,7 @@ class Initiator extends \Controller_Addon {
         $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
         // $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
         $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
+        $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_templateandpage');
         $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
         $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
         $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
@@ -26,7 +27,7 @@ class Initiator extends \Controller_Addon {
 
     function exportEntities($app,&$array){
         $array['CarouselCategory'] = ['caption'=>'CarouselCategory','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselCategory'];
-        $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];
+        $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];        
     }
 
     function setup_pre_frontend(){
@@ -133,14 +134,42 @@ class Initiator extends \Controller_Addon {
         }
 
         if($this->app->isEditing){
-            $this->app->js(true)
-                ->_load('ace/ace/ace')
-                ->_load('ace/ace/mode-html')
-                ->_load('ace/ace/mode-php')
-                ->_load('ace/ace/mode-css')
-                ->_load('ace/ace/theme-tomorrow')
-                ->_load('ace/jquery-ace.min');
+            $this->app->jui
+                ->addStaticInclude('ace/ace/ace')
+                ->addStaticInclude('ace/ace/mode-html')
+                ->addStaticInclude('ace/ace/mode-php')
+                ->addStaticInclude('ace/ace/mode-css')
+                ->addStaticInclude('ace/ace/theme-tomorrow')
+                ->addStaticInclude('ace/jquery-ace.min')
+
+                ->addStaticInclude('iconset/iconset-glyphicon.min')
+                ->addStaticInclude('iconset/iconset-fontawesome-4.0.0.min')
+                ->addStaticInclude('bootstrap-iconpicker.min')
+                ->addStaticStyleSheet('bootstrap-iconpicker.min')
+                ;
         }
+
+        $this->app->jui->addStaticInclude('pnotify.custom.min');
+        $this->app->jui->addStaticInclude('xepan.pnotify');
+        $this->app->jui->addStaticStyleSheet('pnotify.custom.min');
+        $this->app->jui->addStaticStyleSheet('animate');
+        $this->app->jui->addStaticInclude('xepan_jui');
+        $this->app->jui->addStaticInclude('xepan_jui');
+        $this->app->jui->addStaticStyleSheet('bootstrap.min');
+        $this->app->jui->addStaticInclude('bootstrap.min');
+        $this->app->jui->addStaticStyleSheet('font-awesome');
+        // check my style css is exist or not
+        $path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/css";
+        if(!file_exists($path)){
+            $folder = \Nette\Utils\FileSystem::createDir($path);
+        }  
+        $path .= "/mystyle.css";
+        $mystyle = " /*Define Your Custom CSS*/";
+        if(!file_exists($path)){
+            $file = \Nette\Utils\FileSystem::write($path,$mystyle);
+        }
+        $this->app->template->appendHTML('js_include','<link id="xepan-cms-custom-mystylecss" type="text/css" href="websites/'.$this->app->current_website_name.'/www/css/mystyle.css" rel="stylesheet" />'."\n");
+        // end of custom css include 
 
         if($_GET['js_redirect_url']){                                    
             $this->app->js(true)->univ()->dialogOK('Redirecting To Page', 'Website URL'.$_GET['js_redirect_url'])->redirect($_GET['js_redirect_url']);
@@ -162,16 +191,23 @@ class Initiator extends \Controller_Addon {
         $this->app->template->trySet('meta_keywords',@implode("\n",$old_meta_keywords[1]));
         $this->app->template->trySet('meta_description',@implode("\n",$old_meta_description[1]));
 
-        if($this->app->editing_template)
+        if(isset($this->app->editing_template))
             $this->app->exportFrontEndTool('xepan\cms\Tool_TemplateContentRegion');
+
+        $this->app->jui->addStylesheet('jquery-ui');
             
         $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Image');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Icon');
         $this->app->exportFrontEndTool('xepan\cms\Tool_CustomForm');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Carousel');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Marquee');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_BootStrapMenu');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Button');
+        $this->app->exportFrontEndTool('xepan\base\Tool_UserPanel');
+        $this->app->exportFrontEndTool('xepan\base\Tool_Location');
 
         return $this;
     }

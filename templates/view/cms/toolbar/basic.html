@@ -1,16 +1,21 @@
 
 <div id="xepan-basic-css-panel" class="epan-css-options">
   <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-  <div class="xepan-cms-group-panel clearfix">
-    <div data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Basic Properties</span></div>
+  <hr/>
+  <div class="xepan-cms-group-panel clearfix xepan-cms-tool">
+    <div data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" class="collapsed xepan-cms-toolbar-heading"><span>Basic Properties</span></div>
     <div id="collapseOne" class="xepan-cms-tools-bar-panel row-fluid collapse">
-      <div class="panel-body xepan-collasp-body">
+      <div class="xepan-toolbar-panel-body xepan-collasp-body">
         <table class="table table-condensed table-hover">
           <tbody>
             <tr>
-              <td>Comp. Width</td>
+              <td>Component Width
+                <button id="epan-component-width-reset" class="pull-right btn btn-warning btn-xs">Reset</button>
+              </td>
+            </tr>
+            <tr>
               <td colspan="2">
-                <input id="epan-component-width-input" type="NUMBER" min="0" max="999999999" size="5"/>
+                <input id="epan-component-width-input" type="NUMBER" min="0" max="999999999" size="5"/><br/>
                 <button id="epan-component-width-in-px" type="button" class="btn btn-default btn-xs">PX</button>
                 <button id="epan-component-width-in-per" type="button" class="btn btn-default btn-xs">%</button>
                 <button id="epan-component-width-auto" type="button" class="btn btn-default btn-xs">auto</button>
@@ -18,13 +23,38 @@
               </td>
             </tr>
             <tr>
-              <td>Comp. Height</td>
+              <td>Comp. Height
+                <button id="epan-component-height-reset" class="pull-right btn btn-warning btn-xs">Reset</button>
+              </td>
+            </tr>
+            <tr>
               <td colspan="2">
-                <input id="epan-component-height-input" type="NUMBER" min="0" max="999999999" size="5"/>
+                <input id="epan-component-height-input" type="NUMBER" min="0" max="999999999" size="5"/><br/>
                 <button id="epan-component-height-in-px" type="button" class="btn btn-default btn-xs">PX</button>
                 <button id="epan-component-height-in-per" type="button" class="btn btn-default btn-xs">%</button>
                 <button id="epan-component-height-auto" type="button" class="btn btn-default btn-xs">auto</button>
                 <button id="epan-component-height-max" type="button" class="btn btn-default btn-xs">max 100%</button>
+              </td>
+            </tr>
+            <tr>
+              <td>css class
+                <button id="epan-component-extra-css-reset" class="pull-right btn btn-warning btn-xs">Reset</button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input id="xepan-image-option-classess" style="width:95%" type="text"/>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">Text Color</td>
+            </tr>
+            <tr>
+              <td>
+                <input id="epan-component-text-color" type="text" style="width: 80%;" class="epan-color-picker"/>
+              </td>
+              <td>
+                <button onclick="$(current_selected_component).css(&quot;color&quot;,&quot;&quot;);$(&quot;#epan-component-text-color&quot;).colorpicker(&quot;setColor&quot;,&quot;&quot;);" class="btn btn-default btn-xs"> CLR</button>
               </td>
             </tr>
           </tbody>
@@ -34,10 +64,10 @@
     <!-- PADDING-->
   </div>
   <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-  <div class="xepan-cms-group-panel clearfix">
-    <div data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Padding</span></div>
+  <div class="xepan-cms-group-panel clearfix xepan-cms-tool">
+    <div data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" class="collapsed xepan-cms-toolbar-heading"><span>Padding</span></div>
     <div id="collapseTwo" class="xepan-cms-tools-bar-panel row-fluid collapse">
-      <div class="panel-body xepan-collasp-body">
+      <div class="xepan-toolbar-panel-body xepan-collasp-body">
         <!-- Padding panel-->
         <table class="table table-condensed table-hover">
           <tbody>
@@ -46,7 +76,12 @@
               <td width="58%">
                 <input id="epan-all-padding-same" type="checkbox"/>
               </td>
-              <td></td>
+              <td>
+                <button id="epan-all-padding-reset" class="pull-right btn btn-warning btn-xs">
+                                
+                  Reset
+                </button>
+              </td>
             </tr>
             <tr>
               <td>Unit</td>
@@ -107,10 +142,10 @@
     <!-- MARGIN-->
   </div>
   <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-  <div class="xepan-cms-group-panel clearfix">
-    <div data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Margin</span></div>
+  <div class="xepan-cms-group-panel clearfix xepan-cms-tool">
+    <div data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" class="collapsed xepan-cms-toolbar-heading"><span>Margin</span></div>
     <div id="collapseThree" class="xepan-cms-tools-bar-panel row-fluid collapse"> 
-      <div class="panel-body xepan-collasp-body">
+      <div class="xepan-toolbar-panel-body xepan-collasp-body">
         <table class="table table-condensed table-hover">
           <tbody>
             <tr>
@@ -118,7 +153,9 @@
               <td width="58%">
                 <input id="epan-all-margin-same" type="checkbox"/>
               </td>
-              <td></td>
+              <td>
+                <button id="epan-all-margin-reset" class="pull-right btn btn-warning btn-xs">Reset</button>
+              </td>
             </tr>
             <tr>
               <td>Unit</td>
@@ -216,16 +253,18 @@
     <!-- BACKGROUND-->
   </div>
   <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-  <div class="xepan-cms-group-panel clearfix">
-    <div data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Background</span></div>
+  <div class="xepan-cms-group-panel clearfix xepan-cms-tool">
+    <div data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" class="collapsed xepan-cms-toolbar-heading"><span>Background</span></div>
     <div id="collapseFour" class="xepan-cms-tools-bar-panel row-fluid collapse"> 
-      <div class="panel-body xepan-collasp-body">
+      <div class="xepan-toolbar-panel-body xepan-collasp-body">
         <table class="table table-condensed table-hover">
           <tbody>
             <tr>
               <td>BG Color</td>
+            </tr>
+            <tr>
               <td>
-                <input id="epan-background-color" type="text" class="epan-color-picker"/>
+                <input id="epan-background-color" type="text" style="width: 80%;" class="epan-color-picker"/>
               </td>
               <td>
                 <button onclick="$(current_selected_component).css('background-color','')" class="btn btn-default btn-xs"> CLR </button>
@@ -233,6 +272,8 @@
             </tr>
             <tr>
               <td>BG Image</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <div class="input-group"><span class="input-group-btn">
                     <button id="epan-component-background-image-clear-button" type="button" class="btn btn-default btn-xs">Clr</button></span>
@@ -243,21 +284,25 @@
             </tr>
             <tr>
               <td>Repeat</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <div class="btn-group">
-                  <div repeat-background="repeat" class="btn btn-default btn-success btn-xs">All</div>
-                  <div repeat-background="repeat-x" class="btn btn-default btn-xs">X Only</div>
-                  <div repeat-background="repeat-y" class="btn btn-default btn-xs">Y Only</div>
-                  <div repeat-background="no-repeat" class="btn btn-default btn-xs">No-Repeat</div>
+                  <div repeat-background="repeat" class="xepan-btn xepan-btn-default xepan-btn-success btn-xs">All</div>
+                  <div repeat-background="repeat-x" class="xepan-btn xepan-btn-default btn-xs">X Only</div>
+                  <div repeat-background="repeat-y" class="xepan-btn xepan-btn-default btn-xs">Y Only</div>
+                  <div repeat-background="no-repeat" class="xepan-btn xepan-btn-default btn-xs">No-Repeat</div>
                 </div>
               </td>
             </tr>
             <tr>
               <td>Background</td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <div class="btn-group">
-                  <button id="epan-component-background-fixed" type="button" class="btn btn-default btn-xs">Fixed</button>
-                  <button id="epan-component-background-scroll" type="button" class="btn btn-default btn-xs">Scroll</button>
+                  <button id="epan-component-background-fixed" type="button" class="xepan-btn xepan-btn-default btn-xs">Fixed</button>
+                  <button id="epan-component-background-scroll" type="button" class="xepan-btn xepan-btn-default btn-xs">Scroll</button>
                 </div>
               </td>
             </tr>
@@ -268,34 +313,37 @@
     <!-- BORDER-->
   </div>
   <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-  <div class="xepan-cms-group-panel clearfix">
-    <div data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Border</span></div>
+  <div class="xepan-cms-group-panel clearfix xepan-cms-tool">
+    <div data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" class="collapsed xepan-cms-toolbar-heading"><span>Border</span></div>
     <div id="collapseFive" class="xepan-cms-tools-bar-panel row-fluid collapse"> 
-      <div class="panel-body xepan-collasp-body">
+      <div class="xepan-toolbar-panel-body xepan-collasp-body">
         <table class="table table-condensed table-hover">
           <tbody>
             <tr>
-              <td colspan="3">Effect All</td>
+              <td colspan="">Effect All</td>
               <td>
                 <input id="epan-all-border-same" type="checkbox" checked=""/>
               </td>
-            </tr>
-            <tr>
-              <td width="15%">Pos.</td>
-              <td>Color</td>
-              <td>Style</td>
-              <td>Width</td>
-            </tr>
-            <tr>
-              <td>Top</td>
               <td>
-                <div class="epan-component-border-top-color">
+                <button id="epan-all-border-reset" class="pull-right btn btn-warning btn-xs">
+                     
+                  Reset
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">Top Border</td>
+            </tr>
+            <tr>
+              <td colspan="2"><span style="padding: 5%">Color</span><span style="padding: 5%">Style</span><span style="padding: 5%">Width</span></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div style="float: left;" class="epan-component-border-top-color">
                   <input id="epan-component-border-top-color" type="hidden" pos="top" class="epan-color-picker epan-border-color"/>
                 </div>
-              </td>
-              <td>
-                <select pos="top" class="epan-border-style">
-                  <option value="0">Select Style</option>
+                <select pos="top" style="float: left; width: 35%;" class="epan-border-style">
+                  <option value="0">Style</option>
                   <option value="dashed">dash</option>
                   <option value="dotted">dotted</option>
                   <option value="double">double</option>
@@ -308,21 +356,19 @@
                   <option value="solid">solide</option>
                   <option value="inherit">inherit</option>
                 </select>
-              </td>
-              <td>
-                <input id="epan-component-border-top-width" type="text" size="2" pos="top" class="epan-border-width"/>
+                <input id="epan-component-border-top-width" type="text" size="2" pos="top" style="float: left;" class="epan-border-width"/>
               </td>
             </tr>
             <tr>
-              <td>Right</td>
-              <td>
-                <div class="epan-component-border-right-color">
+              <td colspan="6">Right Border</td>
+            </tr>
+            <tr>   
+              <td colspan="6">
+                <div style="float: left;" class="epan-component-border-right-color">
                   <input id="epan-component-border-right-color" type="hidden" pos="right" class="epan-color-picker epan-border-color"/>
                 </div>
-              </td>
-              <td>
-                <select pos="right" class="epan-border-style">
-                  <option value="0">Select Style</option>
+                <select pos="right" style="float: left; width: 35%;" class="epan-border-style">
+                  <option value="0">Style</option>
                   <option value="dashed">dash</option>
                   <option value="dotted">dotted</option>
                   <option value="double">double</option>
@@ -335,21 +381,19 @@
                   <option value="solid">solide</option>
                   <option value="inherit">inherit</option>
                 </select>
-              </td>
-              <td>
-                <input id="epan-component-border-right-width" type="text" size="2" pos="right" class="epan-border-width"/>
+                <input id="epan-component-border-right-width" type="text" size="2" pos="right" style="float: left;" class="epan-border-width"/>
               </td>
             </tr>
             <tr>
-              <td>Bottom</td>
-              <td>
-                <div class="epan-component-border-bottom-color">
+              <td colspan="6">Bottom Border</td>
+            </tr>
+            <tr> 
+              <td colspan="6">
+                <div style="float: left;" class="epan-component-border-bottom-color">
                   <input id="epan-component-border-bottom-color" type="hidden" pos="bottom" class="epan-color-picker epan-border-color"/>
                 </div>
-              </td>
-              <td>
-                <select pos="bottom" class="epan-border-style">
-                  <option value="0">Select Style</option>
+                <select pos="bottom" style="float: left; width: 35%;" class="epan-border-style">
+                  <option value="0">Style</option>
                   <option value="dashed">dash</option>
                   <option value="dotted">dotted</option>
                   <option value="double">double</option>
@@ -362,21 +406,19 @@
                   <option value="solid">solide</option>
                   <option value="inherit">inherit</option>
                 </select>
-              </td>
-              <td>
-                <input id="epan-component-border-bottom-width" type="text" size="2" pos="bottom" class="epan-border-width"/>
+                <input id="epan-component-border-bottom-width" type="text" size="2" pos="bottom" style="float: left;" class="epan-border-width"/>
               </td>
             </tr>
             <tr>
-              <td>Left</td>
-              <td>
-                <div class="epan-component-border-left-color">
+              <td colspan="6">Left Border</td>
+            </tr>
+            <tr>   
+              <td colspan="6">
+                <div style="float: left;" class="epan-component-border-bottom-color">
                   <input id="epan-component-border-left-color" type="hidden" pos="left" class="epan-color-picker epan-border-color"/>
                 </div>
-              </td>
-              <td>
-                <select pos="left" class="epan-border-style">
-                  <option value="0">Select Style</option>
+                <select pos="left" style="float: left; width: 35%;" class="epan-border-style">
+                  <option value="0">Style</option>
                   <option value="dashed">dash</option>
                   <option value="dotted">dotted</option>
                   <option value="double">double</option>
@@ -389,33 +431,39 @@
                   <option value="solid">solide</option>
                   <option value="inherit">inherit</option>
                 </select>
-              </td>
-              <td>
-                <input id="epan-component-border-left-width" type="text" size="2" pos="left" class="epan-border-width"/>
+                <input id="epan-component-border-left-width" type="text" size="2" pos="left" style="float: left;" class="epan-border-width"/>
               </td>
             </tr>
             <tr>
               <td colspan="2">Radius Top-Left</td>
+            </tr>
+            <tr>
               <td colspan="2">
-                <input id="epan-border-radius-t-left" type="text" pos="border-top-left-radius" placeHolder="exp. 10px, 10em, 10% etc." class="epan-border-radius"/>
+                <input id="epan-border-radius-t-left" type="text" pos="border-top-left-radius" placeHolder="exp. 10px, 10em, 10% etc." style="width:100%" class="epan-border-radius"/>
               </td>
             </tr>
             <tr>
               <td colspan="2">Radius Top-Right</td>
+            </tr>
+            <tr>
               <td colspan="2">
-                <input id="epan-border-radius-t-right" type="text" pos="border-top-right-radius" placeHolder="exp. 10px, 10em, 10% etc." class="epan-border-radius"/>
+                <input id="epan-border-radius-t-right" type="text" pos="border-top-right-radius" placeHolder="exp. 10px, 10em, 10% etc." style="width:100%" class="epan-border-radius"/>
               </td>
             </tr>
             <tr>
               <td colspan="2">Radius Bottom-Left</td>
+            </tr>
+            <tr>
               <td colspan="2">
-                <input id="epan-border-radius-b-left" type="text" pos="border-bottom-left-radius" placeHolder="exp. 10px, 10em, 10% etc." class="epan-border-radius"/>
+                <input id="epan-border-radius-b-left" type="text" pos="border-bottom-left-radius" placeHolder="exp. 10px, 10em, 10% etc." style="width:100%" class="epan-border-radius"/>
               </td>
             </tr>
             <tr>
               <td colspan="2">Radius Bottom-Right</td>
+            </tr>
+            <tr>
               <td colspan="2">
-                <input id="epan-border-radius-b-right" type="text" pos="border-bottom-right-radius" placeHolder="exp. 10px, 10em, 10% etc." class="epan-border-radius"/>
+                <input id="epan-border-radius-b-right" type="text" pos="border-bottom-right-radius" placeHolder="exp. 10px, 10em, 10% etc." style="width:100%" class="epan-border-radius"/>
               </td>
             </tr>
           </tbody>
@@ -425,14 +473,25 @@
     <!--CSS Tranform-->
   </div>
   <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-  <div class="xepan-cms-group-panel clearfix">
-    <div data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Tranform</span></div>
+  <div class="xepan-cms-group-panel clearfix xepan-cms-tool">
+    <div data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" class="collapsed xepan-cms-toolbar-heading"><span>Transform</span></div>
     <div id="collapseSix" class="xepan-cms-tools-bar-panel row-fluid collapse"> 
-      <div class="panel-body xepan-collasp-body">
+      <div class="xepan-toolbar-panel-body xepan-collasp-body">
         <table class="table table-condensed table-hover">
           <tbody>
             <tr>
+              <td>
+                <button id="epan-all-transform-reset" class="pull-right btn btn-warning btn-xs">
+                   
+                  Reset
+                </button>
+              </td>
+              <td width="58%"></td>
+            </tr>
+            <tr>
               <td width="20%">Rotate</td>
+            </tr>
+            <tr>
               <td width="50%">
                 <div css-syntax="rotate" unit="deg" class="epan-component-transform epan-component-transform-rotate"></div>
               </td>
@@ -442,6 +501,8 @@
             </tr>
             <tr>
               <td width="20%">Scale</td>
+            </tr>
+            <tr>
               <td width="50%">x
                 <div css-syntax="scale" unit="" direction="x" class="epan-component-transform epan-component-transform-scale"></div>y
                 <div css-syntax="scale" unit="" direction="y" class="epan-component-transform epan-component-transform-scale"></div>
@@ -454,6 +515,8 @@
             </tr>
             <tr>
               <td width="20%">Skew</td>
+            </tr>
+            <tr>
               <td width="50%">x
                 <div css-syntax="skew" unit="deg" direction="x" class="epan-component-transform epan-component-transform-skew"></div>y
                 <div css-syntax="skew" unit="deg" direction="y" class="epan-component-transform epan-component-transform-skew"></div>
@@ -466,6 +529,8 @@
             </tr>
             <tr>
               <td width="20%">Translate</td>
+            </tr>
+            <tr>
               <td width="50%">x
                 <div css-syntax="translate" unit="px" direction="x" class="epan-component-transform epan-component-transform-translate"></div>y
                 <div css-syntax="translate" unit="px" direction="y" class="epan-component-transform epan-component-transform-translate"></div>
@@ -482,7 +547,8 @@
     </div>
   </div>
 </div>
-<div id="override-xepan-tool-template" style="margin-top:10px; padding: 8px 20px" class="btn btn-block btn-primary">Override Template</div>
+<div id="override-xepan-tool-template" class="xepan-btn btn-block btn-primary">Override Template</div>
+<div id="xepan-tool-mystyle" class="xepan-btn btn-block btn-primary">Custom CSS</div>
 <script type="text/javascript">
   padding_unit = 'px';
   is_all_padding_same = false;
@@ -490,8 +556,20 @@
   is_all_margin_same = false;
   is_all_border_same = true;
   
+  //-option Class
+  $('#xepan-image-option-classess').change(function(event){
+    //- alert("hchcsfhkdshfkfs");
+    $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+    $(current_selected_component).attr('data-extra-classes',$(this).val());
+    $(current_selected_component).addClass($(this).val());
+  });
+  
   $('#epan-background-color').change(function(){
   $(current_selected_component).css('background-color', '#'+ $(this).val());
+  });
+  
+  $('#epan-component-text-color').change(function(){
+    $(current_selected_component).css('color', '#'+ $(this).val()).attr('text-color',$(this).val());
   });
   
   $('\#xepan-basic-css-panel').on('show',function(event){
@@ -505,7 +583,6 @@
   width : 840,
   destroyOnClose : true,
   getFileCallback : function(files, fm) {
-  console.log(files.url);
   $('#epan-component-background-image-input').val(files.url);
   $(current_selected_component).css('background-image',"url('" + files.url +"')");
   console.log(files);
@@ -524,13 +601,13 @@
   });
   $('#epan-component-background-scroll').click(function(event) {
   $(current_selected_component).css('background-attachment','scroll');
-  $('#epan-component-background-fixed').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('#epan-component-background-fixed').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   $('#epan-component-background-fixed').click(function(event) {
   $(current_selected_component).css('background-attachment','fixed');
-  $('#epan-component-background-scroll').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('#epan-component-background-scroll').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   // INITIAL ONE TIME SETUP ON PAGE LOAD
   $('.epan-component-padding').slider({
@@ -582,6 +659,43 @@
   is_all_padding_same =false;
   }
   });
+  
+  //- Reset Width on current_selected_component
+  $('#epan-component-width-reset').click(function(event){
+      $(current_selected_component).css('width','');
+      $(current_selected_component).css('max-width','');
+      $(current_selected_component).css('min-width','');
+  });
+  //- Reset Height on current_selected_component
+  $('#epan-component-height-reset').click(function(event){
+      $(current_selected_component).css('height','');
+      $(current_selected_component).css('max-height','');
+      $(current_selected_component).css('min-height','');
+  });
+  //- Reset Width on current_selected_component
+  $('#epan-component-extra-css-reset').click(function(event){
+      $(current_selected_component).removeClass($(current_selected_component).attr('data-extra-classes'));
+  });
+  //- Reset Padding on current_selected_component
+  $('#epan-all-padding-reset').click(function(event){
+      $(current_selected_component).css('padding','');
+  });
+  
+  //- Reset Margin on current_selected_component
+  $('#epan-all-margin-reset').click(function(event){
+      $(current_selected_component).css('margin','');
+  });
+  
+  //- Reset Border on current_selected_component
+  $('#epan-all-border-reset').click(function(event){
+      $(current_selected_component).css('border','');
+  });
+  
+  //- Reset Tranform on current_selected_component
+  $('#epan-all-transform-reset').click(function(event){
+      $(current_selected_component).css('transform','');
+  });
+  
   $('#epan-all-margin-same').click(function(event) {
   if($('#epan-all-margin-same:checked').size() > 0){
   $('.epan-component-margin').not('#epan-component-margin-top').slider('disable');
@@ -604,8 +718,8 @@
   margin_unit = '%';
   });
   $('[repeat-background]').click(function(event) {
-  $('[repeat-background]').removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $('[repeat-background]').removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   $(current_selected_component).css('background-repeat',$(this).attr('repeat-background'));
   });
   $('#epan-all-border-same').click(function(event) {
@@ -732,6 +846,7 @@
   });
   
   
+  
   $('.epan-border-width').keyup(function(event) {
   // console.log('border-'+$(this).attr('pos')+'-width',$(this).val());
   if(is_all_border_same)
@@ -752,8 +867,8 @@
   $(current_selected_component).css('border-style',$(this).val());
   else
   $(current_selected_component).css('border-'+$(this).attr('pos')+'-style',$(this).val());
-  $(this).siblings().removeClass('btn-success');
-  $(this).addClass('btn-success');
+  $(this).siblings().removeClass('xepan-btn-success');
+  $(this).addClass('xepan-btn-success');
   });
   $('#epan-component-width-in-per').click(function(event) {
   $(current_selected_component).css('width',$('#epan-component-width-input').val()+'%');
@@ -783,7 +898,9 @@
   //  GET OPTIONS FROM CURRENT SELECTED COMPONENT
   function init_css_options(){
   $('#epan-background-color').val($(current_selected_component).css('background-color'));
+  $('#xepan-image-option-classess').val($(current_selected_component).attr('data-extra-classes'));
   $('.epan-background-color .current-color').css('background-color',$(current_selected_component).css('background-color'));
+  $('#epan-component-text-color').colorpicker('setColor',('#'+$(current_selected_component).attr('text-color')));
   $('#epan-text-color').val($(current_selected_component).css('color'));
   $('.epan-text-color .current-color').css('background-color',$(current_selected_component).css('color'));
   $('#epan-component-padding').val($(current_selected_component).css('padding'));
@@ -796,9 +913,9 @@
   $('#epan-component-extra-clases').val($(current_selected_component).attr('data-extra-classes'));
   $('#epan-component-background-image-input').val($(current_selected_component).css('background-image'));
   if($(current_selected_component).css('background-attachment') == 'fixed'){
-  $('#epan-component-background-fixed').addClass('btn-success');
+  $('#epan-component-background-fixed').addClass('xepan-btn-success');
   }else{
-  $('#epan-component-background-scroll').addClass('btn-success');
+  $('#epan-component-background-scroll').addClass('xepan-btn-success');
   }
   // Set Paddings from current component
   if($(current_selected_component)[0].style.paddingTop.indexOf('px') != -1){
@@ -845,16 +962,16 @@
   margin_unit='px';
   }
   // Background Repeat
-  $('[repeat-background]').removeClass('btn-success');
-  $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('btn-success');
+  $('[repeat-background]').removeClass('xepan-btn-success');
+  $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('xepan-btn-success');
   // Border Initialization
   border_positions=['top','right','bottom','left'];
   $.each(border_positions, function(p_index, pos_val) {
   if($(current_selected_component).css('border-'+pos_val+'-width')){
   $('#epan-component-border-'+pos_val+'-width').val($(current_selected_component).css('border-'+pos_val+'-width'));
   $('#epan-component-border-'+pos_val+'-color').val($(current_selected_component).css('border-'+pos_val+'-color'));
-  $('.epan-border-style[pos="'+pos_val+'"]').removeClass('btn-success');
-  $('.epan-border-style[pos="'+pos_val+'"][style="'+$(current_selected_component).css('border-'+pos_val+'-style')+'"]').addClass('btn-success');
+  $('.epan-border-style[pos="'+pos_val+'"]').removeClass('xepan-btn-success');
+  $('.epan-border-style[pos="'+pos_val+'"][style="'+$(current_selected_component).css('border-'+pos_val+'-style')+'"]').addClass('xepan-btn-success');
   $('.epan-component-border-'+pos_val+'-color .current-color').css('background-color',$(current_selected_component).css('border-'+pos_val+'-color'));
   }
   });

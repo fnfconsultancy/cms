@@ -62,28 +62,34 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		
 		$dom = $this->dom;
 
-		if($tp=$this->app->recall('xepan-template-preview',false))
+		if($tp=$this->app->recall('xepan-template-preview',false)){
 			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'xepantemplates/'.$tp.'/';
-		else
-			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
+			$rel_path = "";
+		}
+		else{
+			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name;
+			$rel_path = 'websites/'.$this->app->current_website_name.'/';
+		}
 
-		foreach ($dom['img']->not('[src^="http"]')->not('[src^="websites/'.$this->app->current_website_name.'/www/'.'"') as $img) {
+		foreach ($dom['img']->not('[src^="http"]')->not('[src^="data:"]')->not('[src^="websites/'.$this->app->current_website_name.'"') as $img) {
 			$img= $this->pq->pq($img);
-			$img->attr('src',$domain.$img->attr('src'));
+			$img->attr('src',$rel_path.$img->attr('src'));
 		}
 
 		foreach ($dom['link']->not('[href^="http"]')->not('[src^="websites/'.$this->app->current_website_name.'/www/'.'"') as $img) {
 			$img= $this->pq->pq($img);
-			$img->attr('href',$domain.$img->attr('href'));
+			$img->attr('href',$rel_path.$img->attr('href'));
 		}
 
 		foreach ($dom['script[src]']->not('[src^="http"]')->not('[src^="//"]')->not('[src^="websites/'.$this->app->current_website_name.'/www/'.'"') as $img) {
 			$img= $this->pq->pq($img);
-			$img->attr('src',$domain.$img->attr('src'));
+			$img->attr('src',$rel_path.$img->attr('src'));
 		}
 
 		// $content = preg_replace("/(link.*|img.*|script.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
-		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$domain.'$1)', $dom->html());
+		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$rel_path.'$1)', $dom->html());
+
+		// $content = $dom->html();
 
 		return $content;
 	}

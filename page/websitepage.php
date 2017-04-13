@@ -2,7 +2,7 @@
 
 namespace xepan\cms;
 
-class Page_websitepage extends \xepan\base\Page{
+class page_websitepage extends \xepan\base\Page{
 	public $title = "Website Pages and Templates";
 	function init(){
 		parent::init();

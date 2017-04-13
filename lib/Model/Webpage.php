@@ -16,16 +16,19 @@ class Model_Webpage extends \xepan\base\Model_Table{
 	public $acl_type = 'Webpage';
 
 	function init(){
-		parent::init();		
+		parent::init();
 
 		$this->hasOne('xepan\cms\Template','template_id');
+		$this->hasOne('xepan\cms\ParentPage','parent_page_id')->defaultValue(0);
 
 		$this->addField('name')->hint('used for display ie. menu');
-		$this->addField('path')->hint('folder_1/folder_2/template_name.html');
+		$this->addField('path')->hint('folder_1/folder_2/file_name.html');
 		$this->addField('is_template')->type('boolean');
 		$this->addField('is_muted')->type('boolean')->hint('for show or hide on menu');
+		$this->addField('is_active')->type('boolean')->defaultValue(1);
 
 		$this->hasMany('xepan\cms\Webpage','template_id',null,'Pages');
+		$this->hasMany('xepan\cms\Webpage','parent_page_id',null,'SubPages');
 
 		$this->is([
 			'name|to_trim|required',
@@ -46,6 +49,8 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		else
 			$old_webpage->addCondition([['is_template',0],['is_template',null]]);
 
+		$old_webpage->addCondition('id','<>', $this->id);
+		
 		$old_webpage->tryLoadAny();
 		if($old_webpage->loaded()){
 			throw $this->exception('file already exist on this path, change the path','ValidityCheck')->setField('path');
@@ -64,7 +69,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		//for loop check folder or file exist or not
 		for ($i=0; $i < $count ; $i++) {
 			$name = trim($path_array[$i]);
-			$name = $this->app->normalizeName($name,'.');
+			$name = $this->app->normalizeName($name,'-');
 
 			if(!strlen($name)){
 				throw $this->exception('wrong path file name must define','ValidityCheck')->setField('path');

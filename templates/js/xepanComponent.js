@@ -1,11 +1,34 @@
+xepan_cms_tinymce_options={
+		inline:true,
+		menubar: false,
+		forced_root_block: 'p',
+		plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
+		toolbar1: "undo redo code | styleselect | bold italic underline strikethrough fontselect fontsizeselect ",
+		toolbar2: "alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table  hr | forecolor backcolor ",                
+		importcss_append: true,
+		verify_html: true,
+		theme_url: 'vendor/tinymce/tinymce/themes/modern/theme.min.js',
+		theme: 'modern',
+		setup: function(editor) {
+        	editor.on("init", function(){
+            	editor.addShortcut("ctrl+u", "", "");
+        	});
+    	}
+	};
+
+
 jQuery.widget("ui.xepanComponent",{
 	self: undefined,
 	options:{
-		editing_template:0
+		editing_template:0,
+		component_selector:null,
+		editor_id: null
 	},
 
 	_create: function(){
-		self=this;
+		var self=this;
 
 		if($(this.element).closest('.xepan-toolbar').length !=0) return;
 		if(!$(this.element).attr('id')) $(this.element).attr('id',generateUUID());
@@ -26,68 +49,86 @@ jQuery.widget("ui.xepanComponent",{
 
 		if($(this.element).is('body')){
 			enable_hover = false;
-		}else if($(this.element).hasClass('.xepan-page-wrapper') && !this.options.editing_template ){
+		}else if($(this.element).hasClass('xepan-page-wrapper') && !this.options.editing_template ){
 			enable_hover = false;
 		}
 
 		if(enable_hover){
-
 			$(this.element).hover(
-				// on hover
+
 				function(event,ui){
+					$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+					$('.xepan-component-hoverbar').remove();
+
 					$(this).addClass('xepan-component-hover-selector');
-					
-					// if(!$(this).hasClass('xepan-disable-move') && !$(this).hasClass('xepan-disable-remove')){
-					// 	drag_handler = $('<div class="xepan-component-hover-bar"></div>').appendTo($(this));
-					// }
+					var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(this));				
+					var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
+					var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
 
-					if(!$(this).hasClass('xepan-disable-move')){
-						drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo($(this));
-						// drag_btn.on('mousedown',function(e){
-						// 	$(this).closest('xepan-sortable-component').sortable("option", "disabled", true);
-						// });
-						// drag_btn.on('mouseup',function(e){
-						// 	$(this).closest('xepan-sortable-component').sortable("option", "disabled", false);
-						// });
-					}
+					$(remove_btn).click(function(){
+						var comp_temp = $(this).closest('.xepan-component');
+						var t_name = $(comp_temp).attr('xepan-component');
+						t_name = t_name.replace(/\\/g, "");
 
-					if(!$(this).hasClass('xepan-disable-remove')){
-						remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash "></i></div>').appendTo($(this));
-						$(remove_btn).click(function(event,ui){
-							$(this).closest('.xepan-component').xepanComponent('remove');
+						$('<div></div>')
+							.appendTo('body')
+							.html('<div>Are you sure to remove '+ t_name+' ?</div>')
+							.dialog({
+								modal: true, 
+								title: 'Remove', 
+								autoOpen: true,
+								resizable: false,
+								dialogClass:'xepan-component-remove-confirm',
+								buttons: {
+							    	Yes: function () {
+										$(comp_temp).xepanComponent('remove');
+							            $(this).dialog("close");
+							          },
+							        No: function () {
+							            $(this).dialog("close");
+							          }
+							      },
+							      close: function (event, ui) {
+							          $(this).remove();
+							      }
+							});
 						});
-					}
-					event.stopPropagation();				
-				},
-				//remove hover
+				
+				event.stopPropagation();
+			},
+
 				function(event,ui){
-					// $(this).removeClass('xepan-component-hover-selector');
-					$(this).find('.xepan-component-drag-handler').remove();
-					$(this).find('.xepan-component-remove').remove();
-					event.stopPropagation();				
+					$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+					$('.xepan-component-hoverbar').remove();
+					event.stopPropagation();
 				}
 			);
+
 		}else{
 			$(this.element).css('min-height','200px');
 		}
 
 		$(this.element).dblclick(function(event,ui){
-			event.stopPropagation();
-			$('.xepan-component').xepanComponent('deselect');
+			$(self.options.component_selector).xepanComponent('deselect');
 			$(this).xepanComponent('select');
+			event.stopPropagation();
 		});
 	},
 
 	select: function (){
 		current_selected_component = this.element;
 		$(this.element).addClass('xepan-selected-component');
-		$('.xepan-tools-options .xepan-tool-options').hide();
+		$('.xepan-tool-options').hide();
 		this.options.option_panel.show();
-		// this.options.option_panel.trigger('show');
-		// $('#xepan-basic-css-panel').trigger('show');
-		$('.xepan-tools-options').show();
+		$('#'+this.options.option_panel.attr('id')).trigger('show');
+		$('#xepan-basic-css-panel').trigger('show');
+
+		$(this.options.option_panel).closest('.xepan-tool-options').show();
+		$('#xepan-cms-toolbar-right-side-panel').addClass('toggleSideBar');
+
 		updateBreadCrumb();
-		console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
+		// console.log($(this.options.option_panel).closest('.xepan-tool-options'));
+		// console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
 	},
 
 	createSortable: function(){
@@ -98,13 +139,14 @@ jQuery.widget("ui.xepanComponent",{
 		self=this;
 		if(!$(this.element).hasClass('xepan-editable-text')) return;
 		$(this.element).attr('contenteditable','true');
-		$.univ().richtext(self.element,self.tinyceme_options,true);
+		if($(this.element).hasClass('xepan-no-richtext')) return;
+		$.univ().richtext(self.element,xepan_cms_tinymce_options,true);
 	},
 
 	deselect: function (){
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			current_selected_component=undefined;
-			$('.xepan-toolbar').xepanEditor('hideOptions');
+			$(xepan_editor_element).xepanEditor('hideOptions');
 		}
 		$(this.element).removeClass('xepan-selected-component');
 		updateBreadCrumb();
@@ -118,19 +160,37 @@ jQuery.widget("ui.xepanComponent",{
 		}
 		$(this.element).remove();
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
-			$('.xepan-toolbar').xepanEditor('hideOptions');
+			$('#'+this.options.editor_id).xepanEditor('hideOptions');
+		}
+
+		// hide options panel
+		if($('#xepan-cms-toolbar-right-side-panel').hasClass('toggleSideBar')){
+			$('#xepan-cms-toolbar-right-side-panel').removeClass('toggleSideBar');
 		}
 	},
 
 	sortable_options: {
 		appendTo:'body',
 		connectWith:'.xepan-sortable-component',
-		handle: '> .xepan-component-drag-handler',
+		handle: '.xepan-component-drag-handler',
 		cursor: "move",
 		revert: true,
 		tolerance: "pointer",
+		activate: function(event,ui){
+			$(this).addClass('xepan-droppable-highlight');
+		},
+		deactivate:function(event,ui){
+			$(this).removeClass('xepan-droppable-highlight');
+		},
+
 		helper: function(event, ui) {
-	        return $('<div><h1>Dragging ... </h1></div>');
+			var t_name = $(ui).closest('.xepan-component').attr('xepan-component');
+			var tool_drag_html = '<div class="xepan-cms-component-dragging">Dragging ...</div>';
+			if(t_name != 'undefined'){
+				t_name = t_name.replace(/\//g, "");
+				tool_drag_html = $('.xepan-cms-tool[data-toolname="'+t_name+'"]').prop('outerHTML');
+			}
+	        return $(tool_drag_html);
 	    },
 	    start: function(event, ui) {
 	    	$(ui.placeholder).removeClass("col-md-6 col-sm-6 xepan-tool-bar-tool ui-draggable").css('visibility','visible');
@@ -141,19 +201,18 @@ jQuery.widget("ui.xepanComponent",{
         	// }
 	    },
 	    sort: function(event, ui) {
-	        $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
-
+	        // $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
+	        $(ui.placeholder).html('<div class="xepan-cms-droppable-placeholder"> Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??'+'</div>');
 	    },
 	    stop: function(event, ui) {
-
-	    	if(typeof origin == undefined || origin == 'toolbox'){
+	    	if(typeof origin == 'undefined' || origin == 'toolbox'){
 	    		// Find sub components if any and make components
 	    		$new_component = $(xepan_drop_component_html).xepanComponent();
 				$($new_component).find('.xepan-component').xepanComponent();
 				$($new_component).attr('id',generateUUID());
 				window.setTimeout(function(){
-					if($($new_component).hasClass('xepan-editable-text'))
-						$.univ().richtext($new_component,self.tinyceme_options,true);
+					if($($new_component).hasClass('xepan-editable-text') && !$($new_component).hasClass('xepan-no-richtext'))
+						$.univ().richtext($new_component,xepan_cms_tinymce_options,true);
 				},400);
 		    	$(ui.item).replaceWith($new_component);
 
@@ -167,20 +226,14 @@ jQuery.widget("ui.xepanComponent",{
 			    }
 			    
 	    	}
-	    	console.log(origin);
+	    	// console.log(origin);
 		    origin='page';
 	    }
 	},
 
-	tinyceme_options: {
-		inline:true,
-		forced_root_block: false,
-		plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                "save table contextmenu directionality emoticons template paste textcolor colorpicker imagetools"],
-		toolbar1: "insertfile undo redo | styleselect | bold italic fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",                
-		importcss_append: true,
-		verify_html: false
+	getComponentSelector: function(){
+		var self =  this;
+		return self.options.component_selector;
 	}
 	
 });

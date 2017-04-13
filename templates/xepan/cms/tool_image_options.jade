@@ -7,7 +7,7 @@
             | Image
           td
             .btn-group
-              input#xepan-image-option-src.btn(type='text', disabled='true/')
+              input#xepan-image-option-src.btn.btn-xs(type='text', disabled='true/')
               button#xepan-image-option-select.btn.btn-default.btn-xs(type='button') Select
           td
             button#xepan-image-option-default.btn.btn-default.btn-xs(type='button') Default
@@ -21,6 +21,11 @@
             | Link
           td(colspan='2')
             input#xepan-image-link(type='text', placeholder='')
+        tr
+          td
+            | base64
+          td(colspan='2')
+            textarea#xepan-image-base64data(placeholder='')
 script(type='text/javascript').
   // ========== OPTION TO COMPONENT EFFECT ==============
   //
@@ -42,6 +47,11 @@ script(type='text/javascript').
   $(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
   });
   $('#xepan-image-option-select').click(function(event) {
+  if($('#xepan-image-base64data').val().length > 0){
+    alert("Please clear base64 data first");
+    return;
+  }
+  
   var fm = $('<div/>').dialogelfinder({
   url : '?page=xepan_base_elconnector',
   lang : 'en',
@@ -60,13 +70,21 @@ script(type='text/javascript').
   }
   }).dialogelfinder('instance');
   });
-  var {$component_type}_options = {
-  show: function (){
-  // ===== THIS CODE RUNS EVERY TIME YOU DOUBLE CLICK YOUR COMPONENT
-  // TO TAKE VALUES FROM COMPONENT AND FILL OPTIONS
-  //
-  // $(your_option_html_element).text($(current_selected_component).css('border'));
-  $('#xepan-image-option-src').val($(current_selected_component).find('img').attr('src'));
+
+  $('#xepan-image-base64data').change(function(event){
+    $('#xepan-image-option-src').val("")
+    $(current_selected_component).find('img').attr('src',$(this).val());
+  });
+
+  $('\#{$_name}').on('show',function(event){
+  var src_val = $(current_selected_component).find('img').attr('src');
+
+  if(src_val.startsWith("data:")){
+  $('#xepan-image-base64data').val(src_val);
+  $('#xepan-image-option-src').val('');
+  }else{
+  $('#xepan-image-option-src').val(src_val);
+  $('#xepan-image-base64data').val('');
+  }
   $('#xepan-image-link').val($(current_selected_component).find('a').attr('href'));
-  }
-  }
+  });
