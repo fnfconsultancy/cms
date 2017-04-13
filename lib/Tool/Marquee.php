@@ -15,6 +15,9 @@ class Tool_Marquee extends \xepan\cms\View_Tool{
 				'vspace'=>'',
 				'action'=>'stop'
 			];
+	public $runatServer=false;
+
+	public $templateOverridable = false; 		
 
 	function init(){
 		parent::init();
