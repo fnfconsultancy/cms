@@ -35,10 +35,10 @@ class page_admin_save_page extends \Page {
 		$html_content = urldecode( trim( $_POST['body_html'] ) );
 
 		// convert all absolute url to relative
-		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name;
+		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
 		$html_content = str_replace($domain, '', $html_content);
 
-		$domain = 'websites/'.$this->app->current_website_name;
+		$domain = 'websites/'.$this->app->current_website_name.'/www/';
 		$html_content = str_replace($domain, '', $html_content);
 
 		// add {$Content} tag if its template being saved

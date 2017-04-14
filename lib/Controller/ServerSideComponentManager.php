@@ -67,8 +67,8 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$rel_path = "";
 		}
 		else{
-			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name;
-			$rel_path = 'websites/'.$this->app->current_website_name.'/';
+			$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www';
+			$rel_path = 'websites/'.$this->app->current_website_name.'/www/';
 		}
 
 		foreach ($dom['img']->not('[src^="http"]')->not('[src^="data:"]')->not('[src^="websites/'.$this->app->current_website_name.'"') as $img) {
@@ -89,7 +89,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 		// $content = preg_replace("/(link.*|img.*|script.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
 		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$rel_path.'$1)', $dom->html());
 
-		// $content = $dom->html();
+		$content = $dom->html();
 
 		return $content;
 	}
