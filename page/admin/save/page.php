@@ -38,6 +38,9 @@ class page_admin_save_page extends \Page {
 		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/';
 		$html_content = str_replace($domain, '', $html_content);
 
+		$domain = 'websites/'.$this->app->current_website_name.'/www/';
+		$html_content = str_replace($domain, '', $html_content);
+
 		// add {$Content} tag if its template being saved
 		if(strpos($_POST['file_path'], $this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/layout/')){
 			$this->pq = $pq = new phpQuery();
