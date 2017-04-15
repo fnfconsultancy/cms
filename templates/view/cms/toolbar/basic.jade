@@ -247,19 +247,14 @@
               td
                 | Background Size
             tr
-              td
+              td(colspan="2")
                 | Unit
-              td(colspan='2')
-                table
-                  tr
-                    td(width='25%')
-                      input#epan-background-size-unit-px(type='radio', name='background_size_unit', checked='')
-                    td(width='25%')
-                      | Px
-                    td(width='25%')
-                      input#epan-background-size-unit-per(type='radio', name='background_size_unit')
-                    td(width='25%')
-                      | %
+                br
+                input#epan-background-size-unit-px(type='radio', name='background_size_unit', checked='')
+                | Px
+                span
+                input#epan-background-size-unit-per(type='radio', name='background_size_unit')
+                | %
             tr
               td
                 table(width='100%')
@@ -274,6 +269,7 @@
             tr
               td
                 | base64
+            tr
               td(colspan='2')
                 textarea#xepan-bg-image-base64data(placeholder='')    
 
