@@ -622,6 +622,7 @@
   getFileCallback : function(files, fm) {
   $('#epan-component-background-image-input').val(files.url);
   $(current_selected_component).css('background-image',"url('" + files.url +"')");
+  console.log(files);
   },
   commandsOptions : {
   getfile : {
@@ -652,6 +653,7 @@
   max: 100,
   slide: function( event, ui ) {
     $(current_selected_component).css('background-size',ui.value + background_size_unit);
+    $('#'+$(this).attr('css')+'-value').html(ui.value+''+ background_size_unit);
   }
   });  
   

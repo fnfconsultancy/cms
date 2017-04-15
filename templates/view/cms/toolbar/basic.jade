@@ -597,6 +597,7 @@ script(type='text/javascript').
   max: 100,
   slide: function( event, ui ) {
     $(current_selected_component).css('background-size',ui.value + background_size_unit);
+    $('#'+$(this).attr('css')+'-value').html(ui.value+''+ background_size_unit);
   }
   });  
 
