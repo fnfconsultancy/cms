@@ -271,6 +271,12 @@
               td
                 button.btn.btn-default.btn-xs.background-size-none-btn.btn-sm(type='button', pos='background-size') none
 
+            tr
+              td
+                | base64
+              td(colspan='2')
+                textarea#xepan-bg-image-base64data(placeholder='')    
+
     // BORDER
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
@@ -558,6 +564,11 @@ script(type='text/javascript').
   });
 
   $('#epan-component-background-image-select-button').click(function(event) {
+    //- if($('#xepan-bg-image-base64data').val().length > 0){
+    //-   alert("Please clear base64 data first");
+    //-   return;
+    //- }
+
   var fm = $('<div/>').dialogelfinder({
   url : 'index.php?page=xepan_base_elconnector&cut_page=true',
   lang : 'en',
@@ -576,6 +587,27 @@ script(type='text/javascript').
   }
   }).dialogelfinder('instance');
   });
+
+
+  $('#xepan-bg-image-base64data').change(function(event){
+    $('#epan-component-background-image-input').val("")
+    $(current_selected_component).css("background-image", "url('" + $(this).val() + "')");
+    //- $(current_selected_component).attr('background-image:url(',$(this).val());
+  });
+  $('\#{$_name}').on('show',function(event){
+    var src_val = $(current_selected_component).css('background-image');
+    if(src_val.startsWith('url("data:')){
+      alert(src_val);
+    $('#xepan-bg-image-base64data').val(src_val);
+    $('#epan-component-background-image-input').val('');
+    }else{
+    $('#epan-component-background-image-input').val(src_val);
+    $('#xepan-bg-image-base64data').val('');
+    }
+  });
+
+
+
   $('#epan-component-background-image-clear-button').click(function(event) {
   $('#epan-component-background-image-input').val('none');
   $(current_selected_component).css('background-image','none');
@@ -600,6 +632,7 @@ script(type='text/javascript').
     $('#'+$(this).attr('css')+'-value').html(ui.value+''+ background_size_unit);
   }
   });  
+
 
 
   // INITIAL ONE TIME SETUP ON PAGE LOAD

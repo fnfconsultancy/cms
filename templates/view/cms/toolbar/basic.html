@@ -343,6 +343,12 @@
                 <button type="button" pos="background-size" class="btn btn-default btn-xs background-size-none-btn btn-sm">none</button>
               </td>
             </tr>
+            <tr>
+              <td>base64</td>
+              <td colspan="2">
+                <textarea id="xepan-bg-image-base64data" placeholder="">   </textarea>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -614,6 +620,11 @@
   });
   
   $('#epan-component-background-image-select-button').click(function(event) {
+    //- if($('#xepan-bg-image-base64data').val().length > 0){
+    //-   alert("Please clear base64 data first");
+    //-   return;
+    //- }
+  
   var fm = $('<div/>').dialogelfinder({
   url : 'index.php?page=xepan_base_elconnector&cut_page=true',
   lang : 'en',
@@ -632,6 +643,27 @@
   }
   }).dialogelfinder('instance');
   });
+  
+  
+  $('#xepan-bg-image-base64data').change(function(event){
+    $('#epan-component-background-image-input').val("")
+    $(current_selected_component).css("background-image", "url('" + $(this).val() + "')");
+    //- $(current_selected_component).attr('background-image:url(',$(this).val());
+  });
+  $('#{$_name}').on('show',function(event){
+    var src_val = $(current_selected_component).css('background-image');
+    if(src_val.startsWith('url("data:')){
+      alert(src_val);
+    $('#xepan-bg-image-base64data').val(src_val);
+    $('#epan-component-background-image-input').val('');
+    }else{
+    $('#epan-component-background-image-input').val(src_val);
+    $('#xepan-bg-image-base64data').val('');
+    }
+  });
+  
+  
+  
   $('#epan-component-background-image-clear-button').click(function(event) {
   $('#epan-component-background-image-input').val('none');
   $(current_selected_component).css('background-image','none');
@@ -656,6 +688,7 @@
     $('#'+$(this).attr('css')+'-value').html(ui.value+''+ background_size_unit);
   }
   });  
+  
   
   
   // INITIAL ONE TIME SETUP ON PAGE LOAD
