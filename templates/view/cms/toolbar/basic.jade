@@ -243,6 +243,34 @@
                 .btn-group
                   button#epan-component-background-fixed.xepan-btn.xepan-btn-default.btn-xs(type='button') Fixed
                   button#epan-component-background-scroll.xepan-btn.xepan-btn-default.btn-xs(type='button') Scroll
+            tr
+              td
+                | Background Size
+            tr
+              td
+                | Unit
+              td(colspan='2')
+                table
+                  tr
+                    td(width='25%')
+                      input#epan-background-size-unit-px(type='radio', name='background_size_unit', checked='')
+                    td(width='25%')
+                      | Px
+                    td(width='25%')
+                      input#epan-background-size-unit-per(type='radio', name='background_size_unit')
+                    td(width='25%')
+                      | %
+            tr
+              td
+                table(width='100%')
+                  tr
+                    td(width='90%')
+                      #epan-component-background-size.epan-component-background-size(css='background-size')
+                    td(width='10%')
+                      #background-size-value
+              td
+                button.btn.btn-default.btn-xs.background-size-none-btn.btn-sm(type='button', pos='background-size') none
+
     // BORDER
   .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
@@ -563,6 +591,17 @@ script(type='text/javascript').
   $('#epan-component-background-scroll').removeClass('xepan-btn-success');
   $(this).addClass('xepan-btn-success');
   });
+  
+  //- Background Size
+  $('.epan-component-background-size').slider({
+  min: 0,
+  max: 100,
+  slide: function( event, ui ) {
+    $(current_selected_component).css('background-size',ui.value + background_size_unit);
+  }
+  });  
+
+
   // INITIAL ONE TIME SETUP ON PAGE LOAD
   $('.epan-component-padding').slider({
   min: 0,
@@ -649,6 +688,11 @@ script(type='text/javascript').
   $('#epan-all-transform-reset').click(function(event){
       $(current_selected_component).css('transform','');
   });
+ 
+  //- Reset Tranform on current_selected_component
+  $('button.background-size-none-btn').click(function(event){
+      $(current_selected_component).css('background-size','');
+  });
 
   $('#epan-all-margin-same').click(function(event) {
   if($('#epan-all-margin-same:checked').size() > 0){
@@ -671,6 +715,14 @@ script(type='text/javascript').
   $('#epan-all-margin-unit-per').click(function(event) {
   margin_unit = '%';
   });
+
+  $('#epan-background-size-unit-px').click(function(event) {
+    background_size_unit = 'px';
+  });
+  $('#epan-background-size-unit-per').click(function(event) {
+    background_size_unit = '%';
+  });
+
   $('[repeat-background]').click(function(event) {
   $('[repeat-background]').removeClass('xepan-btn-success');
   $(this).addClass('xepan-btn-success');
@@ -871,6 +923,22 @@ script(type='text/javascript').
   }else{
   $('#epan-component-background-scroll').addClass('xepan-btn-success');
   }
+  // Background Size
+  
+  if($(current_selected_component)[0].style.backgroundSize.indexOf('px') != -1){
+    background_size_unit = 'px';
+    $('#epan-background-size-unit-px').prop('checked', true);
+    $('#epan-background-size-unit-per').removeAttr('checked');
+  }else{
+    background_size_unit = '%';
+    $('#epan-background-size-unit-per').prop('checked', true);
+    $('#epan-background-size-unit-px').removeAttr('checked');
+  }
+  if($(current_selected_component)[0].style.backgroundSize.length > 0){
+   $('#epan-component-background-size').slider('value',parseInt($(current_selected_component)[0].style.backgroundSize));
+  }else{
+    $('#epan-component-background-size').slider('value','0');
+  }
   // Set Paddings from current component
   if($(current_selected_component)[0].style.paddingTop.indexOf('px') != -1){
   padding_unit = 'px';
@@ -918,6 +986,8 @@ script(type='text/javascript').
   // Background Repeat
   $('[repeat-background]').removeClass('xepan-btn-success');
   $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('xepan-btn-success');
+  // Background Size
+
   // Border Initialization
   border_positions=['top','right','bottom','left'];
   $.each(border_positions, function(p_index, pos_val) {
