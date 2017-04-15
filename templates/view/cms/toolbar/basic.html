@@ -644,7 +644,6 @@
   $('#{$_name}').on('show',function(event){
     var src_val = $(current_selected_component).css('background-image');
     if(src_val.startsWith('url("data:')){
-      alert(src_val);
     $('#xepan-bg-image-base64data').val(src_val);
     $('#epan-component-background-image-input').val('');
     }else{
