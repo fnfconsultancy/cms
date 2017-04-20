@@ -13,14 +13,17 @@ class Initiator extends \Controller_Addon {
             $this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>['templates/css','templates/js']))
             ->setBaseURL('../vendor/xepan/cms/');
         }
-        $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
-        // $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
-        $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
-        $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_templateandpage');
-        $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
-        $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
-        $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
-        $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
+
+        if(!$this->app->getConfig('hidden_xepan_cms',false)){
+            $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
+            // $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
+            $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
+            $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_templateandpage');
+            $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
+            $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
+            $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
+            $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
+        }
         
         return $this;
     }
