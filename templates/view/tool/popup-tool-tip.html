@@ -1,0 +1,21 @@
+
+<div id="{$_name}" style=" {$style}" xepan-component="xepan/cms/Tool_PopupToolTip" class="xepan-component  {$class}">
+  <div id="myModal11_{$_name}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal fade xpopup">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" data-dismiss="modal" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <div xepan-component="xepan/cms/Tool_Text" emptytext="Edit this text" contenteditable="true" class="xepan-component xepan-editable-text mce-content-body desc editor">Edit this text</div>
+        </div>
+        <div class="modal-body">
+          <div xepan-component="xepan/cms/Tool_Container" emptytext="Container" style="width:85%;margin:0 auto;" class="xepan-component xepan-sortable-component xepan-cms-container ui-sortable"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" style="display:none;" class="btn btn-default xpopup-btn">Close</button>
+          <button type="button" style="display:none;" class="btn btn-default xpopup-btn">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-toggle="modal" data-target="myModal11_{$_name}" class="btn btn-primary xpopup_trigger">Launch demo modal</div>
+</div>
