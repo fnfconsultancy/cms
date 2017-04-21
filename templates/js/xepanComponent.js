@@ -221,8 +221,8 @@ jQuery.widget("ui.xepanComponent",{
 
 			    if($('#epan-component-extra-padding:checked').size() > 0){
 			        if($new_component.hasClass('xepan-sortable-component')) 
-			        	$new_component.addClass('epan-sortable-extra-padding');
-			        $new_component.find('.xepan-sortable-component').addClass('epan-sortable-extra-padding');
+			        	$new_component.addClass('xepan-sortable-extra-padding');
+			        $new_component.find('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
 			    }
 			    
 	    	}
