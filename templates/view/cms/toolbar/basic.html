@@ -306,6 +306,40 @@
                 </div>
               </td>
             </tr>
+            <tr>
+              <td>Background Size</td>
+            </tr>
+            <tr>
+              <td colspan="2">Unit<br/>
+                <input id="epan-background-size-unit-px" type="radio" name="background_size_unit" checked=""/>Px<span></span>
+                <input id="epan-background-size-unit-per" type="radio" name="background_size_unit"/>%
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table width="100%">
+                  <tr>
+                    <td width="90%">
+                      <div id="epan-component-background-size" css="background-size" class="epan-component-background-size"></div>
+                    </td>
+                    <td width="10%">
+                      <div id="background-size-value"></div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <button type="button" pos="background-size" class="btn btn-default btn-xs background-size-none-btn btn-sm">none</button>
+              </td>
+            </tr>
+            <tr>
+              <td>base64</td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <textarea id="xepan-bg-image-base64data" placeholder="">   </textarea>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -577,6 +611,11 @@
   });
   
   $('#epan-component-background-image-select-button').click(function(event) {
+    //- if($('#xepan-bg-image-base64data').val().length > 0){
+    //-   alert("Please clear base64 data first");
+    //-   return;
+    //- }
+  
   var fm = $('<div/>').dialogelfinder({
   url : 'index.php?page=xepan_base_elconnector&cut_page=true',
   lang : 'en',
@@ -585,6 +624,7 @@
   getFileCallback : function(files, fm) {
   $('#epan-component-background-image-input').val(files.url);
   $(current_selected_component).css('background-image',"url('" + files.url +"')");
+  console.log(files);
   },
   commandsOptions : {
   getfile : {
@@ -594,6 +634,26 @@
   }
   }).dialogelfinder('instance');
   });
+  
+  
+  $('#xepan-bg-image-base64data').change(function(event){
+    $('#epan-component-background-image-input').val("")
+    $(current_selected_component).css("background-image", "url('" + $(this).val() + "')");
+    //- $(current_selected_component).attr('background-image:url(',$(this).val());
+  });
+  $('#{$_name}').on('show',function(event){
+    var src_val = $(current_selected_component).css('background-image');
+    if(src_val.startsWith('url("data:')){
+    $('#xepan-bg-image-base64data').val(src_val);
+    $('#epan-component-background-image-input').val('');
+    }else{
+    $('#epan-component-background-image-input').val(src_val);
+    $('#xepan-bg-image-base64data').val('');
+    }
+  });
+  
+  
+  
   $('#epan-component-background-image-clear-button').click(function(event) {
   $('#epan-component-background-image-input').val('none');
   $(current_selected_component).css('background-image','none');
@@ -608,6 +668,19 @@
   $('#epan-component-background-scroll').removeClass('xepan-btn-success');
   $(this).addClass('xepan-btn-success');
   });
+  
+  //- Background Size
+  $('.epan-component-background-size').slider({
+  min: 0,
+  max: 100,
+  slide: function( event, ui ) {
+    $(current_selected_component).css('background-size',ui.value + background_size_unit);
+    $('#'+$(this).attr('css')+'-value').html(ui.value+''+ background_size_unit);
+  }
+  });  
+  
+  
+  
   // INITIAL ONE TIME SETUP ON PAGE LOAD
   $('.epan-component-padding').slider({
   min: 0,
@@ -695,6 +768,11 @@
       $(current_selected_component).css('transform','');
   });
   
+  //- Reset Tranform on current_selected_component
+  $('button.background-size-none-btn').click(function(event){
+      $(current_selected_component).css('background-size','');
+  });
+  
   $('#epan-all-margin-same').click(function(event) {
   if($('#epan-all-margin-same:checked').size() > 0){
   $('.epan-component-margin').not('#epan-component-margin-top').slider('disable');
@@ -716,6 +794,14 @@
   $('#epan-all-margin-unit-per').click(function(event) {
   margin_unit = '%';
   });
+  
+  $('#epan-background-size-unit-px').click(function(event) {
+    background_size_unit = 'px';
+  });
+  $('#epan-background-size-unit-per').click(function(event) {
+    background_size_unit = '%';
+  });
+  
   $('[repeat-background]').click(function(event) {
   $('[repeat-background]').removeClass('xepan-btn-success');
   $(this).addClass('xepan-btn-success');
@@ -916,6 +1002,22 @@
   }else{
   $('#epan-component-background-scroll').addClass('xepan-btn-success');
   }
+  // Background Size
+  
+  if($(current_selected_component)[0].style.backgroundSize.indexOf('px') != -1){
+    background_size_unit = 'px';
+    $('#epan-background-size-unit-px').prop('checked', true);
+    $('#epan-background-size-unit-per').removeAttr('checked');
+  }else{
+    background_size_unit = '%';
+    $('#epan-background-size-unit-per').prop('checked', true);
+    $('#epan-background-size-unit-px').removeAttr('checked');
+  }
+  if($(current_selected_component)[0].style.backgroundSize.length > 0){
+   $('#epan-component-background-size').slider('value',parseInt($(current_selected_component)[0].style.backgroundSize));
+  }else{
+    $('#epan-component-background-size').slider('value','0');
+  }
   // Set Paddings from current component
   if($(current_selected_component)[0].style.paddingTop.indexOf('px') != -1){
   padding_unit = 'px';
@@ -963,6 +1065,8 @@
   // Background Repeat
   $('[repeat-background]').removeClass('xepan-btn-success');
   $("[repeat-background='"+ $(current_selected_component).css('background-repeat') +"']").addClass('xepan-btn-success');
+  // Background Size
+  
   // Border Initialization
   border_positions=['top','right','bottom','left'];
   $.each(border_positions, function(p_index, pos_val) {
