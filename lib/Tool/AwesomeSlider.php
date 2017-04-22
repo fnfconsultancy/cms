@@ -45,6 +45,7 @@ class Tool_AwesomeSlider extends \xepan\cms\View_Tool{
 
 	function render(){
 		parent::render();
+		$this->app->jui->addStaticInclude('awesome/jquery.nivo.slider');
 		$this->js(true)->nivoSlider([
 					'effect'=> 'random',
 					'slices'=> 15,
