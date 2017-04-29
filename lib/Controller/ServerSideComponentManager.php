@@ -54,7 +54,11 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$d=$this->pq->pq($d);
 			if(!$d->hasClass('xepan-serverside-component')) continue;
 			$i= $this->spots++;
-			$this->owner->add($d->attr('xepan-component'),['_options'=>$attributes],$this->owner->template->name.'_'.$i);
+			try{
+				$this->owner->add($d->attr('xepan-component'),['_options'=>$attributes],$this->owner->template->name.'_'.$i);
+			}catch(\Exception $e){
+				$this->owner->add('View',['_options'=>$attributes],$this->owner->template->name.'_'.$i)->set($e->getMessage());
+			}
 		}
 	}
 
