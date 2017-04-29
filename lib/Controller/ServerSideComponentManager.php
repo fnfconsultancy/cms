@@ -57,7 +57,8 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			try{
 				$this->owner->add($d->attr('xepan-component'),['_options'=>$attributes],$this->owner->template->name.'_'.$i);
 			}catch(\Exception $e){
-				$this->owner->add('View',['_options'=>$attributes],$this->owner->template->name.'_'.$i)->set($e->getMessage());
+				$content =  method_exists($e,'getHTML')?$e->getHTML():$e->getMessage();
+                $this->owner->add('View',['_options'=>$attributes],$this->owner->template->name.'_'.$i)->setHTML($content);
 			}
 		}
 	}
