@@ -76,7 +76,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$rel_path = 'websites/'.$this->app->current_website_name.'/www/';
 		}
 
-		foreach ($dom['img']->not('[src^="http"]')->not('[src^="data:"]')->not('[src^="websites/'.$this->app->current_website_name.'"') as $img) {
+		foreach ($dom['img']->not('[src^="http"]')->not('[src^="data:"]')->not('[src^="websites/'.$this->app->current_website_name.'"')->not('[src^="vendor/"]') as $img) {
 			$img= $this->pq->pq($img);
 			$img->attr('src',$rel_path.$img->attr('src'));
 		}
