@@ -63,7 +63,8 @@ class View_ToolBar extends \View {
 		$tools_array['Layouts']=[];
 		$layouts= $this->add('xepan/cms/Model_Layout');
 		foreach ($layouts as $l) {
-			if(strpos($l['name'], ".png")) continue;
+
+			if(strpos($l['name'], ".png") or strpos($l['name'], ".jpg") or strpos($l['name'], ".jpeg")) continue;
 			$t_v = $view->add('xepan\cms\Tool_Layout',null,null,["xepan\\tool\\layouts\\".str_replace(".html", "", $l['name']) ]);
 			$t_option_v = $t_v->getOptionPanel($view,null,$tool_number++);
 			$tools_array['Layouts'][] = [
