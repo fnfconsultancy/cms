@@ -15,7 +15,7 @@ class page_getpage extends \Page{
 				;
 
 		foreach ($root_page as $parent_page) {
-			$pages[str_replace(".html", "", $parent_page['path'])] = [
+			$pages["?page=".str_replace(".html", "", $parent_page['path'])] = [
 									'name'=>$parent_page['name'],
 									// 'template_path'=>$parent_page['template_path'],
 									'subpage'=>$this->getPages($parent_page)
@@ -39,7 +39,7 @@ class page_getpage extends \Page{
 							->addCondition('is_muted',false)
 							;
 			foreach ($sub_pages as $junk_page) {
-				$output[str_replace(".html", "", $junk_page['path'])] = [
+				$output["?page=".str_replace(".html", "", $junk_page['path'])] = [
 										'name'=>$junk_page['name'],
 										// 'template_path'=>$junk_page['template_path'],
 										'subpage'=>$this->getPages($junk_page)
