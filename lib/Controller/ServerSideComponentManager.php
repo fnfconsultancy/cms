@@ -57,8 +57,12 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			try{
 				$this->owner->add($d->attr('xepan-component'),['_options'=>$attributes],$this->owner->template->name.'_'.$i);
 			}catch(\Exception $e){
-				$content =  method_exists($e,'getHTML')?$e->getHTML():$e->getMessage();
-                $this->owner->add('View',['_options'=>$attributes],$this->owner->template->name.'_'.$i)->setHTML($content);
+				if(!$this->app->isAjaxOutput()){
+					$content =  method_exists($e,'getHTML')?$e->getHTML():$e->getMessage();
+                	$this->owner->add('View',['_options'=>$attributes],$this->owner->template->name.'_'.$i)->setHTML($content);
+				}else{
+					throw $e;
+				}
 			}
 		}
 	}
