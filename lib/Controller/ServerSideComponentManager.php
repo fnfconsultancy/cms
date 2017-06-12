@@ -94,11 +94,12 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$img= $this->pq->pq($img);
 			$img->attr('src',$rel_path.$img->attr('src'));
 		}
+		
 
 		// $content = preg_replace("/(link.*|img.*|script.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
 		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$rel_path.'$1)', $dom->html());
 
-		$content = $dom->html();
+		// $content = $dom->html();
 
 		return $content;
 	}
