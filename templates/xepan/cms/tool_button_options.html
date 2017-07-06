@@ -118,7 +118,8 @@
     //- button Anchor Links
     $('#xepan-button-links').change(function() {
     	var newurl = $('#xepan-button-links').val();
-    	$('a.custom-btn-links').attr('href', newurl);
+    	$(current_selected_component).attr('href', newurl);
+    	//- $('a.custom-btn-links').attr('href', newurl);
     });
     
     //- button Anchor Links Behaivor
