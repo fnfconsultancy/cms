@@ -48,6 +48,10 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			}else if($field['type'] === "Captcha"){				
 				$new_field = $form->addField('line','captcha',$field['name']);
 				$new_field->add('xepan\captcha\Controller_Captcha');
+			}else if($field['type'] === "DropDown"){
+				$new_field = $form->addField('xepan\base\DropDownNormal',$field['name']);
+			}elseif($field['type'] == "upload"){
+				$new_field = $form->addField('xepan\base\Upload',$field['name']);
 			}else{
 				$new_field = $form->addField($field['type'],$field['name']);
 			}
