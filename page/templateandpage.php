@@ -19,7 +19,7 @@ class page_templateandpage extends \xepan\base\Page{
 		/*Start Live Edit Template */
 		$crud->grid->addColumn('Button','live_edit_template');
 		$crud->grid->addMethod('format_live_edit_template',function($g,$f){
-			$url =$this->app->url('layout/'$g->model['name'],['xepan-template-edit'=>"layout/".$g->model['name']]);	
+			$url =$this->app->url('layout/'.$g->model['name'],['xepan-template-edit'=>"layout/".$g->model['name']]);	
 			$url = str_replace('/admin/',"/",$url);
 			$g->current_row_html['live_edit_template']= '<a href="javascript:void(0)" onclick="'.$g->js()->univ()->newWindow($url).'"><span class="btn btn-success">Live Edit</span></a>';
 		});
