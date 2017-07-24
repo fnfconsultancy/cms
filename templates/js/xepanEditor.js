@@ -85,10 +85,16 @@ jQuery.widget("ui.xepanEditor",{
 		// save and snapshot btn
 		var save_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
 		var save_btn_group = $('<div class="btn-group">').appendTo(save_tool_bar);
-		var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
-		var save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
-		var logout_btn = $('<button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button>').appendTo(save_btn_group);
+		var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default btn-sm" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
+		var save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success btn-sm"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
+		var logout_btn = $('<button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger btn-sm"><span class="fa fa-power-off"></span></button>').appendTo(save_btn_group);
 		
+		var change_theme = $('<button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Change Theme</button>').appendTo(self.editor_helper_wrapper);
+
+		$(change_theme).click(function(event) {
+			$.univ().frameURL('Change Template','index.php?page=xepan_cms_theme&cut_page=1');
+		});
+
 		$(save_btn).click(function(){
 			$(self.element).xepanEditor('savePage');
 		});
