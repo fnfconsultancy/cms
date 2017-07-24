@@ -10,7 +10,8 @@ class page_theme extends \xepan\base\Page{
 	function init(){
 		parent::init();
 
-		$this->app->readConfig("websites/www/config.php");
+		$this->app->readConfig('websites/www/config.php');
+		// $this->app->readConfig('websites/'.$this->app->current_website_name.'/config.php');
         $this->app->dbConnect();
         $epan_template = $this->epan_template = $this->app->db->dsql()->table('epan')->where('is_published',1)->where('is_template',1)->get();
         $temp = [];
@@ -22,6 +23,7 @@ class page_theme extends \xepan\base\Page{
         $grid = $this->add('Grid');
         $grid->setSource($this->epan_template);
         $grid->addColumn('name');
+        $grid->addColumn('preview_image');
         $grid->addColumn('ApplyNow');
         $grid->addColumn('preview');
 
@@ -31,6 +33,7 @@ class page_theme extends \xepan\base\Page{
 
         $grid->addHook('formatRow',function($g)use($domain,$sub_domain){
 			$g->current_row_html['preview'] = '<a class="btn btn-primary" target="_blank" href="http://www.'.$g->model['name'].'.'.$domain.'">Preview</a>';
+			$g->current_row_html['preview_image'] = '<a target="_blank" href="http://www.'.$g->model['name'].'.'.$domain.'"><img alt=" we are uploading preview image of '.$g->model['name'].'" style="width:250px;" src="./websites/'.$g->model['name'].'/assets/image/template_preview.png" /></img></a>';
 		});
 
 		$grid->add('VirtualPage')
