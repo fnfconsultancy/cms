@@ -42,21 +42,29 @@ class page_theme extends \xepan\base\Page{
 				$form->add('View')->set('are you sure, installing new theme will remove all content ?')->addClass('alert alert-info');
 				$form->addSubmit('Yes, Install Theme');
 				if($form->isSubmitted()){
-					$selected_template = $this->epan_template[$id];
+					$js_event = [];
+					try{
+						$selected_template = $this->epan_template[$id];
+						if(!file_exists(realpath($this->app->pathfinder->base_location->base_path.'/websites/'.$selected_template['name']))){
+							throw $this->exception('Template not found')
+										->addMoreInfo('epan',$selected_template['name']);
+						}
 
-					if(!file_exists(realpath($this->app->pathfinder->base_location->base_path.'/websites/'.$selected_template['name']))){
-						throw $this->exception('Template not found')
-									->addMoreInfo('epan',$selected_template['name']);
+						// first delete folder
+						$new_name = uniqid('www-').'-'.$this->app->now;
+						if(file_exists(realpath($this->app->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name.'/www'))){
+							\Nette\Utils\FileSystem::rename('./websites/'.$this->app->current_website_name.'/www','./websites/'.$this->app->current_website_name.'/'.$new_name);
+						}
+						// \Nette\Utils\FileSystem::delete('./websites/www/www');
+						$fs = \Nette\Utils\FileSystem::createDir('./websites/'.$this->app->current_website_name.'/www');
+						$fs = \Nette\Utils\FileSystem::copy('./websites/'.$selected_template['name'].'/www','./websites/'.$this->app->current_website_name.'/www',true);
+						
+						$js_event[] = $form->js()->univ()->location()->reload();
+					}catch(\Exception $e){
+						$js_event[] = $form->js()->univ()->errorMessage("theme not apply, ".$e->getMessage());
 					}
-
-
-					// first delete folder
-					$new_name = uniqid('www-').'-'.$this->app->now;
-					\Nette\Utils\FileSystem::rename('./websites/www/www','./websites/www/'.$new_name);
-					// \Nette\Utils\FileSystem::delete('./websites/www/www');
-					$fs = \Nette\Utils\FileSystem::createDir('./websites/www/www');
-					$fs = \Nette\Utils\FileSystem::copy('./websites/'.$selected_template['name'].'/www','./websites/www/www',true);
-					$form->js()->univ()->location()->reload()->execute();
+					
+					$form->js(null,$js_event)->execute();
 				}
 			});
 
