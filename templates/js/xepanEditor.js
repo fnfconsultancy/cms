@@ -92,7 +92,7 @@ jQuery.widget("ui.xepanEditor",{
 		var change_theme = $('<button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Change Theme</button>').appendTo(self.editor_helper_wrapper);
 
 		$(change_theme).click(function(event) {
-			$.univ().frameURL('Change Template','index.php?page=xepan_cms_changetemplate&cut_page=1');
+			$.univ().frameURL('Change Template','index.php?page=xepan_cms_theme&cut_page=1');
 		});
 
 		$(save_btn).click(function(){
