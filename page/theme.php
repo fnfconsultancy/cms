@@ -20,12 +20,13 @@ class page_theme extends \xepan\base\Page{
         }
         $this->epan_template = $temp;
 
-        $grid = $this->add('Grid');
+        $grid = $this->add('xepan\hr\Grid')->addClass('xepan-theme-grid');
         $grid->setSource($this->epan_template);
         $grid->addColumn('name');
         $grid->addColumn('preview_image');
         $grid->addColumn('ApplyNow');
         $grid->addColumn('preview');
+        $grid->addQuickSearch(['name']);
 
         $url = "{$_SERVER['HTTP_HOST']}";
         $domain = str_replace('www.','',$this->app->extract_domain($url))?:'www';
@@ -33,14 +34,14 @@ class page_theme extends \xepan\base\Page{
 
         $grid->addHook('formatRow',function($g)use($domain,$sub_domain){
 			$g->current_row_html['preview'] = '<a class="btn btn-primary" target="_blank" href="http://www.'.$g->model['name'].'.'.$domain.'">Preview</a>';
-			$g->current_row_html['preview_image'] = '<a target="_blank" href="http://www.'.$g->model['name'].'.'.$domain.'"><img alt=" we are uploading preview image of '.$g->model['name'].'" style="width:250px;" src="./websites/'.$g->model['name'].'/assets/image/template_preview.png" /></img></a>';
+			$g->current_row_html['preview_image'] = '<div style="height:250px;overflow:auto;"><a target="_blank" href="http://www.'.$g->model['name'].'.'.$domain.'"><img alt=" we are uploading preview image of '.$g->model['name'].'" style="width:250px;" src="./websites/'.$g->model['name'].'/www/img/template_preview.png" /></img></a></div>';
 		});
 
 		$grid->add('VirtualPage')
 			->addColumn('ApplyNow')
 			->set(function($page){
-				$id = $_GET[$page->short_name.'_id'];				
-				
+				$id = $_GET[$page->short_name.'_id'];
+
 				$form = $page->add('Form');
 				$form->add('View')->set('are you sure, installing new theme will remove all content ?')->addClass('alert alert-info');
 				$form->addSubmit('Yes, Install Theme');
