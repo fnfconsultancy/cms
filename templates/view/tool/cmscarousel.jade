@@ -14,7 +14,7 @@
           a(href='{$link}')
             img(src='{$file}' alt="{$alt_text}" title="{$title}")
     |   {/}{/}
-  a.left.carousel-control(href='\#{$_name}', role='button', data-slide='prev')
+  a.left.carousel-control(href='\#{$_name}', style="width: 100%; height: auto; max-width: 100%;" role='button', data-slide='prev')
     span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
     span.sr-only Previous
   a.right.carousel-control(href='\#{$_name}', role='button', data-slide='next')
