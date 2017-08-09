@@ -17,7 +17,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			return;
 		}
 
-		$customform_model = $this->add('xepan\cms\Model_Custom_Form')
+		$this->customform_model = $customform_model = $this->add('xepan\cms\Model_Custom_Form')
 								->tryLoad($this->options['customformid']);
 		
 		if(!$customform_model->loaded()){
@@ -25,7 +25,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			return;
 		}
 
-		$customform_field_model = $this->add('xepan\cms\Model_Custom_FormField')
+		$this->customform_field_model = $customform_field_model = $this->add('xepan\cms\Model_Custom_FormField')
 												->addCondition('custom_form_id',$customform_model->id);
 		
 		if(!$customform_field_model->count()->getOne()){
@@ -74,9 +74,106 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			$model_submission = $this->add('xepan\cms\Model_Custom_FormSubmission');
 			$form_fields = $form->getAllFields();
 			
+
 			$model_submission['value'] = $form_fields;
 			$model_submission['custom_form_id'] = $this->options['customformid'];
 			$model_submission->save();
+
+			// creating lead and associating category and email id
+			if($this->customform_model['is_create_lead']){
+				$field_model = $this->add('xepan\cms\Model_Custom_FormField')
+							->addCondition('custom_form_id',$this->customform_model->id)
+							->addCondition('save_into_field_of_lead','<>',null);
+
+				$lead_model = $this->add('xepan\marketing\Model_Lead');
+				// $has_field = 0;
+				$lead_field = ['first_name','last_name','organization','post','website','address','city','state','country','pin_code'];
+				foreach ($field_model as $field){
+					if(in_array($field['save_into_field_of_lead'], $lead_field)){
+						// echo $field['save_into_field_of_lead']." = ".$field['name']." = ".$this->form[$this->app->normalizeName($field['name'])]."<br/>";
+						$lead_model[$field['save_into_field_of_lead']] = $this->form[$this->app->normalizeName($field['name'])];
+						$has_field = 1;
+					}else{
+						if($lead_model['first_name']) continue;
+
+						if($field['save_into_field_of_lead'] == 'official_email'){
+							$lead_model['first_name'] = $this->form[$this->app->normalizeName($field['name'])];
+							$has_field = 1;
+						}elseif($field['save_into_field_of_lead'] == 'personal_email'){
+							$lead_model['first_name'] = $this->form[$this->app->normalizeName($field['name'])];
+							$has_field = 1;
+						}elseif($field['save_into_field_of_lead'] == 'official_contact'){
+							$lead_model['first_name'] = $this->form[$this->app->normalizeName($field['name'])];
+							$has_field = 1;
+						}elseif($field['save_into_field_of_lead'] == 'personal_contact'){
+							$lead_model['first_name'] = $this->form[$this->app->normalizeName($field['name'])];
+							$has_field = 1;
+						}
+					}
+				}
+
+
+				if($has_field){
+
+					$lead_model->save();
+					foreach ($field_model as $field){
+						$save_into_field = $field['save_into_field_of_lead'];
+						$normalize_name = $this->app->normalizeName($field['name']);
+						$form_value = $this->form[$normalize_name];
+
+						// company email
+						if( $save_into_field == "official_email"){
+							$email = $this->add('xepan\base\Model_Contact_Email');
+							$email['contact_id'] = $lead_model->id;
+							$email['head'] = "Official";
+							$email['value'] = $form_value;
+							$email->save();
+						}
+
+						if($save_into_field == "personal_email"){
+							$email = $this->add('xepan\base\Model_Contact_Email');
+							$email['contact_id'] = $lead_model->id;
+							$email['head'] = "Personal";
+							$email['value'] = $form_value;
+							$email->save();
+						}
+
+						// company phone 
+						if( $save_into_field == "official_contact"){
+							$phone = $this->add('xepan\base\Model_Contact_Phone');
+							$phone['contact_id'] = $lead_model->id;
+							$phone['head'] = "Official";
+							$phone['value'] = $form_value;
+							$phone->save();
+						}
+						// personal phone 
+						if( $save_into_field == "personal_contact"){
+							$phone = $this->add('xepan\base\Model_Contact_Phone');
+							$phone['contact_id'] = $lead_model->id;
+							$phone['head'] = "Personal";
+							$phone['value'] = $form_value;
+							$phone->save();
+						}
+					}
+
+					// associate lead
+					if($this->customform_model['is_associate_lead']){
+
+						$categories = explode(",",$this->customform_model['lead_category_ids']);
+						foreach ($categories as $key => $cat_id) {
+							if(!is_numeric($cat_id))
+								continue;
+							$cat_asso_model = $this->add('xepan\marketing\Model_Lead_Category_Association');
+							$cat_asso_model['lead_id'] = $lead_model->id;
+							$cat_asso_model['marketing_category_id'] = $cat_id;
+							$cat_asso_model['created_at'] = $this->app->now;
+							$cat_asso_model->save();
+						}
+					}
+
+				}
+
+			}
 
 			if($customform_model['emailsetting_id']){
 				$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
@@ -110,6 +207,8 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 
 				}
 			}
+
+			
 			$form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
 		}
 	}

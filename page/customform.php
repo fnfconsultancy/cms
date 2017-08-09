@@ -15,9 +15,40 @@ class page_customform extends \xepan\base\Page {
 					    ->count();
 		});
 
-		$crud=$this->add('xepan\hr\CRUD',null,null,['view/cust-form/grid']);
+		$crud = $this->add('xepan\hr\CRUD',null,null,['view/cust-form/grid']);
 
-		$crud->setModel($model_cust_form);
+		if($crud->isEditing()){
+			$form = $crud->form;
+			$categories_field = $form->addField('DropDown','category');
+			$categories_field->setModel($this->add('xepan\marketing\Model_MarketingCategory'));
+			$categories_field->addClass('multiselect-full-width');
+			$categories_field->setAttr(['multiple'=>'multiple']);
+			$categories_field->setEmptyText("Please Select");
+
+		}
+
+		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','recieve_email','recipient_email','auto_reply','email_subject','message_body','created_at','created_by_id','type','status','is_create_lead','is_associate_lead','lead_category_ids']);
+
+		if($crud->isEditing()){
+			$form = $crud->form;
+			$cat_field = $form->getElement('category');
+
+			if($form->isSubmitted()){
+				$category_names = $form['category'];
+
+				if(is_array($form['category'])){
+					throw new \Exception("Error Processing Request", 1);
+					$category_names = implode(",", $form['category']);
+				}
+
+				$form->model['lead_category_ids'] = $category_names;
+				$form->model->save();
+			}
+
+			if($form->model['lead_category_ids'] != null)
+				$cat_field->set( explode(",", $form->model['lead_category_ids']))->js(true)->trigger('changed');
+		}
+
 		$crud->grid->add('VirtualPage')
 			->addColumn('Fields')
 			->set(function($page){

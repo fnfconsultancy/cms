@@ -36,6 +36,24 @@
 		$this->addField('placeholder');
 		$this->addField('auto_reply')->type('boolean');
 
+		$lead_field = [
+						'first_name'=>"First Name",
+						'last_name'=>'Last Name',
+						'organization'=>'Organization',
+						'post'=>'Post',
+						'website'=>'Website',
+						'official_email'=>'Official Email',
+						'personal_email'=>'Personal Email',
+						'official_contact'=>'Official Contact',
+						'personal_contact'=>'Personal Contact',
+						'address'=>"Address",
+						'city' => "City",
+						'state' => "State",
+						'country' =>"Country",
+						'pin_code'=>"Pincode"
+					];
+
+		$this->addField('save_into_field_of_lead')->setValueList($lead_field);
 	}
 
 }
