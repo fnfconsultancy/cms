@@ -529,9 +529,17 @@
                 .epan-component-transform-translate-value(translate='(1px,1px)')
                 .epan-component-transform-translate-x-value(translate='1')
                 .epan-component-transform-translate-y-value(translate='1')
-.xepan-btn.btn-block.btn-primary#override-xepan-tool-template Override Template
-.xepan-btn.btn-block.btn-primary#xepan-tool-mystyle Custom CSS
-
+  .xepan-btn.btn-block.btn-primary#xepan-tool-createlayoutbtn Create Layout
+    .xepan-create-layout-dialoge(style="display:none;")
+      p All form fields are required.
+      form.xepan-create-layout-form
+        fieldset
+          label(for="name") Name
+          input(type="text" name="name" id="xepan-layout-name" )
+          label(for="name") Html
+          textarea(type="textarea" name="layout_html" id="xepan-layout-html")
+  .xepan-btn.btn-block.btn-primary#override-xepan-tool-template Override Template
+  .xepan-btn.btn-block.btn-primary#xepan-tool-mystyle Custom CSS
 script(type='text/javascript').
   padding_unit = 'px';
   is_all_padding_same = false;
@@ -1084,5 +1092,54 @@ script(type='text/javascript').
     }
 
   }
-
   }
+
+  $('#xepan-tool-createlayoutbtn').click(function(event){
+      $form = $('.xepan-create-layout-form');
+      $form.find('#xepan-layout-html').val($(current_selected_component).prop('outerHTML'));
+
+    $('.xepan-create-layout-dialoge').dialog({
+      modal: true, 
+      width: 800,
+      buttons: {
+        "Create Layout": function(){
+          //- check validation here
+          $.ajax({
+              url:"index.php?page=xepan_cms_createlayout",
+              data:{
+                lname: $form.find('#xepan-layout-name').val(),
+                lhtml: $form.find('#xepan-layout-html').val()
+              },
+              success: function( data ) {
+                return_data = JSON.parse(data);
+                if(return_data.status == "success")
+                    $.univ().successMessage(return_data.message);
+                else
+                    $.univ().errorMessage(return_data.message);
+                
+                console.log(data);
+              }
+          });
+        },
+        Cancel: function() {
+          $(this).dialog( "close" );
+        }
+      },
+      close: function() {
+        $(this).dialog( "close" );
+      }
+    });
+    //- console.log($(current_selected_component));
+
+    //- html2canvas($(current_selected_component), {
+    //-     onrendered: function(canvas) {
+    //-         theCanvas = canvas;
+    //-         document.body.appendChild(canvas);
+    //-         // Convert and download as image 
+    //-         Canvas2Image.saveAsPNG(canvas);
+    //-         $('body').append(canvas);
+    //-         // Clean up 
+    //-         //- document.body.removeChild(canvas);
+    //-     }
+    //- });
+  });

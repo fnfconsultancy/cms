@@ -22,6 +22,7 @@ class View_ToolBar extends \View {
 				// ->_load('xepanEditor')
 				// ->_load('xepanComponent')
 				->_load('jquery.livequery')
+				->_load('html2canvas.min')
 				;
         
 		$this->app->jui->addStaticInclude('xepanEditor');
@@ -109,6 +110,7 @@ class View_ToolBar extends \View {
 
 		$this->js('click',$this->js()->univ()->frameURL('Override ToolTemplate',[$this->app->url('xepan_cms_overridetemplate'),'options'=> $this->js(null,'JSON.stringify($(current_selected_component).attr())') ,'xepan-tool-to-clone'=>$this->js()->_selector('.xepan-tools-options div[for-xepan-component]:visible')->attr('for-xepan-component')]))->_selector('#override-xepan-tool-template');
 		$this->js('click',$this->js()->univ()->frameURL('Define Custom CSS',[$this->app->url('xepan_cms_customcss',['xepan-template-edit'=>""])]))->_selector('#xepan-tool-mystyle');
+		// $this->js('click',$this->js()->univ()->frameURL('Create Layout',[$this->app->url('xepan_cms_createlayout')]))->_selector('#xepan-tool-createlayout');
 
 		// $this->api->jquery->addStaticStyleSheet('colorpicker/pick-a-color-1.1.8.min');
 		$this->api->jquery->addStaticStyleSheet('colorpicker/jquery.colorpicker');
