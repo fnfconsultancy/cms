@@ -78,6 +78,32 @@ class View_ToolBar extends \View {
 										];
 		}
 
+		// theme layout
+		$layout_folder_list = ['themelayout','customlayout'];
+		foreach ($layout_folder_list as $key => $folder_name) {
+			$absolute_theme_path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name.'/www/'.$folder_name.'/';
+			$theme_path = '/'.$folder_name.'/';
+			
+			$layouts = $this->add('xepan/cms/Model_Layout',['path'=>$absolute_theme_path]);
+			foreach ($layouts as $l) {
+				if(strpos($l['name'], ".png") or strpos($l['name'], ".jpg") or strpos($l['name'], ".jpeg")) continue;
+
+				$file_name = str_replace(".html", "", $l['name']);
+
+				$t_v = $view->add('xepan\cms\Tool_Layout',null,null,[$theme_path.$file_name]);
+				$t_option_v = $t_v->getOptionPanel($view,null,$tool_number++);
+				$tools_array['Layouts'][] = [
+												'name'=>$file_name,
+												'tool'=>'xepan/cms/Tool_Layout',
+												'category'=>$folder_name,
+												'drop_html'=>$t_v->getHTML(),
+												'option_html'=>$t_option_v->getHTML(),
+												'icon_img'=>''
+												// 'icon_img'=>$theme_path.'/'.str_replace(".html", ".png", $l['name'])
+											];
+			}
+		}
+
 
 		$component_selector=".xepan-page-wrapper.xepan-component, .xepan-page-wrapper .xepan-component";
 		$editing_template = null;

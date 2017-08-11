@@ -4,14 +4,21 @@ namespace xepan\cms;
 
 class Model_Layout extends \Model {
 	public $namespace = "xepan\cms";
+    public $folder_path = "/templates/xepan/tool/layouts";
     public $path;
 
 	function init(){
 		parent::init();
 
 		$this->addField('name');
-		$path = $this->path = $this->api->pathfinder->base_location->base_path.'/./vendor/'.str_replace("\\","/",$this->namespace)."/templates/xepan/tool/layouts";
-        $p = scandir($path); 
+
+        if(!$this->path){
+		  $path = $this->path = $this->api->pathfinder->base_location->base_path.'/./vendor/'.str_replace("\\","/",$this->namespace).$this->folder_path;
+        }else{
+            $path = $this->path;
+        }
+
+        $p = scandir($path);
         unset($p[0]);
         unset($p[1]);
 
