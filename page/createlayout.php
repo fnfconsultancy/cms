@@ -7,8 +7,8 @@ class page_createlayout extends \Page{
 	function page_index(){
 		$return = ['status'=>'success','message'=>'layout created'];
 				
-		$file_name = $_GET['lname'].".html";
-		$file_content = $_GET['lhtml'];
+		$file_name = $_POST['lname'].".html";
+		$file_content = $_POST['lhtml'];
 
         $url = "{$_SERVER['HTTP_HOST']}";
         $domain = str_replace('www.','',$this->app->extract_domain($url))?:'www';

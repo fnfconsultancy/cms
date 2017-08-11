@@ -1167,6 +1167,7 @@
           }
   
           $.ajax({
+              type: "POST",
               url:"index.php?page=xepan_cms_createlayout",
               data:{
                 lname: $form.find('#xepan-layout-name').val(),
