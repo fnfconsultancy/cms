@@ -18,6 +18,10 @@ class Model_Layout extends \Model {
             $path = $this->path;
         }
 
+        if(!file_exists($path)){
+            \Nette\Utils\FileSystem::createDir($path);
+        }
+
         $p = scandir($path);
         unset($p[0]);
         unset($p[1]);
