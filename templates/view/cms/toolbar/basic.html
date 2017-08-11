@@ -585,10 +585,10 @@
       <p>All form fields are required.</p>
       <form class="xepan-create-layout-form">
         <fieldset>
-          <label for="name">Name</label>
-          <input type="text" name="name" id="xepan-layout-name"/>
-          <label for="name">Html</label>
-          <textarea type="textarea" name="layout_html" id="xepan-layout-html"></textarea>
+          <label for="name" style="width:100%;">Name</label>
+          <input type="text" name="name" id="xepan-layout-name" style="width:100%;"/>
+          <label for="name" style="width:100%;">Html</label>
+          <textarea type="textarea" name="layout_html" id="xepan-layout-html" style="width:100%;height:150px;"></textarea>
         </fieldset>
       </form>
     </div>
@@ -1160,6 +1160,12 @@
       buttons: {
         "Create Layout": function(){
           //- check validation here
+          file_name = $form.find('#xepan-layout-name').val();
+          if(file_name == null || file_name == "" || file_name == undefined){
+            $.univ().errorMessage('name must not be empty ');
+            return;
+          }
+  
           $.ajax({
               url:"index.php?page=xepan_cms_createlayout",
               data:{
