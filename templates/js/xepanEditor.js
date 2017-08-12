@@ -47,8 +47,32 @@ jQuery.widget("ui.xepanEditor",{
 		// throw self html out of body
 		$(self.element).insertAfter('body');
 
+
 		// right bar
 		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="container sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
+		// basic and selection tools
+		self.selection = $('<div class="xepan-cms-group-panel clearfix xepan-cms-tool"><div>Selection</div></div>').appendTo(self.rightbar);
+		self.selection_previous_sibling = $('<button id="epan-component-selection-previous-sibling" type="button" title="Previous Sibling" class="btn btn-default btn-xs"><i class="fa fa-arrow-left"></i></button>').appendTo(self.selection);
+		self.selection_next_sibling = $('<button id="epan-component-selection-next-sibling" type="button" title="Next Sibling" class="btn btn-default btn-xs"><i class="fa fa-arrow-right"></i></button>').appendTo(self.selection);
+		self.selection_parent = $('<button id="epan-component-selection-parent" type="button" title="Parent" class="btn btn-default btn-xs"><i class="fa fa-arrow-up"></i></button>').appendTo(self.selection);
+		self.selection_child = $('<button id="epan-component-selection-child" type="button" title="Child/Next" class="btn btn-default btn-xs"><i class="fa fa-arrow-down"></i></button>').appendTo(self.selection);
+
+		$(self.selection_previous_sibling).click(function(event){
+			ctrlShiftLeftSelection(event);
+		});
+
+		$(self.selection_next_sibling).click(function(event){
+			ctrlShiftRightSelection(event);
+		});
+
+		$(self.selection_parent).click(function(event) {
+			ctrlShiftUpSelection(event);
+		});
+
+		$(self.selection_child).click(function(event){
+			tabSelection(event);
+		});
+
 		// right bar content
 		$('<h2>Options Panel</h2>').appendTo(self.rightbar);
 		
@@ -509,86 +533,25 @@ jQuery.widget("ui.xepanEditor",{
 	    });
 
 		shortcut.add("Ctrl+Shift+Up", function(event) {
-	        if (typeof current_selected_component == 'undefined') return;
-	        parent_component = $(current_selected_component).parent('.xepan-component');
-	        if (parent_component.length === 0) {
-	            $('body').univ().errorMessage('On Top Component');
-	            return;
-	        }
-	        $(current_selected_component).xepanComponent('deselect');
-	        $(parent_component).xepanComponent('select');
+	        ctrlShiftUpSelection(event);
 	    });
 
 	    shortcut.add("Ctrl+Shift+Left", function(event) {
-	        if (typeof current_selected_component == 'undefined') return;
-	        prev_sibling = $(current_selected_component).prev('.xepan-component');
-	        if (prev_sibling.length === 0) {
-	            $('body').univ().errorMessage('No Next element found');
-	            return;
-	        }
-	        $(current_selected_component).xepanComponent('deselect');
-	        $(prev_sibling).xepanComponent('select');
-	        event.stopPropagation();
-
+	    	ctrlShiftLeftSelection(event);
 	    });
 
 	    shortcut.add("Ctrl+Shift+Right", function(event) {
-	        if (typeof current_selected_component == 'undefined') return;
-	        next_sibling = $(current_selected_component).next('.xepan-component');
-	        if (next_sibling.length === 0) {
-	            $('body').univ().errorMessage('No Next element found');
-	            return;
-	        }
-	        $(current_selected_component).xepanComponent('deselect');
-	        $(next_sibling).xepanComponent('select');
-	        event.stopPropagation();
-
+	    	ctrlShiftRightSelection();
 	    });
 
 		shortcut.add("Tab", function(event) {
-	        if (typeof current_selected_component == 'undefined') {
-	            next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
-	        } else {
-	            var $x = $('.xepan-component:not(.xepan-page-wrapper)');
-	            next_component = $x.eq($x.index($(current_selected_component)) + 1);
-	        }
-
-	        if($(next_component).attr('id') === undefined){
-	            next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
-	            if($(next_component).attr('id') === undefined){
-	                event.stopPropagation();
-	                $.univ.errorMessage('No Component On Screen');
-	                return;
-	            }
-	        }
-
-	        $(xepan_component_selector).xepanComponent('deselect');
-	        $(next_component).xepanComponent('select');
-	        event.stopPropagation();
+	        tabSelection(event);
 	    }, {
 	        disable_in_input: true
 	    });
 
 	    shortcut.add("Shift+Tab", function(event) {
-	        if (typeof current_selected_component == 'undefined') {
-	            next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
-	        } else {
-	            var $x = $('.xepan-component:not(.xepan-page-wrapper)');
-	            next_component = $x.eq($x.index($(current_selected_component)) - 1);
-	        }
-
-	        if($(next_component).attr('id') === undefined){
-	            next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
-	            if($(next_component).attr('id') === undefined){
-	                event.stopPropagation();
-	                $.univ.errorMessage('No Component On Screen');
-	                return;
-	            }
-	        }
-
-	        $(xepan_component_selector).xepanComponent('deselect');
-	        $(next_component).xepanComponent('select');
-	        event.stopPropagation();
+	    	shiftTabSelection(event);
 	    });
 
 	    shortcut.add("Esc", function(event) {
@@ -615,6 +578,86 @@ jQuery.widget("ui.xepanEditor",{
 
 	
 });
+
+function ctrlShiftRightSelection(event){
+	if (typeof current_selected_component == 'undefined') return;
+    next_sibling = $(current_selected_component).next('.xepan-component');
+    if (next_sibling.length === 0) {
+        $('body').univ().errorMessage('No Next Sibling element found');
+        return;
+    }
+    $(current_selected_component).xepanComponent('deselect');
+    $(next_sibling).xepanComponent('select');
+    event.stopPropagation();
+}
+
+function ctrlShiftLeftSelection(event){
+	if (typeof current_selected_component == 'undefined') return;
+    prev_sibling = $(current_selected_component).prev('.xepan-component');
+    if (prev_sibling.length === 0) {
+        $('body').univ().errorMessage('No Next Sibling element found');
+        return;
+    }
+    $(current_selected_component).xepanComponent('deselect');
+    $(prev_sibling).xepanComponent('select');
+    event.stopPropagation();
+}
+
+function ctrlShiftUpSelection(event){
+	if (typeof current_selected_component == 'undefined') return;
+    parent_component = $(current_selected_component).parent('.xepan-component');
+    if (parent_component.length === 0) {
+        $('body').univ().errorMessage('On Top Component');
+        return;
+    }
+    $(current_selected_component).xepanComponent('deselect');
+    $(parent_component).xepanComponent('select');
+}
+
+function tabSelection(event){
+	if (typeof current_selected_component == 'undefined') {
+        next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
+    } else {
+        var $x = $('.xepan-component:not(.xepan-page-wrapper)');
+        next_component = $x.eq($x.index($(current_selected_component)) + 1);
+    }
+
+    if($(next_component).attr('id') === undefined){
+        next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
+        if($(next_component).attr('id') === undefined){
+            event.stopPropagation();
+            $.univ.errorMessage('No Component On Screen');
+            return;
+        }
+    }
+
+    $(xepan_component_selector).xepanComponent('deselect');
+    $(next_component).xepanComponent('select');
+    event.stopPropagation();
+}
+
+
+function shiftTabSelection(event){
+    if (typeof current_selected_component == 'undefined') {
+        next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
+    } else {
+        var $x = $('.xepan-component:not(.xepan-page-wrapper)');
+        next_component = $x.eq($x.index($(current_selected_component)) - 1);
+    }
+
+    if($(next_component).attr('id') === undefined){
+        next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
+        if($(next_component).attr('id') === undefined){
+            event.stopPropagation();
+            $.univ.errorMessage('No Component On Screen');
+            return;
+        }
+    }
+
+    $(xepan_component_selector).xepanComponent('deselect');
+    $(next_component).xepanComponent('select');
+    event.stopPropagation();
+}
 
 function Utf8Encode(string) {
     string = string.replace(/\r\n/g, "\n");
