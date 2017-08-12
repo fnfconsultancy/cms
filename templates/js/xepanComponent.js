@@ -68,7 +68,10 @@ jQuery.widget("ui.xepanComponent",{
 					$(remove_btn).click(function(){
 						var comp_temp = $(this).closest('.xepan-component');
 						var t_name = $(comp_temp).attr('xepan-component');
-						t_name = t_name.replace(/\\/g, "");
+						if(t_name == undefined || t_name == "" || t_name == null)
+							t_name = "Generic";
+						else
+							t_name = t_name.replace(/\\/g, "");
 
 						$('<div></div>')
 							.appendTo('body')
@@ -192,7 +195,10 @@ jQuery.widget("ui.xepanComponent",{
 		helper: function(event, ui) {
 			var t_name = $(ui).closest('.xepan-component').attr('xepan-component');
 			var tool_drag_html = '<div class="xepan-cms-component-dragging">Dragging ...</div>';
-			if(t_name != 'undefined'){
+
+			if(t_name == undefined || t_name == "undefined" || t_name == null){
+				t_name = "Generic";
+			}else{
 				t_name = t_name.replace(/\//g, "");
 				tool_drag_html = $('.xepan-cms-tool[data-toolname="'+t_name+'"]').prop('outerHTML');
 			}

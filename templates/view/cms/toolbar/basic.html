@@ -655,6 +655,7 @@
     //- $(current_selected_component).attr('background-image:url(',$(this).val());
   });
   $('#{$_name}').on('show',function(event){
+  
     var src_val = $(current_selected_component).css('background-image');
     if(src_val.startsWith('url("data:')){
     $('#xepan-bg-image-base64data').val(src_val);
@@ -663,6 +664,12 @@
     $('#epan-component-background-image-input').val(src_val);
     $('#xepan-bg-image-base64data').val('');
     }
+  
+    $('.xepan-cms-tool-option-panel').find('.selected-component-name').remove();
+    if($(current_selected_component).is("[xepan-component-name]")){
+      $('<div class="selected-component-name" style="font-size:18px;border-bottom:1px solid black;">'+$(current_selected_component).attr("xepan-component-name")+'</div>').appendTo($(".xepan-cms-tool-option-panel"));
+    }
+  
   });
   
   

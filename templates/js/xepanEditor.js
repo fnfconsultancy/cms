@@ -94,7 +94,7 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		// right bar content
-		$('<h2>Options Panel</h2>').appendTo(self.rightbar);
+		$('<p class="xepan-cms-tool xepan-cms-tool-option-panel" style="font-size:16px;">OPTION PANEL</p>').appendTo(self.rightbar);
 		
 		self.rightbar_toggle_btn = $('<div class="toggler"><span class="fa fa-chevron-left fa-2x" style="display: block;">&nbsp;</span> <span class="fa fa-chevron-right fa-2x" style="display: none;">&nbsp;</span></div>').appendTo(self.rightbar);
 		$(self.rightbar_toggle_btn).click(function(){
