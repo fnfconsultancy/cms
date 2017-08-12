@@ -9,6 +9,7 @@ class page_createlayout extends \Page{
 				
 		$file_name = $_POST['lname'].".html";
 		$file_content = $_POST['lhtml'];
+		$image_data = $_POST['img_data'];
 
         $url = "{$_SERVER['HTTP_HOST']}";
         $domain = str_replace('www.','',$this->app->extract_domain($url))?:'www';
@@ -16,6 +17,12 @@ class page_createlayout extends \Page{
 		
 		$base_path	= $this->app->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www";
 		
+		// $return['message'] = $image_data;
+		// echo json_encode($return);
+		// exit;
+		// $image_data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_data));
+		// $data = 'data:image/gif;base64,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7';
+
 		// check websitelayout folder is exist or not
 		if($this->app->epan['is_template']){
 			$folder_name = 'themelayout';
@@ -39,6 +46,15 @@ class page_createlayout extends \Page{
 		}
 
 		$fs = \Nette\Utils\FileSystem::write('./websites/'.$this->app->current_website_name.'/www/'.$folder_name.'/'.$file_name,$file_content);
+		
+
+		$img_path = './websites/'.$this->app->current_website_name.'/www/'.$folder_name.'/'.$_POST['lname'].".png";
+		$source = fopen($image_data, 'r');
+		$destination = fopen($img_path, 'w');
+		stream_copy_to_stream($source, $destination);
+		fclose($source);
+		fclose($destination);
+		// file_put_contents('./websites/'.$this->app->current_website_name.'/www/'.$folder_name.'/'.$_POST['lname'].".png", $image_data);
 
 		echo json_encode($return);
 		exit;

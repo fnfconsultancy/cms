@@ -532,12 +532,15 @@
   .xepan-btn.btn-block.btn-primary#xepan-tool-createlayoutbtn Create Layout
     .xepan-create-layout-dialoge(style="display:none;")
       p All form fields are required.
-      form.xepan-create-layout-form
+      div.xepan-create-layout-form
         fieldset
           label(for="name" style="width:100%;") Name
           input(type="text" name="name" id="xepan-layout-name" style="width:100%;")
           label(for="name" style="width:100%;") Html
           textarea(type="textarea" name="layout_html" id="xepan-layout-html" style="width:100%;height:150px;")
+          label(for="Image Base 64 Code" style="width:100%;") Image Base 64
+          textarea(type="textarea" name="layout_img_base" id="xepan-layout-image-64" style="width:100%;height:150px;")
+
   .xepan-btn.btn-block.btn-primary#override-xepan-tool-template Override Template
   .xepan-btn.btn-block.btn-primary#xepan-tool-mystyle Custom CSS
 script(type='text/javascript').
@@ -1105,6 +1108,18 @@ script(type='text/javascript').
       $form = $('.xepan-create-layout-form');
       $form.find('#xepan-layout-html').val($(current_selected_component).prop('outerHTML'));
 
+      html2canvas($(current_selected_component)[0], {
+        onrendered: function(canvas) {
+          theCanvas = canvas;
+          document.body.appendChild(canvas);
+          // Convert and download as image 
+          img_data = canvas.toDataURL('image/png',1.0);
+          $form.find('#xepan-layout-image-64').val(img_data);
+          // Clean up
+          document.body.removeChild(canvas);
+        }
+      });
+
     $('.xepan-create-layout-dialoge').dialog({
       modal: true, 
       width: 800,
@@ -1116,13 +1131,13 @@ script(type='text/javascript').
             $.univ().errorMessage('name must not be empty ');
             return;
           }
-
           $.ajax({
               type: "POST",
               url:"index.php?page=xepan_cms_createlayout",
               data:{
                 lname: $form.find('#xepan-layout-name').val(),
-                lhtml: $form.find('#xepan-layout-html').val()
+                lhtml: $form.find('#xepan-layout-html').val(),
+                img_data: $form.find('#xepan-layout-image-64').val()
               },
               success: function( data ) {
                 return_data = JSON.parse(data);
@@ -1130,8 +1145,8 @@ script(type='text/javascript').
                     $.univ().successMessage(return_data.message);
                 else
                     $.univ().errorMessage(return_data.message);
-                
-                console.log(data);
+                $(".xepan-create-layout-dialoge").dialog("close");
+                //- console.log(data);
               }
           });
         },
@@ -1145,7 +1160,7 @@ script(type='text/javascript').
     });
     //- console.log($(current_selected_component));
 
-    //- html2canvas($(current_selected_component), {
+    //- html2canvas($(current_selected_component)[0], {
     //-     onrendered: function(canvas) {
     //-         theCanvas = canvas;
     //-         document.body.appendChild(canvas);

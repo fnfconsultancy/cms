@@ -92,13 +92,22 @@ class View_ToolBar extends \View {
 
 				$t_v = $view->add('xepan\cms\Tool_Layout',null,null,[$theme_path.$file_name]);
 				$t_option_v = $t_v->getOptionPanel($view,null,$tool_number++);
+
+				$icon_img = $absolute_theme_path.$file_name.".png";
+				if(file_exists($icon_img)){
+					$icon_img = './websites/'.$this->app->current_website_name.'/www/'.$folder_name.'/'.$file_name.'.png';
+				}else{
+					$icon_img = '';
+				}
+				
+				// continue;
 				$tools_array['Layouts'][] = [
 												'name'=>$file_name,
 												'tool'=>'xepan/cms/Tool_Layout',
 												'category'=>$folder_name,
 												'drop_html'=>$t_v->getHTML(),
 												'option_html'=>$t_option_v->getHTML(),
-												'icon_img'=>''
+												'icon_img'=>$icon_img
 												// 'icon_img'=>$theme_path.'/'.str_replace(".html", ".png", $l['name'])
 											];
 			}
