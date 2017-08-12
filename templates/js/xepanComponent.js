@@ -113,6 +113,8 @@ jQuery.widget("ui.xepanComponent",{
 			$(this).xepanComponent('select');
 			event.stopPropagation();
 		});
+
+		// $(this.element).find('.xepan-component').xepanComponent(self.options);
 	},
 
 	select: function (){
@@ -143,6 +145,10 @@ jQuery.widget("ui.xepanComponent",{
 		$.univ().richtext(self.element,xepan_cms_tinymce_options,true);
 	},
 
+	getOptions:function(){
+		self = this;
+        return self.options;
+    },
 	deselect: function (){
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			current_selected_component=undefined;

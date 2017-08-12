@@ -51,11 +51,13 @@ jQuery.widget("ui.xepanEditor",{
 		// right bar
 		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="container sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
 		// basic and selection tools
-		self.selection = $('<div class="xepan-cms-group-panel clearfix xepan-cms-tool"><div>Selection</div></div>').appendTo(self.rightbar);
-		self.selection_previous_sibling = $('<button id="epan-component-selection-previous-sibling" type="button" title="Previous Sibling" class="btn btn-default btn-xs"><i class="fa fa-arrow-left"></i></button>').appendTo(self.selection);
-		self.selection_next_sibling = $('<button id="epan-component-selection-next-sibling" type="button" title="Next Sibling" class="btn btn-default btn-xs"><i class="fa fa-arrow-right"></i></button>').appendTo(self.selection);
-		self.selection_parent = $('<button id="epan-component-selection-parent" type="button" title="Parent" class="btn btn-default btn-xs"><i class="fa fa-arrow-up"></i></button>').appendTo(self.selection);
-		self.selection_child = $('<button id="epan-component-selection-child" type="button" title="Child/Next" class="btn btn-default btn-xs"><i class="fa fa-arrow-down"></i></button>').appendTo(self.selection);
+		self.generic_tool = $('<div class="xepan-cms-group-panel clearfix xepan-cms-tool"></div>').appendTo(self.rightbar);
+		
+		$('<div>Selection</div>').appendTo(self.generic_tool);
+		self.selection_previous_sibling = $('<button id="epan-component-selection-previous-sibling" type="button" title="Previous Sibling" class="btn btn-default btn-xs"><i class="fa fa-arrow-left"></i></button>').appendTo(self.generic_tool);
+		self.selection_next_sibling = $('<button id="epan-component-selection-next-sibling" type="button" title="Next Sibling" class="btn btn-default btn-xs"><i class="fa fa-arrow-right"></i></button>').appendTo(self.generic_tool);
+		self.selection_parent = $('<button id="epan-component-selection-parent" type="button" title="Parent" class="btn btn-default btn-xs"><i class="fa fa-arrow-up"></i></button>').appendTo(self.generic_tool);
+		self.selection_child = $('<button id="epan-component-selection-child" type="button" title="Child/Next" class="btn btn-default btn-xs"><i class="fa fa-arrow-down"></i></button>').appendTo(self.generic_tool);
 
 		$(self.selection_previous_sibling).click(function(event){
 			ctrlShiftLeftSelection(event);
@@ -71,6 +73,24 @@ jQuery.widget("ui.xepanEditor",{
 
 		$(self.selection_child).click(function(event){
 			tabSelection(event);
+		});
+
+		$('<div>Move</div>').appendTo(self.generic_tool);
+		self.move_left = $('<button id="epan-component-move-left" type="button" title="move left" class="btn btn-default"><i class="fa fa-arrow-left"></i></button>').appendTo(self.generic_tool);
+		self.move_right = $('<button id="epan-component-move-right" type="button" title="move right" class="btn btn-default"><i class="fa fa-arrow-right"></i></button>').appendTo(self.generic_tool);
+		$(self.move_left).click(function(event){
+			componentMoveLeft(event);
+		});
+
+		$(self.move_right).click(function(event){
+			componentMoveRight(event);
+		});
+
+		// duplicate
+		self.duplicate_wrapper = $('<div class="epan-component-duplicate-wrapper"></div>').appendTo(self.generic_tool);
+		self.duplicate_btn = $('<button id="epan-component-duplicate-child">Duplicate</button>').appendTo(self.duplicate_wrapper);
+		$(self.duplicate_btn).click(function(event){
+			duplicateComponent(event);
 		});
 
 		// right bar content
@@ -656,6 +676,51 @@ function shiftTabSelection(event){
 
     $(xepan_component_selector).xepanComponent('deselect');
     $(next_component).xepanComponent('select');
+    event.stopPropagation();
+}
+
+function componentMoveLeft(event){
+	if (typeof current_selected_component == 'undefined') return;
+    previous_sibling = $(current_selected_component).prev('.xepan-component');
+    if (previous_sibling.length === 0) {
+        $('body').univ().errorMessage('No Previous Sibling element found');
+        return;
+    }
+
+    $(current_selected_component).insertBefore(previous_sibling);
+    event.stopPropagation();
+}
+
+function componentMoveRight(event){
+	if (typeof current_selected_component == 'undefined') return;
+    next_sibling = $(current_selected_component).next('.xepan-component');
+    if (next_sibling.length === 0) {
+        $('body').univ().errorMessage('No Next Sibling element found');
+        return;
+    }
+
+    $(current_selected_component).insertAfter(next_sibling);
+    event.stopPropagation();
+}
+
+function duplicateComponent(event){
+	if (typeof current_selected_component == 'undefined') return;
+	html_clone = $(current_selected_component).clone();
+
+	// console.log(html_clone);
+	$(html_clone).removeAttr('id');
+	$(html_clone).find('.xepan-component').each(function(){
+		$(this).removeAttr('id');
+	});
+
+	duplicate_component = $(html_clone).insertAfter(current_selected_component);
+
+	old_options = $.extend(true, {}, (current_selected_component).xepanComponent('getOptions'));
+	$(current_selected_component).xepanComponent('deselect');
+    $(duplicate_component).xepanComponent(old_options);
+    $(duplicate_component).xepanComponent('select');
+    $(duplicate_component).find('.xepan-component').xepanComponent(old_options);
+
     event.stopPropagation();
 }
 
