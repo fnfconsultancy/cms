@@ -162,8 +162,8 @@
 						list_html += getSubPageHtml(path,page_data);
 					});
 
-					$(current_selected_component).find('#xepan-boostrap-ul').html("");
-					$(list_html).appendTo($(current_selected_component).find('#xepan-boostrap-ul'));
+					$(current_selected_component).find('ul.navbar-nav').html("");
+					$(list_html).appendTo($(current_selected_component).find('ul.navbar-nav'));
 					
 					//- //- manual call dropdown after get page and also coded at document ready in view tool html file
 					$(current_selected_component).find('.dropdown-toggle').dropdown();
