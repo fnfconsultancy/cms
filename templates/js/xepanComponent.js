@@ -60,12 +60,18 @@ jQuery.widget("ui.xepanComponent",{
 					$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
 					$('.xepan-component-hoverbar').remove();
 
+					if($(self.element).hasClass('xepan-no-move') && $(self.element).hasClass('xepan-no-delete') ) return;
+
 					$(this).addClass('xepan-component-hover-selector');
 					var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(this));				
-					var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
-					var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
+					if(!$(self.element).hasClass('xepan-no-move')){
+						var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
+					}
 
-					$(remove_btn).click(function(){
+					if(!$(self.element).hasClass('xepan-no-delete')){
+						var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
+
+						$(remove_btn).click(function(){
 						var comp_temp = $(this).closest('.xepan-component');
 						var t_name = $(comp_temp).attr('xepan-component');
 						if(t_name == undefined || t_name == "" || t_name == null)
@@ -96,7 +102,7 @@ jQuery.widget("ui.xepanComponent",{
 							      }
 							});
 						});
-				
+					}
 				event.stopPropagation();
 			},
 
@@ -152,6 +158,7 @@ jQuery.widget("ui.xepanComponent",{
 		self = this;
         return self.options;
     },
+
 	deselect: function (){
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			current_selected_component=undefined;
@@ -214,7 +221,11 @@ jQuery.widget("ui.xepanComponent",{
 	    },
 	    sort: function(event, ui) {
 	        // $(ui.placeholder).html('Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??');
-	        $(ui.placeholder).html('<div class="xepan-cms-droppable-placeholder"> Drop in ' + $(ui.placeholder).parent().attr('xepan-component') + ' ??'+'</div>');
+	        var component_name = $(ui.placeholder).parent().attr('xepan-component');
+	        
+	        if(typeof component_name === 'undefined') component_name = $(ui.placeholder).parent().attr('xepan-component-name');
+
+	        $(ui.placeholder).html('<div class="xepan-cms-droppable-placeholder"> Drop in ' + component_name + ' ??'+'</div>');
 	    },
 	    stop: function(event, ui) {
 	    	if(typeof origin == 'undefined' || origin == 'toolbox'){
