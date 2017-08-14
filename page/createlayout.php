@@ -1,7 +1,7 @@
 <?php
 
 namespace xepan\cms;
-
+use \Nette\Utils\Image;
 class page_createlayout extends \Page{
 
 	function page_index(){
@@ -54,7 +54,10 @@ class page_createlayout extends \Page{
 		stream_copy_to_stream($source, $destination);
 		fclose($source);
 		fclose($destination);
-		// file_put_contents('./websites/'.$this->app->current_website_name.'/www/'.$folder_name.'/'.$_POST['lname'].".png", $image_data);
+
+		$main = Image::fromFile($img_path);
+		$main->resize(150,null);
+		$main->save($img_path);
 
 		echo json_encode($return);
 		exit;
