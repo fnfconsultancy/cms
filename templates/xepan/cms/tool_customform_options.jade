@@ -18,8 +18,13 @@
 							.xepan-tool-option
 								td.xepan-tool-option-title Custom Form Template
 								td.xepan-tool-option-value 
-									input#custom_form_layout(data-attr='template')				
-				
+									input#custom_form_layout(data-attr='template')
+						tr
+							.xepan-tool-option
+								td.xepan-tool-option-title Success URL
+								td.xepan-tool-option-value 
+									input#custom-form-sucess-url(data-attr='custom_form_success_url' data-shortname="success_url")																							
+
 	script.
 
 		$('\#{$_name} [data-attr]').on('change',function(){

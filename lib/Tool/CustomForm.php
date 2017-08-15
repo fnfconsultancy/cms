@@ -3,7 +3,7 @@
 namespace xepan\cms;
 
 class Tool_CustomForm extends \xepan\cms\View_Tool{
-	public $options = ['customformid'=>0, 'template'=>''];
+	public $options = ['customformid'=>0, 'template'=>'','custom_form_success_url'=>null];
 	public $form;
 	public $customform_model;
 	public $customform_field_model;
@@ -208,8 +208,13 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				}
 			}
 
-			
-			$form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
+			if($this->options['custom_form_success_url']){
+				// throw new \Exception("Error Processing Request", 1);
+				$form->js()->redirect($this->app->url($this->options['custom_form_success_url']))->execute();
+				// $form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
+			}else{
+				$form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
+			}
 		}
 	}
 
