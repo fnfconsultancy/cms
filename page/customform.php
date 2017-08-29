@@ -19,10 +19,30 @@ class page_customform extends \xepan\base\Page {
 
 		if($crud->isEditing()){
 			$form = $crud->form;
+			$form->add('xepan\base\Controller_FLC')
+				->addContentSpot()
+				// ->makePanelsCoppalsible()
+				->layout([
+						'name'=>'Basic~c1~6',
+						'category'=>'c2~6~And this should be also hint',
+						'submit_button_name'=>'Details~c1~4',
+						'form_layout'=>'c2~4',
+						'custom_form_layout_path'=>'c3~4',
+						'recieve_email'=>'Receive Emails~c1~4',
+						'recipient_email'=>'c2~8~Comma seperated email ids to receive info when new form is submitted',
+						'auto_reply'=>'Auto Reply~c1~4',
+						'emailsetting_id'=>'c11~8~Send Auto Reply email from this email account',
+						'email_subject'=>'c2~12',
+						'message_body'=>'c3~12',
+						'is_create_lead'=>'Create Lead~c1~4',
+
+
+					]);
 			$categories_field = $form->addField('DropDown','category');
 			$categories_field->setModel($this->add('xepan\marketing\Model_MarketingCategory'));
 			$categories_field->addClass('multiselect-full-width');
 			$categories_field->setAttr(['multiple'=>'multiple']);
+			$categories_field->setAttr(['style'=>'width:50%']);
 			$categories_field->setEmptyText("Please Select");
 
 		}
