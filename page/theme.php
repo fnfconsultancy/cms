@@ -20,7 +20,7 @@ class page_theme extends \xepan\base\Page{
         }
         $this->epan_template = $temp;
 
-        $grid = $this->add('xepan\hr\Grid')->addClass('xepan-theme-grid');
+        $grid = $this->add('xepan\hr\Grid',null,null,['grid/theme'])->addClass('xepan-theme-grid');
         $grid->setSource($this->epan_template);
         $grid->addColumn('name');
         $grid->addColumn('preview_image');
@@ -41,7 +41,11 @@ class page_theme extends \xepan\base\Page{
 			->addColumn('ApplyNow')
 			->set(function($page){
 				$id = $_GET[$page->short_name.'_id'];
-
+				
+				if(!$id){
+					$page->add('View')->set('some thing went wrong.')->addClass('alert alert-danger');
+					return;
+				}
 				$form = $page->add('Form');
 				$form->add('View')->set('are you sure, installing new theme will remove all content ?')->addClass('alert alert-info');
 				$form->addSubmit('Yes, Install Theme');
