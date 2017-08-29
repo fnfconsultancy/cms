@@ -15,7 +15,7 @@ class page_customform extends \xepan\base\Page {
 					    ->count();
 		});
 
-		$crud = $this->add('xepan\hr\CRUD',null,null,['view/cust-form/grid']);
+		$crud = $this->add('xepan\hr\CRUD');
 
 		if($crud->isEditing()){
 			$form = $crud->form;
@@ -47,7 +47,7 @@ class page_customform extends \xepan\base\Page {
 
 		}
 
-		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','is_create_lead']);
+		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','is_create_lead'],['name','total_enquiry','recieve_email','auto_reply','is_create_lead']);
 
 		if($crud->isEditing()){
 			$form = $crud->form;
@@ -89,5 +89,7 @@ class page_customform extends \xepan\base\Page {
 				}
 		});
 		$crud->grid->addQuickSearch(['name']);
+		$crud->grid->removeColumn('action');
+		$crud->noAttachment();
 	}
 }
