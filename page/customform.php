@@ -27,7 +27,7 @@ class page_customform extends \xepan\base\Page {
 
 		}
 
-		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','recieve_email','recipient_email','auto_reply','email_subject','message_body','created_at','created_by_id','type','status','is_create_lead','is_associate_lead','lead_category_ids']);
+		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','created_at','created_by_id','type','status','is_create_lead','is_associate_lead','lead_category_ids']);
 
 		if($crud->isEditing()){
 			$form = $crud->form;
