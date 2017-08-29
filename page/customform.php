@@ -23,8 +23,7 @@ class page_customform extends \xepan\base\Page {
 				->addContentSpot()
 				// ->makePanelsCoppalsible()
 				->layout([
-						'name'=>'Basic~c1~6',
-						'category'=>'c2~6~And this should be also hint',
+						'name'=>'c1~12',
 						'submit_button_name'=>'Details~c1~4',
 						'form_layout'=>'c2~4',
 						'custom_form_layout_path'=>'c3~4',
@@ -35,6 +34,7 @@ class page_customform extends \xepan\base\Page {
 						'email_subject'=>'c2~12',
 						'message_body'=>'c3~12',
 						'is_create_lead'=>'Create Lead~c1~4',
+						'category'=>'c2~8~And associate with categories',
 
 
 					]);
@@ -47,7 +47,7 @@ class page_customform extends \xepan\base\Page {
 
 		}
 
-		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','created_at','created_by_id','type','status','is_create_lead','is_associate_lead','lead_category_ids']);
+		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','is_create_lead']);
 
 		if($crud->isEditing()){
 			$form = $crud->form;
