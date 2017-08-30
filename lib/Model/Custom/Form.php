@@ -37,7 +37,7 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 
 		$this->addField('status')->defaultValue('Active');
 
-		$this->addField('is_create_lead')->type('boolean');
+		$this->addField('is_create_lead')->type('boolean')->caption('Create Lead');
 		$this->addField('is_associate_lead')->type('boolean');
 
 		$this->addField('lead_category_ids')->type('text');
