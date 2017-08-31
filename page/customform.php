@@ -23,17 +23,17 @@ class page_customform extends \xepan\base\Page {
 				->addContentSpot()
 				// ->makePanelsCoppalsible()
 				->layout([
-						'name'=>'c1~12',
+						'name~'=>'Custom Form Name~c1~12',
 						'submit_button_name'=>'Details~c1~4',
 						'form_layout'=>'c2~4',
 						'custom_form_layout_path'=>'c3~4',
 						'recieve_email'=>'Receive Emails~c1~4',
-						'recipient_email'=>'c2~8~Comma seperated email ids to receive info when new form is submitted',
+						'recipient_email'=>'c2~8~Comma seperated email ids to receive form details, when new form is submitted',
 						'auto_reply'=>'Auto Reply~c1~4',
 						'emailsetting_id'=>'c11~8~Send Auto Reply email from this email account',
 						'email_subject'=>'c2~12',
 						'message_body'=>'c3~12',
-						'is_create_lead'=>'Create Lead~c1~4',
+						'is_create_lead~Create Lead'=>'Create Lead~c1~4',
 						'category'=>'c2~8~And associate with categories',
 
 
@@ -47,7 +47,7 @@ class page_customform extends \xepan\base\Page {
 
 		}
 
-		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','is_create_lead'],['name','total_enquiry','recieve_email','auto_reply','is_create_lead']);
+		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','is_create_lead'],['name','total_enquiry','recieve_email','auto_reply','is_create_lead','status']);
 
 		if($crud->isEditing()){
 			$form = $crud->form;
@@ -89,7 +89,7 @@ class page_customform extends \xepan\base\Page {
 				}
 		});
 		$crud->grid->addQuickSearch(['name']);
-		$crud->grid->removeColumn('action');
+		$crud->grid->removeColumn('status');
 		$crud->noAttachment();
 	}
 }
