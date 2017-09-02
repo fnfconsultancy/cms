@@ -28,7 +28,9 @@ class View_Theme extends \View{
         $grid->addColumn('preview');
         $grid->addQuickSearch(['name']);
 
-        $this->url = $url = "{$_SERVER['HTTP_HOST']}";
+
+        $this->url = $url = "{$_SERVER['HTTP_HOST']}";        
+        $this->protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
         $this->domain = $domain = str_replace('www.','',$this->app->extract_domain($url))?:'www';
         $this->sub_domain = $sub_domain = str_replace('www.','',$this->app->extract_subdomains($url))?:'www';
         
@@ -75,7 +77,7 @@ class View_Theme extends \View{
 						
 						if($this->apply_theme_on_website_id){
 							$js_event =[
-									$form->js()->univ()->newWindow($apply_theme_epan_name.".".$this->domain),
+									$form->js()->univ()->newWindow($this->protocol.$apply_theme_epan_name.".".$this->domain),
 									$form->js()->univ()->location($this->app->url($this->dashboard_page))
 								];
 						}else{
