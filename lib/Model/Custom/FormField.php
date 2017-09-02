@@ -24,7 +24,7 @@
 								'checkbox'=>'Checkbox',
 								'DropDown'=>'DropDown',
 								'DatePicker'=>"DatePicker",
-								'upload'=>"Upload",
+								'upload'=>"xepan\base\Upload",
 								'TimePicker'=>"TimePicker",
 								"Captcha"=>'Captcha'
 							)
