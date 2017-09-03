@@ -49,7 +49,7 @@ jQuery.widget("ui.xepanEditor",{
 
 
 		// right bar
-		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="container sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
+		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
 		// basic and selection tools
 		self.generic_tool = $('<div class="xepan-cms-group-panel clearfix xepan-cms-tool"></div>').appendTo(self.rightbar);
 		
@@ -107,7 +107,7 @@ jQuery.widget("ui.xepanEditor",{
 
 
 		// left bar
-		self.leftbar = $('<div id="xepan-cms-toolbar-left-side-panel" class="container sidebar sidebar-left" style="left: -230px;" data-status="opened"></div>').insertAfter('body');
+		self.leftbar = $('<div id="xepan-cms-toolbar-left-side-panel" class="sidebar sidebar-left" style="left: -230px;" data-status="opened"></div>').insertAfter('body');
 		// right bar content
 		self.leftbar_toggle_btn = $('<div class="toggler"><span class="fa fa-chevron-right fa-2x" style="display: block;">&nbsp;</span> <span class="fa fa-chevron-left fa-2x" style="display: none;">&nbsp;</span></div>').appendTo(self.leftbar);
 		$(self.leftbar_toggle_btn).click(function(){
