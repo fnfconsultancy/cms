@@ -18,7 +18,7 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		parent::init();
 		 
 		$this->hasOne('xepan\cms\Model_CarouselCategory','carousel_category_id');
-		$this->hasOne('xepan\hr\Model_Employee','created_by_id')->defaultValue($this->app->employee->id);
+		$this->hasOne('xepan\hr\Model_Employee','created_by_id')->defaultValue(@$this->app->employee->id);
 		
 		$this->add('xepan\filestore\Field_File','file_id');
 		
