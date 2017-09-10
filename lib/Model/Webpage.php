@@ -21,8 +21,15 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\cms\Template','template_id');
 		$this->hasOne('xepan\cms\ParentPage','parent_page_id')->defaultValue(0);
 		$this->hasOne('xepan\hr\Employee','created_by_id')->defaultValue(@$this->app->employee->id);
+		
 		$this->addField('name')->hint('used for display ie. menu');
 		$this->addField('path')->hint('folder_1/folder_2/file_name.html');
+		
+		$this->addField('page_title');
+		$this->addField('meta_kewords')->type('text');
+		$this->addField('meta_description')->type('text');
+		$this->addField('after_body_code')->type('text');
+		
 		$this->addField('is_template')->type('boolean');
 		$this->addField('is_muted')->type('boolean')->hint('for show or hide on menu');
 		$this->addField('is_active')->type('boolean')->defaultValue(1);
@@ -39,9 +46,20 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->addHook('beforeDelete',$this);
 	}
 
+	function mergeFromTemplate(){
+		$template = $this->ref('template_id'); 
+		if(!$this['page_title']) $this['page_title'] =$template['page_title'];
+		if(!$this['meta_kewords']) $this['meta_kewords'] =$template['meta_kewords'];
+		if(!$this['meta_description']) $this['meta_description'] =$template['meta_description'];
+		if(!$this['after_body_code']) $this['after_body_code'] =$template['after_body_code'];
+		$this['path'] = str_replace(".html", "", $this['path']);		
+	}
+
 	function beforeSave(){
 
 		// check for same entry or not
+		$this['path'] = str_replace(".html", "", $this['path']);
+
 		$old_webpage = $this->add('xepan\cms\Model_Webpage');
 		$old_webpage->addCondition('path',$this['path']);
 		if($this['is_template'])
