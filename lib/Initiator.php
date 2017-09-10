@@ -67,10 +67,10 @@ class Initiator extends \Controller_Addon {
         }
 
         $extra_info = json_decode($this->app->epan['extra_info'],true);
-        $this->app->template->trySet('title',@$extra_info['title']);
-
-        $this->app->template->trySet('meta_keywords',@$extra_info['meta_keyword']);
-        $this->app->template->trySet('meta_description',@$extra_info['meta_description']);
+        $this->app->template->trySet('title',@$this->app->xepan_cms_page['page_title']?:@$extra_info['title']);
+        $this->app->template->trySet('meta_keywords',@$this->app->xepan_cms_page['meta_kewords']?:@$extra_info['meta_keyword']);
+        $this->app->template->trySet('meta_description',@$this->app->xepan_cms_page['meta_description']?:@$extra_info['meta_description']);
+        $this->app->template->trySetHTML('after_body_code',@$this->app->xepan_cms_page['after_body_code']?:@$extra_info['after_body_code']);
 
     }
 
@@ -182,6 +182,7 @@ class Initiator extends \Controller_Addon {
         $old_title = $this->app->template->tags['title'];
         $old_meta_keywords = $this->app->template->tags['meta_keywords'];
         $old_meta_description = $this->app->template->tags['meta_description'];
+        $old_after_body_code = $this->app->template->tags['after_body_code'];
 
         $this->app->add('xepan\cms\Controller_ServerSideComponentManager');
         // $this->app->jui->destroy();
@@ -194,6 +195,7 @@ class Initiator extends \Controller_Addon {
         $this->app->template->trySet('title',@implode("\n",$old_title[1]));
         $this->app->template->trySet('meta_keywords',@implode("\n",$old_meta_keywords[1]));
         $this->app->template->trySet('meta_description',@implode("\n",$old_meta_description[1]));
+        $this->app->template->trySetHTML('after_body_code',@implode("\n",$old_after_body_code[1]));
 
         if(isset($this->app->editing_template))
             $this->app->exportFrontEndTool('xepan\cms\Tool_TemplateContentRegion');

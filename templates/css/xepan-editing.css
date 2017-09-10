@@ -473,3 +473,7 @@
 .popover{
     z-index: 999999 !important;
 }
+
+.dialog input, .dialog textarea, .dialog select {
+    width: 100%;
+}
