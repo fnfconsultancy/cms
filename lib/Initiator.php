@@ -18,6 +18,7 @@ class Initiator extends \Controller_Addon {
             $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
             // $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
             $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
+            $m->addItem([' Gallery','icon'=>' fa fa-file-image-o'],'xepan_cms_gallery');
             $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_templateandpage');
             $m->addItem([' Themes','icon'=>' fa fa-file'],'xepan_cms_theme');
             $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
