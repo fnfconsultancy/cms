@@ -7,7 +7,7 @@
           <td>Image</td>
           <td>
             <div class="btn-group">
-              <input id="xepan-svg-option-src" type="text" class="btn btn-xs"/>
+              <input id="xepan-svg-option-src" type="text" disabled="true" class="btn btn-xs"/>
               <button id="xepan-svg-option-select" type="button" class="btn btn-default btn-xs">Select</button>
             </div>
           </td>
@@ -58,7 +58,7 @@
   });
   $('#xepan-svg-option-default').click(function(event) {
   $(current_selected_component).find('img').attr('src','templates/images/logo.png');
-  $('#xepan-svg-option-src').val('templates/images/logo.png');
+  $('#xepan-svg-option-src').val('vendor/xepan/cms/templates/images/epan-logo.svg');
   });
   $('#xepan-svg-option-class').change(function(event) {
   $(current_selected_component).removeClass($(current_selected_component).find('img').attr('data-extra-classes'));
