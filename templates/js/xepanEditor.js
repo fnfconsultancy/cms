@@ -300,6 +300,12 @@ jQuery.widget("ui.xepanEditor",{
 
 		});
 
+		// Show default custom layouts
+		$(apps_dropdown).val('Layouts');
+		$(category_dropdown).show();
+		$(category_dropdown).val('customlayout');
+		$(category_dropdown).trigger('change');
+
 		$(self.options.basic_properties).appendTo(tools_options);
 	},
 
