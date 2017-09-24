@@ -7,10 +7,10 @@
             | Image
           td
             .btn-group
-              input#xepan-image-option-src.btn.btn-xs(type='text', disabled='true/')
-              button#xepan-image-option-select.btn.btn-default.btn-xs(type='button') Select
+              input#xepan-svg-option-src.btn.btn-xs(type='text')
+              button#xepan-svg-option-select.btn.btn-default.btn-xs(type='button') Select
           td
-            button#xepan-image-option-default.btn.btn-default.btn-xs(type='button') Default
+            button#xepan-svg-option-default.btn.btn-default.btn-xs(type='button') Default
         tr
           td 
             | Edit SVG
@@ -19,15 +19,15 @@
         tr
           td css class
           td(colspan='2')
-            input#xepan-image-option-class(type='text')
+            input#xepan-svg-option-class(type='text')
         tr
           td Link
           td(colspan='2')
-            input#xepan-image-link(type='text', placeholder='')
+            input#xepan-svg-link(type='text', placeholder='')
         tr
           td base64
           td(colspan='2')
-            textarea#xepan-image-base64data(placeholder='')
+            textarea#xepan-svg-base64data(placeholder='')
 script(type='text/javascript').
   // ========== OPTION TO COMPONENT EFFECT ==============
   //
@@ -35,25 +35,25 @@ script(type='text/javascript').
   // 		$(current_selected_component).what to do ???
   // })
   $('#xepan-svg-edit-option-class').click(function(event) {
-  var url = "vendor/xepan/cms/templates/svgEditor/editor/svg-editor.html?url=..%2F..%2F..%2F..%2F..%2F..%2F"+ $('#xepan-image-option-src').val() +"&dimensions=500,400&canvas_expansion=5&initFill[color]=0000FF";
+  var url = "vendor/xepan/cms/templates/svgEditor/editor/svg-editor.html?url=..%2F..%2F..%2F..%2F..%2F..%2F"+ $('#xepan-svg-option-src').val() +"&dimensions=500,400&canvas_expansion=5&initFill[color]=0000FF";
   window.open(url);
   });
-  $('#xepan-image-option-default').click(function(event) {
+  $('#xepan-svg-option-default').click(function(event) {
   $(current_selected_component).find('img').attr('src','templates/images/logo.png');
-  $('#xepan-image-option-src').val('templates/images/logo.png');
+  $('#xepan-svg-option-src').val('templates/images/logo.png');
   });
-  $('#xepan-image-option-class').change(function(event) {
+  $('#xepan-svg-option-class').change(function(event) {
   $(current_selected_component).removeClass($(current_selected_component).find('img').attr('data-extra-classes'));
   $(current_selected_component).find('img').attr('data-extra-classes',$(this).val());
   $(current_selected_component).find('img').addClass($(this).val());
   });
-  $('#xepan-image-link').change(function(event) {
-  $(current_selected_component).attr('xepan-image-link',$(this).val());
+  $('#xepan-svg-link').change(function(event) {
+  $(current_selected_component).attr('xepan-svg-link',$(this).val());
   $(current_selected_component).find('a').attr('href',$(this).val());
   $(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
   });
-  $('#xepan-image-option-select').click(function(event) {
-  if($('#xepan-image-base64data').val().length > 0){
+  $('#xepan-svg-option-select').click(function(event) {
+  if($('#xepan-svg-base64data').val().length > 0){
     alert("Please clear base64 data first");
     return;
   }
@@ -65,20 +65,20 @@ script(type='text/javascript').
   destroyOnClose : true,
   getFileCallback : function(files, fm) {
   console.log(files.url);
-  $('#xepan-image-option-src').val(files.url);
+  $('#xepan-svg-option-src').val(files.url);
   $(current_selected_component).find('img').attr('src',files.url);
   },
   commandsOptions : {
   getfile : {
   oncomplete : 'close',
-  folders : true
+  folders : false
   }
   }
   }).dialogelfinder('instance');
   });
 
-  $('#xepan-image-base64data').change(function(event){
-    $('#xepan-image-option-src').val("")
+  $('#xepan-svg-base64data').change(function(event){
+    $('#xepan-svg-option-src').val("")
     $(current_selected_component).find('img').attr('src',$(this).val());
   });
 
@@ -86,11 +86,12 @@ script(type='text/javascript').
   var src_val = $(current_selected_component).find('img').attr('src');
 
   if(src_val.startsWith("data:")){
-  $('#xepan-image-base64data').val(src_val);
-  $('#xepan-image-option-src').val('');
+  $('#xepan-svg-base64data').val(src_val);
+  $('#xepan-svg-option-src').val('');
   }else{
-  $('#xepan-image-option-src').val(src_val);
-  $('#xepan-image-base64data').val('');
+  $('#xepan-svg-option-src').val(src_val);
+  $('#xepan-svg-base64data').val('');
+  console.log(src_val);
   }
-  $('#xepan-image-link').val($(current_selected_component).find('a').attr('href'));
+  $('#xepan-svg-link').val($(current_selected_component).find('a').attr('href'));
   });

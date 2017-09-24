@@ -7,12 +7,12 @@
           <td>Image</td>
           <td>
             <div class="btn-group">
-              <input id="xepan-image-option-src" type="text" disabled="true/" class="btn btn-xs"/>
-              <button id="xepan-image-option-select" type="button" class="btn btn-default btn-xs">Select</button>
+              <input id="xepan-svg-option-src" type="text" class="btn btn-xs"/>
+              <button id="xepan-svg-option-select" type="button" class="btn btn-default btn-xs">Select</button>
             </div>
           </td>
           <td>
-            <button id="xepan-image-option-default" type="button" class="btn btn-default btn-xs">Default</button>
+            <button id="xepan-svg-option-default" type="button" class="btn btn-default btn-xs">Default</button>
           </td>
         </tr>
         <tr>
@@ -27,19 +27,19 @@
         <tr>
           <td>css class</td>
           <td colspan="2">
-            <input id="xepan-image-option-class" type="text"/>
+            <input id="xepan-svg-option-class" type="text"/>
           </td>
         </tr>
         <tr>
           <td>Link</td>
           <td colspan="2">
-            <input id="xepan-image-link" type="text" placeholder=""/>
+            <input id="xepan-svg-link" type="text" placeholder=""/>
           </td>
         </tr>
         <tr>
           <td>base64</td>
           <td colspan="2">
-            <textarea id="xepan-image-base64data" placeholder=""></textarea>
+            <textarea id="xepan-svg-base64data" placeholder=""></textarea>
           </td>
         </tr>
       </tbody>
@@ -53,25 +53,25 @@
   // 		$(current_selected_component).what to do ???
   // })
   $('#xepan-svg-edit-option-class').click(function(event) {
-  var url = "vendor/xepan/cms/templates/svgEditor/editor/svg-editor.html?url=..%2F..%2F..%2F..%2F..%2F..%2F"+ $('#xepan-image-option-src').val() +"&dimensions=500,400&canvas_expansion=5&initFill[color]=0000FF";
+  var url = "vendor/xepan/cms/templates/svgEditor/editor/svg-editor.html?url=..%2F..%2F..%2F..%2F..%2F..%2F"+ $('#xepan-svg-option-src').val() +"&dimensions=500,400&canvas_expansion=5&initFill[color]=0000FF";
   window.open(url);
   });
-  $('#xepan-image-option-default').click(function(event) {
+  $('#xepan-svg-option-default').click(function(event) {
   $(current_selected_component).find('img').attr('src','templates/images/logo.png');
-  $('#xepan-image-option-src').val('templates/images/logo.png');
+  $('#xepan-svg-option-src').val('templates/images/logo.png');
   });
-  $('#xepan-image-option-class').change(function(event) {
+  $('#xepan-svg-option-class').change(function(event) {
   $(current_selected_component).removeClass($(current_selected_component).find('img').attr('data-extra-classes'));
   $(current_selected_component).find('img').attr('data-extra-classes',$(this).val());
   $(current_selected_component).find('img').addClass($(this).val());
   });
-  $('#xepan-image-link').change(function(event) {
-  $(current_selected_component).attr('xepan-image-link',$(this).val());
+  $('#xepan-svg-link').change(function(event) {
+  $(current_selected_component).attr('xepan-svg-link',$(this).val());
   $(current_selected_component).find('a').attr('href',$(this).val());
   $(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
   });
-  $('#xepan-image-option-select').click(function(event) {
-  if($('#xepan-image-base64data').val().length > 0){
+  $('#xepan-svg-option-select').click(function(event) {
+  if($('#xepan-svg-base64data').val().length > 0){
     alert("Please clear base64 data first");
     return;
   }
@@ -83,20 +83,20 @@
   destroyOnClose : true,
   getFileCallback : function(files, fm) {
   console.log(files.url);
-  $('#xepan-image-option-src').val(files.url);
+  $('#xepan-svg-option-src').val(files.url);
   $(current_selected_component).find('img').attr('src',files.url);
   },
   commandsOptions : {
   getfile : {
   oncomplete : 'close',
-  folders : true
+  folders : false
   }
   }
   }).dialogelfinder('instance');
   });
   
-  $('#xepan-image-base64data').change(function(event){
-    $('#xepan-image-option-src').val("")
+  $('#xepan-svg-base64data').change(function(event){
+    $('#xepan-svg-option-src').val("")
     $(current_selected_component).find('img').attr('src',$(this).val());
   });
   
@@ -104,12 +104,13 @@
   var src_val = $(current_selected_component).find('img').attr('src');
   
   if(src_val.startsWith("data:")){
-  $('#xepan-image-base64data').val(src_val);
-  $('#xepan-image-option-src').val('');
+  $('#xepan-svg-base64data').val(src_val);
+  $('#xepan-svg-option-src').val('');
   }else{
-  $('#xepan-image-option-src').val(src_val);
-  $('#xepan-image-base64data').val('');
+  $('#xepan-svg-option-src').val(src_val);
+  $('#xepan-svg-base64data').val('');
+  console.log(src_val);
   }
-  $('#xepan-image-link').val($(current_selected_component).find('a').attr('href'));
+  $('#xepan-svg-link').val($(current_selected_component).find('a').attr('href'));
   });
 </script>
