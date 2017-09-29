@@ -12,7 +12,7 @@ class page_templateandpage extends \xepan\base\Page{
 		$temp_tab = $tab->addTab('Template');
 		$page_tab = $tab->addTab('Page');
 
-		$crud = $temp_tab->add('xepan\base\CRUD');
+		$crud = $temp_tab->add('xepan\hr\CRUD');
 		$crud->setModel('xepan\cms\Template',['name','path','is_active']);
 		$crud->grid->removeColumn('action');
 		$crud->grid->removeColumn('attachment_icon');

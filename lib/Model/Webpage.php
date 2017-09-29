@@ -15,6 +15,9 @@ class Model_Webpage extends \xepan\base\Model_Table{
 	public $table='webpage';
 	public $acl_type = 'Webpage';
 
+	public $status = ['All'];
+	public $actions = ['All'=>['view','edit','delete']];
+
 	function init(){
 		parent::init();
 

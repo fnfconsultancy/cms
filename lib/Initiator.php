@@ -26,6 +26,8 @@ class Initiator extends \Controller_Addon {
             $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
             $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
         }
+
+        $this->app->addHook('entity_collection',[$this,'exportEntities']);
         
         return $this;
     }
@@ -33,6 +35,7 @@ class Initiator extends \Controller_Addon {
     function exportEntities($app,&$array){
         $array['CarouselCategory'] = ['caption'=>'CarouselCategory','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselCategory'];
         $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];        
+        $array['Webpage'] = ['caption'=>'Webpage','type'=>'DropDown','model'=>'xepan\cms\Model_Model_Webpage'];
     }
 
     function setup_pre_frontend(){
