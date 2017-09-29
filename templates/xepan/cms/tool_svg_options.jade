@@ -7,7 +7,7 @@
             | Image
           td
             .btn-group
-              input#xepan-svg-option-src.btn.btn-xs(type='text')
+              input#xepan-svg-option-src.btn.btn-xs(type='text',disabled="true")
               button#xepan-svg-option-select.btn.btn-default.btn-xs(type='button') Select
           td
             button#xepan-svg-option-default.btn.btn-default.btn-xs(type='button') Default
@@ -40,7 +40,7 @@ script(type='text/javascript').
   });
   $('#xepan-svg-option-default').click(function(event) {
   $(current_selected_component).find('img').attr('src','templates/images/logo.png');
-  $('#xepan-svg-option-src').val('templates/images/logo.png');
+  $('#xepan-svg-option-src').val('vendor/xepan/cms/templates/images/epan-logo.svg');
   });
   $('#xepan-svg-option-class').change(function(event) {
   $(current_selected_component).removeClass($(current_selected_component).find('img').attr('data-extra-classes'));
