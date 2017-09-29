@@ -248,10 +248,12 @@ jQuery.widget("ui.xepanEditor",{
 							origin='toolbox';
 							xepan_drop_component_html= tool_data.drop_html;
 							self.leftbar.hide();
+							$('.xepan-sortable-component').addClass('xepan-sortable-highlight-droppable');
 						},
 
 						stop: function(event,ui){
 							self.leftbar.show();
+							$('.xepan-sortable-component').removeClass('xepan-sortable-highlight-droppable');
 						},
 						revert: 'invalid',
 						tolerance: 'pointer'

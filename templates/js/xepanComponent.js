@@ -213,6 +213,7 @@ jQuery.widget("ui.xepanComponent",{
 	    },
 	    start: function(event, ui) {
 	    	$(ui.placeholder).removeClass("col-md-6 col-sm-6 xepan-tool-bar-tool ui-draggable").css('visibility','visible');
+	    	$('.xepan-sortable-component').addClass('xepan-sortable-highlight-droppable');
 	        // if ($(ui.item).hasClass('ui-sortable')) {
          //    	sortable_disabled = true;
          //    	$(ui.item).sortable("option", "disabled", true);
@@ -228,6 +229,7 @@ jQuery.widget("ui.xepanComponent",{
 	        $(ui.placeholder).html('<div class="xepan-cms-droppable-placeholder"> Drop in ' + component_name + ' ??'+'</div>');
 	    },
 	    stop: function(event, ui) {
+	    	$('.xepan-sortable-component').removeClass('xepan-sortable-highlight-droppable');
 	    	if(typeof origin == 'undefined' || origin == 'toolbox'){
 	    		// Find sub components if any and make components
 	    		$new_component = $(xepan_drop_component_html).xepanComponent();
