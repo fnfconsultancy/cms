@@ -32,7 +32,8 @@ class Initiator extends \Controller_Addon {
 
     function exportEntities($app,&$array){
         $array['CarouselCategory'] = ['caption'=>'CarouselCategory','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselCategory'];
-        $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];        
+        $array['CarouselImage'] = ['caption'=>'CarouselImage','type'=>'DropDown','model'=>'xepan\cms\Model_CarouselImage'];
+        $array['Webpage'] = ['caption'=>'Webpage','type'=>'DropDown','model'=>'xepan\cms\Model_Webpage'];
     }
 
     function setup_pre_frontend(){
