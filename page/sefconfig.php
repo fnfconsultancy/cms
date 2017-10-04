@@ -45,6 +45,6 @@ class page_sefconfig extends \xepan\base\Page{
 		$crud = $this->add('CRUD',['entity_name'=>" SEF List"]);
 		// $crud->add_button = "sd";
 		$crud->setModel($config,['expression','page_name','param']);
-
+		$crud->form->getElement('param')->setFieldHint('comma(,) seperated multiple GET Param, GEt Param for Blog: blog_post_code . and SEF Url work like www.domain.com/user_define_page_name/GET_Param_1/GET_Param_2');
 	}
 }
