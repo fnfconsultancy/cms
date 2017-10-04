@@ -18,6 +18,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 
 		$this->pq = $pq = new phpQuery();
 		$this->dom = $dom = $pq->newDocument($this->owner->template->template_source);
+		$this->dom['head']->prepend("<base href='{website_base}{/}'/>");
 
 		if(!$this->owner instanceof \Frontend){
 			$pq->pq($dom)->attr('xepan-page-content','true');
@@ -38,6 +39,8 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 
 	    $content = str_replace('<!--xEpan-ATK-Header-Start', '<!--xEpan-ATK-Header-Start-->', $content);
 	    $content = str_replace('xEpan-ATK-Header-End-->', '<!--xEpan-ATK-Header-End-->', $content);
+	    $content = str_replace('%7Bwebsite_base%7D%7B/%7D', '{$website_base}', $content);
+		
 		$this->owner->template->loadTemplateFromString($content);
 
 		$this->owner->template->trySet($this->app->page.'_active','active');
@@ -68,7 +71,6 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 	}
 
 	function updateBaseHrefForTemplates(){
-		
 		$dom = $this->dom;
 
 		if($tp=$this->app->recall('xepan-template-preview',false)){

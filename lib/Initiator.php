@@ -189,10 +189,9 @@ class Initiator extends \Controller_Addon {
         $old_meta_description = $this->app->template->tags['meta_description'];
         $old_after_body_code = $this->app->template->tags['after_body_code'];
 
+
         $this->app->add('xepan\cms\Controller_ServerSideComponentManager');
-        // $this->app->jui->destroy();
-        // $this->app->jui=null;
-        // $this->app->add('jUI');
+
         $this->app->template->appendHTML('js_block',implode("\n", $old_js_block[1]));
         $this->app->template->appendHTML('js_include',implode("\n", $old_js_include[1]));
         $this->app->template->appendHTML('document_ready',implode("\n",$old_js_doc_ready[1]));
@@ -201,6 +200,12 @@ class Initiator extends \Controller_Addon {
         $this->app->template->trySet('meta_keywords',@implode("\n",$old_meta_keywords[1]));
         $this->app->template->trySet('meta_description',@implode("\n",$old_meta_description[1]));
         $this->app->template->trySetHTML('after_body_code',@implode("\n",$old_after_body_code[1]));
+        
+        // website base added by Serverside controller
+        $this->app->template->trySetHTML('website_base',$this->app->pm->base_url.$this->app->pm->base_path);
+
+
+
 
         if(isset($this->app->editing_template))
             $this->app->exportFrontEndTool('xepan\cms\Tool_TemplateContentRegion');
