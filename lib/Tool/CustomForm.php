@@ -180,7 +180,9 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
 
 				$communication->setfrom($email_settings['from_email'],$email_settings['from_name']);
-				$communication->addTo($customform_model['recipient_email']);
+				foreach (explode(",", $customform_model['recipient_email']) as $key => $value) {
+					$communication->addTo($value);
+				}
 				$communication->setSubject('You have a new enquiry');
 				$communication->setBody($model_submission['value']);
 				$communication->send($email_settings);
