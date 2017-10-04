@@ -24,6 +24,7 @@ class Initiator extends \Controller_Addon {
             $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
             $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
             $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
+            $m->addItem([' SEF Config','icon'=>' fa fa-globe'],'xepan_cms_sefconfig');
             $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
         }
 
@@ -77,6 +78,36 @@ class Initiator extends \Controller_Addon {
         $this->app->template->trySet('meta_description',@$this->app->xepan_cms_page['meta_description']?:@$extra_info['meta_description']);
         $this->app->template->trySetHTML('after_body_code',@$this->app->xepan_cms_page['after_body_code']?:@$extra_info['after_body_code']);
 
+                // sef url
+
+        $config = $this->add('xepan\base\Model_ConfigJsonModel',
+            [
+                'fields'=>[
+                            'enable_sef'=>'checkbox'
+                        ],
+                    'config_key'=>'SEF_Enable',
+                    'application'=>'cms'
+        ]);
+        // $config->add('xepan\hr\Controller_ACL');
+        $config->tryLoadAny();
+
+        if($config['enable_sef']){
+            $config_list = $this->add('xepan\base\Model_ConfigJsonModel',
+                [
+                    'fields'=>[
+                            'expression'=>'line',
+                            'page_name'=>'line',
+                            'param'=>'text'
+                        ],
+                    'config_key'=>'SEF_List',
+                    'application'=>'cms'
+                ]);
+            // $config_list->add('xepan\hr\Controller_ACL');
+            $config_list->tryLoadAny();
+            foreach ($config_list as $key => $value) {
+                $this->app->app_router->addRule($value['expression'], $value['page_name'], explode(",", $value['param']));
+            }
+        }
     }
 
     function setup_frontend(){
