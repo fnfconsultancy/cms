@@ -2,7 +2,7 @@
 
 namespace xepan\cms;
 
-class Page_robottxt extends \xepan\base\Page{
+class Page_robottxt extends \Page{
 	public $title = "Robot TXT Generator";
 	function init(){
 		parent::init();
