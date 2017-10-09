@@ -57,7 +57,11 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			}
 			
 			if($field['type'] === "DropDown" or $field['type'] === "radio"){
-				$field_array = explode(",", $field['value']);
+				$temp = explode(",", $field['value']);
+				$field_array = [];
+				foreach ($temp as $key => $value) {
+					$field_array[$value] = $value;
+				}
 				$new_field->setValueList($field_array);
 			}
 
@@ -73,9 +77,14 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			}
 			$model_submission = $this->add('xepan\cms\Model_Custom_FormSubmission');
 			$form_fields = $form->getAllFields();
-			
 
-			$model_submission['value'] = $form_fields;
+			$string = implode(', ', array_map(
+			    function ($v, $k) { return sprintf("%s='%s'", $k, $v); },
+			    $form_fields,
+			    array_keys($form_fields)
+			));
+			
+			$model_submission['value'] = $string;
 			$model_submission['custom_form_id'] = $this->options['customformid'];
 			$model_submission->save();
 
