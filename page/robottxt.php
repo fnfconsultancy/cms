@@ -6,6 +6,8 @@ class Page_robottxt extends \Page{
 	public $title = "Robot TXT Generator";
 	function init(){
 		parent::init();
+		
+		header('Content-Type:text/plain');
 
 		if(file_exists(getcwd().'/websites/'.$this->app->current_website_name.'/www/robots.txt')){
 			echo file_get_contents(getcwd().'/websites/'.$this->app->current_website_name.'/www/robots.txt');
