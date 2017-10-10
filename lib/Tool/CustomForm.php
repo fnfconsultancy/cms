@@ -58,7 +58,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			
 			if($field['type'] === "DropDown" or $field['type'] === "radio"){
 				$field_array = explode(",", $field['value']);
-				$new_field->setValueList($field_array);
+				$new_field->setValueList(array_combine($field_array,$field_array));
 			}
 
 			if($field['is_mandatory'])
