@@ -80,7 +80,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			    array_keys($form_fields)
 			));
 			
-			$model_submission['value'] = $string;
+			$model_submission['value'] = $form_fields;
 			$model_submission['custom_form_id'] = $this->options['customformid'];
 			$model_submission->save();
 
@@ -189,7 +189,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 					$communication->addTo($value);
 				}
 				$communication->setSubject('You have a new enquiry');
-				$communication->setBody($model_submission['value']);
+				$communication->setBody($string);
 				$communication->send($email_settings);
 
 				if($customform_model['auto_reply']){
