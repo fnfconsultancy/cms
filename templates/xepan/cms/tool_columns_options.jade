@@ -1,19 +1,20 @@
 .xepan-cms-tool-section.bg-white.xepan-tool-options(id='{$_name}columns' style="display:none" for-xepan-component='xepan/cms/Tool_Columns')
 	.xepan-tool-option
-		div(id="{$_name}columnsaddcolumn") Add Column
+		button.btn.btn-primary.btn-sm(id="{$_name}columnsaddcolumn")
+			span.glyphicon.glyphicon-plus Add Column
 		div(id="{$_name}columnsexistingcolumn" class="tool-option-list-group")
 	script.
 		//- CUSTOM FUNCTION	
 		// add Column Option
 		function addColumnsToOption(position,droppedcolumn){
-			var col = $('<div class="tool-option-list-item xepan-cms-basic-tool-column" style="padding:5px;margin-bottom:10px;border:1px solid gray;" data-columnsequence="'+position+'"></div>').appendTo($('\#{$_name}columnsexistingcolumn'));
+			var col = $('<div class="tool-option-list-item xepan-cms-basic-tool-column" style="padding:5px;margin-bottom:10px;" data-columnsequence="'+position+'"></div>').appendTo($('\#{$_name}columnsexistingcolumn'));
 			
 			action_panel = $('<div></div>').appendTo(col);
 			$(action_panel).addClass('row xepan-tool-column-action-panel')
 			row_name = $("<div> Column "+(position + 1)+"</div>").appendTo(action_panel);
 			$(row_name).addClass('col-md-10');
-			remove_btn = $('<div data-columnsequence="'+position+'">x</div>').appendTo(action_panel);
-			$(remove_btn).addClass('col-md-2 xepan-tool-column-action-remove btn btn-danger');
+			remove_btn = $('<div data-columnsequence="'+position+'"><i class="glyphicon glyphicon-remove"></i></div>').appendTo(action_panel);
+			$(remove_btn).addClass('col-md-2 col-sm-2 col-lg-2 col-xs-2 xepan-tool-column-action-remove');
 
 			//- Remove Column
 			$(remove_btn).on('click',function(){
@@ -124,32 +125,28 @@
 		});
 
 	style.
-		.row.xepan-component .tool-option-list-item,.tool-option-list-item{
-			border:1px dotted gray;
-		}
-		
 		.current-row-column-selected{
 			background-color:#c0dee6;
 			transition: 0.3s;
 		}
 
 //- column option
-.xepan-tool-options(id='{$_name}column' style="display:none" for-xepan-component='xepan/cms/Tool_Column')
-	h3 Column
+.xepan-cms-tool-section.xepan-tool-options(id='{$_name}column' style="display:none" for-xepan-component='xepan/cms/Tool_Column')
 	.xepan-tool-option
-		div(id="{$_name}columnaddcolumn") Add Column
-		div(id="{$_name}columnselectrow") Select Row
+		button.btn.btn-primary.btn-sm.btn-xs(id="{$_name}columnaddcolumn")
+			span.glyphicon.glyphicon-plus Add Column
 		div(id="{$_name}columnexistingcolumn" class="tool-option-list-group")
+		//- div(id="{$_name}columnselectrow" class="btn btn-primary btn-xs") Select Row
 	script.
 		//- CUSTOM FUNCTION	
 		// add Column Option
 		function addColumnToOption(position,droppedcolumn){
-			var col = $('<div class="tool-option-list-item xepan-cms-basic-tool-column" style="padding:5px;margin-bottom:10px;border:1px solid gray;" data-columnsequence="'+position+'"></div>').appendTo($('\#{$_name}columnexistingcolumn'));
+			var col = $('<div class="tool-option-list-item xepan-cms-basic-tool-column" style="padding:2px;" data-columnsequence="'+position+'"></div>').appendTo($('\#{$_name}columnexistingcolumn'));
 			
 			action_panel = $('<div></div>').appendTo(col);
 			$(action_panel).addClass('row xepan-tool-column-action-panel');
 			row_name = $("<div> Column "+(position + 1)+"</div>").appendTo(action_panel);
-			$(row_name).addClass('col-md-12 col-lg-12 col-sm-12 col-xs-12');
+			$(row_name).addClass('col-md-10 col-lg-10 col-sm-10 col-xs-10');
 
 			// defining column for lg, md, sm, xm width
 			column_option_container = $('<div class="row xepan-cms-tool-column-width-options">').appendTo(col);
@@ -244,11 +241,27 @@
 			$(current_selected_component).parent('.row').xepanComponent('select');
 		});
 	style.
-		.row.xepan-component .tool-option-list-item,.tool-option-list-item{
-			border:1px dotted gray;
-		}
-		
 		.current-row-column-selected{
 			background-color:#c0dee6;
 			transition: 0.3s;
+		}
+		.xepan-cms-basic-tool-column .row{
+			margin:0px !important;
+			padding:0px !important;
+		}
+		.row.xepan-cms-tool-column-width-options select,
+		.row.xepan-cms-tool-column-width-options .col-md-3,
+		.row.xepan-cms-tool-column-width-options p{
+			margin:0px !important;
+			padding:0px !important;
+			font-size:8px;
+		}
+
+		.tool-option-list-item.xepan-cms-basic-tool-column{
+			border-bottom:1px solid #f3f3f3;
+		}
+
+		.xepan-tool-column-action-remove:hover{
+			color:#d43f3a;
+			cursor:pointer;
 		}
