@@ -471,7 +471,7 @@ jQuery.widget("ui.xepanEditor",{
 			console.log(err);
 		}
 
-	    $('body').univ().errorMessage('Wait.. saving your page !!!');
+	    $('body').univ().infoMessage('Wait.. saving your page !!!');
 
 	    $(xepan_component_selector).xepanComponent('deselect');
 	   	
@@ -485,8 +485,7 @@ jQuery.widget("ui.xepanEditor",{
 		
 		if(self.options.template_editing){
 		    html_body = $('body').clone();
-		    $(html_body).find("#xepan-cms-page-save-overlay").remove();
-		    $(html_body).find(".ui-pnotify").remove();
+		    $(html_body).children().filter(":not(.xepan-v-body)").remove();
 		    self.options.file_path = self.options.template_file;
 		}		
 		
