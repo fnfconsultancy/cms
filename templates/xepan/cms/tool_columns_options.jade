@@ -240,6 +240,9 @@
 			$($(current_selected_component).xepanComponent('getComponentSelector')).xepanComponent('deselect');
 			$(current_selected_component).parent('.row').xepanComponent('select');
 		});
+		$('body').on('beforeSave',function(){
+			$('.current-row-column-selected').removeClass('current-row-column-selected');
+		});
 	style.
 		.current-row-column-selected{
 			background-color:#c0dee6;
