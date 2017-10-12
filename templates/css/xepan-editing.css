@@ -259,6 +259,37 @@
     font-size:14px;
 }
 
+.xepan-cms-tool-section{
+    cursor:move;
+    margin:0 10px 12px 10px;
+    box-shadow:2px 5px 5px #acacac;
+    border-radius:2px; 
+    text-align:center;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:14px;
+}
+
+.xepan-cms-tool-section.bg-danger{
+    background-color: #d43f3a !important;
+    color: white;
+}
+
+.xepan-cms-tool-section.bg-success{
+    background-color: #5cb85c !important;
+    color: white;
+}
+
+.xepan-cms-tool-section.bg-warning{
+    background-color: #f0ad4e !important;
+    color: white;
+}
+
+.xepan-cms-tool-section.bg-info{
+    background-color: #5bc0de !important;
+    color: white;
+}
+
 .xepan-cms-tool img{
     min-width: auto;
     width:auto;
