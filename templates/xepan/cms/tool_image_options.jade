@@ -1,28 +1,34 @@
 .xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_Image')
-  .xepan-collasp-header
-    table.table.table-condensed.table-hover
+    table.table.table-condensed.table-hover.xepan-cms-tool-table
       tbody
         tr
-          td
+          td.text-center
+            i.glyphicon.glyphicon-picture 
+            br 
             | Image
           td
+            input#xepan-image-option-src(type='text', disabled='true')
             .btn-group
-              input#xepan-image-option-src.btn.btn-xs(type='text', disabled='true/')
-              button#xepan-image-option-select.btn.btn-default.btn-xs(type='button') Select
-          td
-            button#xepan-image-option-default.btn.btn-default.btn-xs(type='button') Default
+              button#xepan-image-option-select.btn.btn-primary.btn-xs(type='button') Select
+              button#xepan-image-option-default.btn.btn-default.btn-xs(type='button') Default
         tr
-          td
+          td.text-center
+            i.fa.fa-pencil
+            br 
             | css class
           td(colspan='2')
             input#xepan-image-option-class(type='text')
         tr
-          td
+          td.text-center
+            i.glyphicon.glyphicon-link
+            br 
             | Link
           td(colspan='2')
             input#xepan-image-link(type='text', placeholder='')
         tr
-          td
+          td.text-center
+            i.fa.fa-code
+            br 
             | base64
           td(colspan='2')
             textarea#xepan-image-base64data(placeholder='')
@@ -33,8 +39,8 @@ script(type='text/javascript').
   // 		$(current_selected_component).what to do ???
   // })
   $('#xepan-image-option-default').click(function(event) {
-  $(current_selected_component).find('img').attr('src','templates/images/logo.png');
-  $('#xepan-image-option-src').val('templates/images/logo.png');
+  $(current_selected_component).find('img').attr('src','vendor/xepan/cms/templates/images/epan-logo.png');
+  $('#xepan-image-option-src').val('vendor/xepan/cms/templates/images/epan-logo.png');
   });
   $('#xepan-image-option-class').change(function(event) {
   $(current_selected_component).removeClass($(current_selected_component).find('img').attr('data-extra-classes'));

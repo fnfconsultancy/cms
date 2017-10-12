@@ -1,41 +1,37 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_Image" class="xepan-tool-options">
-  <div class="xepan-collasp-header">
-    <table class="table table-condensed table-hover">
-      <tbody>
-        <tr>
-          <td>Image</td>
-          <td>
-            <div class="btn-group">
-              <input id="xepan-image-option-src" type="text" disabled="true/" class="btn btn-xs"/>
-              <button id="xepan-image-option-select" type="button" class="btn btn-default btn-xs">Select</button>
-            </div>
-          </td>
-          <td>
+  <table class="table table-condensed table-hover xepan-cms-tool-table">
+    <tbody>
+      <tr>
+        <td class="text-center"><i class="glyphicon glyphicon-picture"> </i><br/>Image</td>
+        <td>
+          <input id="xepan-image-option-src" type="text" disabled="true"/>
+          <div class="btn-group">
+            <button id="xepan-image-option-select" type="button" class="btn btn-primary btn-xs">Select</button>
             <button id="xepan-image-option-default" type="button" class="btn btn-default btn-xs">Default</button>
-          </td>
-        </tr>
-        <tr>
-          <td>css class</td>
-          <td colspan="2">
-            <input id="xepan-image-option-class" type="text"/>
-          </td>
-        </tr>
-        <tr>
-          <td>Link</td>
-          <td colspan="2">
-            <input id="xepan-image-link" type="text" placeholder=""/>
-          </td>
-        </tr>
-        <tr>
-          <td>base64</td>
-          <td colspan="2">
-            <textarea id="xepan-image-base64data" placeholder=""></textarea>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center"><i class="fa fa-pencil"></i><br/>css class</td>
+        <td colspan="2">
+          <input id="xepan-image-option-class" type="text"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center"><i class="glyphicon glyphicon-link"></i><br/>Link</td>
+        <td colspan="2">
+          <input id="xepan-image-link" type="text" placeholder=""/>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center"><i class="fa fa-code"></i><br/>base64</td>
+        <td colspan="2">
+          <textarea id="xepan-image-base64data" placeholder=""></textarea>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 <script type="text/javascript">
   // ========== OPTION TO COMPONENT EFFECT ==============
@@ -44,8 +40,8 @@
   // 		$(current_selected_component).what to do ???
   // })
   $('#xepan-image-option-default').click(function(event) {
-  $(current_selected_component).find('img').attr('src','templates/images/logo.png');
-  $('#xepan-image-option-src').val('templates/images/logo.png');
+  $(current_selected_component).find('img').attr('src','vendor/xepan/cms/templates/images/epan-logo.png');
+  $('#xepan-image-option-src').val('vendor/xepan/cms/templates/images/epan-logo.png');
   });
   $('#xepan-image-option-class').change(function(event) {
   $(current_selected_component).removeClass($(current_selected_component).find('img').attr('data-extra-classes'));

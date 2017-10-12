@@ -271,6 +271,13 @@
     background-color: white;
 }
 
+.xepan-cms-tool-table{
+    margin:0 10px 12px 10px;
+    box-shadow:2px 5px 5px #acacac;
+    border-radius:2px;
+    /*font-size:12px;*/
+    background-color: white;   
+}
 .xepan-cms-tool-section.bg-danger{
     background-color: #d43f3a !important;
     color: white;
