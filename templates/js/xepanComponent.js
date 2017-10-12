@@ -239,10 +239,14 @@ jQuery.widget("ui.xepanComponent",{
 					if($($new_component).hasClass('xepan-editable-text') && !$($new_component).hasClass('xepan-no-richtext'))
 						$.univ().richtext($new_component,xepan_cms_tinymce_options,true);
 				},400);
-		    	$(ui.item).replaceWith($new_component);
 
-		    	if($('#epan-component-border:checked').size() > 0)
+		    	if($('#epan-component-border:checked').size() > 0){
 			        $new_component.addClass('component-outline');
+			        $new_component.find('.xepan-component').addClass('component-outline');
+		    	}
+
+		    	$new_component.find('a').click(function(){ return false});
+				$new_component.find('i.xepan-cms-icon').removeAttr('onclick');
 
 			    if($('#epan-component-extra-padding:checked').size() > 0){
 			        if($new_component.hasClass('xepan-sortable-component')) 
@@ -250,6 +254,7 @@ jQuery.widget("ui.xepanComponent",{
 			        $new_component.find('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
 			    }
 			    
+		    	$(ui.item).replaceWith($new_component);
 	    	}
 	    	// console.log(origin);
 		    origin='page';
