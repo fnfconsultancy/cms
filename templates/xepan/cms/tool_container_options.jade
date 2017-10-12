@@ -1,23 +1,2 @@
-.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_Container')
-	h3 Container
-	.xepan-tool-option
-		.xepan-tool-option-title Width
-		.xepan-tool-option-value
-			select#container-tag (style="width:100%")
-				option(value="div") Div
-				option(value="section") Section
-
-	script.
-		$('\#{$_name} [data-attr]').on('change',function(){
-			$(current_selected_component).attr($(this).data('attr'),$(this).val());
-		});
-
-		$('\#{$_name}').on('show',function(event){
-			$('\#{$_name} [data-attr]').each(function(index,value){
-				$(this).val($(current_selected_component).attr($(this).data('attr')));				
-			});
-		});
-
-		$('\#{$_name} select#container-tag').change(function(){
-			alert('TODO '+$(this).val());
-		});
+.xepan-tool-options(id='{$_name}' for-xepan-component='xepan/cms/Tool_Container')
+	.xepan-cms-tool-section.bg-danger No Options for Container	

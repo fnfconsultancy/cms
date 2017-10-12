@@ -243,9 +243,10 @@ class Initiator extends \Controller_Addon {
 
         $this->app->jui->addStylesheet('jquery-ui');
             
-        $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
-        $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Columns');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Container');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Section');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Text');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Image');
         $this->app->exportFrontEndTool('xepan\cms\Tool_SVG');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Icon');
