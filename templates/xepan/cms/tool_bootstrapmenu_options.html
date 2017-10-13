@@ -1,61 +1,52 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_BootStrapMenu" class="xepan-tool-options">
-  <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-  <div class="xepan-cms-group-panel clearfix">
-    <h3 data-toggle="collapse" data-target="#collapse-boot-menu" aria-expanded="false" class="collapsed"><span>BootStrap Menu Options</span></h3>
-    <div id="collapse-boot-menu" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-      <div class="xepan-toolbar-panel-body">
-        <table class="table table-condensed table-hover">
-          <tr>							
-            <td class="xepan-tool-option-title">Brand Name</td>
-            <td class="xepan-tool-option-value">
-              <input id="xbmenu-brand-name" data-attr="xbmenu-brand-name"/>
-            </td>
-          </tr>
-          <tr>
-            <td class="xepan-tool-option-title">Logo</td>
-            <td class="xepan-tool-option-value">
-              <div class="btn-group">
-                <input id="xbmenu-logo-src" type="text" disabled="true" data-attr="xbmenu-logo-src" class="btn"/>
-                <button id="xbmenu-logo-select" type="button">Select</button>
-                <button id="xbmenu-image-clear" type="button">Clear</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>Get Pages</td>
-            <td>
-              <button id="xmenu-bootstrap-get-pages" class="btn btn-default btn-xs">Get Pages</button>
-            </td>
-          </tr>
-          <tr>
-            <div class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Align</td>
-              <td class="xepan-tool-option-value">
-                <select id="xmenu-bootstrap-alignment" data-attr="xbootmenu-align" data-defaultvalue="right">
-                  <option value="right">Right</option>
-                  <option value="left">Left</option>
-                </select>
-              </td>
-            </div>
-          </tr>
-          <tr>
-            <div class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Navbar Position</td>
-              <td class="xepan-tool-option-value">
-                <button id="xepan-bootstrap-menu-default-nav" type="button" class="btn btn-default btn-xs">Default</button>
-                <button id="xepan-bootstrap-menu-fixed-top" type="button" class="btn btn-default btn-xs">Fixed to Top</button>
-                <button id="xepan-bootstrap-menu-fixed-bottom" type="button" class="btn btn-default btn-xs">Fixed to Bottom</button>
-                <button id="xepan-bootstrap-menu-static-top" type="button" class="btn btn-default btn-xs">Static Top</button>
-                <button id="xepan-bootstrap-menu-inverted-nav" type="button" class="btn btn-default btn-xs">Inverted Navbar</button>
-              </td>
-            </div>
-          </tr>
-        </table>
-        <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <td class="xepan-tool-option-title">Brand Name</td>
+      <td class="xepan-tool-option-value">
+        <input id="xbmenu-brand-name" data-attr="xbmenu-brand-name" style="width:100%;"/>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="xepan-tool-option-title">Logo</td>
+      <td class="xepan-tool-option-value">
+        <div class="btn-group btn-group-sm">
+          <button id="xbmenu-logo-select" type="button">Select</button>
+          <button id="xbmenu-image-clear" type="button">Clear</button>
+        </div>
+        <input id="xbmenu-logo-src" type="text" disabled="true" data-attr="xbmenu-logo-src" style="width:100%;"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Get Pages</td>
+      <td>
+        <button id="xmenu-bootstrap-get-pages" class="btn btn-primary btn-xs">Get Pages</button>
+      </td>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td valign="top" class="xepan-tool-option-title">Align</td>
+        <td class="xepan-tool-option-value">
+          <select id="xmenu-bootstrap-alignment" data-attr="xbootmenu-align" data-defaultvalue="right">
+            <option value="right">Right</option>
+            <option value="left">Left</option>
+          </select>
+        </td>
       </div>
-    </div>
-  </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td valign="top" class="xepan-tool-option-title">Navbar Position</td>
+        <td class="xepan-tool-option-value">
+          <button id="xepan-bootstrap-menu-default-nav" type="button" class="btn btn-default btn-xs">Default</button>
+          <button id="xepan-bootstrap-menu-fixed-top" type="button" class="btn btn-default btn-xs">Fixed to Top</button>
+          <button id="xepan-bootstrap-menu-fixed-bottom" type="button" class="btn btn-default btn-xs">Fixed to Bottom</button>
+          <button id="xepan-bootstrap-menu-static-top" type="button" class="btn btn-default btn-xs">Static Top</button>
+          <button id="xepan-bootstrap-menu-inverted-nav" type="button" class="btn btn-default btn-xs">Inverted Navbar</button>
+        </td>
+      </div>
+    </tr>
+  </table>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());
