@@ -1,92 +1,81 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_Button" class="xepan-tool-options">
-  <div class="xepan-cms-group-panel clearfix">
-    <h3 data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false" class="collapsed"><span>Button</span></h3>
-    <div id="collapse-carousel" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-      <div class="panel-body">
-        <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-        <div class="xepan-cms-group-panel clearfix">
-          <div data-toggle="collapse" data-target="#bootstrap-btn-options" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Options </span></div>
-        </div>
-        <div id="bootstrap-btn-options" class="xepan-cms-tools-bar-panel row-fluid collapse">
-          <table class="table table-condensed table-hover">
-            <tr>
-              <td>Button Text</td>
-            </tr>
-            <tr>
-              <td>
-                <input id="xepan-button-text-label" style="width:95%" type="text" data-attr="xepan-button-label" data-value="Button Text" value="Button Text"/>
-              </td>
-            </tr>
-            <tr>
-              <td>Button Links</td>
-            </tr>
-            <tr>
-              <td>
-                <input id="xepan-button-links" style="width:95%" type="text" data-attr="xepan-button-link" data-value="#" value="#"/>
-              </td>
-            </tr>
-            <tr>
-              <td>Open New Window</td>
-            </tr>
-            <tr>
-              <td>
-                <select id="xepan-btn-link-behaivor" data-attr="xepan-button-link-behavior" value="0" data-value="0">
-                  <option value="1">Yes</option>
-                  <option value="0">No																							</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td>Button Color</td>
-            </tr>
-            <tr>
-              <td>
-                <div id="btn-colors" role="group" aria-label="..." class="btn-group btn-group-xs">
-                  <button name="color" type="button" value="btn-default" data-attr="xepan-cms-btn-class" data-btn-class="btn-default" class="xepan-cms-apply-btn btn btn-default">Default</button>
-                  <button name="color" type="button" value="btn-primary" data-attr="xepan-cms-btn-class" data-btn-class="btn-primary" class="xepan-cms-apply-btn btn btn-primary">Primary</button>
-                  <button name="color" type="button" value="btn-info" data-attr="xepan-cms-btn-class" data-btn-class="btn-info" class="xepan-cms-apply-btn btn btn-info">Info</button>
-                  <button name="color" type="button" value="btn-success" data-attr="xepan-cms-btn-class" data-btn-class="btn-success" class="xepan-cms-apply-btn btn btn-success">Success</button>
-                  <button name="color" type="button" value="btn-warning" data-attr="xepan-cms-btn-class" data-btn-class="btn-warning" class="xepan-cms-apply-btn btn btn-warning">Warning</button>
-                  <button name="color" type="button" value="btn-danger" data-attr="xepan-cms-btn-class" data-btn-class="btn-danger" class="xepan-cms-apply-btn btn btn-danger">Danger</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Size			</td>
-            </tr>
-            <tr>
-              <td>
-                <div id="btn-sizes">
-                  <p>
-                    <button value="btn-xs" type="button" class="btn btn-xs btn-default">Mini</button>
-                    <button value="btn-sm" type="button" class="btn btn-sm btn-default">Small</button>
-                    <button value="btn-default" type="button" class="btn btn-default">Default</button>
-                    <button value="btn-lg" type="button" class="btn btn-default btn-lg">Large</button>
-                  </p>
-                  <p><a href="#" data-toggle="button" class="btn btn-default btn-block active">Full width button</a>
-                  </p>
-                </div>
-              </td>
-            </tr>
-            <tr> 
-              <td>
-                <div style="font-size: 20px;" class="text-center">Icons</div>
-                <hr/>
-                <div id="btn-icon" role="iconpicker"></div>
-                <div style="font-size: 20px;" class="text-center">Icon Position</div>
-                <hr/>
-                <div id="btn-icon-positions" class="btn-group">
-                  <button value="left" type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Left</button>
-                  <button value="right" type="button" class="btn btn-default">Right <span class="glyphicon glyphicon-arrow-right"></span></button>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </div>
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Button Text</td>
+        <td class="xepan-tool-option-value">
+          <input id="xepan-button-text-label" style="width:95%" type="text" data-attr="xepan-button-label" data-value="Button Text" value="Button Text"/>
+        </td>
       </div>
-    </div>
-  </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Button Links</td>
+        <td class="xepan-tool-option-value">
+          <input id="xepan-button-links" style="width:95%" type="text" data-attr="xepan-button-link" data-value="#" value="#"/>
+        </td>
+      </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Open New Window</td>
+        <td class="xepan-tool-option-value">
+          <select id="xepan-btn-link-behaivor" data-attr="xepan-button-link-behavior" value="0" data-value="0">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </td>
+      </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Button Color</td>
+        <td class="xepan-tool-option-value">
+          <div id="btn-colors" role="group" aria-label="..." class="btn-group btn-group-xs">
+            <button name="color" type="button" value="btn-default" data-attr="xepan-cms-btn-class" data-btn-class="btn-default" class="xepan-cms-apply-btn btn btn-default">Default</button>
+            <button name="color" type="button" value="btn-primary" data-attr="xepan-cms-btn-class" data-btn-class="btn-primary" class="xepan-cms-apply-btn btn btn-primary">Primary</button>
+            <button name="color" type="button" value="btn-info" data-attr="xepan-cms-btn-class" data-btn-class="btn-info" class="xepan-cms-apply-btn btn btn-info">Info</button>
+            <button name="color" type="button" value="btn-success" data-attr="xepan-cms-btn-class" data-btn-class="btn-success" class="xepan-cms-apply-btn btn btn-success">Success</button>
+            <button name="color" type="button" value="btn-warning" data-attr="xepan-cms-btn-class" data-btn-class="btn-warning" class="xepan-cms-apply-btn btn btn-warning">Warning</button>
+            <button name="color" type="button" value="btn-danger" data-attr="xepan-cms-btn-class" data-btn-class="btn-danger" class="xepan-cms-apply-btn btn btn-danger">Danger</button>
+          </div>
+        </td>
+      </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Size</td>
+        <td class="xepan-tool-option-value">
+          <div id="btn-sizes">
+            <button value="btn-xs" type="button" class="btn btn-xs btn-default">Mini</button>
+            <button value="btn-sm" type="button" class="btn btn-sm btn-default">Small</button>
+            <button value="btn-default" type="button" class="btn btn-default">Default</button>
+            <button value="btn-lg" type="button" class="btn btn-default btn-lg">Large</button>
+            <button href="#" data-toggle="button" style="width:90%;font-size:10px;" class="btn btn-default btn-block active">Full width button</button>
+          </div>
+        </td>
+      </div>
+    </tr>
+    <tr>	
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Icons</td>
+        <td class="xepan-tool-option-value">
+          <div id="btn-icon" role="iconpicker"></div>
+        </td>
+      </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option"></div>
+      <td class="xepan-tool-option-title">Icon Position</td>
+      <td class="xepan-tool-option-value">
+        <div id="btn-icon-positions" class="btn-group btn-group-xs">
+          <button value="left" type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Left</button>
+          <button value="right" type="button" class="btn btn-default">Right <span class="glyphicon glyphicon-arrow-right"></span></button>
+        </div>
+      </td>
+    </tr>
+  </table>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());
