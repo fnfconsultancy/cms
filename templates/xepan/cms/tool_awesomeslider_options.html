@@ -1,63 +1,46 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_AwesomeSlider" class="xepan-tool-options">
-  <div class="xepan-cms-group-panel clearfix">
-    <h3 data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false" class="collapsed"><span>Awesome Slider</span></h3>
-    <div id="collapse-carousel" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-      <div class="panel-body">
-        <table class="table table-condensed table-hover">
-          <tr class="category">
-            <div class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Gallery</td>
-            </div>
-          </tr>
-          <tr>		
-            <td colspan="2" class="xepan-tool-option-value">
-              <select id="{$_name}_dropdown" style="width:150px;" data-attr="slider_category" class="chosen-select option-category"></select>
-            </td>
-          </tr>
-          <tr>
-            <td><b>Themes:- </b></td>
-          </tr>
-          <tr>
-            <td>
-              <select id="AwesomeSlider_Theme" data-attr="data-awesome-theme">
-                <option value="theme-default">theme-default</option>
-                <option value="theme-bar">theme-bar</option>
-                <option value="theme-dark">theme-dark</option>
-                <option value="theme-light">theme-light</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td><b>Control Nav:-</b></td>
-          </tr>
-          <tr>
-            <td>
-              <select id="AwesomeSlider_control_nav" data-attr="control_nav">
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td><b>Paginator Position:- </b></td>
-          </tr>
-          <tr>
-            <td>
-              <select id="AwesomeSlider_Paginator-pos" data-attr="paginator-position">
-                <option value="position-topleft">position-topleft</option>
-                <option value="position-topcenter">position-topcenter</option>
-                <option value="position-topright">position-topright</option>
-                <option value="position-bottomleft">position-bottomleft</option>
-                <option value="position-bottomcenter">position-bottomcenter</option>
-                <option value="position-bottomright">position-bottomright</option>
-              </select>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr class="category">
+      <td class="xepan-tool-option-title">Gallery</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select id="{$_name}_dropdown" style="width:150px;" data-attr="slider_category" class="chosen-select option-category"></select>
+      </td>
+    </tr>
+    <tr>
+      <td>Themes</td>
+      <td>
+        <select id="AwesomeSlider_Theme" data-attr="data-awesome-theme">
+          <option value="theme-default">theme-default</option>
+          <option value="theme-bar">theme-bar</option>
+          <option value="theme-dark">theme-dark</option>
+          <option value="theme-light">theme-light</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Control Nav</td>
+      <td>
+        <select id="AwesomeSlider_control_nav" data-attr="control_nav">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Paginator Position</td>
+      <td>
+        <select id="AwesomeSlider_Paginator-pos" data-attr="paginator-position">
+          <option value="position-topleft">position-topleft</option>
+          <option value="position-topcenter">position-topcenter</option>
+          <option value="position-topright">position-topright</option>
+          <option value="position-bottomleft">position-bottomleft</option>
+          <option value="position-bottomcenter">position-bottomcenter</option>
+          <option value="position-bottomright">position-bottomright</option>
+        </select>
+      </td>
+    </tr>
+  </table>
   <script>
     $.ajax({
     	url: 'index.php?page=xepan_cms_getAwesomegallery',

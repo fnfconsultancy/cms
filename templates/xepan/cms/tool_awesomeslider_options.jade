@@ -1,51 +1,39 @@
 .xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_AwesomeSlider')
-	.xepan-cms-group-panel.clearfix
-		h3.collapsed(data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false")
-			span Awesome Slider
-		#collapse-carousel.xepan-cms-tools-bar-panel.row-fluid.collapse.in
-			.panel-body
-				table.table.table-condensed.table-hover
-					tr.category
-						.xepan-tool-option
-							td.xepan-tool-option-title Gallery
-					tr		
-							td.xepan-tool-option-value(colspan="2")
-								select.chosen-select.option-category(id="{$_name}_dropdown" style="width:150px;" data-attr='slider_category')
-					tr
-						td
-							b|Themes:- 
-					tr
-						td
-							select#AwesomeSlider_Theme(data-attr="data-awesome-theme")
-								option(value="theme-default")|theme-default
-								option(value="theme-bar")|theme-bar
-								option(value="theme-dark")|theme-dark
-								option(value="theme-light")|theme-light
-					tr
-						td
-							b|Control Nav:-
-					tr
-						td
-							select#AwesomeSlider_control_nav(data-attr="control_nav")
-								option(value="true") Yes
-								option(value="false") No
-					tr
-						td
-							b|Paginator Position:- 
-					tr
-						td
-							select#AwesomeSlider_Paginator-pos(data-attr="paginator-position")
-								option(value="position-topleft")|position-topleft
-								option(value="position-topcenter")|position-topcenter
-								option(value="position-topright")|position-topright
-								option(value="position-bottomleft")|position-bottomleft
-								option(value="position-bottomcenter")|position-bottomcenter
-								option(value="position-bottomright")|position-bottomright
-			
-
-
+	//- .xepan-cms-group-panel.clearfix
+	//- 	h3.collapsed(data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false")
+	//- 		span Awesome Slider
+	//- 	#collapse-carousel.xepan-cms-tools-bar-panel.row-fluid.collapse.in
+	//- 		.panel-body
+	table.table-condensed.table-hover.xepan-cms-tool-table
+		tr.category
+			td.xepan-tool-option-title Gallery
+			td.xepan-tool-option-value(colspan="2")
+				select.chosen-select.option-category(id="{$_name}_dropdown" style="width:150px;" data-attr='slider_category')
+		tr
+			td Themes
+			td
+				select#AwesomeSlider_Theme(data-attr="data-awesome-theme")
+					option(value="theme-default")|theme-default
+					option(value="theme-bar")|theme-bar
+					option(value="theme-dark")|theme-dark
+					option(value="theme-light")|theme-light
+		tr
+			td Control Nav
+			td
+				select#AwesomeSlider_control_nav(data-attr="control_nav")
+					option(value="true") Yes
+					option(value="false") No
+		tr
+			td Paginator Position
+			td
+				select#AwesomeSlider_Paginator-pos(data-attr="paginator-position")
+					option(value="position-topleft")|position-topleft
+					option(value="position-topcenter")|position-topcenter
+					option(value="position-topright")|position-topright
+					option(value="position-bottomleft")|position-bottomleft
+					option(value="position-bottomcenter")|position-bottomcenter
+					option(value="position-bottomright")|position-bottomright
 	script.
-
 		$.ajax({
 			url: 'index.php?page=xepan_cms_getAwesomegallery',
 			type: 'GET',

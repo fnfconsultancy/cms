@@ -1,52 +1,16 @@
-.xepan-component(id='{$_name}'  class=' {$class}' style=' {$style}'   data-awesome-theme="" paginator-position="")
-  b.editor(contenteditable="true")
-
-  link(rel="stylesheet" type="text/css" href="vendor/xepan/cms/templates/css/awesome/themes/default/default.css")
-  link(rel="stylesheet" type="text/css" href="vendor/xepan/cms/templates/css/awesome/themes/bar/bar.css")
-  link(rel="stylesheet" type="text/css" href="vendor/xepan/cms/templates/css/awesome/themes/dark/dark.css")
-  link(rel="stylesheet" type="text/css" href="vendor/xepan/cms/templates/css/awesome/themes/light/light.css")
-  link(rel="stylesheet" type="text/css" href="vendor/xepan/cms/templates/css/awesome/nivo-slider.css")
-  //- script(type="text/javascript" src="vendor/xepan/cms/templates/js/awesome/jquery.nivo.slider.js")
-  {$Content}  
-  //- <!--<h1>vxnxv,n{$control_nav}</h1>-->
-  div(class="slider-wrapper {theme_css}theme-default{/theme_css}")
-    div(id="slider_{$_name}" class="nivoSlider ")
-      {rows}
-      {row}
-      img(src="{$file}" title="{$tag}" data-thumb="{$file}" alt="" data-transition="{$effects}")
-      {/row}
-      {/rows}
-   
-
-//- script.
-//-   $(document).ready(function() {
-//-       $('#slider_{$_name}').nivoSlider({
-//-         effect: 'random',
-//-         slices: 15,
-//-         boxCols: 8,
-//-         boxRows: 4,
-//-         animSpeed: 500,
-//-         pauseTime: '{pause_time}3000{/}',
-//-         startSlide: 0,
-//-         directionNav: true,
-//-         controlNav: {$controlNav},
-//-         controlNavThumbs: false,
-//-         pauseOnHover: p,
-//-         manualAdvance: false,
-//-         prevText:'Prev',
-//-         nextText:'next',
-//-         // prevText: '<img src="epan-components/slideShows/templates/images/arrow-left.png" />',
-//-         // nextText: '<img src="epan-components/slideShows/templates/images/arrow-right.png" />',
-//-         randomStart: false,
-//-         beforeChange: function(){ },
-//-         afterChange: function(){ },
-//-         slideshowEnd: function(){ },
-//-         lastSlide: function(){ },
-//-         afterLoad: function(){ }
-//-     });
-
-//-       if('{$image_paginator}'){
-//-         $(".nivo-controlNav").last().addClass('{$image_paginator}');
-//-       }
-       
-//-   });
+.xepan-component(id='{$_name}', style=' {$style}', data-awesome-theme='', paginator-position='', class='{$class}' xepan-component-name="Awesome Slider")
+  b.editor(contenteditable='true')
+  link(rel='stylesheet', type='text/css', href='vendor/xepan/cms/templates/css/awesome/themes/default/default.css')
+  link(rel='stylesheet', type='text/css', href='vendor/xepan/cms/templates/css/awesome/themes/bar/bar.css')
+  link(rel='stylesheet', type='text/css', href='vendor/xepan/cms/templates/css/awesome/themes/dark/dark.css')
+  link(rel='stylesheet', type='text/css', href='vendor/xepan/cms/templates/css/awesome/themes/light/light.css')
+  link(rel='stylesheet', type='text/css', href='vendor/xepan/cms/templates/css/awesome/nivo-slider.css')
+  script(type='text/javascript', src='vendor/xepan/cms/templates/js/awesome/jquery.nivo.slider.js')
+  | {$Content}  
+  .slider-wrapper(class='{theme_css}theme-default{/theme_css}')
+    .nivoSlider(id='slider_{$_name}')
+      | {rows}
+      | {row}
+      img(src='{$file}', title='{$tag}', data-thumb='{$file}', alt='', data-transition='{$effects}')
+      | {/row}
+      | {/rows}

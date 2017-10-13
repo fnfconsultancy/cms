@@ -533,6 +533,8 @@
     padding:5px;
 }
 
-/*.xepan-tool-option-value input{
-    width:90%;
-}*/
+.xepan-tool-option-value input,
+.xepan-tool-option-value select,
+.xepan-cms-tool-table select{
+    width:95%;
+}

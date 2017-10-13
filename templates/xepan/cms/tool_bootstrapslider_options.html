@@ -1,39 +1,32 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_BootStrapSlider" class="xepan-tool-options">
-  <div class="xepan-cms-group-panel clearfix">
-    <h3 data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false" class="collapsed"><span>BootStrap Carousel</span></h3>
-    <div id="collapse-carousel" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-      <div class="panel-body">
-        <table class="table table-condensed table-hover">
-          <tr>
-            <td colspan="12">
-              <div class="input-group">
-                <input type="text" id="epan-slideshow-add-slide-input" class="form-control"/><span class="input-group-btn">
-                  <button id="epan-slideshow-add-slide-button" type="button" class="btn btn-default btn-xs">Add Image</button></span>
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <td>
+        <div class="input-group input-group-sm">
+          <input type="text" id="epan-slideshow-add-slide-input" class="form-control"/><span class="input-group-btn">
+            <button id="epan-slideshow-add-slide-button" type="button" class="btn btn-default">Add Image</button></span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div id="epan-slideshow-options" class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"></h3><a data-toggle="collapse" data-parent="#epan-slideshow-options" href="#epan-slideshow-slide-list">Added Slides</a>
+            </div>
+            <div id="epan-slideshow-slide-list" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <ul id="epan-slideshow-options-slide-list"></ul>
               </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div id="epan-slideshow-options" class="panel-group">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title"></h3><a data-toggle="collapse" data-parent="#epan-slideshow-options" href="#epan-slideshow-slide-list">Added Slides</a>
-                  </div>
-                  <div id="epan-slideshow-slide-list" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                      <ul id="epan-slideshow-options-slide-list"></ul>
-                    </div>
-                  </div>
-                  <button id="epan-slideshow-option-delete-last-slide" role="button" class="btn btn-warning btn-block btn-sm">Delete Last Slide</button>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
+            </div>
+            <button id="epan-slideshow-option-delete-last-slide" role="button" class="btn btn-warning btn-block btn-sm">Delete Last Slide</button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());

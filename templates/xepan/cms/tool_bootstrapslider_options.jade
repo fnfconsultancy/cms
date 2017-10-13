@@ -1,28 +1,28 @@
 .xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_BootStrapSlider')
-	.xepan-cms-group-panel.clearfix
-		h3.collapsed(data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false")
-			span BootStrap Carousel
-		#collapse-carousel.xepan-cms-tools-bar-panel.row-fluid.collapse.in
-			.panel-body
-				table.table.table-condensed.table-hover
-					tr
-						td(colspan="12")
-							.input-group
-								input.form-control(type='text' id='epan-slideshow-add-slide-input')
-								span.input-group-btn
-									button#epan-slideshow-add-slide-button.btn.btn-default.btn-xs(type="button")|Add Image
-					tr
-						td
-							#epan-slideshow-options.panel-group
-								.panel.panel-default
-									.panel-heading
-										h3.panel-title
-										a(data-toggle="collapse" data-parent="#epan-slideshow-options" href="#epan-slideshow-slide-list")
-											|Added Slides
-									#epan-slideshow-slide-list.panel-collapse.collapse.in
-										.panel-body
-											ul#epan-slideshow-options-slide-list
-									button#epan-slideshow-option-delete-last-slide.btn.btn-warning.btn-block.btn-sm(role='button')|Delete Last Slide
+	//- .xepan-cms-group-panel.clearfix
+	//- 	h3.collapsed(data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false")
+	//- 		span BootStrap Carousel
+	//- 	#collapse-carousel.xepan-cms-tools-bar-panel.row-fluid.collapse.in
+	//- 		.panel-body
+	table.table-condensed.table-hover.xepan-cms-tool-table
+		tr
+			td
+				.input-group.input-group-sm
+					input.form-control(type='text' id='epan-slideshow-add-slide-input')
+					span.input-group-btn
+						button#epan-slideshow-add-slide-button.btn.btn-default(type="button")|Add Image
+		tr
+			td
+				#epan-slideshow-options.panel-group
+					.panel.panel-default
+						.panel-heading
+							h3.panel-title
+							a(data-toggle="collapse" data-parent="#epan-slideshow-options" href="#epan-slideshow-slide-list")
+								|Added Slides
+						#epan-slideshow-slide-list.panel-collapse.collapse.in
+							.panel-body
+								ul#epan-slideshow-options-slide-list
+						button#epan-slideshow-option-delete-last-slide.btn.btn-warning.btn-block.btn-sm(role='button')|Delete Last Slide
 
 	script.
 
