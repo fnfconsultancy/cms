@@ -1,24 +1,17 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_HtmlBlock" class="xepan-tool-options">
-  <div class="xepan-cms-group-panel clearfix">
-    <h3 data-toggle="collapse" data-target="#html-block" aria-expanded="false" class="collapsed"><span>Html Block </span></h3>
-    <div id="html-block" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-      <div class="panel-body">
-        <table class="table table-condensed table-hover">
-          <tr>
-            <td style="width:100%" class="text-center">
-              <textarea id="xepan_html_code_for_html_block" style="width:100%; font-size:10px" rows="10"></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td class="text-center">
-              <button id="xepan_html_code_for_html_block_btn" class="btn btn-default btn-xs">UPDATE</button>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
+  <table class="table table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <td style="width:100%" class="text-center">
+        <textarea id="xepan_html_code_for_html_block" style="width:100%; font-size:10px" rows="10" placeholder="place html code here"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center">
+        <button id="xepan_html_code_for_html_block_btn" class="btn btn-default btn-xs">UPDATE</button>
+      </td>
+    </tr>
+  </table>
   <script>
     
     $('#{$_name} [data-attr]').on('change',function(){

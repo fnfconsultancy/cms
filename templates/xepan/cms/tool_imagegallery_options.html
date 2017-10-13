@@ -1,46 +1,37 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_ImageGallery" class="xepan-tool-options">
-  <div class="xepan-cms-group-panel clearfix">
-    <h3 data-toggle="collapse" data-target="#collapse-Img-gallery" aria-expanded="false" class="collapsed"><span>Image Gallery</span></h3>
-    <div id="collapse-Img-gallery" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-      <div class="panel-body">
-        <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in">
-          <table class="table table-condensed table-hover">
-            <tr class="show-text">
-              <div class="xepan-tool-option">
-                <td class="xepan-tool-option-title">Show Title</td>
-                <td class="xepan-tool-option-value"> 
-                  <select id="show_title" data-attr="show_title" data-defaultvalue="true">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                  </select>
-                </td>
-              </div>
-            </tr>
-            <tr class="show-description">
-              <div class="xepan-tool-option">		
-                <td class="xepan-tool-option-title">Show Description</td>
-                <td class="xepan-tool-option-value">
-                  <select id="show_title" data-attr="show_description" data-defaultvalue="true">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                  </select>
-                </td>
-              </div>
-            </tr>
-            <tr class="category">
-              <div class="xepan-tool-option">
-                <td class="xepan-tool-option-title">Category</td>
-                <td colspan="2" class="xepan-tool-option-value">
-                  <select id="{$_name}_dropdown" style="width:150px;" data-attr="img_gallery_category" class="chosen-select option-category"></select>
-                </td>
-              </div>
-            </tr>
-          </table>
-        </div>
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr class="show-text">
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Show Title</td>
+        <td class="xepan-tool-option-value"> 
+          <select id="show_title" data-attr="show_title" data-defaultvalue="true">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </td>
       </div>
-    </div>
-  </div>
+    </tr>
+    <tr class="show-description">
+      <div class="xepan-tool-option">		
+        <td class="xepan-tool-option-title">Show Description</td>
+        <td class="xepan-tool-option-value">
+          <select id="show_title" data-attr="show_description" data-defaultvalue="true">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </td>
+      </div>
+    </tr>
+    <tr class="category">
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Category</td>
+        <td colspan="2" class="xepan-tool-option-value">
+          <select id="{$_name}_dropdown" style="width:100%;" data-attr="img_gallery_category" class="chosen-select option-category"></select>
+        </td>
+      </div>
+    </tr>
+  </table>
   <script>
     $.ajax({
     	url: 'index.php?page=xepan_cms_getimagegallerycategory',

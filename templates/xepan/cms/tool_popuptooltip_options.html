@@ -1,31 +1,22 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_PopupToolTip" class="xepan-tool-options">
-  <div class="xepan-cms-group-panel clearfix">
-    <h3 data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false" class="collapsed"><span>Image With Description</span></h3>
-    <div id="collapse-carousel" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-      <div class="panel-body">
-        <table class="table table-condensed table-hover">
-          <tr>
-            <td>Mode</td>
-          </tr>
-          <tr>
-            <td>
-              <input id="popup_edit_mode" type="button" value="edit mode" class="btn btn-success btn-sm"/>
-              <input id="popup_view_mode" type="button" value="view mode" class="btn btn-info btn-sm"/>
-            </td>
-          </tr>
-          <tr>
-            <td>Button Text</td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" id="xpopup_trigger_label"/>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <td>Mode</td>
+      <td>
+        <div class="btn-group btn-group-xs">
+          <button id="popup_edit_mode" type="button" value="edit mode" class="btn btn-success">Edit</button>
+          <button id="popup_view_mode" type="button" value="view mode" class="btn btn-primary">View</button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Button Text</td>
+      <td>
+        <input type="text" id="xpopup_trigger_label"/>
+      </td>
+    </tr>
+  </table>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());

@@ -1,25 +1,20 @@
 .xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_PopupToolTip')
-	.xepan-cms-group-panel.clearfix
-		h3.collapsed(data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false")
-			span Image With Description
-		#collapse-carousel.xepan-cms-tools-bar-panel.row-fluid.collapse.in
-			.panel-body
-				table.table.table-condensed.table-hover
-					tr
-						td
-							|Mode
-					tr
-						td
-							input#popup_edit_mode(type='button' value='edit mode'  class="btn btn-success btn-sm")
-							input#popup_view_mode(type='button' value='view mode'  class="btn btn-info btn-sm")
-					tr
-						td
-							|Button Text
-					tr
-						td
-							input(type="text" id="xpopup_trigger_label")
-							
-
+	//- .xepan-cms-group-panel.clearfix
+	//- 	h3.collapsed(data-toggle="collapse" data-target="#collapse-carousel" aria-expanded="false")
+	//- 		span Mod
+	//- 	#collapse-carousel.xepan-cms-tools-bar-panel.row-fluid.collapse.in
+	//- 		.panel-body
+	table.table-condensed.table-hover.xepan-cms-tool-table
+		tr
+			td Mode
+			td
+				.btn-group.btn-group-xs
+					button#popup_edit_mode(type='button' value='edit mode' class="btn btn-success") Edit
+					button#popup_view_mode(type='button' value='view mode' class="btn btn-primary") View
+		tr
+			td Button Text
+			td
+				input(type="text" id="xpopup_trigger_label")
 	script.
 
 		$('\#{$_name} [data-attr]').on('change',function(){

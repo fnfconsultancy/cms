@@ -276,7 +276,7 @@
     box-shadow:2px 5px 5px #acacac;
     border-radius:2px;
     /*font-size:12px;*/
-    background-color: white;   
+    background-color: white;
 }
 .xepan-cms-tool-section.bg-danger{
     background-color: #d43f3a !important;
@@ -524,3 +524,15 @@
 .xepan-tool-option input{
     width: 100%;
 }
+
+.xepan-cms-group-panel .panel.panel-heading{
+    margin:0px 0px 5px 0px !important;
+}
+
+.xepan-tool-options{
+    padding:5px;
+}
+
+/*.xepan-tool-option-value input{
+    width:90%;
+}*/
