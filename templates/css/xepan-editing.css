@@ -520,3 +520,7 @@
 .xepan-sortable-component.xepan-sortable-highlight-droppable {
     box-shadow: 0 0 0 10px blue inset;
 }
+
+.xepan-tool-option input{
+    width: 100%;
+}
