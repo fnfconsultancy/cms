@@ -1,42 +1,31 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_CustomForm" class="xepan-tool-options">
-  <h3 data-toggle="collapse" data-target="#collapse-item-images" aria-expanded="false" class="collapsed"><span>Custom Form Option</span></h3>
-  <div id="collapse-item-images" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-    <div class="panel-body">
-      <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
-      <div class="xepan-cms-group-panel clearfix">
-        <div data-toggle="collapse" data-target="#show-hide-item-image" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Custom Form</span></div>
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Custom Form</td>
+        <td class="xepan-tool-option-value">
+          <select id="custom_form_{$id}" data-attr="customformid"></select>
+        </td>
       </div>
-      <div id="show-hide-item-image" class="xepan-cms-tools-bar-panel row-fluid collapse">
-        <table class="table table-condensed table-hover">
-          <tr>
-            <div class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Custom Form Name</td>
-              <td class="xepan-tool-option-value">
-                <select id="custom_form_{$id}" data-attr="customformid"></select>
-              </td>
-            </div>
-          </tr>
-          <tr>
-            <div class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Custom Form Template</td>
-              <td class="xepan-tool-option-value"> 
-                <input id="custom_form_layout" data-attr="template"/>
-              </td>
-            </div>
-          </tr>
-          <tr>
-            <div class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Success URL</td>
-              <td class="xepan-tool-option-value"> 
-                <input id="custom-form-sucess-url" data-attr="custom_form_success_url" data-shortname="success_url"/>
-              </td>
-            </div>
-          </tr>
-        </table>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Custom Template</td>
+        <td class="xepan-tool-option-value"> 
+          <input id="custom_form_layout" data-attr="template"/>
+        </td>
       </div>
-    </div>
-  </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Success URL</td>
+        <td class="xepan-tool-option-value"> 
+          <input id="custom-form-sucess-url" data-attr="custom_form_success_url" data-shortname="success_url"/>
+        </td>
+      </div>
+    </tr>
+  </table>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());

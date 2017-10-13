@@ -1,60 +1,55 @@
 
-<div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_Icon" class="xepan-tool-options">
-  <h3 data-toggle="collapse" data-target="#collapse-xepan-icon" aria-expanded="false" class="collapsed"><span>Icon Option</span></h3>
-  <div id="collapse-xepan-icon" class="xepan-cms-tools-bar-panel row-fluid collapse in">
-    <div class="xepan-toolbar-panel-body">
-      <table class="table table-condensed table-hover">
-        <tr>
-          <div class="xepan-tool-option">
-            <td colspan="2" class="xepan-tool-option-value">
-              <div class="input-group"><span class="input-group-btn">
-                  <button id="xepan-cms-icon-dialog-btn" data-align="left" data-icon="fa-leaf" role="iconpicker" class="btn btn-default">Select Icon<i class="fa fa-leaf"></i></button></span>
-                <input id="xepan-cms-icon-class" type="text" value="fa-leaf" data-attr="icon-class" class="form-control"/><span style="padding:0px;margin:0px;background-color:white;" class="input-group-addon">
-                  <select id="xepan-cms-icon-size" data-attr="icon-size" data-defaultvalue="fa-1x">
-                    <option value="fa-1x" selected="selected">1x</option>
-                    <option value="fa-2x">2x</option>
-                    <option value="fa-3x">3x</option>
-                    <option value="fa-4x">4x</option>
-                    <option value="fa-5x">5x</option>
-                  </select></span>
-              </div>
-            </td>
+<div id="{$_name}" style="display:none;" for-xepan-component="xepan/cms/Tool_Icon" class="xepan-tool-options">
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <div class="xepan-tool-option">
+        <td colspan="2" class="xepan-tool-option-value">
+          <div class="input-group input-group-sm"><span class="input-group-btn">
+              <button id="xepan-cms-icon-dialog-btn" data-align="left" data-icon="fa-leaf" role="iconpicker" class="btn btn-default btn-sm">Select Icon<i class="fa fa-leaf"></i></button></span><span style="padding:0px;margin:0px;background-color:white;" class="input-group-addon">
+              <select id="xepan-cms-icon-size" data-attr="icon-size" data-defaultvalue="fa-1x">
+                <option value="fa-1x" selected="selected">1x</option>
+                <option value="fa-2x">2x</option>
+                <option value="fa-3x">3x</option>
+                <option value="fa-4x">4x</option>
+                <option value="fa-5x">5x</option>
+              </select></span>
+            <input id="xepan-cms-icon-class" type="text" value="fa-leaf" data-attr="icon-class" class="form-control"/>
           </div>
-        </tr>
-        <tr>
-          <div class="xepan-tool-option">
-            <td class="xepan-tool-option-title">Link</td>
-            <td class="xepan-tool-option-value">
-              <input id="xepan-cms-icon-link" data-attr="icon-link"/>
-            </td>
+        </td>
+      </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Link</td>
+        <td class="xepan-tool-option-value">
+          <input id="xepan-cms-icon-link" data-attr="icon-link" style="width:80%;"/>
+        </td>
+      </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Target</td>
+        <td class="xepan-tool-option-value">
+          <select id="xepan-cms-icon-target" data-attr="icon-link-target" data-defaultvalue="none">
+            <option value="none" selected="selected">None</option>
+            <option value="window">New Window</option>
+          </select>
+        </td>
+      </div>
+    </tr>
+    <tr>
+      <div class="xepan-tool-option">
+        <td class="xepan-tool-option-title">Alignment</td>
+        <td class="xepan-tool-option-value">
+          <div class="btn-group btn-group-xs">
+            <button type="button" aria-label="Left Align" icon-align="text-left" title="Left" class="btn btn-default xepan-cms-icon-alignment"><span class="glyphicon glyphicon-align-left"></span></button>
+            <button type="button" aria-label="Left Align" icon-align="text-center" title="Center" class="btn btn-default xepan-cms-icon-alignment active"><span class="glyphicon glyphicon-align-center"></span></button>
+            <button type="button" aria-label="Left Align" icon-align="text-right" title="Right" class="btn btn-default xepan-cms-icon-alignment"><span class="glyphicon glyphicon-align-right"></span></button>
           </div>
-        </tr>
-        <tr>
-          <div class="xepan-tool-option">
-            <td class="xepan-tool-option-title">Target</td>
-            <td class="xepan-tool-option-value">
-              <select id="xepan-cms-icon-target" data-attr="icon-link-target" data-defaultvalue="none">
-                <option value="none" selected="selected">None</option>
-                <option value="window">New Window</option>
-              </select>
-            </td>
-          </div>
-        </tr>
-        <tr>
-          <div class="xepan-tool-option">
-            <td class="xepan-tool-option-title">Alignment</td>
-            <td class="xepan-tool-option-value">
-              <div class="btn-group">
-                <button type="button" aria-label="Left Align" icon-align="text-left" title="Left" class="btn btn-default xepan-cms-icon-alignment"><span class="glyphicon glyphicon-align-left"></span></button>
-                <button type="button" aria-label="Left Align" icon-align="text-center" title="Center" class="btn btn-default xepan-cms-icon-alignment active"><span class="glyphicon glyphicon-align-center"></span></button>
-                <button type="button" aria-label="Left Align" icon-align="text-right" title="Right" class="btn btn-default xepan-cms-icon-alignment"><span class="glyphicon glyphicon-align-right"></span></button>
-              </div>
-            </td>
-          </div>
-        </tr>
-      </table>
-    </div>
-  </div>
+        </td>
+      </div>
+    </tr>
+  </table>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());
@@ -103,7 +98,6 @@
     //-  target into new window or reload the page
     $('#{$_name} #xepan-cms-icon-target').change(function(){
     	var link = $('#xepan-cms-icon-link').val();
-    
     	if($(this).val() == "window"){
     		$(current_selected_component).attr('onClick',"window.open('"+link+"', '_blank');");
     	}else

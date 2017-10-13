@@ -1,48 +1,47 @@
-.xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/cms/Tool_Icon')
-	h3.collapsed(data-toggle="collapse" data-target="#collapse-xepan-icon" aria-expanded="false")
-			span|Icon Option
-		#collapse-xepan-icon.xepan-cms-tools-bar-panel.row-fluid.collapse.in
-			.xepan-toolbar-panel-body
-				table.table.table-condensed.table-hover
-					tr
-						.xepan-tool-option
-							td.xepan-tool-option-value(colspan="2")
-								div.input-group
-									span.input-group-btn
-										button#xepan-cms-icon-dialog-btn.btn.btn-default(data-align="left" data-icon="fa-leaf" role="iconpicker") Select Icon
-											i.fa.fa-leaf
-									input#xepan-cms-icon-class(type="text" class="form-control" value="fa-leaf" data-attr="icon-class")
-									span.input-group-addon(style="padding:0px;margin:0px;background-color:white;")
-										select#xepan-cms-icon-size(data-attr='icon-size' data-defaultvalue="fa-1x")
-											option(value="fa-1x" selected="selected") 1x
-											option(value="fa-2x" ) 2x
-											option(value="fa-3x" ) 3x
-											option(value="fa-4x" ) 4x
-											option(value="fa-5x" ) 5x
-					tr
-						.xepan-tool-option
-							td.xepan-tool-option-title Link
-							td.xepan-tool-option-value
-								input#xepan-cms-icon-link(data-attr='icon-link')
-					tr
-						.xepan-tool-option
-							td.xepan-tool-option-title Target
-							td.xepan-tool-option-value
-								select#xepan-cms-icon-target(data-attr='icon-link-target' data-defaultvalue="none")
-										option(value="none" selected) None
-										option(value="window") New Window
-					tr
-						.xepan-tool-option
-							td.xepan-tool-option-title Alignment
-							td.xepan-tool-option-value
-								div.btn-group
-									button.btn.btn-default.xepan-cms-icon-alignment(type="button" aria-label="Left Align" icon-align="text-left" title="Left")
-										span.glyphicon.glyphicon-align-left
-									button.btn.btn-default.xepan-cms-icon-alignment.active(type="button" aria-label="Left Align" icon-align="text-center" title="Center")
-										span.glyphicon.glyphicon-align-center
-									button.btn.btn-default.xepan-cms-icon-alignment(type="button" aria-label="Left Align" icon-align="text-right" title="Right")
-										span.glyphicon.glyphicon-align-right
-									
+.xepan-tool-options(id='{$_name}' style="display:none;" for-xepan-component='xepan/cms/Tool_Icon')
+	//- h3.collapsed(data-toggle="collapse" data-target="#collapse-xepan-icon" aria-expanded="false")
+	//- #collapse-xepan-icon.xepan-cms-tools-bar-panel.row-fluid.collapse.in
+	//- 	.xepan-toolbar-panel-body
+	table.table-condensed.table-hover.xepan-cms-tool-table
+		tr
+			.xepan-tool-option
+				td.xepan-tool-option-value(colspan="2")
+					div.input-group.input-group-sm
+						span.input-group-btn
+							button#xepan-cms-icon-dialog-btn.btn.btn-default.btn-sm(data-align="left" data-icon="fa-leaf" role="iconpicker") Select Icon
+								i.fa.fa-leaf
+						span.input-group-addon(style="padding:0px;margin:0px;background-color:white;")
+							select#xepan-cms-icon-size(data-attr='icon-size' data-defaultvalue="fa-1x")
+								option(value="fa-1x" selected="selected") 1x
+								option(value="fa-2x" ) 2x
+								option(value="fa-3x" ) 3x
+								option(value="fa-4x" ) 4x
+								option(value="fa-5x" ) 5x
+						input#xepan-cms-icon-class(type="text" class="form-control" value="fa-leaf" data-attr="icon-class")
+		tr
+			.xepan-tool-option
+				td.xepan-tool-option-title Link
+				td.xepan-tool-option-value
+					input#xepan-cms-icon-link(data-attr='icon-link' style="width:80%;")
+		tr
+			.xepan-tool-option
+				td.xepan-tool-option-title Target
+				td.xepan-tool-option-value
+					select#xepan-cms-icon-target(data-attr='icon-link-target' data-defaultvalue="none")
+							option(value="none" selected) None
+							option(value="window") New Window
+		tr
+			.xepan-tool-option
+				td.xepan-tool-option-title Alignment
+				td.xepan-tool-option-value
+					div.btn-group.btn-group-xs
+						button.btn.btn-default.xepan-cms-icon-alignment(type="button" aria-label="Left Align" icon-align="text-left" title="Left")
+							span.glyphicon.glyphicon-align-left
+						button.btn.btn-default.xepan-cms-icon-alignment.active(type="button" aria-label="Left Align" icon-align="text-center" title="Center")
+							span.glyphicon.glyphicon-align-center
+						button.btn.btn-default.xepan-cms-icon-alignment(type="button" aria-label="Left Align" icon-align="text-right" title="Right")
+							span.glyphicon.glyphicon-align-right
+								
 	script.
 		$('\#{$_name} [data-attr]').on('change',function(){
 			$(current_selected_component).attr($(this).data('attr'),$(this).val());
@@ -91,7 +90,6 @@
 		//-  target into new window or reload the page
 		$('\#{$_name} #xepan-cms-icon-target').change(function(){
 			var link = $('#xepan-cms-icon-link').val();
-
 			if($(this).val() == "window"){
 				$(current_selected_component).attr('onClick',"window.open('"+link+"', '_blank');");
 			}else
