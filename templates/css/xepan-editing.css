@@ -538,3 +538,10 @@
 .xepan-cms-tool-table select{
     width:95%;
 }
+
+.chosen-container.chosen-container-multi{
+    width:100% !important;
+}
+/*.xepan-cms-group-panel{
+    padding: 0px;
+}*/
