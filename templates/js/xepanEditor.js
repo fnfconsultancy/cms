@@ -128,12 +128,11 @@ jQuery.widget("ui.xepanEditor",{
 		self.setUpPagesAndTemplates();
 		// save and snapshot btn
 		var save_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
-		var save_btn_group = $('<div class="btn-group">').appendTo(save_tool_bar);
-		var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default btn-sm" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
-		var save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success btn-sm"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
-		var logout_btn = $('<button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger btn-sm"><span class="fa fa-power-off"></span></button>').appendTo(save_btn_group);
-		
-		var change_theme = $('<button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Change Theme</button>').appendTo(self.editor_helper_wrapper);
+		var save_btn_group = $('<div class="btn-group btn-group-sm">').appendTo(save_tool_bar);
+		// var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default btn-sm" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
+		var save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
+		var logout_btn = $('<button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button>').appendTo(save_btn_group);
+		var change_theme = $('<button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Theme</button>').appendTo(save_btn_group);
 
 		$(change_theme).click(function(event) {
 			$.univ().frameURL('Change Template','index.php?page=xepan_cms_theme&cut_page=1');
@@ -313,10 +312,11 @@ jQuery.widget("ui.xepanEditor",{
 
 	setUpPagesAndTemplates: function(){
 		var self = this;
-		
+
 		var page_btn_wrapper = $('<div class="input-group xepan-cms-template-page-management"></div>').appendTo(self.editor_helper_wrapper);
 		var $template_edit_btn = $('<span class="input-group-addon" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></span>').appendTo(page_btn_wrapper);
-		var $page_btn = $('<input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="'+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
+		// var $page_btn = $('<input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="'+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
+		var $page_btn = $('<span title="Page and Template Management" class="input-group-addon">Page&nbsp;<i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
 		
 		if(self.options.template_editing != true){
 			$template_edit_btn.click(function(event) {
