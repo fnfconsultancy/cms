@@ -614,7 +614,7 @@ script(type='text/javascript').
 
     $('.xepan-cms-tool-option-panel').find('.selected-component-name').remove();
     if($(current_selected_component).is("[xepan-component-name]")){
-      $('<div class="selected-component-name" style="font-size:18px;border-bottom:1px solid black;">'+$(current_selected_component).attr("xepan-component-name")+'</div>').appendTo($(".xepan-cms-tool-option-panel"));
+      $('<div class="selected-component-name" >'+$(current_selected_component).attr("xepan-component-name")+'</div>').appendTo($(".xepan-cms-tool-option-panel"));
     }
 
   });

@@ -51,13 +51,15 @@ jQuery.widget("ui.xepanEditor",{
 		// right bar
 		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
 		// basic and selection tools
-		self.generic_tool = $('<div class="xepan-cms-group-panel clearfix xepan-cms-tool"></div>').appendTo(self.rightbar);
+
+		self.generic_tool_wrapper = $('<div class="xepan-cms-group-panel clearfix xepan-cms-tool"></div>').appendTo(self.rightbar);
+		self.generic_tool = $('<div class="btn-group btn-group-xs" style="padding-bottom:2px;"></div>').appendTo(self.generic_tool_wrapper);
 		
-		$('<div>Selection</div>').appendTo(self.generic_tool);
-		self.selection_previous_sibling = $('<button id="epan-component-selection-previous-sibling" type="button" title="Previous Sibling" class="btn btn-default btn-xs"><i class="fa fa-arrow-left"></i></button>').appendTo(self.generic_tool);
-		self.selection_next_sibling = $('<button id="epan-component-selection-next-sibling" type="button" title="Next Sibling" class="btn btn-default btn-xs"><i class="fa fa-arrow-right"></i></button>').appendTo(self.generic_tool);
-		self.selection_parent = $('<button id="epan-component-selection-parent" type="button" title="Parent" class="btn btn-default btn-xs"><i class="fa fa-arrow-up"></i></button>').appendTo(self.generic_tool);
-		self.selection_child = $('<button id="epan-component-selection-child" type="button" title="Child/Next" class="btn btn-default btn-xs"><i class="fa fa-arrow-down"></i></button>').appendTo(self.generic_tool);
+		$('<button class="btn btn-primary">Selection</button>').appendTo(self.generic_tool);
+		self.selection_previous_sibling = $('<button id="epan-component-selection-previous-sibling" type="button" title="Previous Sibling" class="btn btn-default"><i class="fa fa-arrow-left"></i></button>').appendTo(self.generic_tool);
+		self.selection_next_sibling = $('<button id="epan-component-selection-next-sibling" type="button" title="Next Sibling" class="btn btn-default"><i class="fa fa-arrow-right"></i></button>').appendTo(self.generic_tool);
+		self.selection_parent = $('<button id="epan-component-selection-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo(self.generic_tool);
+		self.selection_child = $('<button id="epan-component-selection-child" type="button" title="Child/Next" class="btn btn-default"><i class="fa fa-arrow-down"></i></button>').appendTo(self.generic_tool);
 
 		$(self.selection_previous_sibling).click(function(event){
 			ctrlShiftLeftSelection(event);
@@ -75,9 +77,11 @@ jQuery.widget("ui.xepanEditor",{
 			tabSelection(event);
 		});
 
-		$('<div>Move</div>').appendTo(self.generic_tool);
-		self.move_left = $('<button id="epan-component-move-left" type="button" title="move left" class="btn btn-default"><i class="fa fa-arrow-left"></i></button>').appendTo(self.generic_tool);
-		self.move_right = $('<button id="epan-component-move-right" type="button" title="move right" class="btn btn-default"><i class="fa fa-arrow-right"></i></button>').appendTo(self.generic_tool);
+
+		self.move_wrapper = $('<div class="btn-group btn-group-xs" style="padding-bottom:2px;"></div>').appendTo(self.generic_tool_wrapper);
+		$('<button class="btn btn-primary">Move</button>').appendTo(self.move_wrapper);
+		self.move_left = $('<button id="epan-component-move-left" type="button" title="move left" class="btn btn-default"><i class="fa fa-arrow-left">Left</i></button>').appendTo(self.move_wrapper);
+		self.move_right = $('<button id="epan-component-move-right" type="button" title="move right" class="btn btn-default">Right<i class="fa fa-arrow-right"></i></button>').appendTo(self.move_wrapper);
 		$(self.move_left).click(function(event){
 			componentMoveLeft(event);
 		});
@@ -87,14 +91,14 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		// duplicate
-		self.duplicate_wrapper = $('<div class="epan-component-duplicate-wrapper"></div>').appendTo(self.generic_tool);
-		self.duplicate_btn = $('<button id="epan-component-duplicate-child">Duplicate</button>').appendTo(self.duplicate_wrapper);
+		self.duplicate_wrapper = $('<div class="epan-component-duplicate-wrapper btn btn-group btn-group-xs"></div>').appendTo(self.generic_tool_wrapper);
+		self.duplicate_btn = $('<button id="epan-component-duplicate-child" class="btn btn-primary"><span class="fa fa-copy">&nbsp;</span>Duplicate</button>').appendTo(self.duplicate_wrapper);
 		$(self.duplicate_btn).click(function(event){
 			duplicateComponent(event);
 		});
 
 		// right bar content
-		$('<p class="xepan-cms-tool xepan-cms-tool-option-panel" style="font-size:16px;">OPTION PANEL</p>').appendTo(self.rightbar);
+		$('<div class="xepan-cms-tool xepan-cms-tool-option-panel" style="margin-bottom:0px;">OPTIONS</div>').appendTo(self.rightbar);
 		
 		self.rightbar_toggle_btn = $('<div class="toggler"><span class="fa fa-chevron-left fa-2x" style="display: block;">&nbsp;</span> <span class="fa fa-chevron-right fa-2x" style="display: none;">&nbsp;</span></div>').appendTo(self.rightbar);
 		$(self.rightbar_toggle_btn).click(function(){
@@ -128,7 +132,7 @@ jQuery.widget("ui.xepanEditor",{
 		self.setUpPagesAndTemplates();
 		// save and snapshot btn
 		var save_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
-		var save_btn_group = $('<div class="btn-group btn-group-sm">').appendTo(save_tool_bar);
+		var save_btn_group = $('<div class="btn-group">').appendTo(save_tool_bar);
 		// var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default btn-sm" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
 		var change_theme = $('<button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Theme<span class="fa fa-web"></span></button>').appendTo(save_btn_group);
 		var save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
@@ -147,9 +151,9 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		// show border and easy drop
-		var easy_wrapper = $('<div class="input-group xepan-cms-easy-drop-wrapper">').appendTo(self.editor_helper_wrapper);
-		var easy_drop = $('<span class="input-group-addon"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"><p>Easy Drop</p></span>').appendTo(easy_wrapper);
-		var show_border = $('<span class="input-group-addon"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"><p>Show Border</p></span>').appendTo(easy_wrapper);
+		var easy_wrapper = $('<div class="xepan-cms-easy-drop-wrapper xepan-cms-tool" style="margin-left:0px;padding:2px;margin-bottom:0px;">').appendTo(self.editor_helper_wrapper);
+		var easy_drop = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-extra-padding">Easy Drop</label></div></div>').appendTo(easy_wrapper);
+		var show_border = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-border">Show Border</label></div></div>').appendTo(easy_wrapper);
 
 		/*Component Editing outline show border*/
 		$("#epan-component-border").click(function(event) {
@@ -171,7 +175,7 @@ jQuery.widget("ui.xepanEditor",{
 
 		// settings up tool buttons
 		var responsive_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
-		var responsive_btn_group =	$('<div class="btn-group btn-group-sm">').appendTo(responsive_tool_bar);
+		var responsive_btn_group =	$('<div class="btn-group">').appendTo(responsive_tool_bar);
 		var $screen_reset_btn = $('<button id="epan-editor-preview-screen-reset" title="Reset to original Preview" type="button" class="btn btn-default"><span class="fa fa-undo" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_lg_btn = $('<button id="epan-editor-preview-screen-lg" title="Desktop Preview" type="button" class="btn btn-default"><span class="fa fa-desktop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 		var $screen_md_btn = $('<button id="epan-editor-preview-screen-md" title="Laptop Preview" type="button" class="btn btn-default" ><span class="fa fa-laptop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
@@ -313,10 +317,10 @@ jQuery.widget("ui.xepanEditor",{
 	setUpPagesAndTemplates: function(){
 		var self = this;
 
-		var page_btn_wrapper = $('<div class="input-group xepan-cms-template-page-management"></div>').appendTo(self.editor_helper_wrapper);
-		var $template_edit_btn = $('<span class="input-group-addon" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></span>').appendTo(page_btn_wrapper);
+		var page_btn_wrapper = $('<div class="btn-group btn-group-sm xepan-cms-template-page-management"></div>').appendTo(self.editor_helper_wrapper);
+		var $template_edit_btn = $('<span class="btn btn-primary" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></span>').appendTo(page_btn_wrapper);
 		// var $page_btn = $('<input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="'+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
-		var $page_btn = $('<span title="Page and Template Management" class="input-group-addon">Page&nbsp;<i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
+		var $page_btn = $('<span title="Page and Template Management" class="btn btn-primary">Page&nbsp;<i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
 		
 		if(self.options.template_editing != true){
 			$template_edit_btn.click(function(event) {

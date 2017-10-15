@@ -531,7 +531,8 @@
 }
 
 .xepan-tool-options{
-    padding:5px;
+    /*padding:5px;*/
+    margin-top: 0px;
 }
 
 .xepan-tool-option-value input,
