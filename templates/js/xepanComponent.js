@@ -53,69 +53,68 @@ jQuery.widget("ui.xepanComponent",{
 			enable_hover = false;
 		}
 
-		if(enable_hover){
-			$(this.element).hover(
+		// if(enable_hover){
+		// 	$(this.element).hover(
+		// 		function(event,ui){
+		// 			$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+		// 			$('.xepan-component-hoverbar').remove();
 
-				function(event,ui){
-					$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
-					$('.xepan-component-hoverbar').remove();
+		// 			if($(self.element).hasClass('xepan-no-move') && $(self.element).hasClass('xepan-no-delete') ) return;
 
-					if($(self.element).hasClass('xepan-no-move') && $(self.element).hasClass('xepan-no-delete') ) return;
+		// 			$(this).addClass('xepan-component-hover-selector');
+		// 			var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(this));				
+		// 			if(!$(self.element).hasClass('xepan-no-move')){
+		// 				var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
+		// 			}
 
-					$(this).addClass('xepan-component-hover-selector');
-					var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(this));				
-					if(!$(self.element).hasClass('xepan-no-move')){
-						var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
-					}
+		// 			if(!$(self.element).hasClass('xepan-no-delete')){
+		// 				var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
 
-					if(!$(self.element).hasClass('xepan-no-delete')){
-						var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
+		// 				$(remove_btn).click(function(){
+		// 				var comp_temp = $(this).closest('.xepan-component');
+		// 				var t_name = $(comp_temp).attr('xepan-component');
+		// 				if(t_name == undefined || t_name == "" || t_name == null)
+		// 					t_name = "Generic";
+		// 				else
+		// 					t_name = t_name.replace(/\\/g, "");
 
-						$(remove_btn).click(function(){
-						var comp_temp = $(this).closest('.xepan-component');
-						var t_name = $(comp_temp).attr('xepan-component');
-						if(t_name == undefined || t_name == "" || t_name == null)
-							t_name = "Generic";
-						else
-							t_name = t_name.replace(/\\/g, "");
+		// 				$('<div></div>')
+		// 					.appendTo('body')
+		// 					.html('<div>Are you sure to remove '+ t_name+' ?</div>')
+		// 					.dialog({
+		// 						modal: true, 
+		// 						title: 'Remove', 
+		// 						autoOpen: true,
+		// 						resizable: false,
+		// 						dialogClass:'xepan-component-remove-confirm',
+		// 						buttons: {
+		// 					    	Yes: function () {
+		// 								$(comp_temp).xepanComponent('remove');
+		// 					            $(this).dialog("close");
+		// 					          },
+		// 					        No: function () {
+		// 					            $(this).dialog("close");
+		// 					          }
+		// 					      },
+		// 					      close: function (event, ui) {
+		// 					          $(this).remove();
+		// 					      }
+		// 					});
+		// 				});
+		// 			}
+		// 		event.stopPropagation();
+		// 	},
 
-						$('<div></div>')
-							.appendTo('body')
-							.html('<div>Are you sure to remove '+ t_name+' ?</div>')
-							.dialog({
-								modal: true, 
-								title: 'Remove', 
-								autoOpen: true,
-								resizable: false,
-								dialogClass:'xepan-component-remove-confirm',
-								buttons: {
-							    	Yes: function () {
-										$(comp_temp).xepanComponent('remove');
-							            $(this).dialog("close");
-							          },
-							        No: function () {
-							            $(this).dialog("close");
-							          }
-							      },
-							      close: function (event, ui) {
-							          $(this).remove();
-							      }
-							});
-						});
-					}
-				event.stopPropagation();
-			},
+		// 		function(event,ui){
+		// 			$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+		// 			$('.xepan-component-hoverbar').remove();
+		// 			event.stopPropagation();
+		// 		}
+		// 	);
 
-				function(event,ui){
-					$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
-					$('.xepan-component-hoverbar').remove();
-					event.stopPropagation();
-				}
-			);
-
-		}else{
-			$(this.element).css('min-height','200px');
-		}
+		// }else{
+		// 	$(this.element).css('min-height','200px');
+		// }
 
 		$(this.element).dblclick(function(event,ui){
 			$(self.options.component_selector).xepanComponent('deselect');
@@ -140,6 +139,7 @@ jQuery.widget("ui.xepanComponent",{
 		updateBreadCrumb();
 		// console.log($(this.options.option_panel).closest('.xepan-tool-options'));
 		// console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
+		self.showComponentToolBar();		
 	},
 
 	createSortable: function(){
@@ -166,6 +166,7 @@ jQuery.widget("ui.xepanComponent",{
 		}
 		$(this.element).removeClass('xepan-selected-component');
 		updateBreadCrumb();
+		self.hideComponentToolBar();
 	},
 
 	remove:function(){
@@ -264,6 +265,59 @@ jQuery.widget("ui.xepanComponent",{
 	getComponentSelector: function(){
 		var self =  this;
 		return self.options.component_selector;
+	},
+
+	showComponentToolBar:function(){
+		$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+		$('.xepan-component-hoverbar').remove();
+		if($(self.element).hasClass('xepan-no-move') && $(self.element).hasClass('xepan-no-delete') ) return;
+
+		$(current_selected_component).addClass('xepan-component-hover-selector');
+		var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(current_selected_component));
+		if(!$(current_selected_component).hasClass('xepan-no-move')){
+			var	drag_btn =  $('<div class="xepan-component-drag-handler"><i class="glyphicon glyphicon-move"></i></div>').appendTo(hoverbar);
+		}
+
+		if(!$(current_selected_component).hasClass('xepan-no-delete')){
+			var remove_btn = $('<div class="xepan-component-remove"><i class="glyphicon glyphicon-trash"></i></div>').appendTo(hoverbar);
+
+			$(remove_btn).click(function(){
+			var comp_temp = $(current_selected_component).closest('.xepan-component');
+			var t_name = $(comp_temp).attr('xepan-component');
+			if(t_name == undefined || t_name == "" || t_name == null)
+				t_name = "Generic";
+			else
+				t_name = t_name.replace(/\\/g, "");
+
+			$('<div></div>')
+				.appendTo('body')
+				.html('<div>Are you sure to remove '+ t_name+' ?</div>')
+				.dialog({
+					modal: true, 
+					title: 'Remove', 
+					autoOpen: true,
+					resizable: false,
+					dialogClass:'xepan-component-remove-confirm',
+					buttons: {
+				    	Yes: function () {
+							$(comp_temp).xepanComponent('remove');
+				            $(this).dialog("close");
+				          },
+				        No: function () {
+				            $(this).dialog("close");
+				          }
+				      },
+				      close: function (event, ui) {
+				          $(this).remove();
+				      }
+				});
+			});
+		}
+	},
+
+	hideComponentToolBar:function(){
+		$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+		$('.xepan-component-hoverbar').remove();
 	}
 	
 });

@@ -123,6 +123,17 @@
     	$(new_col).xepanComponent();
     	//and call addColumnToOption
     	addColumnsToOption(($(current_selected_component).children("div[data-toolcolumnclass='xepan-tool-column']").length - 1) ,$(new_col));
+    
+    	if($('#epan-component-border:checked').size() > 0){
+    		$(new_col).addClass('component-outline');
+    		$(new_col).find('.xepan-component').addClass('component-outline');
+    	}
+    
+    	if($('#epan-component-extra-padding:checked').size() > 0){
+    		if($(new_col).hasClass('xepan-sortable-component')) 
+    			$(new_col).addClass('xepan-sortable-extra-padding');
+    		$(new_col).find('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
+    	}
     });
     
   </script>
@@ -232,6 +243,16 @@
     	$(new_col).addClass("xepan-cms-column xepan-sortable-component xepan-component col-md-4 col-sm-12 col-xs-12 col-lg-4" );
     	$(new_col).xepanComponent();
     	
+    	if($('#epan-component-border:checked').size() > 0){
+    		$(new_col).addClass('component-outline');
+    		$(new_col).find('.xepan-component').addClass('component-outline');
+    	}
+    
+    	if($('#epan-component-extra-padding:checked').size() > 0){
+    		if($(new_col).hasClass('xepan-sortable-component')) 
+    			$(new_col).addClass('xepan-sortable-extra-padding');
+    		$(new_col).find('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
+    	}
     	//- no need of this in column
     	//- and call addColumnToOption
     	//- addColumnToOption(($(current_selected_component).children("div[data-toolcolumnclass='xepan-tool-column']").length - 1) ,$(new_col));
