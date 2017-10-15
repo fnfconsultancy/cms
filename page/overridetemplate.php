@@ -50,7 +50,7 @@ class page_overridetemplate extends \Page {
 			// return;
 		}
 
-		$tabs = $this->add('Tabs');
+		$tabs = $this->add('TabsDefault');
 		$edit_tab = $tabs->addtab('Edit');
 		$original_tab = $tabs->addtab('Original');
 		

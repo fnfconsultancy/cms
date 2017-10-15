@@ -97,7 +97,7 @@ jQuery.widget("ui.xepanEditor",{
 			duplicateComponent(event);
 		});
 
-		//- Extra Buttons this button action js_click defined in basic.jade file
+		//- Extra Buttons this button action in toolbar.php file
 
 		self.extra_html_wrapper = $('<div class="btn btn-group btn-group-xs" style="padding:0px;"></div>').appendTo(self.generic_tool_wrapper);
  		// Create Layout Button

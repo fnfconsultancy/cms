@@ -143,7 +143,8 @@ class View_ToolBar extends \View {
 
 		$this->js(true)->xepanComponent(['editing_template'=>$editing_template,'component_selector'=>$component_selector,'editor_id'=>$this->getJSID()])->_selector($component_selector);
 
-		$this->js('click',$this->js()->univ()->frameURL('Override ToolTemplate',[$this->app->url('xepan_cms_overridetemplate'),'options'=> $this->js(null,'JSON.stringify($(current_selected_component).attr())') ,'xepan-tool-to-clone'=>$this->js()->_selector('.xepan-tools-options div[for-xepan-component]:visible')->attr('for-xepan-component')]))->_selector('#override-xepan-tool-template');
+		// html define in xepan editor.js
+		$this->js('click',$this->js()->univ()->frameURL('Override Tool Template',[$this->app->url('xepan_cms_overridetemplate'),'options'=> $this->js(null,'JSON.stringify($(current_selected_component).attr())') ,'xepan-tool-to-clone'=>$this->js()->_selector('.xepan-tools-options div[for-xepan-component]:visible')->attr('for-xepan-component')]))->_selector('#override-xepan-tool-template');
 		$this->js('click',$this->js()->univ()->frameURL('Define Custom CSS',[$this->app->url('xepan_cms_customcss',['xepan-template-edit'=>""])]))->_selector('#xepan-tool-mystyle');
 		// $this->js('click',$this->js()->univ()->frameURL('Create Layout',[$this->app->url('xepan_cms_createlayout')]))->_selector('#xepan-tool-createlayout');
 
