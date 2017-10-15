@@ -18,6 +18,7 @@
 
 .sidebar.sidebar-left {
     left: 0;
+    /*padding:0px; */
     /*right: 100% !important;*/
 }
 
@@ -199,7 +200,7 @@
     }
 
     #xepan-cms-toolbar-left-side-panel{
-        padding-top: 10px;
+        /*padding-top: 10px;*/
     }
 
     #xepan-cms-toolbar-right-side-panel.toggleSideBar{
@@ -458,7 +459,7 @@
 
 /*left bar editor helper*/
 .xepan-cms-editor-helper-wrraper{
-    padding:10px;
+    padding:0 10px 10px 10px;
 }
 
 .component-outline{
