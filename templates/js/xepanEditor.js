@@ -344,9 +344,9 @@ jQuery.widget("ui.xepanEditor",{
 		var self = this;
 
 		var page_btn_wrapper = $('<div class="btn-group btn-group-sm xepan-cms-template-page-management"></div>').appendTo(self.editor_helper_wrapper);
-		var $template_edit_btn = $('<span class="btn btn-primary" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></span>').appendTo(page_btn_wrapper);
+		var $template_edit_btn = $('<button class="btn btn-primary" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></button>').appendTo(page_btn_wrapper);
 		// var $page_btn = $('<input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="'+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
-		var $page_btn = $('<span title="Page and Template Management" class="btn btn-primary">Page&nbsp;<i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
+		var $page_btn = $('<button title="Page and Template Management" class="btn btn-primary">Page&nbsp;<i class="fa fa-cog"></i></button>').appendTo(page_btn_wrapper);
 		
 		if(self.options.template_editing != true){
 			$template_edit_btn.click(function(event) {
