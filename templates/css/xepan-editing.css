@@ -393,8 +393,9 @@
 
 .xepan-tools-options {
     /*margin: 0 10px 12px;*/
+    overflow-x: hidden;
     overflow-y: auto;
-    height: 90%;
+    height: 70% !important;
 }
 .xepan-toolbar-panel-body{
     padding-top: 15px;
@@ -409,6 +410,11 @@
     font-weight: 300;
     cursor: pointer;
     text-align: center;
+    padding-right: 10px;
+}
+
+.xepan-cms-toolbar-heading i{
+    color: #c1c1c1;
 }
 
 .xepan-btn {
@@ -483,22 +489,22 @@
 }
 
 .xepan-responsive-xs{
-    width:320px;
-    height: 480px;
+    width:320px !important;
+    height: 480px !important;
 }
 
 .xepan-responsive-sm{
-    width:768px;
-    height: 480px;
+    width:768px !important;
+    height: 480px !important;
 }
 
 .xepan-responsive-md{
-    width:992px;
-    height:500px;
+    width:992px !important;
+    height:500px !important;
 }
 
 .xepan-responsive-lg{
-    width:100%;
+    width:100% !important;
 }
 
 .xepan-editor-customcss-form textarea{

@@ -4,6 +4,7 @@
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
     div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseOne" aria-expanded="false")
       span Basic Properties
+      i.fa.fa-chevron-down.pull-right
     #collapseOne.xepan-cms-tools-bar-panel.row-fluid.collapse
       .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
@@ -59,11 +60,11 @@
           //-     input#epan-component-extra-clases(type='text', style='width:40%')
           //-     button#epan-manage-custome-css.btn.btn-default.btn-xs(type='button', style='width:20%') Manage
           //-     button#epan-bs3-css-helper.btn.btn-default.btn-xs(type='button') Css Templates
-    // PADDING
-  .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+    //-PADDING
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
     div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false")
       span Padding
+      i.fa.fa-chevron-down.pull-right
     #collapseTwo.xepan-cms-tools-bar-panel.row-fluid.collapse
       .xepan-toolbar-panel-body.xepan-collasp-body
         // Padding panel
@@ -120,10 +121,11 @@
               td
             #padding-left-value
     // MARGIN
-  .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+    //-Margin
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
     div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseThree" aria-expanded="false")
       span Margin
+      i.fa.fa-chevron-down.pull-right
     #collapseThree.xepan-cms-tools-bar-panel.row-fluid.collapse  
       .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
@@ -198,10 +200,11 @@
               td
                 button.btn.btn-default.btn-xs.margin-auto-btn(type='button', pos='left') auto
     // BACKGROUND
-  .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+    //- Background
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
     div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseFour" aria-expanded="false")
       span Background
+      i.fa.fa-chevron-down.pull-right
     #collapseFour.xepan-cms-tools-bar-panel.row-fluid.collapse  
       .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
@@ -274,10 +277,11 @@
                 textarea#xepan-bg-image-base64data(placeholder='')    
 
     // BORDER
-  .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+    //- Border
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
     div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseFive" aria-expanded="false")
       span Border
+      i.fa.fa-chevron-down.pull-right
     #collapseFive.xepan-cms-tools-bar-panel.row-fluid.collapse  
       .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
@@ -469,10 +473,11 @@
               td(colspan="2")
                 input#epan-border-radius-b-right.epan-border-radius(type='text', pos='border-bottom-right-radius' placeHolder='exp. 10px, 10em, 10% etc.' style="width:100%")
     //CSS Tranform
-  .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
+    //- Transform
   .xepan-cms-group-panel.clearfix.xepan-cms-tool
     div.collapsed.xepan-cms-toolbar-heading(data-toggle="collapse" data-target="#collapseSix" aria-expanded="false")
       span Transform
+      i.fa.fa-chevron-down.pull-right
     #collapseSix.xepan-cms-tools-bar-panel.row-fluid.collapse  
       .xepan-toolbar-panel-body.xepan-collasp-body
         table.table.table-condensed.table-hover
@@ -529,6 +534,8 @@
                 .epan-component-transform-translate-value(translate='(1px,1px)')
                 .epan-component-transform-translate-x-value(translate='1')
                 .epan-component-transform-translate-y-value(translate='1')
+    //- Extra Buttons
+    //- like Create Layout /Override /Custom CSS struvtire define in xepan editor.js
   .xepan-btn.btn-block.btn-primary#xepan-tool-createlayoutbtn Create Layout
     .xepan-create-layout-dialoge(style="display:none;")
       p All form fields are required.
@@ -540,7 +547,6 @@
           textarea(type="textarea" name="layout_html" id="xepan-layout-html" style="width:100%;height:150px;")
           label(for="Image Base 64 Code" style="width:100%;") Image Base 64
           textarea(type="textarea" name="layout_img_base" id="xepan-layout-image-64" style="width:100%;height:150px;")
-
   .xepan-btn.btn-block.btn-primary#override-xepan-tool-template Override Template
   .xepan-btn.btn-block.btn-primary#xepan-tool-mystyle Custom CSS
 script(type='text/javascript').

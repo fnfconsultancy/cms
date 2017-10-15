@@ -97,6 +97,32 @@ jQuery.widget("ui.xepanEditor",{
 			duplicateComponent(event);
 		});
 
+		//- Extra Buttons this button action js_click defined in basic.jade file
+
+		self.extra_html_wrapper = $('<div class="btn btn-group btn-group-xs" style="padding:0px;"></div>').appendTo(self.generic_tool_wrapper);
+ 		// Create Layout Button
+ 		extra_html = '<div class="btn btn-primary" id="xepan-tool-createlayoutbtn" title="Create Layout"><i class="fa fa-plus"></i>&nbsp;Layout'+
+ 						'<div class="xepan-create-layout-dialoge" style="display:none;">'+
+ 							'<p> All form fields are required.</p>'+
+							'<div class="xepan-create-layout-form">'+
+								'<fieldset>'+
+									'<label for="name" style="width:100%;">Name</label>'+
+									'<input type="text" name="name" id="xepan-layout-name" style="width:100%;"/>'+
+									'<label for="name" style="width:100%;"> Html</label>'+
+									'<textarea type="textarea" name="layout_html" id="xepan-layout-html" style="width:100%;height:150px;" />'+
+									'<label for="Image Base 64 Code" style="width:100%;"> Image Base 64 </label>'+
+									'<textarea type="textarea" name="layout_img_base" id="xepan-layout-image-64" style="width:100%;height:150px;" />'+
+								'</fieldset>'+
+							'</div>'+
+						'</div>'+
+					'</div>';
+
+		// Override template
+		extra_html += '<div class="btn btn-danger" id="override-xepan-tool-template" title="Override HTML Templates"><i class="fa fa-code"></i>Html</div>';
+		// Custom CSS
+		extra_html += '<div class="btn btn-success" id="xepan-tool-mystyle" title="Edit Custom CSS"><i class="fa fa-pencil"></i>CSS</div>';
+		$(extra_html).appendTo(self.extra_html_wrapper);
+
 		// right bar content
 		$('<div class="xepan-cms-tool xepan-cms-tool-option-panel" style="margin-bottom:0px;">OPTIONS</div>').appendTo(self.rightbar);
 		
@@ -152,8 +178,8 @@ jQuery.widget("ui.xepanEditor",{
 
 		// show border and easy drop
 		var easy_wrapper = $('<div class="xepan-cms-easy-drop-wrapper xepan-cms-tool" style="margin-left:0px;padding:2px;margin-bottom:0px;">').appendTo(self.editor_helper_wrapper);
-		var easy_drop = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-extra-padding">Easy Drop</label></div></div>').appendTo(easy_wrapper);
-		var show_border = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-border">Show Border</label></div></div>').appendTo(easy_wrapper);
+		var easy_drop = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-extra-padding" style="font-weight:normal;">Easy Drop</label></div></div>').appendTo(easy_wrapper);
+		var show_border = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-border" style="font-weight:normal;">Show Border</label></div></div>').appendTo(easy_wrapper);
 
 		/*Component Editing outline show border*/
 		$("#epan-component-border").click(function(event) {
