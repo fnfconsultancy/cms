@@ -485,7 +485,8 @@ jQuery.widget("ui.xepanEditor",{
 		
 		if(self.options.template_editing){
 		    html_body = $('body').clone();
-		    $(html_body).children().filter(":not(.xepan-v-body)").remove();
+		    if($(html_body).find('.xepan-v-body').length > 0 )
+		    	$(html_body).children().filter(":not(.xepan-v-body)").remove();
 		    self.options.file_path = self.options.template_file;
 		}		
 		
