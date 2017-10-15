@@ -157,12 +157,12 @@ jQuery.widget("ui.xepanEditor",{
 		// page and template management
 		self.setUpPagesAndTemplates();
 		// save and snapshot btn
-		var save_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
-		var save_btn_group = $('<div class="btn-group">').appendTo(save_tool_bar);
+		// var save_tool_bar = $('<div class="btn-toolbar-no-need" role="toolbar">').appendTo(self.editor_helper_wrapper);
+		var save_btn_group = $('<div class="btn-group btn-group-justified" role="group">').appendTo(self.editor_helper_wrapper);
 		// var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default btn-sm" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
-		var change_theme = $('<button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Theme<span class="fa fa-web"></span></button>').appendTo(save_btn_group);
-		var save_btn = $('<button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button>').appendTo(save_btn_group);
-		var logout_btn = $('<button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button>').appendTo(save_btn_group);
+		var change_theme = $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Theme<span class="fa fa-web"></span></button></div>').appendTo(save_btn_group);
+		var save_btn = $('  <div class="btn-group btn-group-xs" role="group"><button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button></div>').appendTo(save_btn_group);
+		var logout_btn = $('  <div class="btn-group btn-group-xs" role="group"><button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button></div>').appendTo(save_btn_group);
 
 		$(change_theme).click(function(event) {
 			$.univ().frameURL('Change Template','index.php?page=xepan_cms_theme&cut_page=1');
@@ -177,7 +177,7 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		// show border and easy drop
-		var easy_wrapper = $('<div class="xepan-cms-easy-drop-wrapper xepan-cms-tool" style="margin-left:0px;padding:2px;margin-bottom:0px;">').appendTo(self.editor_helper_wrapper);
+		var easy_wrapper = $('<div class="xepan-cms-easy-drop-wrapper xepan-cms-tool" style="margin:0px;padding:0px;">').appendTo(self.editor_helper_wrapper);
 		var easy_drop = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-extra-padding" style="font-weight:normal;">Easy Drop</label></div></div>').appendTo(easy_wrapper);
 		var show_border = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-border" style="font-weight:normal;">Show Border</label></div></div>').appendTo(easy_wrapper);
 
@@ -200,13 +200,13 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		// settings up tool buttons
-		var responsive_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
-		var responsive_btn_group =	$('<div class="btn-group">').appendTo(responsive_tool_bar);
-		var $screen_reset_btn = $('<button id="epan-editor-preview-screen-reset" title="Reset to original Preview" type="button" class="btn btn-default"><span class="fa fa-undo" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
-		var $screen_lg_btn = $('<button id="epan-editor-preview-screen-lg" title="Desktop Preview" type="button" class="btn btn-default"><span class="fa fa-desktop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
-		var $screen_md_btn = $('<button id="epan-editor-preview-screen-md" title="Laptop Preview" type="button" class="btn btn-default" ><span class="fa fa-laptop" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
-		var $screen_sm_btn = $('<button id="epan-editor-preview-screen-sm" title="Tablet Preview" type="button" class="btn btn-default" ><span class="fa fa-tablet" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
-		var $screen_xs_btn = $('<button id="epan-editor-preview-screen-xm" title="Mobile Preview" type="button" class="btn btn-default" ><span class="fa fa-mobile" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
+		// var responsive_tool_bar = $('<div class="btn-toolbar" role="toolbar">').appendTo(self.editor_helper_wrapper);
+		var responsive_btn_group =	$('<div class="btn-group btn-group-justified">').appendTo(self.editor_helper_wrapper);
+		var $screen_reset_btn = $('<div class="btn-group btn-group-xs" role="group"><button id="epan-editor-preview-screen-reset" title="Reset to original Preview" type="button" class="btn btn-default"><span class="fa fa-undo" aria-hidden="true"></span></button></div>').appendTo(responsive_btn_group);
+		var $screen_lg_btn = $('<div class="btn-group btn-group-xs" role="group"><button id="epan-editor-preview-screen-lg" title="Desktop Preview" type="button" class="btn btn-default"><span class="fa fa-desktop" aria-hidden="true"></span></button></div>').appendTo(responsive_btn_group);
+		var $screen_md_btn = $('<div class="btn-group btn-group-xs" role="group"><button id="epan-editor-preview-screen-md" title="Laptop Preview" type="button" class="btn btn-default" ><span class="fa fa-laptop" aria-hidden="true"></span></button></div>').appendTo(responsive_btn_group);
+		var $screen_sm_btn = $('<div class="btn-group btn-group-xs" role="group"><button id="epan-editor-preview-screen-sm" title="Tablet Preview" type="button" class="btn btn-default" ><span class="fa fa-tablet" aria-hidden="true"></span></button></div>').appendTo(responsive_btn_group);
+		var $screen_xs_btn = $('<div class="btn-group btn-group-xs" role="group"><button id="epan-editor-preview-screen-xm" title="Mobile Preview" type="button" class="btn btn-default" ><span class="fa fa-mobile" aria-hidden="true"></span></button></div>').appendTo(responsive_btn_group);
 		// var $screen_custom_btn = $('<button id="epan-editor-preview-screen-xm" title="Custom Size Preview" type="button" class="btn btn-default" ><span class="fa fa-plus" aria-hidden="true"></span></button>').appendTo(responsive_btn_group);
 
 		$screen_reset_btn.click(function(event) {
@@ -238,7 +238,8 @@ jQuery.widget("ui.xepanEditor",{
 
 	setupTools: function(){
 		var self = this;
-
+		
+		$('<div class="xepan-cms-tool">Tools</div>').appendTo(self.leftbar);
 		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(self.leftbar);
 		var option = '<option value="0">Select</option>';
 		
@@ -343,10 +344,10 @@ jQuery.widget("ui.xepanEditor",{
 	setUpPagesAndTemplates: function(){
 		var self = this;
 
-		var page_btn_wrapper = $('<div class="btn-group btn-group-sm xepan-cms-template-page-management"></div>').appendTo(self.editor_helper_wrapper);
-		var $template_edit_btn = $('<button class="btn btn-primary" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></button>').appendTo(page_btn_wrapper);
+		var page_btn_wrapper = $('<div class="btn-group btn-group-justified xepan-cms-template-page-management"></div>').appendTo(self.editor_helper_wrapper);
+		var $template_edit_btn = $('<div class="btn-group btn-group-xs"> <button class="btn btn-primary" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></button></div>').appendTo(page_btn_wrapper);
 		// var $page_btn = $('<input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="'+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
-		var $page_btn = $('<button title="Page and Template Management" class="btn btn-primary">Page&nbsp;<i class="fa fa-cog"></i></button>').appendTo(page_btn_wrapper);
+		var $page_btn = $('<div class="btn-group btn-group-xs"><button title="Page and Template Management" class="btn btn-primary">Page&nbsp;<i class="fa fa-cog"></i></button></div>').appendTo(page_btn_wrapper);
 		
 		if(self.options.template_editing != true){
 			$template_edit_btn.click(function(event) {
