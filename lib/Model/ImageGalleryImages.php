@@ -7,6 +7,8 @@ namespace xepan\cms;
 */
 class Model_ImageGalleryImages extends \xepan\base\Model_Table{
 	public $table = 'xepan_cms_image_gallery_images';
+	public $acl ='xepan\cms\Model_ImageGalleryCategory';
+	
 	function init(){
 		parent::init();
 		$this->hasOne('xepan\hr\Model_Employee','created_by_id')->defaultValue($this->app->employee->id);

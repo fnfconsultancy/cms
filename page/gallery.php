@@ -8,7 +8,8 @@ namespace xepan\cms;
 */
 class page_gallery extends \xepan\base\Page{
 	public $title = "Image Gallery";
-	function page_index(){
+	
+    function page_index(){
         $gallery = $this->add('xepan\cms\Model_ImageGalleryCategory');
 		$c = $this->add('xepan\hr\CRUD',null,null,['grid/imagegallery']);
 
