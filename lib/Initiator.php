@@ -79,43 +79,7 @@ class Initiator extends \Controller_Addon {
         $this->app->template->trySet('meta_keywords',@$this->app->xepan_cms_page['meta_kewords']?:@$extra_info['meta_keyword']);
         $this->app->template->trySet('meta_description',@$this->app->xepan_cms_page['meta_description']?:@$extra_info['meta_description']);
         $this->app->template->trySetHTML('after_body_code',@$this->app->xepan_cms_page['after_body_code']?:@$extra_info['after_body_code']);
-
-                // sef url
-
-        $config = $this->add('xepan\base\Model_ConfigJsonModel',
-            [
-                'fields'=>[
-                            'enable_sef'=>'checkbox',
-                            'page_list'=>'text'
-                        ],
-                    'config_key'=>'SEF_Enable',
-                    'application'=>'cms'
-        ]);
-        // $config->add('xepan\hr\Controller_ACL');
-        $config->tryLoadAny();
-
-        if($this->app->enable_sef = $config['enable_sef']){
-            
-            $this->app->setConfig('url_prefix',null);
-
-            $this->app->hook('sef-router',[$config['page_list']]);
-
-            $config_list = $this->add('xepan\base\Model_ConfigJsonModel',
-                [
-                    'fields'=>[
-                            'expression'=>'line',
-                            'page_name'=>'line',
-                            'param'=>'text'
-                        ],
-                    'config_key'=>'SEF_List',
-                    'application'=>'cms'
-                ]);
-            // $config_list->add('xepan\hr\Controller_ACL');
-            $config_list->tryLoadAny();
-            foreach ($config_list as $key => $value) {
-                $this->app->app_router->addRule($value['expression'], $value['page_name'], explode(",", $value['param']));
-            }
-        }
+        
     }
 
     function setup_frontend(){
@@ -206,6 +170,9 @@ class Initiator extends \Controller_Addon {
         $this->app->jui->addStaticStyleSheet('bootstrap.min');
         $this->app->jui->addStaticInclude('bootstrap.min');
         $this->app->jui->addStaticStyleSheet('font-awesome');
+
+        $this->makeSEF();
+
         // check my style css is exist or not
         $path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/css";
         if(!file_exists($path)){
@@ -308,5 +275,44 @@ class Initiator extends \Controller_Addon {
         $editor['can_edit_template'] = 1;
         $editor['can_edit_page_content'] = 1;
         $editor->save();
+    }
+
+
+    function makeSEF(){
+        // sef url
+        $config = $this->add('xepan\base\Model_ConfigJsonModel',
+            [
+                'fields'=>[
+                            'enable_sef'=>'checkbox',
+                            'page_list'=>'text'
+                        ],
+                    'config_key'=>'SEF_Enable',
+                    'application'=>'cms'
+        ]);
+        // $config->add('xepan\hr\Controller_ACL');
+        $config->tryLoadAny();
+
+        if($this->app->enable_sef = $config['enable_sef']){
+            
+            $this->app->setConfig('url_prefix',null);
+
+            $this->app->hook('sef-router',[$config['page_list']]);
+            
+            $config_list = $this->add('xepan\base\Model_ConfigJsonModel',
+                [
+                    'fields'=>[
+                            'expression'=>'line',
+                            'page_name'=>'line',
+                            'param'=>'text'
+                        ],
+                    'config_key'=>'SEF_List',
+                    'application'=>'cms'
+                ]);
+            // $config_list->add('xepan\hr\Controller_ACL');
+            $config_list->tryLoadAny();
+            foreach ($config_list as $key => $value) {
+                $this->app->app_router->addRule($value['expression'], $value['page_name'], explode(",", $value['param']));
+            }
+        }
     }
 }
