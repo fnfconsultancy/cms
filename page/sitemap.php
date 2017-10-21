@@ -9,6 +9,15 @@ class page_sitemap extends \Page{
 
 		// echo sitemap xml
 
+    // for each parked domain and aliases 
+    // throw hook for commerce and blogs to add pages
+    // like /category/in/commerce :: how to get category page name here
+    // or category/product/slug-url  :: how to get item-detail page here
+    // or same in blog :: how to get blog pages name here or in initiator
+
+    // may be some backend configuration on sef page for commerce and blog 
+    // or may be that page itself has hooks to let others add form field that will be added 
+    // in a json string 
 
 
 		// and exit
