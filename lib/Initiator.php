@@ -85,7 +85,8 @@ class Initiator extends \Controller_Addon {
         $config = $this->add('xepan\base\Model_ConfigJsonModel',
             [
                 'fields'=>[
-                            'enable_sef'=>'checkbox'
+                            'enable_sef'=>'checkbox',
+                            'page_list'=>'text'
                         ],
                     'config_key'=>'SEF_Enable',
                     'application'=>'cms'
@@ -94,6 +95,9 @@ class Initiator extends \Controller_Addon {
         $config->tryLoadAny();
 
         if($config['enable_sef']){
+
+            $this->app->hook('sef-router',[$config['page_list']]);
+
             $config_list = $this->add('xepan\base\Model_ConfigJsonModel',
                 [
                     'fields'=>[
