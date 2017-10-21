@@ -94,7 +94,9 @@ class Initiator extends \Controller_Addon {
         // $config->add('xepan\hr\Controller_ACL');
         $config->tryLoadAny();
 
-        if($config['enable_sef']){
+        if($this->app->enable_sef = $config['enable_sef']){
+            
+            $this->app->setConfig('url_prefix',null);
 
             $this->app->hook('sef-router',[$config['page_list']]);
 
