@@ -36,7 +36,7 @@ class page_sitemap extends \Page{
       if(!strpos( $domain_name, "." ))
         $domain_name .= ".".$domain_host_detail['host'];
 
-      $domain_list[] = $domain_host_detail['scheme']."://".$domain_name;
+      $domain_list[] = $domain_host_detail['scheme']."://".str_replace('www.', '', $domain_name);
     }
 
     $site_map_list = [];
