@@ -166,7 +166,7 @@ jQuery.widget("ui.xepanComponent",{
 		}
 		$(this.element).removeClass('xepan-selected-component');
 		updateBreadCrumb();
-		self.hideComponentToolBar();
+		this.hideComponentToolBar();
 	},
 
 	remove:function(){
