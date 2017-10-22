@@ -7,7 +7,22 @@ class page_sitemap extends \Page{
 	function init(){
 		parent::init();
 
+    $config = $basic_tab->add('xepan\base\Model_ConfigJsonModel',
+      [
+        'fields'=>[
+              'enable_sef'=>'checkbox',
+              'page_list'=>'text'
+            ],
+          'config_key'=>'SEF_Enable',
+          'application'=>'cms'
+    ]);
+    // $config->add('xepan\hr\Controller_ACL');
+    $config->tryLoadAny();
+
 		// echo sitemap xml
+    $urls=[];
+
+    $this->app->hook('sitemap_generation',[&$urls,$config['page_list']]);
 
     // for each parked domain and aliases 
     // throw hook for commerce and blogs to add pages
