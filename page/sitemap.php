@@ -47,7 +47,7 @@ class page_sitemap extends \Page{
     foreach ($domain_list as $key => $domain) {
       foreach ($urls as $key => $url) {
         // $site_map_list[] = $domain.$url;
-        $xml .= "<loc>$domain.$url</loc>";
+        $xml .= str_replace("&", "&amp;", "<loc>$domain.$url</loc>");
       }
     }
 
