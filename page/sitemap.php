@@ -7,6 +7,8 @@ class page_sitemap extends \Page{
 	function init(){
 		parent::init();
 
+    $epan_info = $this->app->recall('epan_from_root');
+
     $config = $this->add('xepan\base\Model_ConfigJsonModel',
       [
         'fields'=>[
@@ -24,7 +26,7 @@ class page_sitemap extends \Page{
 
     $this->app->hook('sitemap_generation',[&$urls,$config['page_list']]);
 
-    $epan_park_domain = explode(",", $this->app->epan['aliases']);
+    $epan_park_domain = explode(",", $epan_info['aliases']);
     $epan_park_domain[] = $this->app->epan['name'];
 
 
@@ -35,7 +37,7 @@ class page_sitemap extends \Page{
 
       $domain_name = trim(str_replace('"', '',$domain_name));
       if(strpos( $domain_name, "." ) === false) // its an alias
-        $domain_name .= ".".str_replace('www.', '', $domain_host_detail['host']);
+        $domain_name .= ".".str_replace('www.', '', $this->app->getConfig('xepan-service-host','epan.in')); // xepan-service-host defines in root config file that shows what is your epan service hosts, not for opensource version but only for epan services
 
       $domain_list[] = $domain_host_detail['scheme']."://".$domain_name;
     }
