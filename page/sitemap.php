@@ -34,7 +34,7 @@ class page_sitemap extends \Page{
 
       $domain_name = trim(trim($domain_name,'"'));
       if(!strpos( $domain_name, "." ))
-        $domain_name .= $domain_host_detail['host'];
+        $domain_name .= ".".$domain_host_detail['host'];
 
       $domain_list[] = $domain_host_detail['scheme']."://".$domain_name;
     }
@@ -47,7 +47,7 @@ class page_sitemap extends \Page{
     foreach ($domain_list as $key => $domain) {
       foreach ($urls as $key => $url) {
         // $site_map_list[] = $domain.$url;
-        $xml .= str_replace("&", "&amp;", "<loc>$domain.$url</loc>");
+        $xml .= str_replace("&", "&amp;", "<loc>$domain$url</loc>");
       }
     }
 
