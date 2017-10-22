@@ -7,7 +7,7 @@ class page_sitemap extends \Page{
 	function init(){
 		parent::init();
 
-    $config = $basic_tab->add('xepan\base\Model_ConfigJsonModel',
+    $config = $this->add('xepan\base\Model_ConfigJsonModel',
       [
         'fields'=>[
               'enable_sef'=>'checkbox',
@@ -24,6 +24,33 @@ class page_sitemap extends \Page{
 
     $this->app->hook('sitemap_generation',[&$urls,$config['page_list']]);
 
+    $epan_park_domain = explode(",", $this->app->epan['aliases']);
+    $epan_park_domain[] = $this->app->epan['name'];
+
+    $domain_host_detail = parse_url($this->app->pm->base_url);
+
+    $domain_list = [];
+    foreach ($epan_park_domain as $key => $domain_name) {
+
+      $domain_name = trim(trim($domain_name,'"'));
+      if(!strpos( $domain_name, "." ))
+        $domain_name .= ".".$domain_host_detail['host'];
+
+      $domain_list[] = $domain_host_detail['scheme']."://".$domain_name;
+    }
+
+    $site_map_list = [];
+    foreach ($domain_list as $key => $domain) {
+      foreach ($urls as $key => $url) {
+        $site_map_list[] = $domain.$url;
+      }
+    }
+
+    echo "<pre>";
+    print_r($site_map_list);
+    echo "</pre>";
+    exit;
+    
     // for each parked domain and aliases 
     // throw hook for commerce and blogs to add pages
     // like /category/in/commerce :: how to get category page name here
