@@ -53,7 +53,7 @@ class page_sitemap extends \Page{
 
     $xml .= '</url></urlset>';
 
-    header('Content-Type:text/xml');
+    header('Content-Type: application/xml; charset=utf-8');
     echo $xml;
 
     exit;
