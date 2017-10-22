@@ -325,7 +325,7 @@ class Initiator extends \Controller_Addon {
             ->addCondition('is_active',true)
             ;
         foreach ($page as $p) {
-            $url = $this->app->url($p['path']);
+            $url = $this->app->url(str_replace(".html", '', $p['path']));
             $urls[] = (string)$url;
         }
     }
