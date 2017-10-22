@@ -139,7 +139,7 @@ jQuery.widget("ui.xepanComponent",{
 		updateBreadCrumb();
 		// console.log($(this.options.option_panel).closest('.xepan-tool-options'));
 		// console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
-		self.showComponentToolBar();		
+		this.showComponentToolBar();		
 	},
 
 	createSortable: function(){
