@@ -34,7 +34,7 @@ class page_sitemap extends \Page{
 
       $domain_name = trim(trim($domain_name,'"'));
       if(!strpos( $domain_name, "." ))
-        $domain_name .= ".".$domain_host_detail['host'];
+        $domain_name .= $domain_host_detail['host'];
 
       $domain_list[] = $domain_host_detail['scheme']."://".$domain_name;
     }
