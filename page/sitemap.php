@@ -27,16 +27,17 @@ class page_sitemap extends \Page{
     $epan_park_domain = explode(",", $this->app->epan['aliases']);
     $epan_park_domain[] = $this->app->epan['name'];
 
+
     $domain_host_detail = parse_url($this->app->pm->base_url);
 
     $domain_list = [];
     foreach ($epan_park_domain as $key => $domain_name) {
 
-      $domain_name = trim(trim($domain_name,'"'));
-      if(!strpos( $domain_name, "." ))
-        $domain_name .= ".".$domain_host_detail['host'];
+      $domain_name = trim(str_replace('"', '',$domain_name));
+      if(strpos( $domain_name, "." ) === false) // its an alias
+        $domain_name .= ".".str_replace('www.', '', $domain_host_detail['host']);
 
-      $domain_list[] = $domain_host_detail['scheme']."://".str_replace('www.', '', $domain_name);
+      $domain_list[] = $domain_host_detail['scheme']."://".$domain_name;
     }
 
     $site_map_list = [];
