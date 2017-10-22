@@ -43,6 +43,9 @@ class Initiator extends \Controller_Addon {
     }
 
     function setup_pre_frontend(){
+
+        $this->app->addHook('sitemap_generation',[$this,'addSiteMapEntries']);
+
         $this->app->isEditing = false;
 
         if($this->app->auth->isLoggedIn()) {
@@ -313,6 +316,17 @@ class Initiator extends \Controller_Addon {
             foreach ($config_list as $key => $value) {
                 $this->app->app_router->addRule($value['expression'], $value['page_name'], explode(",", $value['param']));
             }
+        }
+    }
+
+    function addSiteMapEntries($app,&$urls,$sef_config_page_lists){
+
+        $page = $this->add('xepan\cms\Model_Page')
+            ->addCondition('is_active',true)
+            ;
+        foreach ($page as $p) {
+            $url = $this->app->url($p['path']);
+            $urls[] = (string)$url;
         }
     }
 }

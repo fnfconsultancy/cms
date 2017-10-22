@@ -40,17 +40,24 @@ class page_sitemap extends \Page{
     }
 
     $site_map_list = [];
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>
+              <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" >
+            <url> ';
+
     foreach ($domain_list as $key => $domain) {
       foreach ($urls as $key => $url) {
-        $site_map_list[] = $domain.$url;
+        // $site_map_list[] = $domain.$url;
+        $xml .= "<loc>$domain.$url</loc>";
       }
     }
 
-    echo "<pre>";
-    print_r($site_map_list);
-    echo "</pre>";
+    $xml .= '</url></urlset>';
+
+    header('Content-Type:text/xml');
+    echo $xml;
+
     exit;
-    
+
     // for each parked domain and aliases 
     // throw hook for commerce and blogs to add pages
     // like /category/in/commerce :: how to get category page name here
@@ -70,31 +77,9 @@ class page_sitemap extends \Page{
 Sample XML file
 
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
-  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
-  xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" >
   <url> 
-    <loc>http://www.example.com/foo.html</loc> 
-    <image:image>
-       <image:loc>http://example.com/image.jpg</image:loc>
-       <image:caption>Dogs playing poker</image:caption>
-    </image:image>
-    <video:video>
-      <video:content_loc>
-        http://www.example.com/video123.flv
-      </video:content_loc>
-      <video:player_loc allow_embed="yes" autoplay="ap=1">
-        http://www.example.com/videoplayer.swf?video=123
-      </video:player_loc>
-      <video:thumbnail_loc>
-        http://www.example.com/thumbs/123.jpg
-      </video:thumbnail_loc>
-      <video:title>Grilling steaks for summer</video:title>  
-      <video:description>
-        Cook the perfect steak every time.
-      </video:description>
-    </video:video>
+    <loc>http://www.example.com/foo.html</loc>
   </url>
 </urlset>
-
 */
