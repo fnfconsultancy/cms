@@ -44,17 +44,16 @@ class page_sitemap extends \Page{
 
     $site_map_list = [];
     $xml = '<?xml version="1.0" encoding="UTF-8"?>
-              <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" >
-            <url> ';
+              <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" >';
 
     foreach ($domain_list as $key => $domain) {
       foreach ($urls as $key => $url) {
         // $site_map_list[] = $domain.$url;
-        $xml .= str_replace("&", "&amp;", "<loc>$domain$url</loc>");
+        $xml .= str_replace("&", "&amp;", "<url><loc>$domain$url</loc></url>");
       }
     }
 
-    $xml .= '</url></urlset>';
+    $xml .= '</urlset>';
 
     header('Content-Type: application/xml; charset=utf-8');
     echo $xml;
