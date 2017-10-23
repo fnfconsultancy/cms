@@ -295,7 +295,7 @@ class Initiator extends \Controller_Addon {
         // $config->add('xepan\hr\Controller_ACL');
         $config->tryLoadAny();
         $this->app->enable_sef = false;
-        if(!$this->app->isEditing && !$this->app->isAjaxOutput() &&  $this->app->enable_sef = $config['enable_sef']){
+        if(!$this->app->isEditing && !$this->app->isAjaxOutput() && !isset($_GET['cut_page']) &&  $this->app->enable_sef = $config['enable_sef']){
             
             $this->app->setConfig('url_prefix',null);
 
