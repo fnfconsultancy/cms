@@ -207,7 +207,7 @@ jQuery.widget("ui.xepanComponent",{
 
 			> ... </div>
 		*/
-	}
+	},
 
 	sortable_options: {
 		appendTo:'body',
