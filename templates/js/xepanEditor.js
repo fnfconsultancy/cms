@@ -349,7 +349,7 @@ jQuery.widget("ui.xepanEditor",{
 		// var $page_btn = $('<input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="'+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
 
 		// var $page_btn = $('<div class="btn-group btn-group-xs"><button title="Page and Template Management" class="btn btn-primary">Page&nbsp;<i class="fa fa-cog"></i></button></div>').appendTo(page_btn_wrapper);
-		$page_dropdown = $('<div class="btn-group btn-group-xs" role="group"><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Page<span class="caret"></span></button><ul class="dropdown-menu"><li><a href="#"><i class="fa fa-circle-o-notch"></i></a></li></ul></div>').appendTo(page_btn_wrapper);
+		$page_dropdown = $('<div class="btn-group btn-group-xs" role="group"><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages<span class="caret"></span></button><ul class="dropdown-menu" style="height:400px;overflow-y:auto;overflow-x:hidden;"><li><a href="#"><i class="fa fa-circle-o-notch"></i></a></li></ul></div>').appendTo(page_btn_wrapper);
 
 		if(self.options.template_editing != true){
 			$template_edit_btn.click(function(event) {
@@ -362,11 +362,11 @@ jQuery.widget("ui.xepanEditor",{
 		$page_dropdown.click(function(event) {
 
 			$.ajax({
-				url: 'index.php?page=xepan_cms_cmspagemanager_getpage&cut_page=1',
+				url: 'index.php?page=xepan_cms_getwebpage&cut_page=1',
 				success: function ( page_list ){
 					console.log(page_list);
 					// console.log(this);
-					$(this).find('ul').html(page_list);
+					$page_dropdown.find('ul').html(page_list);
 				}
 			});
 

@@ -110,6 +110,6 @@ class page_cmspagemanager extends \xepan\base\Page{
         }
         // $drop_down .= "</ul>";
         echo $drop_down;
-		exit();
+		exit;
 	}
 }
