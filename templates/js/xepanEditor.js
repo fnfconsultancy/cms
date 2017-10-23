@@ -345,19 +345,19 @@ jQuery.widget("ui.xepanEditor",{
 		var self = this;
 
 		var page_btn_wrapper = $('<div class="btn-group btn-group-justified xepan-cms-template-page-management"></div>').appendTo(self.editor_helper_wrapper);
-		var $template_edit_btn = $('<div class="btn-group btn-group-xs"> <button class="btn btn-primary" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></button></div>').appendTo(page_btn_wrapper);
+		// var $template_edit_btn = $('<div class="btn-group btn-group-xs"> <button class="btn btn-primary" title="Edit Current Page Template"> <i class="fa fa-edit"> Template</i></button></div>').appendTo(page_btn_wrapper);
 		// var $page_btn = $('<input disabled="" title="Current Page:'+self.options.current_page+'" class="form-control" aria-describedby="basic-addon3" value="'+self.options.current_page+' "/><span title="Page and Template Management" class="input-group-addon"><i class="fa fa-cog"></i></span>').appendTo(page_btn_wrapper);
 
 		// var $page_btn = $('<div class="btn-group btn-group-xs"><button title="Page and Template Management" class="btn btn-primary">Page&nbsp;<i class="fa fa-cog"></i></button></div>').appendTo(page_btn_wrapper);
-		$page_dropdown = $('<div class="btn-group btn-group-xs" role="group"><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages<span class="caret"></span></button><ul class="dropdown-menu" style="height:400px;overflow-y:auto;overflow-x:hidden;"><li><a href="#"><i class="fa fa-circle-o-notch"></i></a></li></ul></div>').appendTo(page_btn_wrapper);
+		$page_dropdown = $('<div class="btn-group btn-group-xs" role="group"><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages<span class="caret"></span></button><div class="dropdown-menu" style="width:250px;"> <button class="btn btn-default xepan-current-page-template-edit" title="edit current page template">Edit Page Template</button><button class="btn btn-default xepan-page-management" title="Manage Page and Template">New/Manage Pages</button>  <ul class="dropdown-menu page-list" style="display:block;max-height:400px;overflow-y:auto;overflow-x:hidden;width:250px;"><li><a href="#"><i class="fa fa-circle-o-notch"></i></a></li></ul></div></div>').appendTo(page_btn_wrapper);
 
-		if(self.options.template_editing != true){
-			$template_edit_btn.click(function(event) {
-				$(self.element).xepanEditor('editTemplate');
-			});
-		}else{
-			$template_edit_btn.addClass('xepan-editor-btn-disabled');
-		}
+		$('.xepan-current-page-template-edit').click(function(event) {
+			$(self.element).xepanEditor('editTemplate');
+		});
+
+		$('.xepan-page-management').click(function(event) {
+			$.univ().frameURL('Pages & Templates','index.php?page=xepan_cms_cmspagemanager&cut_page=1');
+		});
 
 		$page_dropdown.click(function(event) {
 
@@ -366,13 +366,12 @@ jQuery.widget("ui.xepanEditor",{
 				success: function ( page_list ){
 					console.log(page_list);
 					// console.log(this);
-					$page_dropdown.find('ul').html(page_list);
+
+					$page_dropdown.find('ul.page-list').html(page_list);
 				}
 			});
 
-			// $.univ().frameURL('Pages & Templates','index.php?page=xepan_cms_cmspagemanager&cut_page=1');
 		});
-
 
 	},
 
