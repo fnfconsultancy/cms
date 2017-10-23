@@ -7,6 +7,8 @@ class page_sitemap extends \Page{
 	function init(){
 		parent::init();
 
+    $epan_info = $this->app->recall('epan_from_root');
+
     $config = $this->add('xepan\base\Model_ConfigJsonModel',
       [
         'fields'=>[
@@ -24,17 +26,18 @@ class page_sitemap extends \Page{
 
     $this->app->hook('sitemap_generation',[&$urls,$config['page_list']]);
 
-    $epan_park_domain = explode(",", $this->app->epan['aliases']);
+    $epan_park_domain = explode(",", $epan_info['aliases']);
     $epan_park_domain[] = $this->app->epan['name'];
+
 
     $domain_host_detail = parse_url($this->app->pm->base_url);
 
     $domain_list = [];
     foreach ($epan_park_domain as $key => $domain_name) {
 
-      $domain_name = trim(trim($domain_name,'"'));
-      if(!strpos( $domain_name, "." ))
-        $domain_name .= ".".$domain_host_detail['host'];
+      $domain_name = trim(str_replace('"', '',$domain_name));
+      if(strpos( $domain_name, "." ) === false) // its an alias
+        $domain_name .= ".".str_replace('www.', '', $this->app->getConfig('xepan-service-host','epan.in')); // xepan-service-host defines in root config file that shows what is your epan service hosts, not for opensource version but only for epan services
 
       $domain_list[] = $domain_host_detail['scheme']."://".$domain_name;
     }
@@ -47,7 +50,7 @@ class page_sitemap extends \Page{
     foreach ($domain_list as $key => $domain) {
       foreach ($urls as $key => $url) {
         // $site_map_list[] = $domain.$url;
-        $xml .= "<loc>$domain.$url</loc>";
+        $xml .= str_replace("&", "&amp;", "<loc>$domain$url</loc>");
       }
     }
 
