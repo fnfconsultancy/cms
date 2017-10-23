@@ -139,7 +139,8 @@ jQuery.widget("ui.xepanComponent",{
 		updateBreadCrumb();
 		// console.log($(this.options.option_panel).closest('.xepan-tool-options'));
 		// console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
-		this.showComponentToolBar();		
+		this.showComponentToolBar();
+		this.manageDynamicOptions();		
 	},
 
 	createSortable: function(){
@@ -185,6 +186,28 @@ jQuery.widget("ui.xepanComponent",{
 			$('#xepan-cms-toolbar-right-side-panel').removeClass('toggleSideBar');
 		}
 	},
+
+	manageDynamicOptions: function(){
+		// clear dynamic option area from option panel
+		// look for xepan-dynamic-option-* inside selected component but not in nested xepan-component
+		// create dynamic options with events on change
+			// events populate desired values as said in dynamic option
+
+		// what can be asked for
+			// for selector inside current selected component :: attribute value, style, class, internal text
+		// format to ask for in component
+		/* 	<div class='xepan-comonent' 
+				xepan-dynamic-option-1=".mysubclass|Your Sales This Month|text"
+				xepan-dynamic-option-2=".readmorebtn|Button Text|href"
+				xepan-dynamic-option-3=".readmorebtn|Target|target|Self,New Window"
+				xepan-dynamic-option-4=".color-class|What Color you like|style|color"
+				xepan-dynamic-option-5="this|Background Image|style|background"
+				xepan-dynamic-option-6=".my-sub-icon|Icon|class|fa-*,glyphicon-*" // classes to remove in last before applying new class
+				xepan-dynamic-option-n="this/inner component class/id|TEXT TO ASK|attribute/style/class|related information,which style"
+
+			> ... </div>
+		*/
+	}
 
 	sortable_options: {
 		appendTo:'body',
