@@ -204,9 +204,126 @@ jQuery.widget("ui.xepanComponent",{
 				xepan-dynamic-option-5="this|Background Image|style|background"
 				xepan-dynamic-option-6=".my-sub-icon|Icon|class|fa-*,glyphicon-*" // classes to remove in last before applying new class
 				xepan-dynamic-option-n="this/inner component class/id|TEXT TO ASK|attribute/style/class|related information,which style"
-
 			> ... </div>
 		*/
+		$option_panel = $('#xepan-basic-css-panel.epan-css-options');
+		$option_panel.find('.xepan-component-dynamic-option').remove();
+
+		// find all dynamic options first
+		var matched = [];
+		var find_str = "xepan-dynamic-option-";
+		$(current_selected_component).each(function(index) {
+			var elem = this;
+			$.each(this.attributes, function( index, attr ) {
+				if(attr.name.indexOf(find_str)===0){
+					matched.push(attr.value);
+				}
+			});
+		});
+
+        if(!matched.length) return;
+
+		var dynamic_section = '<div class="xepan-cms-group-panel xepan-component-dynamic-option clearfix xepan-cms-tool">'+
+								'<div data-toggle="collapse" data-target="#collapsedynamic" aria-expanded="false" class="xepan-cms-toolbar-heading">'+
+									'<span>Dynamic Option</span>'+
+									'<i class="fa fa-chevron-down pull-right"></i>'+
+								'</div>'+
+								'<div id="collapsedynamic" class="xepan-cms-tools-bar-panel row-fluid in" style="height: auto;">'+
+									'<div class="xepan-toolbar-panel-body xepan-collasp-body">'
+							;
+
+		$.each(matched, function(index, el) {
+			option_array = el.split('|');
+			var dyn_selector = option_array[0];
+			var name = option_array[1];
+			var where_to_set = $.trim(option_array[2]);
+			var old_value = "";
+
+			if(dyn_selector == "this"){
+				$targets = $(current_selected_component);
+			}else
+				$targets = $(current_selected_component).find(dyn_selector);
+
+			switch(where_to_set){
+				case 'href':
+					old_value = $targets.attr('href');
+				break;
+				case 'text':
+					old_value = $targets.html();
+				break;
+				case 'css':
+					old_value = $targets.attr('class');
+				break;
+				case 'src':
+					old_value = $targets.attr('src');
+				break;
+			}
+
+			if(where_to_set == "text"){
+				dynamic_section	+= '<label>'+name+'</label>' +' <textarea class="xepan-dynamic-component-value" dynamic-selector="'+el+'" >'+old_value+'</textarea>';
+			}else if(where_to_set == "src"){
+				dynamic_section += '<div><label>Image</label><input id="xepan-dynamic-image-option-src" type="text" disabled="true" value="'+old_value+'"/><div class="btn btn-group btn-group-xs"><button id="xepan-dynamic-image-option-select" type="button" class="btn btn-primary btn-xs">Select</button></div></div>';
+			}else{
+				dynamic_section	+= '<label>'+name+'</label>' +' <input class="xepan-dynamic-component-value" dynamic-selector="'+el+'" value="'+old_value+'" />';
+			}
+
+		});
+		dynamic_section += '</div></div></div>';
+
+		$('#xepan-basic-css-panel.epan-css-options > hr ').after(dynamic_section);
+		// $(dynamic_section).prependTo($('#xepan-basic-css-panel.epan-css-options'));
+		
+
+		// implement dynamic function change event
+		$('.xepan-dynamic-component-value').change(function(event) {
+			var dyn_option = $(this).attr('dynamic-selector');
+			var option_array = dyn_option.split('|');
+			var dyn_selector = option_array[0];
+			var where_to_set = $.trim(option_array[2]);
+			var new_value = $(this).val();
+
+			if(dyn_selector == "this"){
+				$targets = $(current_selected_component);
+			}else
+				$targets = $(current_selected_component).find(dyn_selector);
+
+			switch(where_to_set){
+				case 'href':
+					$targets.attr('href',new_value);
+				break;
+				case 'text':
+					$targets.html(new_value);
+				break;
+				case 'css':
+					$targets.attr('class',new_value);
+				break;
+				case 'image':
+					$targets.attr('src',new_value);
+				break;
+
+			}
+		});
+
+		// image option select button
+		$('#xepan-dynamic-image-option-select').click(function(event) {
+			var fm = $('<div/>').dialogelfinder({
+			url : '?page=xepan_base_elconnector',
+			lang : 'en',
+			width : 840,
+			destroyOnClose : true,
+			getFileCallback : function(files, fm) {
+				console.log(files.url);
+				$('#xepan-dynamic-image-option-src').val(files.url);
+				$(current_selected_component).find('img').attr('src',files.url);
+			},
+				commandsOptions : {	
+					getfile : {
+					oncomplete : 'close',
+					folders : true
+					}
+				}
+			}).dialogelfinder('instance');
+		});
 	},
 
 	sortable_options: {

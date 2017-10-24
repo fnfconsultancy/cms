@@ -553,3 +553,12 @@
 /*.xepan-cms-group-panel{
     padding: 0px;
 }*/
+
+.xepan-component-dynamic-option input,
+.xepan-component-dynamic-option textarea {
+    width:100%;
+}
+
+.xepan-component-dynamic-option{
+    padding: 5px;
+}
