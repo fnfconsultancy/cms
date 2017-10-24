@@ -360,17 +360,17 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		$page_dropdown.click(function(event) {
-
+			$('.dropdown-toggle').dropdown();
+			
 			$.ajax({
 				url: 'index.php?page=xepan_cms_getwebpage&cut_page=1',
 				success: function ( page_list ){
 					if($(page_list).length > 0)
 						$page_dropdown.find('ul.page-list').html(page_list);
 					else
-						$page_dropdown.find('ul.page-list').html("<li>No One Page Found</li>");
+						$page_dropdown.find('ul.page-list').html("<li>No Pages Found</li>");
 				}
 			});
-
 		});
 
 	},
