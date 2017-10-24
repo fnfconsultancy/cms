@@ -364,10 +364,10 @@ jQuery.widget("ui.xepanEditor",{
 			$.ajax({
 				url: 'index.php?page=xepan_cms_getwebpage&cut_page=1',
 				success: function ( page_list ){
-					console.log(page_list);
-					// console.log(this);
-
-					$page_dropdown.find('ul.page-list').html(page_list);
+					if($(page_list).length > 0)
+						$page_dropdown.find('ul.page-list').html(page_list);
+					else
+						$page_dropdown.find('ul.page-list').html("<li>No One Page Found</li>");
 				}
 			});
 
