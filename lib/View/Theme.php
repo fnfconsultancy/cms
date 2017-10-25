@@ -96,6 +96,10 @@ class View_Theme extends \View{
 							}else{
 								$js_event[] = $form->js()->univ()->location()->reload();
 							}
+
+							// theme applied hook
+							$this->app->hook('ThemeApplied');
+
 						}catch(\Exception $e){
 							$js_event[] = $form->js()->univ()->errorMessage("theme not apply, ".$e->getMessage());
 						}

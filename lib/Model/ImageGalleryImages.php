@@ -33,7 +33,9 @@ class Model_ImageGalleryImages extends \xepan\base\Model_Table{
 	}
 
 	function updateJsonFile(){
-		$form = $this->add('xepan\cms\Model_Custom_Form');
-		$form->load($this['custom_form_id'])->updateJsonFile();
+		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
+		
+		$m = $this->add('xepan\cms\Model_ImageGalleryCategory');
+		$m->load($this['gallery_cat_id'])->updateJsonFile();
 	}
 }
