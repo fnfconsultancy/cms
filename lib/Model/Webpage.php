@@ -47,6 +47,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 
 		$this->addHook('beforeSave',$this);
 		$this->addHook('beforeDelete',$this);
+		$this->addHook('afterSave',[$this,'updateJsonFile']);
 	}
 
 	function mergeFromTemplate(){
@@ -148,6 +149,17 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		if($include_file_name) $path .= "/".$this['path'];
 
 		return $path;
+	}
+
+	function updateJsonFile(){
+		$path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/layout";
+		if(!file_exists(realpath($path))){
+			\Nette\Utils\FileSystem::createDir('./websites/'.$this->app->current_website_name.'/www/layout');
+		}
+
+		$file_content = json_encode($this->add('xepan\cms\Model_Webpage')->getRows());
+		$fs = \Nette\Utils\FileSystem::write('./websites/'.$this->app->current_website_name.'/www/layout/webpage.json',$file_content);
+		
 	}
 
 }

@@ -28,5 +28,12 @@ class Model_ImageGalleryImages extends \xepan\base\Model_Table{
 		$this->addExpression('thumb_url')->set(function($m,$q){
 			return $q->expr('[0]',[$m->getElement('image')]);
 		});
+		
+		$this->addHook('afterSave',[$this,'updateJsonFile']);
+	}
+
+	function updateJsonFile(){
+		$form = $this->add('xepan\cms\Model_Custom_Form');
+		$form->load($this['custom_form_id'])->updateJsonFile();
 	}
 }

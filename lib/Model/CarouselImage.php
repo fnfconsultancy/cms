@@ -37,6 +37,8 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		$this->addExpression('thumb_url')->set(function($m,$q){
 			return $q->expr('[0]',[$m->getElement('file')]);
 		});
+
+		$this->addHook('afterSave',[$this,'updateJsonFile']);
 	}
 
 	function show(){
@@ -53,5 +55,10 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
             ->addActivity("Carousel Image : '".$this['title']."' is now hidden", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,null)
             ->notifyWhoCan('hide','Hidden',$this);
 		$this->save();
+	}
+
+	function updateJsonFile(){
+		$master = $this->add('xepan\cms\Model_CarouselCategory');
+		$master->load($this['carousel_category_id'])->updateJsonFile();
 	}
 }

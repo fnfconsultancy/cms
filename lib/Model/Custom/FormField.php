@@ -54,6 +54,13 @@
 					];
 
 		$this->addField('save_into_field_of_lead')->setValueList($lead_field);
+		
+		$this->addHook('afterSave',[$this,'updateJsonFile']);
+	}
+
+	function updateJsonFile(){
+		$form = $this->add('xepan\cms\Model_Custom_Form');
+		$form->load($this['custom_form_id'])->updateJsonFile();
 	}
 
 }

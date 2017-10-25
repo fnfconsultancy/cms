@@ -43,6 +43,8 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 		$this->addField('lead_category_ids')->type('text');
 
 		$this->hasMany('xepan\cms\Custom_FormField','custom_form_id');
+		
+		$this->addHook('afterSave',[$this,'updateJsonFile']);
 	}
 
 	function activate(){
@@ -83,4 +85,23 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 									);
 		});
 	}
+
+
+	function updateJsonFile(){
+		$path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/layout";
+		if(!file_exists(realpath($path))){
+			\Nette\Utils\FileSystem::createDir('./websites/'.$this->app->current_website_name.'/www/layout');
+		}
+
+		$forms = $this->add('xepan\cms\Model_Custom_Form')->getRows();
+		foreach ($forms as &$form) {
+			$fields = $this->add('xepan\cms\Model_Custom_FormField');
+			$fields->addCondition('custom_form_id',$form['id']);
+			$form['formfields'] = $fields->getRows();
+		}
+
+		$file_content = json_encode($forms);
+		$fs = \Nette\Utils\FileSystem::write('./websites/'.$this->app->current_website_name.'/www/layout/customform.json',$file_content);
+	}
+
 }

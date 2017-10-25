@@ -23,6 +23,8 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 		$this->addCondition('type','CarouselCategory');
 
 		$this->hasMany('xepan\cms\CarouselImage','carousel_image_id');
+		
+		$this->addHook('afterSave',[$this,'updateJsonFile']);
 	}
 
 	function activate(){
@@ -39,5 +41,22 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
             ->addActivity("Carousel Category : '".$this['name']."' is deactivated", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,null)
             ->notifyWhoCan('activate','InActive',$this);
 		$this->save();
+	}
+
+	function updateJsonFile(){
+		$path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/layout";
+		if(!file_exists(realpath($path))){
+			\Nette\Utils\FileSystem::createDir('./websites/'.$this->app->current_website_name.'/www/layout');
+		}
+
+		$cats = $this->add('xepan\cms\Model_CarouselCategory')->getRows();
+		foreach ($cats as &$cat) {
+			$images = $this->add('xepan\cms\Model_CarouselImage');
+			$images->addCondition('carousel_category_id',$cat['id']);
+			$cats['images'] = $images->getRows();
+		}
+
+		$file_content = json_encode($cats);
+		$fs = \Nette\Utils\FileSystem::write('./websites/'.$this->app->current_website_name.'/www/layout/carousel.json',$file_content);
 	}
 }
