@@ -22,22 +22,28 @@
 				| Get Pages
 			td
 				button#xmenu-bootstrap-get-pages.btn.btn-primary.btn-xs Get Pages
+		tr.xepan-tool-option
+			td.xepan-tool-option-title(valign="top") Align
+			td.xepan-tool-option-value
+				select#xmenu-bootstrap-alignment(data-attr='xbootmenu-align' data-defaultvalue="right")
+					option(value="right") Right
+					option(value="left") Left
+		tr.xepan-tool-option
+			td.xepan-tool-option-title(valign="top") Navbar Position
+			td.xepan-tool-option-value
+				button#xepan-bootstrap-menu-default-nav.btn.btn-default.btn-xs(type='button') Default
+				button#xepan-bootstrap-menu-fixed-top.btn.btn-default.btn-xs(type='button') Fixed to Top
+				button#xepan-bootstrap-menu-fixed-bottom.btn.btn-default.btn-xs(type='button') Fixed to Bottom
+				button#xepan-bootstrap-menu-static-top.btn.btn-default.btn-xs(type='button') Static Top
+				button#xepan-bootstrap-menu-inverted-nav.btn.btn-default.btn-xs(type='button') Inverted Navbar
 		tr
-			.xepan-tool-option
-				td.xepan-tool-option-title(valign="top") Align
-				td.xepan-tool-option-value
-					select#xmenu-bootstrap-alignment(data-attr='xbootmenu-align' data-defaultvalue="right")
-						option(value="right") Right
-						option(value="left") Left
-		tr
-			.xepan-tool-option
-				td.xepan-tool-option-title(valign="top") Navbar Position
-				td.xepan-tool-option-value
-					button#xepan-bootstrap-menu-default-nav.btn.btn-default.btn-xs(type='button') Default
-					button#xepan-bootstrap-menu-fixed-top.btn.btn-default.btn-xs(type='button') Fixed to Top
-					button#xepan-bootstrap-menu-fixed-bottom.btn.btn-default.btn-xs(type='button') Fixed to Bottom
-					button#xepan-bootstrap-menu-static-top.btn.btn-default.btn-xs(type='button') Static Top
-					button#xepan-bootstrap-menu-inverted-nav.btn.btn-default.btn-xs(type='button') Inverted Navbar
+			td(colspan="2") Inner section width
+				input(class="bnavbar-innersection-width" placeholder="width" type="NUMBER" min="0" max="99999")
+				div.input-group.input-group-sm
+					span.input-group-addon(class="bnavbar-inner-section-action-btn" unit="px") Px
+					span.input-group-addon(class="bnavbar-inner-section-action-btn" unit="%") %
+					span.input-group-addon(class="bnavbar-inner-section-action-btn" unit="auto") Auto
+					span.input-group-addon(class="bnavbar-inner-section-action-btn" unit="max") Max
 	//- .xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
 				
 	script.
@@ -47,13 +53,16 @@
 
 		$('\#{$_name}').on('show',function(event){
 			$('\#{$_name} [data-attr]').each(function(index,value){
-				
+
 				var default_value = $(this).attr('data-defaultvalue');
 				if($(current_selected_component).attr($(this).data('attr')))
 					default_value = $(current_selected_component).attr($(this).data('attr'));
 				
 				$(this).val(default_value);
-			});
+			});	
+
+			$('\#{$_name}').find('.bnavbar-innersection-width').val($(current_selected_component).find('.navbar-inner-container').attr('inner-width'));
+						
 		});
 
 		//- brand name change value
@@ -131,6 +140,29 @@
 				$(current_selected_component).find('.navbar-collapse').removeClass('navbar-left').addClass('navbar-right');
 			}
 		});
+
+		$('.bnavbar-inner-section-action-btn').click(function(){
+			var unit = $(this).attr('unit');
+			var inner_width = $('.bnavbar-innersection-width').val();
+
+			if(inner_width > 0){
+				$inner_conatiner = $(current_selected_component).find('.navbar-inner-container');
+				if(unit == "px" || unit == "%"){
+					$inner_conatiner.css('width',inner_width+unit);
+				}else if(unit == "auto"){
+					$inner_conatiner.css('width','80%');
+					inner_width = "80";
+					unit = "%";
+				}else if(unit == "max"){
+					inner_width = "100";
+					unit = "%";
+					$inner_conatiner.css('width','100%');
+				}
+				$inner_conatiner.attr('inner-width',inner_width);
+				$inner_conatiner.attr('inner-unit',unit);
+			}
+
+		})
 
 		function getSubPageHtml(path,page_data){
 

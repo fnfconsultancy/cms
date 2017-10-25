@@ -23,28 +23,30 @@
         <button id="xmenu-bootstrap-get-pages" class="btn btn-primary btn-xs">Get Pages</button>
       </td>
     </tr>
-    <tr>
-      <div class="xepan-tool-option">
-        <td valign="top" class="xepan-tool-option-title">Align</td>
-        <td class="xepan-tool-option-value">
-          <select id="xmenu-bootstrap-alignment" data-attr="xbootmenu-align" data-defaultvalue="right">
-            <option value="right">Right</option>
-            <option value="left">Left</option>
-          </select>
-        </td>
-      </div>
+    <tr class="xepan-tool-option">
+      <td valign="top" class="xepan-tool-option-title">Align</td>
+      <td class="xepan-tool-option-value">
+        <select id="xmenu-bootstrap-alignment" data-attr="xbootmenu-align" data-defaultvalue="right">
+          <option value="right">Right</option>
+          <option value="left">Left</option>
+        </select>
+      </td>
+    </tr>
+    <tr class="xepan-tool-option">
+      <td valign="top" class="xepan-tool-option-title">Navbar Position</td>
+      <td class="xepan-tool-option-value">
+        <button id="xepan-bootstrap-menu-default-nav" type="button" class="btn btn-default btn-xs">Default</button>
+        <button id="xepan-bootstrap-menu-fixed-top" type="button" class="btn btn-default btn-xs">Fixed to Top</button>
+        <button id="xepan-bootstrap-menu-fixed-bottom" type="button" class="btn btn-default btn-xs">Fixed to Bottom</button>
+        <button id="xepan-bootstrap-menu-static-top" type="button" class="btn btn-default btn-xs">Static Top</button>
+        <button id="xepan-bootstrap-menu-inverted-nav" type="button" class="btn btn-default btn-xs">Inverted Navbar</button>
+      </td>
     </tr>
     <tr>
-      <div class="xepan-tool-option">
-        <td valign="top" class="xepan-tool-option-title">Navbar Position</td>
-        <td class="xepan-tool-option-value">
-          <button id="xepan-bootstrap-menu-default-nav" type="button" class="btn btn-default btn-xs">Default</button>
-          <button id="xepan-bootstrap-menu-fixed-top" type="button" class="btn btn-default btn-xs">Fixed to Top</button>
-          <button id="xepan-bootstrap-menu-fixed-bottom" type="button" class="btn btn-default btn-xs">Fixed to Bottom</button>
-          <button id="xepan-bootstrap-menu-static-top" type="button" class="btn btn-default btn-xs">Static Top</button>
-          <button id="xepan-bootstrap-menu-inverted-nav" type="button" class="btn btn-default btn-xs">Inverted Navbar</button>
-        </td>
-      </div>
+      <td colspan="2">Inner section width
+        <input placeholder="width" type="NUMBER" min="0" max="99999" class="bnavbar-innersection-width"/>
+        <div class="input-group input-group-sm"><span unit="px" class="input-group-addon bnavbar-inner-section-action-btn">Px</span><span unit="%" class="input-group-addon bnavbar-inner-section-action-btn">%</span><span unit="auto" class="input-group-addon bnavbar-inner-section-action-btn">Auto</span><span unit="max" class="input-group-addon bnavbar-inner-section-action-btn">Max</span></div>
+      </td>
     </tr>
   </table>
   <script>
@@ -54,13 +56,15 @@
     
     $('#{$_name}').on('show',function(event){
     	$('#{$_name} [data-attr]').each(function(index,value){
-    		
+    
     		var default_value = $(this).attr('data-defaultvalue');
     		if($(current_selected_component).attr($(this).data('attr')))
     			default_value = $(current_selected_component).attr($(this).data('attr'));
     		
     		$(this).val(default_value);
-    	});
+    	});	
+    
+    	$('#{$_name}').find('.bnavbar-innersection-width').val($(current_selected_component).find('.navbar-inner-container').attr('inner-width'));
     });
     
     //- brand name change value
@@ -138,6 +142,29 @@
     		$(current_selected_component).find('.navbar-collapse').removeClass('navbar-left').addClass('navbar-right');
     	}
     });
+    
+    $('.bnavbar-inner-section-action-btn').click(function(){
+    	var unit = $(this).attr('unit');
+    	var inner_width = $('.bnavbar-innersection-width').val();
+    
+    	if(inner_width > 0){
+    		$inner_conatiner = $(current_selected_component).find('.navbar-inner-container');
+    		if(unit == "px" || unit == "%"){
+    			$inner_conatiner.css('width',inner_width+unit);
+    		}else if(unit == "auto"){
+    			$inner_conatiner.css('width','80%');
+    			inner_width = "80";
+    			unit = "%";
+    		}else if(unit == "max"){
+    			inner_width = "100";
+    			unit = "%";
+    			$inner_conatiner.css('width','100%');
+    		}
+    		$inner_conatiner.attr('inner-width',inner_width);
+    		$inner_conatiner.attr('inner-unit',unit);
+    	}
+    
+    })
     
     function getSubPageHtml(path,page_data){
     
