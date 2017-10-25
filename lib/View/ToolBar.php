@@ -166,7 +166,7 @@ class View_ToolBar extends \View {
 		$this->js(true)
 				->_load('tinymce.min')
 				->_load('jquery.tinymce.min')
-				->_load('xepan-richtext-admin');
+				->_load('xepan-richtext-admin1');
 
 		$this->js(true)->_load('shortcut');
 
