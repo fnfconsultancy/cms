@@ -88,6 +88,9 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 
 
 	function updateJsonFile(){
+
+		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
+
 		$path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/layout";
 		if(!file_exists(realpath($path))){
 			\Nette\Utils\FileSystem::createDir('./websites/'.$this->app->current_website_name.'/www/layout');
