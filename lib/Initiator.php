@@ -368,6 +368,7 @@ class Initiator extends \Controller_Addon {
                 $fields['order'] = $image['order'];
                 $fields['link'] = $image['link'];
                 $fields['status'] = $image['status'];
+                $fields['file_id'] = $image['file_id'];
                 $fields->save();
            }
         }
@@ -393,6 +394,7 @@ class Initiator extends \Controller_Addon {
             $m['is_associate_lead'] = $form['is_associate_lead'];
             $m->save();
 
+            
             foreach ($form['formfields'] as $field) {
                 $f = $this->add('xepan\cms\Model_Custom_FormField');
                 $f['custom_form_id'] = $m->id;
@@ -426,6 +428,7 @@ class Initiator extends \Controller_Addon {
                 $fields['name'] = $image['name'];
                 $fields['status'] = $image['status'];
                 $fields['description'] = $image['description'];
+                $fields['image_id'] = $image['image_id'];
                 $fields->save();
            }
         }

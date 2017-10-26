@@ -38,7 +38,9 @@ class View_Theme extends \View{
         }else{
         	$grid->template->tryDel('filter_wrapper');
         }
-        	
+        
+        $this->app->readConfig('websites/'.$this->app->current_website_name.'/config.php');
+        $this->app->dbConnect();
 
 
         $this->url = $url = "{$_SERVER['HTTP_HOST']}";        
@@ -55,6 +57,7 @@ class View_Theme extends \View{
 			$grid->add('VirtualPage')
 				->addColumn('ApplyNow')
 				->set(function($page){
+
 					$id = $_GET[$page->short_name.'_id'];
 					
 					if(!$id){
@@ -98,7 +101,7 @@ class View_Theme extends \View{
 							}
 
 							// theme applied hook
-							$this->app->hook('ThemeApplied');
+							$this->app->Hook('ThemeApplied');
 
 						}catch(\Exception $e){
 							$js_event[] = $form->js()->univ()->errorMessage("theme not apply, ".$e->getMessage());
