@@ -159,7 +159,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 			\Nette\Utils\FileSystem::createDir('./websites/'.$this->app->current_website_name.'/www/layout');
 		}
 
-		$file_content = json_encode($this->add('xepan\cms\Model_Webpage')->getRows());
+		$file_content = json_encode($this->add('xepan\cms\Model_Webpage')->setOrder('is_template','desc')->getRows());
 		$fs = \Nette\Utils\FileSystem::write('./websites/'.$this->app->current_website_name.'/www/layout/webpage.json',$file_content);
 		
 	}

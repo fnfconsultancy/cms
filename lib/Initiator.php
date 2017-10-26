@@ -374,7 +374,7 @@ class Initiator extends \Controller_Addon {
     }
 
     function importcustomform($data){
-        
+
         foreach($data as $form){
             $m = $this->add('xepan\cms\Model_Custom_Form');
             $m->addCondition('name',$form['name']);
@@ -439,6 +439,12 @@ class Initiator extends \Controller_Addon {
             $web->tryLoadAny();
             if($web->loaded()) continue;
 
+            $temp = $this->add('xepan\cms\Model_Webpage');
+            $temp->addCondition('is_template',true);
+            $temp->addCondition('name',$webpage['template']);
+            $temp->tryLoadAny();
+
+            $web['template_id'] = $temp->id;
             $web['path'] = $webpage['path'];
             $web['page_title'] = $webpage['page_title'];
             $web['meta_kewords'] = $webpage['meta_kewords'];
@@ -449,5 +455,6 @@ class Initiator extends \Controller_Addon {
             $web['is_active'] = $webpage['is_active'];
             $web->save();
         }
+
     }
 }
