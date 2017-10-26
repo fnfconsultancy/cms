@@ -23,6 +23,8 @@ class Model_ImageGalleryCategory extends \xepan\base\Model_Table{
 
 	function updateJsonFile(){
 
+		if(!$this->app->epan['is_template']) return;
+		
 		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
 				
 		$path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/layout";

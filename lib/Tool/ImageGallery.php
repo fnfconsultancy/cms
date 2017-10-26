@@ -21,12 +21,11 @@ class Tool_ImageGallery extends \xepan\cms\View_Tool{
 		}
 
 		$image_m = $this->add('xepan\cms\Model_ImageGalleryImages');
-		$image_m->addCondition('gallery_cat_id',$this->options['img_gallery_category']);
+		$image_m->addCondition([['gallery_cat_id',$this->options['img_gallery_category']],['gallery_cat',$this->options['img_gallery_category']]]);
 		// $image_m->setOrder('order','asc');
 
 		$carousel_cl = $this->add('CompleteLister',null,null,['view\tool\Google-image-gallery']);
 		$carousel_cl->setModel($image_m);
-		
 
 		$carousel_cl->addHook('formatRow',function($l){
 			// if($this->count == 1)
@@ -45,8 +44,9 @@ class Tool_ImageGallery extends \xepan\cms\View_Tool{
 
 			if($this->options['show_description']){
 				$l->current_row_html['show_description'] = $l->model['description'];
-
 			}
+
+			$l->current_row['image'] = './websites/'.$this->app->current_website_name."/".$l->model['image_id'];
 		});
 
 	}

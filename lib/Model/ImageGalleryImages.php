@@ -15,7 +15,8 @@ class Model_ImageGalleryImages extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\cms\ImageGalleryCategory','gallery_cat_id');
 		
 		$this->addField('name')->caption('Title');
-		$this->add('xepan/filestore/Field_Image',['name'=>'image_id']);
+		// $this->add('xepan/filestore/Field_Image',['name'=>'image_id']);
+		$this->addField('image_id')->display(['form'=>'xepan\base\ElImage']);
 		
 		$this->addField('status')->enum(['Active','InActive'])->defaultValue('Active');
 		$this->addField('created_at')->type('datetime')->defaultValue($this->app->now);
@@ -25,14 +26,17 @@ class Model_ImageGalleryImages extends \xepan\base\Model_Table{
 		
 		$this->addField('description')->type('text')->display(['xepan\base\RichText']);
 
-		$this->addExpression('thumb_url')->set(function($m,$q){
-			return $q->expr('[0]',[$m->getElement('image')]);
-		});
-		
+		// $this->addExpression('thumb_url')->set(function($m,$q){
+		// 	return $q->expr('[0]',[$m->getElement('image')]);
+		// });
+
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
 	}
 
 	function updateJsonFile(){
+		
+		if(!$this->app->epan['is_template']) return;
+
 		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
 		
 		$m = $this->add('xepan\cms\Model_ImageGalleryCategory');
