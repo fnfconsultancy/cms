@@ -52,7 +52,7 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 
 	function updateJsonFile(){
 		
-		if(!$this->app->epan['is_template']) return;
+		// if(!$this->app->epan['is_template']) return;
 
 		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
 

@@ -19,11 +19,19 @@ class Model_ImageGalleryCategory extends \xepan\base\Model_Table{
 		$this->hasMany('xepan\cms\ImageGalleryImages','gallery_cat_id');
 
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
+		
+		$this->addHook('beforeDelete',$this);
+	}
+
+	function beforeDelete(){
+		$this->add('xepan\cms\Model_ImageGalleryImages')
+			->addCondition('gallery_cat_id',$this->id)
+			->deleteAll();
 	}
 
 	function updateJsonFile(){
 
-		if(!$this->app->epan['is_template']) return;
+		// if(!$this->app->epan['is_template']) return;
 		
 		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
 				
