@@ -31,9 +31,9 @@ class Tool_AwesomeSlider extends \xepan\cms\View_Tool{
 		$carousel_cl->setModel($image_m);
 		$this->carousel_id = '#slider_'.$carousel_cl->name;
 		$this->paginatorPOS = $this->options['paginator-position'];
-		// $carousel_cl->addHook('formatRow',function($l){
-		// 	$l->current_row_html['theme_css'] = $l->model['text_to_display'];
-		// });
+		$carousel_cl->addHook('formatRow',function($l){
+			$l->current_row['file'] = './websites/'.$this->app->current_website_name."/".$l->model['file_id'];
+		});
 
 		if($this->options['control_nav']==true){
 			$this->controlNav= true;

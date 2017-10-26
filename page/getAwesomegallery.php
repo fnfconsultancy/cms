@@ -11,7 +11,7 @@ class page_getAwesomegallery extends \Page{
 		$rows = $c->getRows(['id','name']);
 		$option = "<option value='0'>Please Select </option>";
 		foreach ($rows as $row) {
-			$option .= "<option value='".$row['id']."'>".$row['name']."</option>";
+			$option .= "<option value='".$row['name']."'>".$row['name']."</option>";
 		}
 
 		echo $option;
