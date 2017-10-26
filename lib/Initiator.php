@@ -45,6 +45,7 @@ class Initiator extends \Controller_Addon {
     function setup_pre_frontend(){
 
         $this->app->addHook('sitemap_generation',[$this,'addSiteMapEntries']);
+        $this->app->addHook('ThemeApplied',[$this,'themeApplied']);
 
         $this->app->isEditing = false;
 
@@ -327,6 +328,126 @@ class Initiator extends \Controller_Addon {
         foreach ($page as $p) {
             $url = $this->app->url(str_replace(".html", '', $p['path']));
             $urls[] = (string)$url;
+        }
+    }
+
+    function themeApplied($app){
+        $path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/layout";
+        
+        $this->app->skipDefaultTemplateJsonUpdate = true;
+
+        $layouts = $this->add('xepan/cms/Model_Layout',['path'=>$path]);
+        foreach($layouts as $l) {
+            if(!strpos($l['name'], ".json")) continue;
+
+            $data = \Nette\Utils\FileSystem::read($l->path());
+            $name = 'import'.str_replace(".json", "", $l['name']);
+            $this->$name(json_decode($data,true));
+        }
+
+    }
+
+    // import from json file to database
+    function importcarousel($data){
+
+        foreach ($data as $category) {
+           $m = $this->add('xepan\cms\Model_CarouselCategory');
+           $m->addCondition('name',$category['name']);
+           $m->tryLoadAny();
+           if($m->loaded()) continue;
+
+           $m['status'] = $category['status'];
+           $m->save();
+
+           foreach ($category['images'] as $key => $image) {
+                $fields = $this->add('xepan\cms\Model_CarouselImage');
+                $fields['carousel_category_id'] = $m->id;
+                $fields['name'] = $image['title'];
+                $fields['text_to_display'] = $image['text_to_display'];
+                $fields['alt_text'] = $image['alt_text'];
+                $fields['order'] = $image['order'];
+                $fields['link'] = $image['link'];
+                $fields['status'] = $image['status'];
+                $fields->save();
+           }
+        }
+    }
+
+    function importcustomform($data){
+        
+        foreach($data as $form){
+            $m = $this->add('xepan\cms\Model_Custom_Form');
+            $m->addCondition('name',$form['name']);
+            $m->tryLoadAny();
+            if($m->loaded()) continue;
+
+            $m['submit_button_name'] = $form['submit_button_name'];
+            $m['form_layout'] = $form['form_layout'];
+            $m['custom_form_layout_path'] = $form['custom_form_layout_path'];
+            $m['auto_reply'] = $form['auto_reply'];
+            $m['email_subject'] = $form['email_subject'];
+            $m['message_body'] = $form['message_body'];
+            $m['message_body'] = $form['message_body'];
+            $m['status'] = $form['status'];
+            $m['is_create_lead'] = $form['is_create_lead'];
+            $m['is_associate_lead'] = $form['is_associate_lead'];
+            $m->save();
+
+            foreach ($form['formfields'] as $field) {
+                $f = $this->add('xepan\cms\Model_Custom_FormField');
+                $f['custom_form_id'] = $m->id;
+                $f['name'] = $field['name'];
+                $f['type'] = $field['type'];
+                $f['value'] = $field['value'];
+                $f['is_mandatory'] = $field['is_mandatory'];
+                $f['hint'] = $field['hint'];
+                $f['placeholder'] = $field['placeholder'];
+                $f['save_into_field_of_lead'] = $field['save_into_field_of_lead'];
+                $f->save();
+            }
+        }
+    }
+
+    function importimagegallery($data){
+
+        foreach ($data as $category) {
+           $m = $this->add('xepan\cms\Model_ImageGalleryCategory');
+           $m->addCondition('name',$category['name']);
+           $m->tryLoadAny();
+           if($m->loaded()) continue;
+
+           $m['name'] = $category['name'];
+           $m['status'] = $category['status'];
+           $m->save();
+
+           foreach ($category['images'] as $key => $image) {
+                $fields = $this->add('xepan\cms\Model_ImageGalleryImages');
+                $fields['gallery_cat_id'] = $m->id;
+                $fields['name'] = $image['name'];
+                $fields['status'] = $image['status'];
+                $fields['description'] = $image['description'];
+                $fields->save();
+           }
+        }
+    }
+
+    function importwebpage($data){
+
+        foreach ($data as $webpage) {
+            $web = $this->add('xepan\cms\Model_Webpage');
+            $web->addCondition('name',$webpage['name']);
+            $web->tryLoadAny();
+            if($web->loaded()) continue;
+
+            $web['path'] = $webpage['path'];
+            $web['page_title'] = $webpage['page_title'];
+            $web['meta_kewords'] = $webpage['meta_kewords'];
+            $web['meta_description'] = $webpage['meta_description'];
+            $web['after_body_code'] = $webpage['after_body_code'];
+            $web['is_template'] = $webpage['is_template'];
+            $web['is_muted'] = $webpage['is_muted'];
+            $web['is_active'] = $webpage['is_active'];
+            $web->save();
         }
     }
 }
