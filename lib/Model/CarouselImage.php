@@ -20,7 +20,7 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\cms\Model_CarouselCategory','carousel_category_id');
 		$this->hasOne('xepan\hr\Model_Employee','created_by_id')->defaultValue(@$this->app->employee->id);
 		
-		$this->add('xepan\filestore\Field_File','file_id');
+		$this->addField('file_id')->display(['form'=>'xepan\base\ElImage']);
 		
 		$this->addField('title');
 		$this->addField('text_to_display')->display(['form'=>'xepan\base\RichText']);
@@ -33,10 +33,10 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		
 		$this->addField('type');
 		$this->addCondition('type','CarouselImage');
-					
-		$this->addExpression('thumb_url')->set(function($m,$q){
-			return $q->expr('[0]',[$m->getElement('file')]);
-		});
+
+		// $this->addExpression('thumb_url')->set(function($m,$q){
+		// 	return $q->expr('[0]',[$m->getElement('file')]);
+		// });
 
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
 	}
@@ -59,6 +59,8 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 
 	function updateJsonFile(){
 
+		if(!$this->app->epan['is_template']) return;
+		
 		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
 		
 		$master = $this->add('xepan\cms\Model_CarouselCategory');

@@ -25,6 +25,13 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 		$this->hasMany('xepan\cms\CarouselImage','carousel_image_id');
 		
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
+		$this->addHook('beforeDelete',$this);
+	}
+
+	function beforeDelete(){
+		$this->add('xepan\cms\Model_CarouselImage')
+			->addCondition('carousel_category_id',$this->id)
+			->deleteAll();
 	}
 
 	function activate(){
@@ -45,6 +52,8 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 
 	function updateJsonFile(){
 		
+		if(!$this->app->epan['is_template']) return;
+
 		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
 
 		$path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/layout";

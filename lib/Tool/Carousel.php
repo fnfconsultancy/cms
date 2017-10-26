@@ -16,9 +16,9 @@ class Tool_Carousel extends \xepan\cms\View_Tool{
 
 		if(!$this->options['carousel_category'])			
 			return;
-
+		
 		$image_m = $this->add('xepan\cms\Model_CarouselImage');
-		$image_m->addCondition('carousel_category_id',$this->options['carousel_category']);
+		$image_m->addCondition([['carousel_category_id',$this->options['carousel_category']],['carousel_category',$this->options['carousel_category']]]);
 		$image_m->setOrder('order','asc');
 
 		$carousel_cl = $this->add('CompleteLister',null,null,['view\tool\cmscarousel']);
@@ -43,6 +43,7 @@ class Tool_Carousel extends \xepan\cms\View_Tool{
 			}
 			
 			$l->current_row_html['text_to_display'] = $l->model['text_to_display'];
+			$l->current_row['file'] = './websites/'.$this->app->current_website_name."/".$l->model['file_id'];
 		});
 
 		$carousel_indicator->addHook('formatRow',function($l){
