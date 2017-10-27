@@ -17,7 +17,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 
 	public $status = ['All'];
 	public $actions = ['All'=>['view','edit','delete']];
-
+	
 	function init(){
 		parent::init();
 
@@ -60,12 +60,18 @@ class Model_Webpage extends \xepan\base\Model_Table{
 	}
 
 	function beforeSave(){
-
+		
 		// check for same entry or not
 		$this['path'] = str_replace(".html", "", $this['path']);
 
+		$new_path = $this['path'];
+		$temp_array = explode(".", $new_path);
+		if(strtolower(trim(end($temp_array))) != "html"){
+			$new_path .= ".html";
+		}
+		
 		$old_webpage = $this->add('xepan\cms\Model_Webpage');
-		$old_webpage->addCondition('path',$this['path']);
+		$old_webpage->addCondition('path',$new_path);
 		if($this['is_template'])
 			$old_webpage->addCondition('is_template',1);
 		else
