@@ -574,23 +574,6 @@
       </div>
     </div>
   </div>
-  <div id="xepan-tool-createlayoutbtn" class="xepan-btn btn-block btn-primary">Create Layout
-    <div style="display:none;" class="xepan-create-layout-dialoge">
-      <p>All form fields are required.</p>
-      <div class="xepan-create-layout-form">
-        <fieldset>
-          <label for="name" style="width:100%;">Name</label>
-          <input type="text" name="name" id="xepan-layout-name" style="width:100%;"/>
-          <label for="name" style="width:100%;">Html</label>
-          <textarea type="textarea" name="layout_html" id="xepan-layout-html" style="width:100%;height:150px;"></textarea>
-          <label for="Image Base 64 Code" style="width:100%;">Image Base 64</label>
-          <textarea type="textarea" name="layout_img_base" id="xepan-layout-image-64" style="width:100%;height:150px;"></textarea>
-        </fieldset>
-      </div>
-    </div>
-  </div>
-  <div id="override-xepan-tool-template" class="xepan-btn btn-block btn-primary">Override Template</div>
-  <div id="xepan-tool-mystyle" class="xepan-btn btn-block btn-primary">Custom CSS</div>
 </div>
 <script type="text/javascript">
   padding_unit = 'px';
@@ -1155,8 +1138,8 @@
   
   $('#xepan-tool-createlayoutbtn').click(function(event){
       $form = $('.xepan-create-layout-form');
-      // $(current_selected_component).removeClass('xepan-selected-component');
-      // $(current_selected_component).xepanComponent('hideComponentToolBar');
+      //- $(current_selected_component).removeClass('xepan-selected-component');
+      //- $(current_selected_component).xepanComponent('hideComponentToolBar');
       $form.find('#xepan-layout-html').val($(current_selected_component).prop('outerHTML'));
       html2canvas($(current_selected_component)[0], {
         onrendered: function(canvas) {
