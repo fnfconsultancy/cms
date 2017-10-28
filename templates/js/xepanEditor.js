@@ -515,8 +515,14 @@ jQuery.widget("ui.xepanEditor",{
 
 	    $('body').univ().infoMessage('Wait.. saving your page !!!');
 
-	    $(xepan_component_selector).xepanComponent('deselect');
-	   	
+	    $(xepan_component_selector).each(function(index, comp) {
+	    	try{
+	    		$(comp).xepanComponent('deselect');
+	    	}catch(e){
+	    		console.log(e);
+	    	}
+	 	});
+
 	   	// responsive classes
 	    $('body').removeClass('xepan-cms-responsive-wrapper xepan-responsive-xs xepan-responsive-sm xepan-responsive-md xepan-responsive-lg');
 
