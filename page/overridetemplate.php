@@ -50,10 +50,18 @@ class page_overridetemplate extends \Page {
 			// return;
 		}
 
+		$class = new \ReflectionClass($tool);
+		$original_file = getcwd(). '/vendor/'.str_replace("\\", "/", $class->getNamespaceName()).'/templates/'.$tool->getDefaultTemplate().'.html';
+		if(!file_exists($original_file)) $original_file = $override_path;
+		
+		$original_file_content = file_get_contents($original_file);
+
+		preg_match_all('/{[$_a-zA-Z]*}/', $original_file_content, $tags);
+
 		$tabs = $this->add('TabsDefault');
 		$edit_tab = $tabs->addtab('Edit');
 		$original_tab = $tabs->addtab('Original');
-		
+		$edit_tab->add('View')->setHTML('<pre>Used tags <br/>'.implode(", ", $tags[0]).'</pre>');
 		$f = $edit_tab->add('Form');
 		$f->add('View_Info')->set($override_path);
 		$field = $f->addField('xepan\base\CodeEditor','content')->set(file_get_contents($override_path));
@@ -67,13 +75,8 @@ class page_overridetemplate extends \Page {
 			$f->js()->univ()->successMessage('Saved at '. $override_path)->execute();
 		}
 
-		$class = new \ReflectionClass($tool);
 
-		$original_file = getcwd(). '/vendor/'.str_replace("\\", "/", $class->getNamespaceName()).'/templates/'.$tool->getDefaultTemplate().'.html';
-		
-		if(!file_exists($original_file)) $original_file = $override_path;
-
-		$original_tab->add('View')->set(file_get_contents($original_file));
+		$original_tab->add('View')->set($original_file_content);
 
 
 		$tool->destroy();
