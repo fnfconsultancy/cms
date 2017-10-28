@@ -534,21 +534,6 @@
                 .epan-component-transform-translate-value(translate='(1px,1px)')
                 .epan-component-transform-translate-x-value(translate='1')
                 .epan-component-transform-translate-y-value(translate='1')
-    //- Extra Buttons
-    //- like Create Layout /Override /Custom CSS struvtire define in xepan editor.js
-  .xepan-btn.btn-block.btn-primary#xepan-tool-createlayoutbtn Create Layout
-    .xepan-create-layout-dialoge(style="display:none;")
-      p All form fields are required.
-      div.xepan-create-layout-form
-        fieldset
-          label(for="name" style="width:100%;") Name
-          input(type="text" name="name" id="xepan-layout-name" style="width:100%;")
-          label(for="name" style="width:100%;") Html
-          textarea(type="textarea" name="layout_html" id="xepan-layout-html" style="width:100%;height:150px;")
-          label(for="Image Base 64 Code" style="width:100%;") Image Base 64
-          textarea(type="textarea" name="layout_img_base" id="xepan-layout-image-64" style="width:100%;height:150px;")
-  .xepan-btn.btn-block.btn-primary#override-xepan-tool-template Override Template
-  .xepan-btn.btn-block.btn-primary#xepan-tool-mystyle Custom CSS
 script(type='text/javascript').
   padding_unit = 'px';
   is_all_padding_same = false;
@@ -1112,8 +1097,9 @@ script(type='text/javascript').
 
   $('#xepan-tool-createlayoutbtn').click(function(event){
       $form = $('.xepan-create-layout-form');
+      //- $(current_selected_component).removeClass('xepan-selected-component');
+      //- $(current_selected_component).xepanComponent('hideComponentToolBar');
       $form.find('#xepan-layout-html').val($(current_selected_component).prop('outerHTML'));
-
       html2canvas($(current_selected_component)[0], {
         onrendered: function(canvas) {
           theCanvas = canvas;
