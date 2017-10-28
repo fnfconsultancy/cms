@@ -410,7 +410,7 @@ jQuery.widget("ui.xepanComponent",{
 	showComponentToolBar:function(){
 		$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
 		$('.xepan-component-hoverbar').remove();
-		if($(self.element).hasClass('xepan-no-move') && $(self.element).hasClass('xepan-no-delete') ) return;
+		if($(self.element).hasClass('xepan-no-move') && ($(self.element).hasClass('xepan-no-delete') || $(self.element).hasClass('xepan-no-remove')) ) return;
 
 		$(current_selected_component).addClass('xepan-component-hover-selector');
 		var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(current_selected_component));
