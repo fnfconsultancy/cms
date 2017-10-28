@@ -1112,8 +1112,8 @@ script(type='text/javascript').
 
   $('#xepan-tool-createlayoutbtn').click(function(event){
       $form = $('.xepan-create-layout-form');
-      $(current_selected_component).removeClass('xepan-selected-component');
-      $(current_selected_component).xepanComponent('hideComponentToolBar');
+      //- $(current_selected_component).removeClass('xepan-selected-component');
+      //- $(current_selected_component).xepanComponent('hideComponentToolBar');
       $form.find('#xepan-layout-html').val($(current_selected_component).prop('outerHTML'));
       html2canvas($(current_selected_component)[0], {
         onrendered: function(canvas) {
