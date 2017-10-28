@@ -17,7 +17,9 @@ class Model_Custom_FormSubmission extends \Model_Table{
 	}
 
 	function afterInsert(){
-		$this->app->employee->
-		addActivity("Enquiry Received On Website",null, null /*Related Contact ID*/,null,null,null);
+		if(isset($this->app->employee)){
+			$this->app->employee->
+			addActivity("Enquiry Received On Website",null, null /*Related Contact ID*/,null,null,null);
+		}
 	}
 }
