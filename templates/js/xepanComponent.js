@@ -237,6 +237,10 @@ jQuery.widget("ui.xepanComponent",{
 			var dyn_selector = option_array[0];
 			var name = option_array[1];
 			var where_to_set = $.trim(option_array[2]);
+			var dropdown_options = "";
+			if(option_array[3] != undefined)
+				dropdown_options = $.trim(option_array[3]);
+
 			var old_value = "";
 
 			if(dyn_selector == "this"){
@@ -244,6 +248,7 @@ jQuery.widget("ui.xepanComponent",{
 			}else
 				$targets = $(current_selected_component).find(dyn_selector);
 
+			
 			switch(where_to_set){
 				case 'href':
 					old_value = $targets.attr('href');
@@ -261,8 +266,22 @@ jQuery.widget("ui.xepanComponent",{
 
 			if(where_to_set == "text"){
 				dynamic_section	+= '<label>'+name+'</label>' +' <textarea class="xepan-dynamic-component-value" dynamic-selector="'+el+'" >'+old_value+'</textarea>';
+
 			}else if(where_to_set == "src"){
-				dynamic_section += '<div><label>Image</label><input id="xepan-dynamic-image-option-src" type="text" disabled="true" value="'+old_value+'"/><div class="btn btn-group btn-group-xs"><button id="xepan-dynamic-image-option-select" type="button" class="btn btn-primary btn-xs">Select</button></div></div>';
+				dynamic_section += '<div><label>'+name+'</label><input id="xepan-dynamic-image-option-src" type="text" disabled="true" value="'+old_value+'"/><div class="btn btn-group btn-group-xs"><button id="xepan-dynamic-image-option-select" type="button" class="btn btn-primary btn-xs">Select</button></div></div>';
+
+			}else if(where_to_set == "css"){
+				if(dropdown_options.length != 0){
+					class_array = dropdown_options.split(',');
+					var select_dropdown = '<select data-list="'+dropdown_options+'" dynamic-selector="'+el+'" value="'+old_value+'" class="xepan-dynamic-component-value"><option value="" >Select</option>';
+					$.each(class_array, function(key, value){
+						select_dropdown += '<option value="'+ value +'">'+ value +'</option>';
+					});
+					select_dropdown += '</select>';
+					dynamic_section += '<div><label>'+name+'</label>'+select_dropdown+'</div>';
+				}else
+					dynamic_section += '<label>'+name+'</label>' +' <input class="xepan-dynamic-component-value" dynamic-selector="'+el+'" value="'+old_value+'" />';
+
 			}else{
 				dynamic_section	+= '<label>'+name+'</label>' +' <input class="xepan-dynamic-component-value" dynamic-selector="'+el+'" value="'+old_value+'" />';
 			}
@@ -277,6 +296,7 @@ jQuery.widget("ui.xepanComponent",{
 		// implement dynamic function change event
 		$('.xepan-dynamic-component-value').change(function(event) {
 			var dyn_option = $(this).attr('dynamic-selector');
+			var value_list = $(this).attr('data-list');
 			var option_array = dyn_option.split('|');
 			var dyn_selector = option_array[0];
 			var where_to_set = $.trim(option_array[2]);
@@ -295,6 +315,19 @@ jQuery.widget("ui.xepanComponent",{
 					$targets.html(new_value);
 				break;
 				case 'css':
+					if(value_list.length != 0){
+						old_values = $targets.attr('class');
+						old_class = old_values.split(" ");
+						value_list = value_list.split(" ");
+						value_list = value_list.toString();
+						value_list = value_list.split(',');
+
+						$.each(old_class, function(key, value){
+							if($.inArray(value, value_list) == -1)
+								new_value += " "+value;
+						});
+					}
+
 					$targets.attr('class',new_value);
 				break;
 				case 'image':
