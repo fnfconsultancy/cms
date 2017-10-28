@@ -33,7 +33,12 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			return;
 		}
 
-		$this->form = $this->add('Form');
+		$form_layout=null;
+		if($customform_model['form_layout']){
+			$form_layout = ['form/'.$customform_model['form_layout']];
+		}
+
+		$this->form = $this->add('Form',null,null,$form_layout);
 		$form = $this->form;
 
 		if($this->options['template'])			
