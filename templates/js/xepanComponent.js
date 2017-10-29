@@ -268,7 +268,7 @@ jQuery.widget("ui.xepanComponent",{
 				dynamic_section	+= '<label>'+name+'</label>' +' <textarea class="xepan-dynamic-component-value" dynamic-selector="'+el+'" >'+old_value+'</textarea>';
 
 			}else if(where_to_set == "src"){
-				dynamic_section += '<div><label>'+name+'</label><input id="xepan-dynamic-image-option-src" type="text" disabled="true" value="'+old_value+'"/><div class="btn btn-group btn-group-xs"><button id="xepan-dynamic-image-option-select" type="button" class="btn btn-primary btn-xs">Select</button></div></div>';
+				dynamic_section += '<div class="dynamic-img-wrapper"><label>'+name+'</label><input id="xepan-dynamic-image-option-src" type="text" disabled="true" value="'+old_value+'"/><div class="btn btn-group btn-group-xs"><button dynamic-selector="'+el+'" type="button" class="btn btn-primary btn-xs xepan-dynamic-image-option-select">Select</button></div></div>';
 
 			}else if(where_to_set == "css"){
 				if(dropdown_options.length != 0){
@@ -338,16 +338,21 @@ jQuery.widget("ui.xepanComponent",{
 		});
 
 		// image option select button
-		$('#xepan-dynamic-image-option-select').click(function(event) {
+		$('.xepan-dynamic-image-option-select').click(function(event) {
+			var dyn_option = $(this).attr('dynamic-selector');
+			var option_array = dyn_option.split('|');
+			var dyn_selector = option_array[0];
+			
 			var fm = $('<div/>').dialogelfinder({
 			url : '?page=xepan_base_elconnector',
 			lang : 'en',
 			width : 840,
 			destroyOnClose : true,
-			getFileCallback : function(files, fm) {
-				console.log(files.url);
-				$('#xepan-dynamic-image-option-src').val(files.url);
-				$(current_selected_component).find('img').attr('src',files.url);
+			getFileCallback : function(files, fm){
+				// console.log(files.url);
+				// $(this).addClass('btn btn-danger');
+				// $(this).closest('.dynamic-img-wrapper').find('input').val(files.url);
+				$(current_selected_component).find(dyn_selector).attr('src',files.url);
 			},
 				commandsOptions : {	
 					getfile : {
