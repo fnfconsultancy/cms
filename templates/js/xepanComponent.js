@@ -342,7 +342,7 @@ jQuery.widget("ui.xepanComponent",{
 			var dyn_option = $(this).attr('dynamic-selector');
 			var option_array = dyn_option.split('|');
 			var dyn_selector = option_array[0];
-			
+
 			var fm = $('<div/>').dialogelfinder({
 			url : '?page=xepan_base_elconnector',
 			lang : 'en',
@@ -350,8 +350,7 @@ jQuery.widget("ui.xepanComponent",{
 			destroyOnClose : true,
 			getFileCallback : function(files, fm){
 				// console.log(files.url);
-				// $(this).addClass('btn btn-danger');
-				// $(this).closest('.dynamic-img-wrapper').find('input').val(files.url);
+				$(this).closest('.dynamic-img-wrapper').find('input').val(files.url);
 				$(current_selected_component).find(dyn_selector).attr('src',files.url);
 			},
 				commandsOptions : {	
