@@ -91,10 +91,10 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$img= $this->pq->pq($img);
 			$img->attr('href',$rel_path.$img->attr('href'));
 		}
-		foreach ($dom['a[href^="#"]'] as $anchor) {
-			$anchor= $this->pq->pq($anchor);
-			$anchor->attr('href',$this->app->page.$anchor->attr('href'));
-		}
+		// foreach ($dom['a[href^="#"]'] as $anchor) {
+		// 	$anchor= $this->pq->pq($anchor);
+		// 	$anchor->attr('href',$this->app->page.$anchor->attr('href'));
+		// }
 
 		foreach ($dom['script[src]']->not('[src^="http"]')->not('[src^="//"]')->not('[src^="websites/'.$this->app->current_website_name.'/www/'.'"') as $img) {
 			$img= $this->pq->pq($img);
