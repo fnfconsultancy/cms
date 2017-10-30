@@ -54,6 +54,7 @@ class View_ToolBar extends \View {
 				$tools_array[$group][$tool] = [
 											'name'=>$tool_name,
 											'drop_html'=>$drop_html,
+											'is_serverside'=>$t_v->runatServer,
 											'option_html'=>$t_option_v->getHTML(),
 											'icon_img'=>'./vendor/'.$tool_namespace.'/templates/images/'.$tool_name.'_icon.png'
 										];
@@ -72,6 +73,7 @@ class View_ToolBar extends \View {
 			$tools_array['Layouts'][] = [
 											'name'=>'',
 											'tool'=>'xepan/cms/Tool_Layout',
+											'is_serverside'=>$t_v->runatServer,
 											'category'=>explode("-", str_replace(".html", "", $l['name']))[0],
 											'drop_html'=>$t_v->getHTML(),
 											'option_html'=>$t_option_v->getHTML(),
@@ -104,6 +106,7 @@ class View_ToolBar extends \View {
 				// continue;
 				$tools_array['Layouts'][] = [
 												'name'=>$file_name,
+												'is_serverside'=>$t_v->runatServer,
 												'tool'=>'xepan/cms/Tool_Layout',
 												'category'=>$folder_name,
 												'drop_html'=>$t_v->getHTML(),
@@ -162,7 +165,7 @@ class View_ToolBar extends \View {
 		// inspector
 		$this->js(true)
 			->_load('xepanComponentCreator')
-			->xepanComponentCreator()
+			->xepanComponentCreator(['tools'=>$tools_array])
 			->_selector('#xepan-tool-inspector');
 	}
 

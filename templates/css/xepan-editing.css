@@ -562,3 +562,7 @@
 .xepan-component-dynamic-option{
     padding: 5px;
 }
+
+#xepan-component-creator-form > .modal-dialog.modal-lg{
+    width:80% !important;
+}
