@@ -121,6 +121,8 @@ jQuery.widget("ui.xepanEditor",{
 		extra_html += '<div class="btn btn-danger" id="override-xepan-tool-template" title="Override HTML Templates"><i class="fa fa-code"></i>Html</div>';
 		// Custom CSS
 		extra_html += '<div class="btn btn-success" id="xepan-tool-mystyle" title="Edit Custom CSS"><i class="fa fa-pencil"></i>CSS</div>';
+		// inspector
+		extra_html += '<div class="btn btn-warning" id="xepan-tool-inspector" title="inspector"><i class="fa fa-arrows"></i></div>';
 		$(extra_html).appendTo(self.extra_html_wrapper);
 
 		// right bar content

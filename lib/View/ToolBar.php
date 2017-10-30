@@ -14,6 +14,7 @@ class View_ToolBar extends \View {
         $this->app->jui->addStylesheet('xepan-editing');
 
 		$this->app->jui->addStaticInclude('elfinder.full');
+		$this->app->jui->addStaticInclude('jquery.dom-outline-1.0');
 		$this->js(true)
 				->_load('tinymce.min')
 				->_load('jquery.tinymce.min')
@@ -158,6 +159,11 @@ class View_ToolBar extends \View {
 			;
 		$this->js(true)->_selector('.epan-color-picker')->univ()->xEpanColorPicker();
 
+		// inspector
+		$this->js(true)
+			->_load('xepanComponentCreator')
+			->xepanComponentCreator()
+			->_selector('#xepan-tool-inspector');
 	}
 
 	function initold(){

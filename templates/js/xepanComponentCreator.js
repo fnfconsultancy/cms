@@ -1,3 +1,4 @@
+current_selected_dom = 0;
 jQuery.widget("ui.xepanComponentCreator",{
 	options:{
 		base_url:undefined,
@@ -16,19 +17,36 @@ jQuery.widget("ui.xepanComponentCreator",{
 	_create: function(){
 		self = this;
 
-		this.createDomInspector();
-		this.manageDomSelected();
+		self.createDomInspector();
+		// this.manageDomSelected();
 
 	},
 
 	createDomInspector: function(){
+		self = this;
 		// to this.element // hide UI if any outer most
 			// on click attach moucemove/enter/out event
 			// on click set current_selected_dom variable
 			// and detach UI
+		var myDomOutline = DomOutline({
+			'onClick': function(element){
+				current_selected_dom = element;
+				self.manageDomSelected();
+			}
+		});
+
+		$('#xepan-tool-inspector').click(function(){
+			myDomOutline.start();
+			return false;
+		});
+
+		// myDomOutline.stop();
 	},
 
 	manageDomSelected: function () {
+		alert('ui is open here todo');
+		console.log('current_selected_dom :',current_selected_dom);
+
 		// create Base UI // component type only infact
 		// filter types like if rows and bootstrap col-md/sd etc is there let column Type be there or remove
 		this.handleComponentTypeChange();
