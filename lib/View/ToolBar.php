@@ -14,6 +14,7 @@ class View_ToolBar extends \View {
         $this->app->jui->addStylesheet('xepan-editing');
 
 		$this->app->jui->addStaticInclude('elfinder.full');
+		$this->app->jui->addStaticInclude('jquery.dom-outline-1.0');
 		$this->js(true)
 				->_load('tinymce.min')
 				->_load('jquery.tinymce.min')
@@ -53,6 +54,7 @@ class View_ToolBar extends \View {
 				$tools_array[$group][$tool] = [
 											'name'=>$tool_name,
 											'drop_html'=>$drop_html,
+											'is_serverside'=>$t_v->runatServer,
 											'option_html'=>$t_option_v->getHTML(),
 											'icon_img'=>'./vendor/'.$tool_namespace.'/templates/images/'.$tool_name.'_icon.png'
 										];
@@ -71,6 +73,7 @@ class View_ToolBar extends \View {
 			$tools_array['Layouts'][] = [
 											'name'=>'',
 											'tool'=>'xepan/cms/Tool_Layout',
+											'is_serverside'=>$t_v->runatServer,
 											'category'=>explode("-", str_replace(".html", "", $l['name']))[0],
 											'drop_html'=>$t_v->getHTML(),
 											'option_html'=>$t_option_v->getHTML(),
@@ -103,6 +106,7 @@ class View_ToolBar extends \View {
 				// continue;
 				$tools_array['Layouts'][] = [
 												'name'=>$file_name,
+												'is_serverside'=>$t_v->runatServer,
 												'tool'=>'xepan/cms/Tool_Layout',
 												'category'=>$folder_name,
 												'drop_html'=>$t_v->getHTML(),
@@ -158,6 +162,16 @@ class View_ToolBar extends \View {
 			;
 		$this->js(true)->_selector('.epan-color-picker')->univ()->xEpanColorPicker();
 
+		// inspector
+		$this->js(true)
+			->_load('xepanComponentCreator')
+			->xepanComponentCreator([
+					'tools'=>$tools_array,
+					'template_file'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->template->origin_filename):'false',
+					'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->template_file:'false',
+					'template_editing'=> isset($_GET['xepan-template-edit'])
+				])
+			->_selector('#xepan-tool-inspector');
 	}
 
 	function initold(){

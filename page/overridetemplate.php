@@ -25,6 +25,7 @@ class page_overridetemplate extends \Page {
 		}	
 
 		$tool_options = json_decode($this->api->stickyGET('options'),true);
+		if(!is_array($tool_options)) $tool_options = [];
 
 		$tool = $this->add($this->api->stickyGET('xepan-tool-to-clone'),['_options'=>$tool_options]);
 
@@ -57,6 +58,15 @@ class page_overridetemplate extends \Page {
 		$original_file_content = file_get_contents($original_file);
 
 		preg_match_all('/{[$_a-zA-Z]*}/', $original_file_content, $tags);
+
+		if($_GET['required'] == 'htmlcode'){
+			$temp = [
+				'original_content'=> $original_file_content,
+				'tags'=> $tags,
+			];
+			echo  json_encode($temp);
+			exit();
+		}
 
 		$tabs = $this->add('TabsDefault');
 		$edit_tab = $tabs->addtab('Edit');

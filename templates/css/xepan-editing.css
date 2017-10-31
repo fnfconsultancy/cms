@@ -562,3 +562,17 @@
 .xepan-component-dynamic-option{
     padding: 5px;
 }
+
+#xepan-component-creator-form > .modal-dialog.modal-lg{
+    width:80% !important;
+}
+
+#xepan-component-creator-form textarea{
+    width: 100%;
+}
+
+#xepan-component-creator-form input,
+#xepan-component-creator-form select,
+#xepan-component-creator-form textarea{
+    text-transform: lowercase;
+}
