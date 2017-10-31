@@ -199,6 +199,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$(current_selected_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
 		});
 
+		$.univ().infoMessage('saved and reload page');
 		// $('#xepan-component-creator-form').modal('close');
 		$('#xepan-component-creator-form').remove();
 		$('.modal-backdrop').remove();
