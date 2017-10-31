@@ -31,6 +31,28 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var myDomOutline = DomOutline({
 			'onClick': function(element){
 				current_selected_dom = element;
+
+				var xepan_component_of_dom = $(current_selected_dom).closest('[xepan-component]').attr('xepan-component');
+				// check if component is server side
+				if(self.isComponentServerSide(xepan_component_of_dom)){
+					var r = confirm("this is part of server side component, we are selecting it");
+					if (r == true) {
+						current_selected_dom = $(current_selected_dom).closest('[xepan-component]');
+					}
+					if(r == false)
+						return;
+				}
+
+				// check here text and server side component
+				if($(current_selected_dom).closest('.xepan-editable-text').length){
+					var r = confirm("editable text found, select editable");
+					if (r == true) {
+						current_selected_dom = $(current_selected_dom).closest('.xepan-editable-text');
+					}
+					if(r == false)
+						return;
+				}
+
 				self.manageDomSelected();
 			}
 		});
@@ -81,7 +103,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		current_selected_dom_component_type = $(current_selected_dom).attr('xepan-component')?$(current_selected_dom).attr('xepan-component'):'Generic';
 
 		// html code 
-		current_selected_dom_html = '<textarea style="width:100%;" rows="4" readonly></textarea>';
+		current_selected_dom_html = '<textarea class="form-control" style="width:100%;" rows="4" disabled></textarea>';
 		html_textarea = $(current_selected_dom_html).appendTo($(form_body));
 		$(html_textarea).val($(current_selected_dom).prop('outerHTML'));
 
@@ -268,7 +290,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// create UI 
 		var self = this;
 		$creator_wrapper =  $('#xepan-component-creator-type-wrapper');
-		$('<div class="alert alert-success"> Client Side </div>').appendTo($creator_wrapper);
+		// $('<div class="alert alert-success"> Client Side </div>').appendTo($creator_wrapper);
 
 		// xepan component
 		if($(current_selected_dom).hasClass('xepan-component')){
