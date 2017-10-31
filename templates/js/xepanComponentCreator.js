@@ -1,5 +1,8 @@
 current_selected_dom = 0;
 current_selected_dom_component_type = undefined;
+repitative_selected_dom = 0;
+current_selected_tag_dom=0;
+tag_dom_list = [];
 
 jQuery.widget("ui.xepanComponentCreator",{
 	options:{
@@ -7,6 +10,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		file_path:undefined,
 		template_file:undefined,
 		template:undefined,
+		template_editing:undefined,
 		save_url:undefined,
 		template_editing:undefined,
 		tools:{},
@@ -25,9 +29,14 @@ jQuery.widget("ui.xepanComponentCreator",{
 	createDomInspector: function(){
 		var self = this;
 		// to this.element // hide UI if any outer most
-			// on click attach moucemove/enter/out event
-			// on click set current_selected_dom variable
-			// and detach UI
+		// on click attach moucemove/enter/out event
+		// on click set current_selected_dom variable
+		// and detach UI
+
+		// var filter_selector = 'body';
+		// if(self.options.template_editing)
+		// 	filter_selector = ".xepan-page-wrapper *";
+
 		var myDomOutline = DomOutline({
 			'onClick': function(element){
 				current_selected_dom = element;
@@ -45,7 +54,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 				// check here text and server side component
 				if($(current_selected_dom).closest('.xepan-editable-text').length){
-					var r = confirm("editable text found, select editable");
+					var r = confirm("this is part of editable text, selecting parent component");
 					if (r == true) {
 						current_selected_dom = $(current_selected_dom).closest('.xepan-editable-text');
 					}
@@ -54,7 +63,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 				}
 
 				self.manageDomSelected();
+			
 			}
+			// filter:filter_selector
 		});
 
 		$('#xepan-tool-inspector').click(function(){
@@ -273,8 +284,6 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 	createServerSideComponentUI: function (){
 		var self = this;
-		$creator_wrapper =  $('#xepan-component-creator-type-wrapper');
-		$('<div class="alert alert-danger"> Todo Server Side </div>').appendTo($creator_wrapper);
 
 		// get Original File Code
 		// get Overrided File Code
@@ -284,6 +293,114 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// if(this.isServerSideComponent()){
 			// reload values or create required run time components
 		// }
+
+		$creator_wrapper = $('#xepan-component-creator-type-wrapper');
+		$('<div class="alert alert-danger"> Server Side</div>').appendTo($creator_wrapper);
+
+		var row = $('<div class="row">').appendTo($creator_wrapper);
+		var col1 = $('<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><h4>Original HTML</h4></div>').appendTo($(row));
+		var col2 = $('<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><h4>Override HTML</h4></div>').appendTo($(row));
+		var col3 = $('<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"></div>').appendTo($(row));
+		var original_template_textarea = $('<textarea id="xepan-tool-original-template">').appendTo($(col1));
+		var override_template_textarea = $('<textarea id="xepan-tool-override-template">').appendTo($(col2));
+		var original_tags = $('<textarea id="xepan-tool-original-template-tags">').appendTo($(col1));
+		self.original_template_tags = [];
+
+		$.ajax({
+			url :'index.php?page=xepan_cms_overridetemplate&cut_page=1',
+			data: {
+				'xepan-tool-to-clone':current_selected_dom_component_type,
+				required: 'htmlcode'
+			},
+			async:false,
+			success: function(json){
+				return_data = $.parseJSON(json);
+				$(original_template_textarea).val(return_data.original_content);
+				var tags = return_data.tags[0];
+				$(original_tags).val(tags);
+				self.original_template_tags = tags;
+			}
+		});
+
+		$(override_template_textarea).val($(current_selected_dom).html());
+
+		// if original template file contains {Rows} 
+		/*
+		{
+			make a dom_selector (title- Repetitive block){
+				on select/click{
+					set variable current_selected_dom_repititve_dom = Selected one
+				}
+				make parent selector or code shower etc ...
+			} 
+		 }
+		
+		make dom_selector (title - set tag)
+		on select dom {
+			tag_dom_array[next] = selected one
+			create short form for this dom
+			[selector] [tags list dropdown] [as/href/src/text/wrapper] [remove btn]
+		}
+
+		create no recrod found message
+		and paginator spot
+
+		====== ON SAVE ====
+		 */
+		if($.inArray('{rows}',self.tags)){
+			$('<h4>Repetative Selector</h4>').appendTo($(col3));
+			repetative_btn_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($(col3));
+			$('<button class="btn btn-primary">Selection</button>').appendTo($(repetative_btn_group));
+			var repetative_dom_selector = $('<button id="xepan-creator-repitative-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(repetative_btn_group));
+			var repetative_selection_parent = $('<button id="xepan-creator-repitative-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(repetative_btn_group));
+			var repetative_html = $('<textarea id="xepan-creator-repitative-html">').appendTo($(col3));
+			
+			// initialize dom object
+			var repitativeDomOutline = DomOutline({
+				'onClick': function(element){
+					repitative_selected_dom = element;
+					$('#xepan-component-creator-form').modal('show');
+					$('#xepan-creator-repitative-html').val($(repitative_selected_dom).html());
+				}
+			});
+			// repetative dom selector
+			$(repetative_dom_selector).click(function(){
+				$('#xepan-component-creator-form').modal('hide');
+				repitativeDomOutline.start();
+				return false;
+			});
+
+			// parent selection
+			$(repetative_selection_parent).click(function(event) {
+				repitative_selected_dom = $(repitative_selected_dom).parent();
+				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).html());
+			});
+		}
+
+		tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
+		$('<button class="btn btn-primary">Selection</button>').appendTo($(tag_implementor_wrapper));
+		var tag_dom_selector = $('<button id="xepan-creator-tag-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(tag_implementor_wrapper));
+		// initialize dom object
+		var tagDomOutline = DomOutline({
+			'onClick': function(element){
+				current_selected_tag_dom = element;
+				$('#xepan-component-creator-form').modal('show');				
+			}
+		});
+
+		$(tag_dom_selector).click(function(event) {
+			$('#xepan-component-creator-form').modal('hide');
+			tagDomOutline.start();
+			return false;
+		});
+
+		// var tag_select = '<select><option value="">Select Tags</option>';
+		// $.each(self.tags, function(index, tag_name) {
+		// 	tag_select += '<option value="'+tag_name+'">'+tag_name+'</option>';
+		// });
+		// tag_select += '</select>';
+		// $(tag_select).appendTo($(tag_implementor_wrapper));
+
 	},
 
 	createClientSideComponentUI: function(){

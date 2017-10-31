@@ -165,7 +165,12 @@ class View_ToolBar extends \View {
 		// inspector
 		$this->js(true)
 			->_load('xepanComponentCreator')
-			->xepanComponentCreator(['tools'=>$tools_array])
+			->xepanComponentCreator([
+					'tools'=>$tools_array,
+					'template_file'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->template->origin_filename):'false',
+					'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->template_file:'false',
+					'template_editing'=> isset($_GET['xepan-template-edit'])
+				])
 			->_selector('#xepan-tool-inspector');
 	}
 
