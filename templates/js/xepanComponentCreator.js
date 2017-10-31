@@ -148,7 +148,6 @@ jQuery.widget("ui.xepanComponentCreator",{
 	},
 
 	saveClientSideComponent: function(){
-		
 		// xepan component 
 		if($('#xepan-cmp-cratetor-xepan-component:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-component');
@@ -188,8 +187,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// dynamic option list
 		var find_str = "xepan-dynamic-option-";
 		$.each(current_selected_dom.attributes, function( index, attr ) {
+			// console.log("attribute: ",attr);
+			if(attr == undefined) return ; //actually continnue
 			if(attr.name.indexOf(find_str)===0){
-				$(current_selected_dom).removeAttr(attr);
+				$(current_selected_dom).removeAttr(attr.name);
 			}
 		});
 
@@ -198,6 +199,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$(current_selected_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
 		});
 
+		// $('#xepan-component-creator-form').modal('close');
+		$('#xepan-component-creator-form').remove();
+		$('.modal-backdrop').remove();
 
 	},
 	saveServerSideComponent: function(){
@@ -265,7 +269,6 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$creator_wrapper =  $('#xepan-component-creator-type-wrapper');
 		$('<div class="alert alert-success"> Client Side </div>').appendTo($creator_wrapper);
 
-
 		// xepan component
 		if($(current_selected_dom).hasClass('xepan-component')){
 			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-component" checked /><label for="xepan-cmp-cratetor-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
@@ -273,14 +276,11 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-component" /><label for="xepan-cmp-cratetor-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
 		}
 
-
-
-		// // sortable component
+		// sortable component
 		if($(current_selected_dom).hasClass('xepan-sortable-component'))
 			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-sortable-component" /><label for="xepan-cmp-cratetor-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
 		else
 			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-sortable-component" /><label for="xepan-cmp-cratetor-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
-		
 		
 		// editable text
 		if($(current_selected_dom).hasClass('xepan-editable-text'))
@@ -288,13 +288,11 @@ jQuery.widget("ui.xepanComponentCreator",{
 		else
 			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-editable-text" /><label for="xepan-cmp-cratetor-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
 			
-
 		// editable text
 		if($(current_selected_dom).hasClass('xepan-no-richtext'))
 			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-no-richtext" /><label for="xepan-cmp-cratetor-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
 		else
 			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-no-richtext" /><label for="xepan-cmp-cratetor-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
-		
 		
 		// no move
 		if($(current_selected_dom).hasClass('xepan-no-move'))
@@ -328,6 +326,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 										'<div class="form-group">'+
 											'<label for="xepan-creator-dynamic-attribute" class="control-label">Attribute:</label>'+
 											'<select class="form-control" id="xepan-creator-dynamic-attribute">'+
+												'<option value="">select</option>'+
 												'<option value="text">text</option>'+
 												'<option value="href">href</option>'+
 												'<option value="css">css</option>'+
@@ -368,6 +367,27 @@ jQuery.widget("ui.xepanComponentCreator",{
 			var attribute =  $.trim($('#xepan-creator-dynamic-attribute').val());
 			var additional =  $.trim($('#xepan-creator-dynamic-additional').val());
 			
+			if(!selector.length){
+				var form_group = $('#xepan-creator-dynamic-selector').closest('.form-group');
+				$(form_group).addClass('has-error');
+				$('<p class="xepan-creator-form-error-text text-danger">must not be empty</p>').appendTo($(form_group));
+				return;
+			}
+
+			if(!title.length){
+				var form_group = $('#xepan-creator-dynamic-title').closest('.form-group');
+				$(form_group).addClass('has-error');
+				$('<p class="xepan-creator-form-error-text text-danger">must not be empty</p>').appendTo($(form_group));
+				return;
+			}
+
+			if(!attribute.length){
+				var form_group = $('#xepan-creator-dynamic-attribute').closest('.form-group');
+				$(form_group).addClass('has-error');
+				$('<p class="xepan-creator-form-error-text text-danger">must not be empty</p>').appendTo($(form_group));
+				return;
+			}
+
 			var str = selector+'|'+title+'|'+attribute+'|'+additional;
 
 			$('#xepan-creator-dynamic-selector').val("");
@@ -381,6 +401,17 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// if(this.isExistingComponent()){
 			// reload values or create required run time components
 		// }
+
+		// error wrapper removed
+		$('.form-group input').keyup(function(event) {
+			$(this).closest('.form-group').removeClass('has-error');
+			$(this).closest('.form-group').find('p.xepan-creator-form-error-text').remove();
+		});
+
+		$('.form-group select').change(function(event) {
+			$(this).closest('.form-group').removeClass('has-error');
+			$(this).closest('.form-group').find('p.xepan-creator-form-error-text').remove();
+		});
 	},
 
 	addDynamicOptionToList: function(dynamic_option){
@@ -390,6 +421,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var title = option_array[1];
 		var attribute = option_array[2];
 		var additional = option_array[3];
+		if( additional == undefined){
+			additional = "";
+			dynamic_option = dynamic_option.trim('|');
+		}
 
 		var html = '<div class="row xepan-creator-existing-dynamic-list-added" data-dynamic-option="'+dynamic_option+'">'+
 									'<div class="col-md-4">'+
