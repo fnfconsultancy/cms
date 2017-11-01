@@ -1,8 +1,8 @@
 current_selected_dom = 0;
 current_selected_dom_component_type = undefined;
 repitative_selected_dom = 0;
-current_selected_tag_dom=0;
-tag_dom_list = [];
+current_selected_tag_dom = 0;
+tags_associate_list = [];
 
 jQuery.widget("ui.xepanComponentCreator",{
 	options:{
@@ -377,7 +377,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			});
 		}
 
-		tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
+		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
 		$('<button class="btn btn-primary">Selection</button>').appendTo($(tag_implementor_wrapper));
 		var tag_dom_selector = $('<button id="xepan-creator-tag-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(tag_implementor_wrapper));
 		// initialize dom object
@@ -394,15 +394,88 @@ jQuery.widget("ui.xepanComponentCreator",{
 			return false;
 		});
 
-		// var tag_select = '<select><option value="">Select Tags</option>';
-		// $.each(self.tags, function(index, tag_name) {
-		// 	tag_select += '<option value="'+tag_name+'">'+tag_name+'</option>';
-		// });
-		// tag_select += '</select>';
-		// $(tag_select).appendTo($(tag_implementor_wrapper));
+		// if has tag dom then select show the crud
+		// if($(current_selected_tag_dom).length){
+
+		// }
+
+		// tag select
+		var tag_select = '<div class="btn-group" role="group"><select id="xepan-component-serverside-creator-tags" ><option value="">Select Tags</option>';
+		$.each(self.original_template_tags, function(index, tag_name) {
+			tag_select += '<option value="'+tag_name+'">'+tag_name+'</option>';
+		});
+		tag_select += '</select></div>';
+		$(tag_select).appendTo($(tag_implementor_wrapper));
+
+		// as 
+		var as_select = '<div class="btn-group" role="group"><select id="xepan-component-serverside-creator-apply-as">'+
+							'<option value="">apply as</option>'+
+							'<option value="href">href</option>'+
+							'<option value="src">src</option>'+
+							'<option value="text">text</option>'+
+							'<option value="wrapper">wrapper</option>'+
+							'<option value="class">class</option>'+
+							'<option value="style">style</option>'+
+						'</select></div>';
+		$(as_select).appendTo($(tag_implementor_wrapper));
+
+
+
+		tag_associate_btn = $('<button id="xepan-component-creator-tag-dom-association-btn" class="btn btn-primary">Add</button>').appendTo($(tag_implementor_wrapper));
+		// tags_added wrapper
+		$('<div id="xepan-creator-implement-tag-wrapper"></div>').appendTo($creator_wrapper);
+
+		$(tag_associate_btn).click(function(event){
+			var selected_tag = $('#xepan-component-serverside-creator-tags').val();
+			var implement_as = $('#xepan-component-serverside-creator-apply-as').val();
+
+			if(!$(current_selected_tag_dom).length){
+				$.univ().errorMessage('first select the dom element');
+				return;
+			}
+
+			if(!selected_tag.length){
+				$.univ().errorMessage('tags must not be empty');
+				return;
+			}
+			
+			if(!implement_as.length){
+				$.univ().errorMessage('apply as must not be empty');
+				return;
+			}
+
+			var temp = [];
+				temp.tag = selected_tag;
+				temp.dom = current_selected_tag_dom;
+				temp.implement_as = implement_as;
+
+			tags_associate_list.push(temp);
+
+			// reset
+			current_selected_tag_dom = 0;
+			$('#xepan-component-serverside-creator-tags').val("");
+			$('#xepan-component-serverside-creator-apply-as').val("");
+
+			self.showAppliedTags();
+		});
 
 	},
 
+	showAppliedTags: function(){
+		var self = this;
+
+		$('#xepan-creator-implement-tag-wrapper').html("");
+		$.each(tags_associate_list, function(index, data) {
+			var applied_btn = $('<div class="btn btn-success btn-sm" type="button">'+data.tag+'('+data.implement_as+')</div>').appendTo($('#xepan-creator-implement-tag-wrapper'));
+			var delete_btn = $('<span class="xepan-creator-delete-applied-tag label label-danger" data-id='+index+'>x</span>').appendTo($(applied_btn));
+			$(delete_btn).click(function(event){
+				// alert('delete');
+				// console.log("crate: ",tags_associate_list);
+			 	delete tags_associate_list[$(this).attr('data-id')];
+			 	self.showAppliedTags();
+			});
+		});
+	},
 	createClientSideComponentUI: function(){
 		// create UI 
 		var self = this;
