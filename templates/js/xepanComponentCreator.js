@@ -1,4 +1,5 @@
 current_selected_dom = 0;
+current_selected_dom_of_code_change = 0;
 current_selected_dom_original_html = "";
 current_selected_dom_component_type = undefined;
 repitative_selected_dom = 0;
@@ -592,6 +593,38 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$('#xepan-component-serverside-creator-apply-as').val("");
 
 			self.showAppliedTags();
+		});
+
+		// edit dom code to change html
+		var dom_code_change_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
+		$('<button class="btn btn-primary">Change HTML Of DOM</button>').appendTo($(dom_code_change_wrapper));
+		var dom_code_change_selector = $('<button id="xepan-creator-dom-code-change-html-selector" type="button" title="Dom Selector for html update" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(dom_code_change_wrapper));
+		var dom_code_change_save_btn = $('<button id="xepan-creator-dom-code-change-html-save-btn" type="button" title="update html to dom" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>').appendTo($(dom_code_change_wrapper));
+		var dom_html = $('<textarea id="xepan-creator-dom-code-updated-html">').appendTo($(dom_code_change_wrapper));
+
+		// initialize dom object
+		var codeDomChangeOutline = DomOutline({
+			'onClick': function(element){
+				current_selected_dom_of_code_change = element;
+				$('#xepan-component-creator-form').modal('show');
+				$('#xepan-creator-dom-code-updated-html').val($(current_selected_dom_of_code_change).prop('outerHTML'));
+			}
+		});
+
+		$('#xepan-creator-dom-code-change-html-selector').click(function(event) {
+			$('#xepan-component-creator-form').modal('hide');
+			codeDomChangeOutline.start();
+			return false;
+		});
+
+		$('#xepan-creator-dom-code-change-html-save-btn').click(function(event) {
+			if(!$(current_selected_dom_of_code_change).length){
+				$.univ().errorMessage('first select the dom/element');
+				return;
+			}
+
+			$(current_selected_dom_of_code_change).prop('outerHTML', $('#xepan-creator-dom-code-updated-html').val());
+			$.univ().successMessage('Seleced Element/Dom Html Updated');
 		});
 
 	},
