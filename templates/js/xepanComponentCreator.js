@@ -284,6 +284,11 @@ jQuery.widget("ui.xepanComponentCreator",{
 			async:false,
 			success: function(json){
 				// console.log(json);
+				var result = $.parseJSON(json);
+				if(result.status != "success"){
+					$.univ().errorMessage('Not Saved');
+					return;
+				}
 
 				$(current_selected_dom).html(current_selected_dom_original_html);
 				current_selected_dom = 0;
@@ -293,6 +298,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 				current_selected_tag_dom = 0;
 				tags_associate_list = [];
 				$.univ().successMessage('Saved');
+				
+				$('#xepan-component-creator-form').remove();
+				$('.modal-backdrop').remove();
 			}
 		});
 
