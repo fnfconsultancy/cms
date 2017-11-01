@@ -185,37 +185,37 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 	saveClientSideComponent: function(){
 		// xepan component 
-		if($('#xepan-cmp-cratetor-xepan-component:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-component:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-component');
 		else
 			$(current_selected_dom).removeClass('xepan-component');
 
 		// xepan sortable component 
-		if($('#xepan-cmp-cratetor-xepan-sortable-component:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-sortable-component:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-sortable-component');
 		else
 			$(current_selected_dom).removeClass('xepan-sortable-component');
 
 		// xepan editable text
-		if($('#xepan-cmp-cratetor-xepan-editable-text:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-editable-text:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-editable-text');
 		else
 			$(current_selected_dom).removeClass('xepan-editable-text');
 		
 		// no richtext
-		if($('#xepan-cmp-cratetor-xepan-no-richtext:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-no-richtext:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-no-richtext');
 		else
 			$(current_selected_dom).removeClass('xepan-no-richtext');
 
 		// no move
-		if($('#xepan-cmp-cratetor-xepan-no-move:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-no-move:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-no-move');
 		else
 			$(current_selected_dom).removeClass('xepan-no-move');
 
 		// no delete
-		if($('#xepan-cmp-cratetor-xepan-no-delete:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-no-delete:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-no-delete');
 		else
 			$(current_selected_dom).removeClass('xepan-no-delete');
@@ -464,6 +464,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 				repitative_selected_dom = $(repitative_selected_dom).parent();
 				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 			});
+
+			// add paginator section here if {rows}{row} has then pagination is must
+			$('<input type="checkbox" id="xepan-cmp-creator-" checked /><label for="xepan-cmp-creator-xepan-component"> Create Component</label>').appendTo($(col3));
 		}
 
 		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
@@ -579,40 +582,40 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		// xepan component
 		if($(current_selected_dom).hasClass('xepan-component')){
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-component" checked /><label for="xepan-cmp-cratetor-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-component" checked /><label for="xepan-cmp-creator-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
 		}else{
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-component" /><label for="xepan-cmp-cratetor-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-component" /><label for="xepan-cmp-creator-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
 		}
 
 		// sortable component
 		if($(current_selected_dom).hasClass('xepan-sortable-component'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-sortable-component" /><label for="xepan-cmp-cratetor-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-sortable-component" /><label for="xepan-cmp-creator-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-sortable-component" /><label for="xepan-cmp-cratetor-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-sortable-component" /><label for="xepan-cmp-creator-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
 		
 		// editable text
 		if($(current_selected_dom).hasClass('xepan-editable-text'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-editable-text" /><label for="xepan-cmp-cratetor-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-editable-text" /><label for="xepan-cmp-creator-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-editable-text" /><label for="xepan-cmp-cratetor-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-editable-text" /><label for="xepan-cmp-creator-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
 			
 		// editable text
 		if($(current_selected_dom).hasClass('xepan-no-richtext'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-no-richtext" /><label for="xepan-cmp-cratetor-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-richtext" /><label for="xepan-cmp-creator-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-no-richtext" /><label for="xepan-cmp-cratetor-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-no-richtext" /><label for="xepan-cmp-creator-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
 		
 		// no move
 		if($(current_selected_dom).hasClass('xepan-no-move'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-no-move" /><label for="xepan-cmp-cratetor-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-move" /><label for="xepan-cmp-creator-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-no-move" /><label for="xepan-cmp-cratetor-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-no-move" /><label for="xepan-cmp-creator-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
 
 		// no delete 
 		if($(current_selected_dom).hasClass('xepan-no-delete'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-no-delete" /><label for="xepan-cmp-cratetor-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-no-delete" /><label for="xepan-cmp-cratetor-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
 
 		$('<hr/>').appendTo($creator_wrapper);
 		var add_dynamic_html = 
