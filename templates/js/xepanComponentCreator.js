@@ -570,9 +570,6 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// create UI 
 		var self = this;
 
-		current_selected_dom = 0;
-		current_selected_dom_original_html = "";
-		current_selected_dom_component_type = undefined;
 		repitative_selected_dom = 0;
 		current_selected_tag_dom = 0;
 		tags_associate_list = [];
