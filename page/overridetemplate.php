@@ -20,14 +20,24 @@ class page_overridetemplate extends \Page {
 		parent::init();
 
 		if(!$this->app->auth->isLoggedIn()) return;
-		if(!$_GET['xepan-tool-to-clone']){
+
+
+		if($_POST['xepan-tool-to-clone'])
+			$tool_name = $_POST['xepan-tool-to-clone'];
+
+		if($_GET['xepan-tool-to-clone']){
+			$tool_name = $this->app->stickyGET('xepan-tool-to-clone');
+			
+		}
+
+		if(!$tool_name){
 			return $this->add('View')->set('Please select a tool');
 		}	
 
 		$tool_options = json_decode($this->api->stickyGET('options'),true);
 		if(!is_array($tool_options)) $tool_options = [];
 
-		$tool = $this->add($this->api->stickyGET('xepan-tool-to-clone'),['_options'=>$tool_options]);
+		$tool = $this->add($tool_name,['_options'=>$tool_options]);
 
 		if(!$tool->templateOverridable){
 			$this->add('View')->set('You cannot override template for this tool');
@@ -49,6 +59,13 @@ class page_overridetemplate extends \Page {
 			$fs = \Nette\Utils\FileSystem::copy($original_path,$override_path,true);
 			// $this->add('View')->set('File allrealy overrided at "'. $relative_path.'", Please remove this file and click again to reset');
 			// return;
+		}
+
+		if($_POST['xepan-tool-to-clone'] && $_POST['template_html']){
+			file_put_contents($override_path, $_POST['template_html']);
+
+			echo json_encode(['override_path'=>$override_path]);
+			exit();
 		}
 
 		$class = new \ReflectionClass($tool);

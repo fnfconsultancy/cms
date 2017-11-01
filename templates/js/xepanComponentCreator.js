@@ -1,4 +1,5 @@
 current_selected_dom = 0;
+current_selected_dom_original_html = "";
 current_selected_dom_component_type = undefined;
 repitative_selected_dom = 0;
 current_selected_tag_dom = 0;
@@ -80,6 +81,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var self = this;
 		// create Base UI // component type only infact
 		// filter types like if rows and bootstrap col-md/sd etc is there let column Type be there or remove
+
+		current_selected_dom_original_html = $(current_selected_dom).prop('outerHTML');
 
 		$('.sidebar').removeClass('toggleSideBar');
 		if($('#xepan-component-creator-form').length){
@@ -239,9 +242,95 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 	},
 	saveServerSideComponent: function(){
-		alert('todo');
+		
+		if($(repitative_selected_dom).length){
+			var repetative_orig_html = $(repitative_selected_dom).prop('outerHTML');
+
+			$(repitative_selected_dom).siblings().remove();
+			// console.log('siblings: ',$(repitative_selected_dom).siblings());
+
+			row_html = "{rows}{row}"+repetative_orig_html+"{\/}{\/}";
+			$(repitative_selected_dom).prop('outerHTML', row_html);
+			// $(repitative_selected_dom).html(row_html);
+
+			$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
+			// $(repitative_selected_dom).html(repetative_orig_html);
+		}
+
+		// console.log(tags_associate_list);
+
+		// $.each(tags_associate_list, function(index, detail) {
+		// 	var tag_name = detail.tag;
+		// 	var dom_obj = detail.dom;
+		// 	var implement_as = detail.implement_as;
+		// 	self.addToTagList(tag_name,dom_obj,implement_as);
+		// });
+		var template_html = $(current_selected_dom).prop('outerHTML');
+		
+		$.ajax({
+			url :'index.php?page=xepan_cms_overridetemplate&cut_page=1',
+			type: 'POST',
+			data: {
+				'xepan-tool-to-clone':current_selected_dom_component_type,
+				'template_html': template_html
+			},
+			async:false,
+			success: function(json){
+				console.log(json);
+
+				$(current_selected_dom).html(current_selected_dom_original_html);
+				current_selected_dom = 0;
+				current_selected_dom_original_html = "";
+				current_selected_dom_component_type = undefined;
+				repitative_selected_dom = 0;
+				current_selected_tag_dom = 0;
+				tags_associate_list = [];
+				$.univ().successMessage('Saved');
+			}
+		});
+
 	},
 
+	addToTagList: function(tag_name,dom_obj,implement_as){
+
+		if(tag_name.indexOf('$') > 0){
+			tag_name_with_dollar = tag_name;
+			tag_name_without_dollar = tag_name.replace('$',"");
+		}else{
+			tag_name_with_dollar = tag_name.replace('{','{$');
+			tag_name_without_dollar = tag_name;
+		}
+
+		switch(implement_as){
+			case 'href':
+				$(dom_obj).attr('href',tag_name_with_dollar);
+			break;
+
+			case 'src':
+				$(dom_obj).attr('src',tag_name_with_dollar);
+			break;
+				
+			case 'text':
+				$(dom_obj).text(tag_name_with_dollar);
+			break;
+
+			case 'wrapper':
+				var orig_html = $(dom_obj).prop('outerHTML');
+				var wrapped_html = tag_name_without_dollar+orig_html+"{/}";
+			 	$(dom_obj).prop('outerHTML', wrapped_html);
+			break;
+
+			case 'class':
+				$(dom_obj).addClass(tag_name_with_dollar);
+			break;
+
+			case 'style':
+				$(dom_obj).addStyle(tag_name_with_dollar);
+			break;
+		}
+		// console.log("dom obj:",$(dom_obj));
+		// console.log("dom obj html:",$(dom_obj).prop('outerHTML'));
+	},
 
 	handleComponentTypeChange: function(tool_name){
 		var self = this;
@@ -360,7 +449,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 				'onClick': function(element){
 					repitative_selected_dom = element;
 					$('#xepan-component-creator-form').modal('show');
-					$('#xepan-creator-repitative-html').val($(repitative_selected_dom).html());
+					$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 				}
 			});
 			// repetative dom selector
@@ -373,7 +462,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			// parent selection
 			$(repetative_selection_parent).click(function(event) {
 				repitative_selected_dom = $(repitative_selected_dom).parent();
-				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).html());
+				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 			});
 		}
 
@@ -444,15 +533,17 @@ jQuery.widget("ui.xepanComponentCreator",{
 				return;
 			}
 
+
+			// console.log(current_selected_tag_dom);
 			var temp = [];
 				temp.tag = selected_tag;
-				temp.dom = current_selected_tag_dom;
+				temp.dom = $(current_selected_tag_dom);
 				temp.implement_as = implement_as;
 
 			tags_associate_list.push(temp);
 
-			// reset
-			current_selected_tag_dom = 0;
+			self.addToTagList(selected_tag,$(current_selected_tag_dom),implement_as);
+			
 			$('#xepan-component-serverside-creator-tags').val("");
 			$('#xepan-component-serverside-creator-apply-as').val("");
 
@@ -469,8 +560,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			var applied_btn = $('<div class="btn btn-success btn-sm" type="button">'+data.tag+'('+data.implement_as+')</div>').appendTo($('#xepan-creator-implement-tag-wrapper'));
 			var delete_btn = $('<span class="xepan-creator-delete-applied-tag label label-danger" data-id='+index+'>x</span>').appendTo($(applied_btn));
 			$(delete_btn).click(function(event){
-				// alert('delete');
-				// console.log("crate: ",tags_associate_list);
+
 			 	delete tags_associate_list[$(this).attr('data-id')];
 			 	self.showAppliedTags();
 			});
@@ -479,6 +569,14 @@ jQuery.widget("ui.xepanComponentCreator",{
 	createClientSideComponentUI: function(){
 		// create UI 
 		var self = this;
+
+		current_selected_dom = 0;
+		current_selected_dom_original_html = "";
+		current_selected_dom_component_type = undefined;
+		repitative_selected_dom = 0;
+		current_selected_tag_dom = 0;
+		tags_associate_list = [];
+		
 		$creator_wrapper =  $('#xepan-component-creator-type-wrapper');
 		// $('<div class="alert alert-success"> Client Side </div>').appendTo($creator_wrapper);
 
