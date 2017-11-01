@@ -274,6 +274,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// });
 		var template_html = $(current_selected_dom).prop('outerHTML');
 		
+		// $.univ().frameURL('Override Tool Template');
+
 		$.ajax({
 			url :'index.php?page=xepan_cms_overridetemplate&cut_page=1',
 			type: 'POST',
@@ -298,7 +300,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 				current_selected_tag_dom = 0;
 				tags_associate_list = [];
 				$.univ().successMessage('Saved');
-				
+
 				$('#xepan-component-creator-form').remove();
 				$('.modal-backdrop').remove();
 			}
@@ -463,6 +465,13 @@ jQuery.widget("ui.xepanComponentCreator",{
 			var repitativeDomOutline = DomOutline({
 				'onClick': function(element){
 					repitative_selected_dom = element;
+
+					// extra padding
+					if($('#xepan-cmp-creator-add-extra-padding:checked').size() > 0)
+						$(repitative_selected_dom).addClass('xepan-component-creator-extra-margin');
+					else
+						$(repitative_selected_dom).removeClass('xepan-component-creator-extra-margin');
+
 					$('#xepan-component-creator-form').modal('show');
 					$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 				}
@@ -485,7 +494,20 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			// add paginator section here if {rows}{row} has then pagination is must
 			$('<input type="checkbox" id="xepan-cmp-creator-add-paginator" checked /><label for="xepan-cmp-creator-add-paginator"> Add Paginator</label>').appendTo($(col3));
+			
+			// add extra padding for selection
+			var extra_padding = $('<input type="checkbox" id="xepan-cmp-creator-add-extra-padding" checked /><label for="xepan-cmp-creator-add-extra-padding"> Add Extra Padding For Selection</label>').appendTo($(col3));
+			$('#xepan-cmp-creator-add-extra-padding').change(function(event) {
+				if(!$(repitative_selected_dom).length){
+					$.univ().errorMessage('first select repatative ');
+					return;
+				}
+				if(this.checked) {
+					$(repitative_selected_dom).addClass('xepan-component-creator-extra-margin');
+				}else
+					$(repitative_selected_dom).removeClass('xepan-component-creator-extra-margin');
 
+			});
 		}
 
 		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);

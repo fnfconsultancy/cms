@@ -576,3 +576,8 @@
 #xepan-component-creator-form textarea{
     text-transform: lowercase;
 }
+
+.xepan-component-creator-extra-margin *{
+    display: block;
+    margin: 20px 0px !important;
+}
