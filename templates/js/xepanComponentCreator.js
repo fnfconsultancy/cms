@@ -1,8 +1,9 @@
 current_selected_dom = 0;
+current_selected_dom_original_html = "";
 current_selected_dom_component_type = undefined;
 repitative_selected_dom = 0;
-current_selected_tag_dom=0;
-tag_dom_list = [];
+current_selected_tag_dom = 0;
+tags_associate_list = [];
 
 jQuery.widget("ui.xepanComponentCreator",{
 	options:{
@@ -80,6 +81,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var self = this;
 		// create Base UI // component type only infact
 		// filter types like if rows and bootstrap col-md/sd etc is there let column Type be there or remove
+
+		current_selected_dom_original_html = $(current_selected_dom).prop('outerHTML');
 
 		$('.sidebar').removeClass('toggleSideBar');
 		if($('#xepan-component-creator-form').length){
@@ -239,9 +242,95 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 	},
 	saveServerSideComponent: function(){
-		alert('todo');
+		
+		if($(repitative_selected_dom).length){
+			var repetative_orig_html = $(repitative_selected_dom).prop('outerHTML');
+
+			$(repitative_selected_dom).siblings().remove();
+			// console.log('siblings: ',$(repitative_selected_dom).siblings());
+
+			row_html = "{rows}{row}"+repetative_orig_html+"{\/}{\/}";
+			$(repitative_selected_dom).prop('outerHTML', row_html);
+			// $(repitative_selected_dom).html(row_html);
+
+			$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
+			// $(repitative_selected_dom).html(repetative_orig_html);
+		}
+
+		// console.log(tags_associate_list);
+
+		// $.each(tags_associate_list, function(index, detail) {
+		// 	var tag_name = detail.tag;
+		// 	var dom_obj = detail.dom;
+		// 	var implement_as = detail.implement_as;
+		// 	self.addToTagList(tag_name,dom_obj,implement_as);
+		// });
+		var template_html = $(current_selected_dom).prop('outerHTML');
+		
+		$.ajax({
+			url :'index.php?page=xepan_cms_overridetemplate&cut_page=1',
+			type: 'POST',
+			data: {
+				'xepan-tool-to-clone':current_selected_dom_component_type,
+				'template_html': template_html
+			},
+			async:false,
+			success: function(json){
+				console.log(json);
+
+				$(current_selected_dom).html(current_selected_dom_original_html);
+				current_selected_dom = 0;
+				current_selected_dom_original_html = "";
+				current_selected_dom_component_type = undefined;
+				repitative_selected_dom = 0;
+				current_selected_tag_dom = 0;
+				tags_associate_list = [];
+				$.univ().successMessage('Saved');
+			}
+		});
+
 	},
 
+	addToTagList: function(tag_name,dom_obj,implement_as){
+
+		if(tag_name.indexOf('$') > 0){
+			tag_name_with_dollar = tag_name;
+			tag_name_without_dollar = tag_name.replace('$',"");
+		}else{
+			tag_name_with_dollar = tag_name.replace('{','{$');
+			tag_name_without_dollar = tag_name;
+		}
+
+		switch(implement_as){
+			case 'href':
+				$(dom_obj).attr('href',tag_name_with_dollar);
+			break;
+
+			case 'src':
+				$(dom_obj).attr('src',tag_name_with_dollar);
+			break;
+				
+			case 'text':
+				$(dom_obj).text(tag_name_with_dollar);
+			break;
+
+			case 'wrapper':
+				var orig_html = $(dom_obj).prop('outerHTML');
+				var wrapped_html = tag_name_without_dollar+orig_html+"{/}";
+			 	$(dom_obj).prop('outerHTML', wrapped_html);
+			break;
+
+			case 'class':
+				$(dom_obj).addClass(tag_name_with_dollar);
+			break;
+
+			case 'style':
+				$(dom_obj).addStyle(tag_name_with_dollar);
+			break;
+		}
+		// console.log("dom obj:",$(dom_obj));
+		// console.log("dom obj html:",$(dom_obj).prop('outerHTML'));
+	},
 
 	handleComponentTypeChange: function(tool_name){
 		var self = this;
@@ -360,7 +449,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 				'onClick': function(element){
 					repitative_selected_dom = element;
 					$('#xepan-component-creator-form').modal('show');
-					$('#xepan-creator-repitative-html').val($(repitative_selected_dom).html());
+					$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 				}
 			});
 			// repetative dom selector
@@ -373,11 +462,11 @@ jQuery.widget("ui.xepanComponentCreator",{
 			// parent selection
 			$(repetative_selection_parent).click(function(event) {
 				repitative_selected_dom = $(repitative_selected_dom).parent();
-				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).html());
+				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 			});
 		}
 
-		tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
+		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
 		$('<button class="btn btn-primary">Selection</button>').appendTo($(tag_implementor_wrapper));
 		var tag_dom_selector = $('<button id="xepan-creator-tag-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(tag_implementor_wrapper));
 		// initialize dom object
@@ -394,18 +483,100 @@ jQuery.widget("ui.xepanComponentCreator",{
 			return false;
 		});
 
-		// var tag_select = '<select><option value="">Select Tags</option>';
-		// $.each(self.tags, function(index, tag_name) {
-		// 	tag_select += '<option value="'+tag_name+'">'+tag_name+'</option>';
-		// });
-		// tag_select += '</select>';
-		// $(tag_select).appendTo($(tag_implementor_wrapper));
+		// if has tag dom then select show the crud
+		// if($(current_selected_tag_dom).length){
+
+		// }
+
+		// tag select
+		var tag_select = '<div class="btn-group" role="group"><select id="xepan-component-serverside-creator-tags" ><option value="">Select Tags</option>';
+		$.each(self.original_template_tags, function(index, tag_name) {
+			tag_select += '<option value="'+tag_name+'">'+tag_name+'</option>';
+		});
+		tag_select += '</select></div>';
+		$(tag_select).appendTo($(tag_implementor_wrapper));
+
+		// as 
+		var as_select = '<div class="btn-group" role="group"><select id="xepan-component-serverside-creator-apply-as">'+
+							'<option value="">apply as</option>'+
+							'<option value="href">href</option>'+
+							'<option value="src">src</option>'+
+							'<option value="text">text</option>'+
+							'<option value="wrapper">wrapper</option>'+
+							'<option value="class">class</option>'+
+							'<option value="style">style</option>'+
+						'</select></div>';
+		$(as_select).appendTo($(tag_implementor_wrapper));
+
+
+
+		tag_associate_btn = $('<button id="xepan-component-creator-tag-dom-association-btn" class="btn btn-primary">Add</button>').appendTo($(tag_implementor_wrapper));
+		// tags_added wrapper
+		$('<div id="xepan-creator-implement-tag-wrapper"></div>').appendTo($creator_wrapper);
+
+		$(tag_associate_btn).click(function(event){
+			var selected_tag = $('#xepan-component-serverside-creator-tags').val();
+			var implement_as = $('#xepan-component-serverside-creator-apply-as').val();
+
+			if(!$(current_selected_tag_dom).length){
+				$.univ().errorMessage('first select the dom element');
+				return;
+			}
+
+			if(!selected_tag.length){
+				$.univ().errorMessage('tags must not be empty');
+				return;
+			}
+			
+			if(!implement_as.length){
+				$.univ().errorMessage('apply as must not be empty');
+				return;
+			}
+
+
+			// console.log(current_selected_tag_dom);
+			var temp = [];
+				temp.tag = selected_tag;
+				temp.dom = $(current_selected_tag_dom);
+				temp.implement_as = implement_as;
+
+			tags_associate_list.push(temp);
+
+			self.addToTagList(selected_tag,$(current_selected_tag_dom),implement_as);
+			
+			$('#xepan-component-serverside-creator-tags').val("");
+			$('#xepan-component-serverside-creator-apply-as').val("");
+
+			self.showAppliedTags();
+		});
 
 	},
 
+	showAppliedTags: function(){
+		var self = this;
+
+		$('#xepan-creator-implement-tag-wrapper').html("");
+		$.each(tags_associate_list, function(index, data) {
+			var applied_btn = $('<div class="btn btn-success btn-sm" type="button">'+data.tag+'('+data.implement_as+')</div>').appendTo($('#xepan-creator-implement-tag-wrapper'));
+			var delete_btn = $('<span class="xepan-creator-delete-applied-tag label label-danger" data-id='+index+'>x</span>').appendTo($(applied_btn));
+			$(delete_btn).click(function(event){
+
+			 	delete tags_associate_list[$(this).attr('data-id')];
+			 	self.showAppliedTags();
+			});
+		});
+	},
 	createClientSideComponentUI: function(){
 		// create UI 
 		var self = this;
+
+		current_selected_dom = 0;
+		current_selected_dom_original_html = "";
+		current_selected_dom_component_type = undefined;
+		repitative_selected_dom = 0;
+		current_selected_tag_dom = 0;
+		tags_associate_list = [];
+		
 		$creator_wrapper =  $('#xepan-component-creator-type-wrapper');
 		// $('<div class="alert alert-success"> Client Side </div>').appendTo($creator_wrapper);
 
