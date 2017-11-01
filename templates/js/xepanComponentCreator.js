@@ -250,9 +250,16 @@ jQuery.widget("ui.xepanComponentCreator",{
 			// console.log('siblings: ',$(repitative_selected_dom).siblings());
 
 			row_html = "{rows}{row}"+repetative_orig_html+"{\/}{\/}";
-			$(repitative_selected_dom).prop('outerHTML', row_html);
-			// $(repitative_selected_dom).html(row_html);
 
+			// not found message
+			var no_message = $('#xepan-cmp-creator-not-found-message').val();
+			row_html += '{not_found}<div role="alert" class="full-width alert alert-warning"><strong class="glyphicon glyphicon-warning-sign">&nbsp;Warning!<span>&nbsp;{not_found_message}'+no_message+'{\/}</span></strong></div>{\/}';
+
+			// paginator tags
+			if($('#xepan-cmp-creator-add-paginator:checked').size() > 0)
+				row_html += "{$Paginator}";
+
+			$(repitative_selected_dom).prop('outerHTML', row_html);
 			$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 			// $(repitative_selected_dom).html(repetative_orig_html);
 		}
@@ -276,7 +283,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			},
 			async:false,
 			success: function(json){
-				console.log(json);
+				// console.log(json);
 
 				$(current_selected_dom).html(current_selected_dom_original_html);
 				current_selected_dom = 0;
@@ -465,8 +472,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 			});
 
+			// no record found message
+			$('<label for="xepan-cmp-creator-not-found-message">No Record Found Message</label><input id="xepan-cmp-creator-not-found-message" value="Not Matching Record Found" />').appendTo($(col3));
+
 			// add paginator section here if {rows}{row} has then pagination is must
-			$('<input type="checkbox" id="xepan-cmp-creator-" checked /><label for="xepan-cmp-creator-xepan-component"> Create Component</label>').appendTo($(col3));
+			$('<input type="checkbox" id="xepan-cmp-creator-add-paginator" checked /><label for="xepan-cmp-creator-add-paginator"> Add Paginator</label>').appendTo($(col3));
+
 		}
 
 		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
