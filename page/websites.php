@@ -191,6 +191,9 @@ class page_websites extends \xepan\base\Page{
 				->prependTo('body');
 
 			$page_template_file = $www_relative.'layout/'.$form['page_template_name'];
+
+			if(!file_exists($www_relative.'layout')) \Nette\Utils\FileSystem::createDir($www_relative.'layout');
+
 			file_put_contents($page_template_file, $dom->html());
 
 			$html_files = glob('./websites/'.$this->app->current_website_name.'/www/*.html');
