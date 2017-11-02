@@ -293,8 +293,16 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		if($(current_selected_dom).attr('xepan-component')){
 			var template_html = $(current_selected_dom).html();
-		}else
+		}else{
 			var template_html = $(current_selected_dom).prop('outerHTML');
+		}
+		
+		template_html = $(template_html);
+		$(template_html).attr('id','{$_name}');
+		$(template_html).addClass('{$class}');
+		$(template_html).attr('style', $(template_html).attr('style')+" {$style}");
+
+		template_html = $(template_html).prop('outerHTML');
 
 		// open new modal popup
 		var code_editor_form = '<div id="xepan-component-creator-code-form" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="xepan-component-creator">'+
