@@ -291,7 +291,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$(current_selected_dom).removeClass('xepan-component-hover-selector');
 		$(current_selected_dom).find('.xepan-component-hoverbar').remove();
 
-		var template_html = $(current_selected_dom).prop('outerHTML');
+		if($(current_selected_dom).attr('xepan-component')){
+			var template_html = $(current_selected_dom).html();
+		}else
+			var template_html = $(current_selected_dom).prop('outerHTML');
 
 		// open new modal popup
 		var code_editor_form = '<div id="xepan-component-creator-code-form" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="xepan-component-creator">'+
@@ -336,6 +339,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 						return;
 					}
 
+					if($(current_selected_dom).attr('xepan-component') != undefined){
+						$(current_selected_dom).wrap('<div class="xepan-component xepan-serverside-component" xepan-component="'+current_selected_dom_component_type+'"></div>');
+					}
+										
 					$(current_selected_dom).html(current_selected_dom_original_html);
 					current_selected_dom = 0;
 					current_selected_dom_original_html = "";
@@ -563,30 +570,6 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
 		$('<button class="btn btn-primary">Selection</button>').appendTo($(tag_implementor_wrapper));
 		var tag_dom_selector = $('<button id="xepan-creator-tag-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(tag_implementor_wrapper));
-		// initialize dom object
-
-		var tagDomOutline = DomOutline({
-			'onClick': function(element){
-				if($.contains(element,current_selected_dom_repititve_dom))
-					current_selected_tag_dom = element;
-				else
-					alert('Please select child of repetative dom/Element ');
-				
-				$('#xepan-component-creator-form').modal('show');
-
-			}
-		});
-
-		$(tag_dom_selector).click(function(event) {
-			$('#xepan-component-creator-form').modal('hide');
-			tagDomOutline.start();
-			return false;
-		});
-
-		// if has tag dom then select show the crud
-		// if($(current_selected_tag_dom).length){
-
-		// }
 
 		// tag select
 		var tag_select = '<div class="btn-group" role="group"><select id="xepan-component-serverside-creator-tags" ><option value="">Select Tags</option>';
@@ -609,10 +592,37 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$(as_select).appendTo($(tag_implementor_wrapper));
 
 
-
 		tag_associate_btn = $('<button id="xepan-component-creator-tag-dom-association-btn" class="btn btn-primary">Add</button>').appendTo($(tag_implementor_wrapper));
+		
+		tag_textarea = $('<textarea id="xepan-creator-tag-html" >').appendTo($(tag_implementor_wrapper));
 		// tags_added wrapper
 		$('<div id="xepan-creator-implement-tag-wrapper"></div>').appendTo($creator_wrapper);
+
+		// initialize dom object
+		var tagDomOutline = DomOutline({
+			'onClick': function(element){
+
+				if($.contains(repitative_selected_dom,element)){
+					current_selected_tag_dom = element;
+					$('#xepan-creator-tag-html').val($(current_selected_tag_dom).prop('outerHTML'));
+				}
+				else
+					alert('Please select child of repetative dom/Element ');
+
+				$('#xepan-component-creator-form').modal('show');
+			}
+		});
+
+		$(tag_dom_selector).click(function(event) {
+			$('#xepan-component-creator-form').modal('hide');
+			tagDomOutline.start();
+			return false;
+		});
+
+		// if has tag dom then select show the crud
+		// if($(current_selected_tag_dom).length){
+
+		// }
 
 		$(tag_associate_btn).click(function(event){
 			var selected_tag = $('#xepan-component-serverside-creator-tags').val();
@@ -646,7 +656,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			
 			$('#xepan-component-serverside-creator-tags').val("");
 			$('#xepan-component-serverside-creator-apply-as').val("");
-
+			$('#xepan-creator-tag-html').val("");
 			self.showAppliedTags();
 		});
 
