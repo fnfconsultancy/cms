@@ -627,8 +627,16 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.showAppliedTags();
 		});
 
+		self.addDomCodeUI();
+
+	},
+
+	addDomCodeUI: function(){
+		var self = this;
+
+		var wrapper = $('#xepan-component-creator-type-wrapper');
 		// edit dom code to change html
-		var dom_code_change_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
+		var dom_code_change_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($(wrapper));
 		$('<button class="btn btn-primary">Change HTML Of DOM</button>').appendTo($(dom_code_change_wrapper));
 		var dom_code_change_selector = $('<button id="xepan-creator-dom-code-change-html-selector" type="button" title="Dom Selector for html update" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(dom_code_change_wrapper));
 		var dom_code_change_selector_parent = $('<button id="xepan-creator-dom-code-change-html-selector-parent" type="button" title="select parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(dom_code_change_wrapper));
@@ -757,6 +765,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 		else
 			$('<input type="checkbox" id="xepan-cmp-creator-xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
 
+
+		self.addDomCodeUI();
+		
 		$('<hr/>').appendTo($creator_wrapper);
 		var add_dynamic_html = 
 								'<h3>Dynamic Options</h3>'+
