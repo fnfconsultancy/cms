@@ -160,8 +160,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 		});
 		type_select_layout += '</select>';
 
+
 		$type_select =  $(type_select_layout).appendTo($(form_body));
 		
+		// add move section
+		self.addMoveToTemplate();
+
 		// append component wrapper
 		$('<div id="xepan-component-creator-type-wrapper"></div>').appendTo($(form_body));
 
@@ -635,6 +639,49 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		self.addDomCodeUI();
 
+	},
+
+	addMoveToTemplate: function(){
+		var self = this;
+
+		var wrapper = $('#xepan-component-creator-form .modal-body');
+		// edit dom code to change html
+		var btn_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($(wrapper));
+		var move_to_header = $('<button id="xepan-creator-move-to-header-btn" type="button" title="update html to dom" class="btn btn-primary"> Move To Header</button>').appendTo($(btn_wrapper));
+		var move_to_footer = $('<button id="xepan-creator-move-to-footer-btn" type="button" title="remove" class="btn btn-danger"> Move To Footer</button>').appendTo($(btn_wrapper));
+
+		$(move_to_header).click(function(event) {
+			self.moveToCall('header');
+		});
+
+		$(move_to_footer).click(function(event) {
+			self.moveToCall('footer');
+		});
+
+	},
+
+	moveToCall: function(move_to) {
+		var self = this;
+
+		var move_html = $(current_selected_dom).prop('outerHTML');
+		$.ajax({
+			url :'index.php?page=xepan_cms_componentcreator&cut_page=1',
+			type: 'POST',
+			data: {
+				'template':self.options.template,
+				'move_html': move_html,
+				'move_to': move_to
+			},
+			async:false,
+			success: function(result){
+				eval(result);
+				
+				$('#xepan-component-creator-form').remove();
+				$('.modal-backdrop').remove();
+				$(current_selected_dom).remove();
+				$.univ().errorMessage('Please reload page to see effect');
+			}
+		});
 	},
 
 	addDomCodeUI: function(){
