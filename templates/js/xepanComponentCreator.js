@@ -225,20 +225,26 @@ jQuery.widget("ui.xepanComponentCreator",{
 		else
 			$(current_selected_dom).removeClass('xepan-no-delete');
 
+		$(current_selected_dom).attr('xepan-component-name',$('#xepan-cmp-creator-component-name').val());
+
 		// dynamic option list
 		var find_str = "xepan-dynamic-option-";
-		$.each(current_selected_dom.attributes, function( index, attr ) {
-			// console.log("attribute: ",attr);
-			if(attr == undefined) return ; //actually continnue
-			if(attr.name.indexOf(find_str)===0){
-				$(current_selected_dom).removeAttr(attr.name);
-			}
-		});
 
-		$.each($('#xepan-creator-existing-dynamic-list .xepan-creator-existing-dynamic-list-added'), function(index, row_obj) {
-			var name = 'xepan-dynamic-option-'+(index + 1);
-			$(current_selected_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
-		});
+		if(current_selected_dom.attributes != undefined){
+			$.each(current_selected_dom.attributes, function( index, attr ) {
+				console.log("attribute: ",attr);
+				if(attr == undefined) return ; //actually continnue
+
+				if(attr.name.indexOf(find_str)===0){
+					$(current_selected_dom).removeAttr(attr.name);
+				}
+			});
+
+			$.each($('#xepan-creator-existing-dynamic-list .xepan-creator-existing-dynamic-list-added'), function(index, row_obj) {
+				var name = 'xepan-dynamic-option-'+(index + 1);
+				$(current_selected_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
+			});
+		}
 
 		$.univ().infoMessage('saved and reload page');
 		// $('#xepan-component-creator-form').modal('close');
@@ -663,6 +669,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 	moveToCall: function(move_to) {
 		var self = this;
 
+		$(current_selected_dom).removeClass('xepan-component-hover-selector');
+		$(current_selected_dom).find('.xepan-component-hoverbar').remove();
+
 		var move_html = $(current_selected_dom).prop('outerHTML');
 		$.ajax({
 			url :'index.php?page=xepan_cms_componentcreator&cut_page=1',
@@ -818,6 +827,18 @@ jQuery.widget("ui.xepanComponentCreator",{
 		else
 			$('<input type="checkbox" id="xepan-cmp-creator-xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
 
+		// component name
+		$('<div><label for="xepan-cmp-creator-component-name">Component Name</label><input id="xepan-cmp-creator-component-name" /></div>').appendTo($creator_wrapper);
+		$('#xepan-cmp-creator-component-name').val($(current_selected_dom).attr('xepan-component-name'));
+
+		$('#xepan-cmp-creator-xepan-editable-text').change(function(event) {
+			if($('#xepan-cmp-creator-xepan-editable-text:checked').size() > 0 ){
+				if($(current_selected_dom).children('.xepan-component').length > 0){
+					$.univ().errorMessage('this element contains existing component, can not convert to editable text');
+					$('#xepan-cmp-creator-xepan-editable-text').prop('checked', false);
+				}
+			}
+		});
 
 		self.addDomCodeUI();
 
