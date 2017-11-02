@@ -244,13 +244,19 @@ jQuery.widget("ui.xepanComponentCreator",{
 	},
 	saveServerSideComponent: function(){
 		// code-editor form modal removed
+
+		if($.inArray('{rows}',self.tags) && !$(repitative_selected_dom).length){
+			$.univ().errorMessage('first select repitative section');
+			return;
+		}
+		
 		$('#xepan-component-creator-code-form').remove();
 		$('.modal-backdrop').remove();
 
 		$('*').removeClass('xepan-component-creator-extra-margin');
 
 		if($(repitative_selected_dom).length){
-	
+		
 			var repetative_orig_html = $(repitative_selected_dom).prop('outerHTML');
 
 			$(repitative_selected_dom).siblings().remove();
@@ -767,7 +773,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 
 		self.addDomCodeUI();
-		
+
 		$('<hr/>').appendTo($creator_wrapper);
 		var add_dynamic_html = 
 								'<h3>Dynamic Options</h3>'+
