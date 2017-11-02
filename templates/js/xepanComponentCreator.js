@@ -347,12 +347,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 						return;
 					}
 
-					if($(current_selected_dom).attr('xepan-component') != undefined){
-						$(current_selected_dom).wrap('<div class="xepan-component xepan-serverside-component" xepan-component="'+current_selected_dom_component_type+'"></div>');
+					if($(current_selected_dom).attr('xepan-component') == undefined){
+						current_selected_dom.outerHTML = '<div class="xepan-component xepan-serverside-component" xepan-component="'+current_selected_dom_component_type+'">PLEASE SAVE AND RELOAD</div>';
 					}
 										
-					$(current_selected_dom).html(current_selected_dom_original_html);
-					current_selected_dom = 0;
+					// $(current_selected_dom).html(current_selected_dom_original_html);
+					// current_selected_dom = 0;
 					current_selected_dom_original_html = "";
 					current_selected_dom_component_type = undefined;
 					repitative_selected_dom = 0;
