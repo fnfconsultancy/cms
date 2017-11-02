@@ -1,4 +1,5 @@
 current_selected_dom = 0;
+current_selected_dom_of_code_change = 0;
 current_selected_dom_original_html = "";
 current_selected_dom_component_type = undefined;
 repitative_selected_dom = 0;
@@ -185,37 +186,37 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 	saveClientSideComponent: function(){
 		// xepan component 
-		if($('#xepan-cmp-cratetor-xepan-component:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-component:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-component');
 		else
 			$(current_selected_dom).removeClass('xepan-component');
 
 		// xepan sortable component 
-		if($('#xepan-cmp-cratetor-xepan-sortable-component:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-sortable-component:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-sortable-component');
 		else
 			$(current_selected_dom).removeClass('xepan-sortable-component');
 
 		// xepan editable text
-		if($('#xepan-cmp-cratetor-xepan-editable-text:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-editable-text:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-editable-text');
 		else
 			$(current_selected_dom).removeClass('xepan-editable-text');
 		
 		// no richtext
-		if($('#xepan-cmp-cratetor-xepan-no-richtext:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-no-richtext:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-no-richtext');
 		else
 			$(current_selected_dom).removeClass('xepan-no-richtext');
 
 		// no move
-		if($('#xepan-cmp-cratetor-xepan-no-move:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-no-move:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-no-move');
 		else
 			$(current_selected_dom).removeClass('xepan-no-move');
 
 		// no delete
-		if($('#xepan-cmp-cratetor-xepan-no-delete:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-no-delete:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-no-delete');
 		else
 			$(current_selected_dom).removeClass('xepan-no-delete');
@@ -250,9 +251,16 @@ jQuery.widget("ui.xepanComponentCreator",{
 			// console.log('siblings: ',$(repitative_selected_dom).siblings());
 
 			row_html = "{rows}{row}"+repetative_orig_html+"{\/}{\/}";
-			$(repitative_selected_dom).prop('outerHTML', row_html);
-			// $(repitative_selected_dom).html(row_html);
 
+			// not found message
+			var no_message = $('#xepan-cmp-creator-not-found-message').val();
+			row_html += '{not_found}<div role="alert" class="full-width alert alert-warning"><strong class="glyphicon glyphicon-warning-sign">&nbsp;Warning!<span>&nbsp;{not_found_message}'+no_message+'{\/}</span></strong></div>{\/}';
+
+			// paginator tags
+			if($('#xepan-cmp-creator-add-paginator:checked').size() > 0)
+				row_html += "{$Paginator}";
+
+			$(repitative_selected_dom).prop('outerHTML', row_html);
 			$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 			// $(repitative_selected_dom).html(repetative_orig_html);
 		}
@@ -267,6 +275,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// });
 		var template_html = $(current_selected_dom).prop('outerHTML');
 		
+		// $.univ().frameURL('Override Tool Template');
+
 		$.ajax({
 			url :'index.php?page=xepan_cms_overridetemplate&cut_page=1',
 			type: 'POST',
@@ -276,7 +286,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 			},
 			async:false,
 			success: function(json){
-				console.log(json);
+				// console.log(json);
+				var result = $.parseJSON(json);
+				if(result.status != "success"){
+					$.univ().errorMessage('Not Saved');
+					return;
+				}
 
 				$(current_selected_dom).html(current_selected_dom_original_html);
 				current_selected_dom = 0;
@@ -286,6 +301,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 				current_selected_tag_dom = 0;
 				tags_associate_list = [];
 				$.univ().successMessage('Saved');
+
+				$('#xepan-component-creator-form').remove();
+				$('.modal-backdrop').remove();
 			}
 		});
 
@@ -448,6 +466,13 @@ jQuery.widget("ui.xepanComponentCreator",{
 			var repitativeDomOutline = DomOutline({
 				'onClick': function(element){
 					repitative_selected_dom = element;
+
+					// extra padding
+					if($('#xepan-cmp-creator-add-extra-padding:checked').size() > 0)
+						$(repitative_selected_dom).addClass('xepan-component-creator-extra-margin');
+					else
+						$(repitative_selected_dom).removeClass('xepan-component-creator-extra-margin');
+
 					$('#xepan-component-creator-form').modal('show');
 					$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 				}
@@ -463,6 +488,26 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$(repetative_selection_parent).click(function(event) {
 				repitative_selected_dom = $(repitative_selected_dom).parent();
 				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
+			});
+
+			// no record found message
+			$('<label for="xepan-cmp-creator-not-found-message">No Record Found Message</label><input id="xepan-cmp-creator-not-found-message" value="Not Matching Record Found" />').appendTo($(col3));
+
+			// add paginator section here if {rows}{row} has then pagination is must
+			$('<input type="checkbox" id="xepan-cmp-creator-add-paginator" checked /><label for="xepan-cmp-creator-add-paginator"> Add Paginator</label>').appendTo($(col3));
+			
+			// add extra padding for selection
+			var extra_padding = $('<input type="checkbox" id="xepan-cmp-creator-add-extra-padding" checked /><label for="xepan-cmp-creator-add-extra-padding"> Add Extra Padding For Selection</label>').appendTo($(col3));
+			$('#xepan-cmp-creator-add-extra-padding').change(function(event) {
+				if(!$(repitative_selected_dom).length){
+					$.univ().errorMessage('first select repatative ');
+					return;
+				}
+				if(this.checked) {
+					$(repitative_selected_dom).addClass('xepan-component-creator-extra-margin');
+				}else
+					$(repitative_selected_dom).removeClass('xepan-component-creator-extra-margin');
+
 			});
 		}
 
@@ -550,6 +595,38 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.showAppliedTags();
 		});
 
+		// edit dom code to change html
+		var dom_code_change_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
+		$('<button class="btn btn-primary">Change HTML Of DOM</button>').appendTo($(dom_code_change_wrapper));
+		var dom_code_change_selector = $('<button id="xepan-creator-dom-code-change-html-selector" type="button" title="Dom Selector for html update" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(dom_code_change_wrapper));
+		var dom_code_change_save_btn = $('<button id="xepan-creator-dom-code-change-html-save-btn" type="button" title="update html to dom" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>').appendTo($(dom_code_change_wrapper));
+		var dom_html = $('<textarea id="xepan-creator-dom-code-updated-html">').appendTo($(dom_code_change_wrapper));
+
+		// initialize dom object
+		var codeDomChangeOutline = DomOutline({
+			'onClick': function(element){
+				current_selected_dom_of_code_change = element;
+				$('#xepan-component-creator-form').modal('show');
+				$('#xepan-creator-dom-code-updated-html').val($(current_selected_dom_of_code_change).prop('outerHTML'));
+			}
+		});
+
+		$('#xepan-creator-dom-code-change-html-selector').click(function(event) {
+			$('#xepan-component-creator-form').modal('hide');
+			codeDomChangeOutline.start();
+			return false;
+		});
+
+		$('#xepan-creator-dom-code-change-html-save-btn').click(function(event) {
+			if(!$(current_selected_dom_of_code_change).length){
+				$.univ().errorMessage('first select the dom/element');
+				return;
+			}
+
+			$(current_selected_dom_of_code_change).prop('outerHTML', $('#xepan-creator-dom-code-updated-html').val());
+			$.univ().successMessage('Seleced Element/Dom Html Updated');
+		});
+
 	},
 
 	showAppliedTags: function(){
@@ -579,40 +656,40 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		// xepan component
 		if($(current_selected_dom).hasClass('xepan-component')){
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-component" checked /><label for="xepan-cmp-cratetor-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-component" checked /><label for="xepan-cmp-creator-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
 		}else{
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-component" /><label for="xepan-cmp-cratetor-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-component" /><label for="xepan-cmp-creator-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
 		}
 
 		// sortable component
 		if($(current_selected_dom).hasClass('xepan-sortable-component'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-sortable-component" /><label for="xepan-cmp-cratetor-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-sortable-component" /><label for="xepan-cmp-creator-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-sortable-component" /><label for="xepan-cmp-cratetor-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-sortable-component" /><label for="xepan-cmp-creator-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
 		
 		// editable text
 		if($(current_selected_dom).hasClass('xepan-editable-text'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-editable-text" /><label for="xepan-cmp-cratetor-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-editable-text" /><label for="xepan-cmp-creator-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-editable-text" /><label for="xepan-cmp-cratetor-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-editable-text" /><label for="xepan-cmp-creator-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
 			
 		// editable text
 		if($(current_selected_dom).hasClass('xepan-no-richtext'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-no-richtext" /><label for="xepan-cmp-cratetor-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-richtext" /><label for="xepan-cmp-creator-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-no-richtext" /><label for="xepan-cmp-cratetor-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-no-richtext" /><label for="xepan-cmp-creator-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
 		
 		// no move
 		if($(current_selected_dom).hasClass('xepan-no-move'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-no-move" /><label for="xepan-cmp-cratetor-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-move" /><label for="xepan-cmp-creator-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-no-move" /><label for="xepan-cmp-cratetor-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-no-move" /><label for="xepan-cmp-creator-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
 
 		// no delete 
 		if($(current_selected_dom).hasClass('xepan-no-delete'))
-			$('<input checked type="checkbox" id="xepan-cmp-cratetor-xepan-no-delete" /><label for="xepan-cmp-cratetor-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
+			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
 		else
-			$('<input type="checkbox" id="xepan-cmp-cratetor-xepan-no-delete" /><label for="xepan-cmp-cratetor-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
+			$('<input type="checkbox" id="xepan-cmp-creator-xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
 
 		$('<hr/>').appendTo($creator_wrapper);
 		var add_dynamic_html = 

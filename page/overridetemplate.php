@@ -62,9 +62,16 @@ class page_overridetemplate extends \Page {
 		}
 
 		if($_POST['xepan-tool-to-clone'] && $_POST['template_html']){
-			file_put_contents($override_path, $_POST['template_html']);
 
-			echo json_encode(['override_path'=>$override_path]);
+			$result = ['status'=>'failed'];
+			try{
+				file_put_contents($override_path, $_POST['template_html']);
+				$result = ['status'=>'success','override_path'=>$override_path];
+			}catch(\Exception $e){
+				
+			}
+
+			echo json_encode($result);
 			exit();
 		}
 
