@@ -631,16 +631,35 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var dom_code_change_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
 		$('<button class="btn btn-primary">Change HTML Of DOM</button>').appendTo($(dom_code_change_wrapper));
 		var dom_code_change_selector = $('<button id="xepan-creator-dom-code-change-html-selector" type="button" title="Dom Selector for html update" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(dom_code_change_wrapper));
+		var dom_code_change_selector_parent = $('<button id="xepan-creator-dom-code-change-html-selector-parent" type="button" title="select parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(dom_code_change_wrapper));
 		var dom_code_change_save_btn = $('<button id="xepan-creator-dom-code-change-html-save-btn" type="button" title="update html to dom" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>').appendTo($(dom_code_change_wrapper));
+		var dom_code_change_remove_btn = $('<button id="xepan-creator-dom-code-change-html-remove-btn" type="button" title="remove" class="btn btn-danger"><i class="fa fa-remove"></i> Remove</button>').appendTo($(dom_code_change_wrapper));
 		var dom_html = $('<textarea id="xepan-creator-dom-code-updated-html">').appendTo($(dom_code_change_wrapper));
 
 		// initialize dom object
 		var codeDomChangeOutline = DomOutline({
 			'onClick': function(element){
 				current_selected_dom_of_code_change = element;
+				
+				$(dom_code_change_remove_btn).show();
+				$(dom_code_change_save_btn).show();
+
 				$('#xepan-component-creator-form').modal('show');
 				$('#xepan-creator-dom-code-updated-html').val($(current_selected_dom_of_code_change).prop('outerHTML'));
 			}
+		});
+
+		$(dom_code_change_selector_parent).click(function(event) {
+			if(!$(current_selected_dom_of_code_change).length){
+				$.univ().errorMessage('first select the dom/element');
+				return;
+			}
+
+			$(dom_code_change_remove_btn).show();
+			$(dom_code_change_save_btn).show();
+			
+			current_selected_dom_of_code_change = $(current_selected_dom_of_code_change).parent()[0];
+			$('#xepan-creator-dom-code-updated-html').val($(current_selected_dom_of_code_change).prop('outerHTML'));
 		});
 
 		$('#xepan-creator-dom-code-change-html-selector').click(function(event) {
@@ -655,8 +674,23 @@ jQuery.widget("ui.xepanComponentCreator",{
 				return;
 			}
 
-			$(current_selected_dom_of_code_change).prop('outerHTML', $('#xepan-creator-dom-code-updated-html').val());
+			current_selected_dom_of_code_change = $(current_selected_dom_of_code_change).prop('outerHTML', $('#xepan-creator-dom-code-updated-html').val());
+			$(this).hide();
+			$(dom_code_change_remove_btn).hide();
 			$.univ().successMessage('Seleced Element/Dom Html Updated');
+		});
+
+		$(dom_code_change_remove_btn).click(function(event) {
+			if(!$(current_selected_dom_of_code_change).length){
+				$.univ().errorMessage('first select the dom/element');
+				return;
+			}
+
+			// $(current_selected_dom_of_code_change).prop('outerHTML', "");
+			$(current_selected_dom_of_code_change).remove();
+			$('#xepan-creator-dom-code-updated-html').val("");
+
+			$.univ().successMessage('Selected Element Removed');
 		});
 
 	},
