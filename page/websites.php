@@ -90,8 +90,8 @@ class page_websites extends \xepan\base\Page{
 		});
 
 		$form = $this->add('Form');
-		$base_file_field = $form->addField('DropDown','base_file')->setValueList(array_combine($html_files, $html_files) );
-		$form->addField('page_template_name');
+		$base_file_field = $form->addField('DropDown','base_file')->setValueList(array_combine($html_files, $html_files) )->set('index.html');
+		$form->addField('page_template_name')->set('default');
 		
 		$form->addField('DropDown','leave_un_touched')->setValueList(array_combine($html_files, $html_files))->setAttr('multiple',true);
 
@@ -194,7 +194,7 @@ class page_websites extends \xepan\base\Page{
 
 			if(!file_exists($www_relative.'layout')) \Nette\Utils\FileSystem::createDir($www_relative.'layout');
 
-			file_put_contents($page_template_file, $dom->html());
+			file_put_contents($page_template_file, str_replace('</body>', '</body>{$after_body_code}', $dom->html()));
 
 			$html_files = glob('./websites/'.$this->app->current_website_name.'/www/*.html');
 
