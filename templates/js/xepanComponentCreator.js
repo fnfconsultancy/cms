@@ -34,10 +34,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// on click attach moucemove/enter/out event
 		// on click set current_selected_dom variable
 		// and detach UI
-
-		// var filter_selector = 'body';
-		// if(self.options.template_editing)
-		// 	filter_selector = ".xepan-page-wrapper *";
+		
+		filter_selector = ".xepan-page-wrapper *";
+		if(self.options.template_editing)
+			filter_selector = 'body *';
 
 		var myDomOutline = DomOutline({
 			'onClick': function(element){
@@ -66,8 +66,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 				self.manageDomSelected();
 			
-			}
-			// filter:filter_selector
+			},
+			filter:filter_selector
 		});
 
 		$('#xepan-tool-inspector').click(function(){
