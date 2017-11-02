@@ -15,6 +15,12 @@ class View_ToolBar extends \View {
 
 		$this->app->jui->addStaticInclude('elfinder.full');
 		$this->app->jui->addStaticInclude('jquery.dom-outline-1.0');
+		$this->app->jui->addStaticInclude('ace/ace/ace');
+		$this->app->jui->addStaticInclude('ace/ace/mode-html');
+		$this->app->jui->addStaticInclude('ace/ace/theme-tomorrow');
+		$this->app->jui->addStaticInclude('ace/ace/worker-html');
+		$this->app->jui->addStaticInclude('ace/jquery-ace.min');
+		
 		$this->js(true)
 				->_load('tinymce.min')
 				->_load('jquery.tinymce.min')

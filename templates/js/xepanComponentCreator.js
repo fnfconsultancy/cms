@@ -243,8 +243,13 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 	},
 	saveServerSideComponent: function(){
-		
+		// code-editor form modal removed
+		$('#xepan-component-creator-code-form').remove();
+		$('.modal-backdrop').remove();
+
 		if($(repitative_selected_dom).length){
+			$(repitative_selected_dom).removeClass('xepan-cmp-creator-add-extra-padding');
+			
 			var repetative_orig_html = $(repitative_selected_dom).prop('outerHTML');
 
 			$(repitative_selected_dom).siblings().remove();
@@ -258,54 +263,80 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			// paginator tags
 			if($('#xepan-cmp-creator-add-paginator:checked').size() > 0)
-				row_html += "{$Paginator}";
+				row_html += "{paginator_wrapper}{$Paginator}{\/}";
 
 			$(repitative_selected_dom).prop('outerHTML', row_html);
 			$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
 			// $(repitative_selected_dom).html(repetative_orig_html);
 		}
-
-		// console.log(tags_associate_list);
-
-		// $.each(tags_associate_list, function(index, detail) {
-		// 	var tag_name = detail.tag;
-		// 	var dom_obj = detail.dom;
-		// 	var implement_as = detail.implement_as;
-		// 	self.addToTagList(tag_name,dom_obj,implement_as);
-		// });
-		var template_html = $(current_selected_dom).prop('outerHTML');
 		
+		$(current_selected_dom).removeClass('xepan-component-hover-selector');
+		$(current_selected_dom).find('.xepan-component-hoverbar').remove();
+		
+		var template_html = $(current_selected_dom).prop('outerHTML');
+
+		// open new modal popup
+		var code_editor_form = '<div id="xepan-component-creator-code-form" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="xepan-component-creator">'+
+  						'<div class="modal-dialog" role="document">'+
+    						'<div class="modal-content">'+
+      							'<div class="modal-header">'+
+        							'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+        							'<h4 class="modal-title" id="gridSystemModalLabel">Epan Component Creator Code Editor</h4>'+
+      							'</div>'+
+      							'<div class="modal-body">'+
+      							'</div>'+
+      							'<div class="modal-footer">'+
+        							'<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+        							'<button type="button" class="btn btn-primary" id="xepan-component-creator-code-editor-form-save">Save</button>'+
+      							'</div>'+
+    						'</div>'+
+  						'</div>'+ 
+					'</div>';
+
+		$code_form = $(code_editor_form).appendTo('body');
+		$code_form.modal('show');
+
+		var code_field = $('<textarea id="xepan-component-creator-layout-code" style="width:100%;height:400px"></textarea>').appendTo($code_form.find('.modal-body'));
+		$(code_field).val(template_html);
+		$(code_field).ace({'width':'100%'});
+
+		$('#xepan-component-creator-code-editor-form-save').click(function(event) {
+			template_html = $('#xepan-component-creator-layout-code').val();
+			$.ajax({
+				url :'index.php?page=xepan_cms_overridetemplate&cut_page=1',
+				type: 'POST',
+				data: {
+					'xepan-tool-to-clone':current_selected_dom_component_type,
+					'template_html': template_html
+				},
+				async:false,
+				success: function(json){
+					// console.log(json);
+					var result = $.parseJSON(json);
+					if(result.status != "success"){
+						$.univ().errorMessage('Not Saved');
+						return;
+					}
+
+					$(current_selected_dom).html(current_selected_dom_original_html);
+					current_selected_dom = 0;
+					current_selected_dom_original_html = "";
+					current_selected_dom_component_type = undefined;
+					repitative_selected_dom = 0;
+					current_selected_tag_dom = 0;
+					tags_associate_list = [];
+					$.univ().successMessage('Saved');
+
+					$('#xepan-component-creator-form').remove();
+					$('#xepan-component-creator-code-form').remove();
+					$('.modal-backdrop').remove();
+				}
+			});			
+		});
+		return;
 		// $.univ().frameURL('Override Tool Template');
 
-		$.ajax({
-			url :'index.php?page=xepan_cms_overridetemplate&cut_page=1',
-			type: 'POST',
-			data: {
-				'xepan-tool-to-clone':current_selected_dom_component_type,
-				'template_html': template_html
-			},
-			async:false,
-			success: function(json){
-				// console.log(json);
-				var result = $.parseJSON(json);
-				if(result.status != "success"){
-					$.univ().errorMessage('Not Saved');
-					return;
-				}
-
-				$(current_selected_dom).html(current_selected_dom_original_html);
-				current_selected_dom = 0;
-				current_selected_dom_original_html = "";
-				current_selected_dom_component_type = undefined;
-				repitative_selected_dom = 0;
-				current_selected_tag_dom = 0;
-				tags_associate_list = [];
-				$.univ().successMessage('Saved');
-
-				$('#xepan-component-creator-form').remove();
-				$('.modal-backdrop').remove();
-			}
-		});
+		
 
 	},
 
