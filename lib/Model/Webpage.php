@@ -33,7 +33,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->addField('meta_description')->type('text');
 		$this->addField('after_body_code')->type('text');
 		
-		$this->addField('is_template')->type('boolean');
+		$this->addField('is_template')->type('boolean')->defaultValue(false);
 		$this->addField('is_muted')->type('boolean')->hint('for show or hide on menu');
 		$this->addField('is_active')->type('boolean')->defaultValue(1);
 
