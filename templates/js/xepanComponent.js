@@ -282,6 +282,8 @@ jQuery.widget("ui.xepanComponent",{
 				}else
 					dynamic_section += '<label>'+name+'</label>' +' <input class="xepan-dynamic-component-value" dynamic-selector="'+el+'" value="'+old_value+'" />';
 
+			}else if(where_to_set == "label"){
+				dynamic_section	+= '<label>'+name+'</label>';
 			}else{
 				dynamic_section	+= '<label>'+name+'</label>' +' <input class="xepan-dynamic-component-value" dynamic-selector="'+el+'" value="'+old_value+'" />';
 			}

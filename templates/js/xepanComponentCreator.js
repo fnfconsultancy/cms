@@ -34,7 +34,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// on click attach moucemove/enter/out event
 		// on click set current_selected_dom variable
 		// and detach UI
-		
+
 		filter_selector = ".xepan-page-wrapper *";
 		if(self.options.template_editing)
 			filter_selector = 'body *';
@@ -867,6 +867,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 												'<option value="href">href</option>'+
 												'<option value="css">css</option>'+
 												'<option value="src">src</option>'+
+												'<option value="label">label</option>'+
 											'</select>'+
 										'</div>'+
 									'</div>'+
