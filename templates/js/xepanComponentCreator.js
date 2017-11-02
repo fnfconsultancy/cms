@@ -171,6 +171,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		self.handleComponentTypeChange(current_selected_dom_component_type);
 		$type_select.change(function(event) {
+			current_selected_dom_component_type = $(this).val();
 			self.handleComponentTypeChange($(this).val());
 		});
 		$type_select.val(current_selected_dom_component_type);
@@ -563,10 +564,16 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$('<button class="btn btn-primary">Selection</button>').appendTo($(tag_implementor_wrapper));
 		var tag_dom_selector = $('<button id="xepan-creator-tag-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(tag_implementor_wrapper));
 		// initialize dom object
+
 		var tagDomOutline = DomOutline({
 			'onClick': function(element){
-				current_selected_tag_dom = element;
-				$('#xepan-component-creator-form').modal('show');				
+				if($.contains(element,current_selected_dom_repititve_dom))
+					current_selected_tag_dom = element;
+				else
+					alert('Please select child of repetative dom/Element ');
+				
+				$('#xepan-component-creator-form').modal('show');
+
 			}
 		});
 
@@ -643,7 +650,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.showAppliedTags();
 		});
 
-		self.addDomCodeUI();
+		self.addDomCodeUI(col3);
 
 	},
 
@@ -693,10 +700,14 @@ jQuery.widget("ui.xepanComponentCreator",{
 		});
 	},
 
-	addDomCodeUI: function(){
+	addDomCodeUI: function(parent){
 		var self = this;
 
-		var wrapper = $('#xepan-component-creator-type-wrapper');
+		if(parent == undefined)
+			var wrapper = $('#xepan-component-creator-type-wrapper');
+		else
+			var wrapper = $(parent);
+
 		// edit dom code to change html
 		var dom_code_change_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($(wrapper));
 		$('<button class="btn btn-primary">Change HTML Of DOM</button>').appendTo($(dom_code_change_wrapper));
