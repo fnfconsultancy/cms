@@ -214,16 +214,16 @@ class page_websites extends \xepan\base\Page{
 				$content=$dom['body']->html();
 				if($content){
 					file_put_contents($file, $content);
-					
-					$page_name = end(explode("/", $file));
-					$page_name = str_replace(".html", "", $page_name)
+					$temp_array = explode("/", $file);
+					$page_name = end($temp_array);
+					$page_name = str_replace(".html", "", $page_name);
 
 					$page_model = $this->add('xepan\cms\Model_Webpage');
 					$page_model->addCondition('name',$page_name);
 					$page_model->addCondition('path',$page_name);
 					$page_model->tryLoadAny();
 					$page_model['template_id'] = $template_model->id;
-					$page_model->save();
+					$page_model->saveAndUnload();
 				}
 				// echo ($file."<br/>".$dom['body']->html());
 			}
