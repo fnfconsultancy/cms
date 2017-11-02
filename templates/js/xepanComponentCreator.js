@@ -198,9 +198,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$(current_selected_dom).removeClass('xepan-sortable-component');
 
 		// xepan editable text
-		if($('#xepan-cmp-creator-xepan-editable-text:checked').size() > 0)
+		if($('#xepan-cmp-creator-xepan-editable-text:checked').size() > 0){
 			$(current_selected_dom).addClass('xepan-editable-text');
-		else
+		}else
 			$(current_selected_dom).removeClass('xepan-editable-text');
 		
 		// no richtext
@@ -657,7 +657,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			$(dom_code_change_remove_btn).show();
 			$(dom_code_change_save_btn).show();
-			
+
 			current_selected_dom_of_code_change = $(current_selected_dom_of_code_change).parent()[0];
 			$('#xepan-creator-dom-code-updated-html').val($(current_selected_dom_of_code_change).prop('outerHTML'));
 		});
