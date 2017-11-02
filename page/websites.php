@@ -200,13 +200,31 @@ class page_websites extends \xepan\base\Page{
 
 			$leave_un_touched = explode(",", $form['leave_un_touched']);
 			
+			// template model
+			$template_model = $this->add('xepan\cms\Model_Template');
+			$template_model->addCondition('name',$form['page_template_name']);
+			$template_model->addCondition('path',$form['page_template_name']);
+			$template_model->tryLoadAny();
+			$template_model->save();
+
 			foreach ($html_files as $file) {
 				if(in_array($file, $leave_un_touched)) continue;
 				$dom = $pq->newDocument(file_get_contents($file));
 				$pq->pq($dom['body > script'])->remove();
 				$content=$dom['body']->html();
-				if($content)
+				if($content){
 					file_put_contents($file, $content);
+					
+					$page_name = end(explode("/", $file));
+					$page_name = str_replace(".html", "", $page_name)
+
+					$page_model = $this->add('xepan\cms\Model_Webpage');
+					$page_model->addCondition('name',$page_name);
+					$page_model->addCondition('path',$page_name);
+					$page_model->tryLoadAny();
+					$page_model['template_id'] = $template_model->id;
+					$page_model->save();
+				}
 				// echo ($file."<br/>".$dom['body']->html());
 			}
 
