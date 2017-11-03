@@ -201,6 +201,9 @@ class page_websites extends \xepan\base\Page{
 			$leave_un_touched = explode(",", $form['leave_un_touched']);
 			
 			// template model
+
+			$this->add('xepan\cms\Model_Webpage')->deleteAll();
+
 			$template_model = $this->add('xepan\cms\Model_Template');
 			$template_model->addCondition('name',$form['page_template_name']);
 			$template_model->addCondition('path',$form['page_template_name']);
