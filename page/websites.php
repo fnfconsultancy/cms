@@ -194,7 +194,7 @@ class page_websites extends \xepan\base\Page{
 
 			if(!file_exists($www_relative.'layout')) \Nette\Utils\FileSystem::createDir($www_relative.'layout');
 
-			file_put_contents($page_template_file, str_replace('</body>', '</body>{$after_body_code}', $dom->html()));
+			file_put_contents($page_template_file, str_replace("{}", "{ }", str_replace('</body>', '</body>{$after_body_code}', $dom->html())));
 
 			$html_files = glob('./websites/'.$this->app->current_website_name.'/www/*.html');
 
@@ -215,6 +215,7 @@ class page_websites extends \xepan\base\Page{
 				$dom = $pq->newDocument(file_get_contents($file));
 				$pq->pq($dom['body > script'])->remove();
 				$content=$dom['body']->html();
+				$content = str_replace("{}", "{ }", $content);
 				if($content){
 					file_put_contents($file, $content);
 					$temp_array = explode("/", $file);
