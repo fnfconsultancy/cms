@@ -226,7 +226,24 @@ jQuery.widget("ui.xepanComponentCreator",{
 		else
 			$(current_selected_dom).removeClass('xepan-no-delete');
 
-		$(current_selected_dom).attr('xepan-component-name',$('#xepan-cmp-creator-component-name').val());
+		// component name
+		if($('#xepan-cmp-creator-component-name').val().length){
+			$(current_selected_dom).attr('xepan-component-name',$('#xepan-cmp-creator-component-name').val());
+		}else{
+			$(current_selected_dom).attr('xepan-component-name','Generic');
+		}
+
+		// dynamic options lister
+		if($('#xepan-cmp-creator-dynamic-list-selector').val().length){
+			$(current_selected_dom).attr('xepan-component-dynamic-option-list',$('#xepan-cmp-creator-dynamic-list-selector').val());
+		}else
+			$(current_selected_dom).removeAttr('xepan-component-dynamic-option-list');
+
+		// remove selector
+		if($('#xepan-cmp-creator-selector-to-remove-before-save').val().length){
+			$(current_selected_dom).attr('xepan-selector-to-remove-before-save',$('#xepan-cmp-creator-selector-to-remove-before-save').val());
+		}else
+			$(current_selected_dom).removeAttr('xepan-selector-to-remove-before-save');
 
 		// dynamic option list
 		var find_str = "xepan-dynamic-option-";
@@ -868,6 +885,14 @@ jQuery.widget("ui.xepanComponentCreator",{
 				}
 			}
 		});
+
+		// dynamic lister selector input box
+		$('<div><label for="xepan-cmp-creator-dynamic-list-selector">Dynamic Option List Selector</label><input id="xepan-cmp-creator-dynamic-list-selector" /></div>').appendTo($creator_wrapper);
+		$('#xepan-cmp-creator-dynamic-list-selector').val($(current_selected_dom).attr('xepan-component-dynamic-option-list'));
+
+		// selector before remove
+		$('<div><label for="xepan-cmp-creator-selector-to-remove-before-save">Selector To Remove Before Page Save</label><textarea id="xepan-cmp-creator-selector-to-remove-before-save" ></textarea></div>').appendTo($creator_wrapper);
+		$('#xepan-cmp-creator-selector-to-remove-before-save').val($(current_selected_dom).attr('xepan-selector-to-remove-before-save'));
 
 		self.addDomCodeUI();
 

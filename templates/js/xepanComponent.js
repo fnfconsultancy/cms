@@ -140,7 +140,13 @@ jQuery.widget("ui.xepanComponent",{
 		// console.log($(this.options.option_panel).closest('.xepan-tool-options'));
 		// console.log('Switched to ' + $(current_selected_component).attr('xepan-component'));
 		this.showComponentToolBar();
-		this.manageDynamicOptions();		
+
+		if($(current_selected_component).attr('xepan-component-dynamic-option-list') == undefined){
+			this.manageDynamicOptions($(current_selected_component));
+		}else{
+			this.manageDynamicOptionsList();
+		}
+
 	},
 
 	createSortable: function(){
@@ -187,7 +193,21 @@ jQuery.widget("ui.xepanComponent",{
 		}
 	},
 
-	manageDynamicOptions: function(){
+	manageDynamicOptionsList: function(){
+		var self = this;
+
+		$option_panel = $('#xepan-basic-css-panel.epan-css-options');
+		$option_panel.find('.xepan-component-dynamic-option').remove();
+		
+		lister_selector = $(current_selected_component).attr('xepan-component-dynamic-option-list');
+		var list_count = 1;		
+		$(current_selected_component).find(lister_selector).each(function(index) {
+			self.manageDynamicOptions($(this)[0],"Dynamic Option "+list_count);
+			list_count += 1;
+		});
+	},
+
+	manageDynamicOptions: function(dynamic_option_for_component,dynamic_option_name){
 		// clear dynamic option area from option panel
 		// look for xepan-dynamic-option-* inside selected component but not in nested xepan-component
 		// create dynamic options with events on change
@@ -206,13 +226,16 @@ jQuery.widget("ui.xepanComponent",{
 				xepan-dynamic-option-n="this/inner component class/id|TEXT TO ASK|attribute/style/class|related information,which style"
 			> ... </div>
 		*/
-		$option_panel = $('#xepan-basic-css-panel.epan-css-options');
-		$option_panel.find('.xepan-component-dynamic-option').remove();
+
+		// temporary removed
+
+		if(!$(dynamic_option_for_component).length)
+			dynamic_option_for_component = current_selected_component;
 
 		// find all dynamic options first
 		var matched = [];
 		var find_str = "xepan-dynamic-option-";
-		$(current_selected_component).each(function(index) {
+		$(dynamic_option_for_component).each(function(index) {
 			var elem = this;
 			$.each(this.attributes, function( index, attr ) {
 				if(attr.name.indexOf(find_str)===0){
@@ -223,12 +246,21 @@ jQuery.widget("ui.xepanComponent",{
 
         if(!matched.length) return;
 
+        if(dynamic_option_name == undefined){
+        	var dynamic_option_name = "Dynamic Option";
+        	
+        	// removing previous added dynamic option
+        	$option_panel = $('#xepan-basic-css-panel.epan-css-options');
+			$option_panel.find('.xepan-component-dynamic-option').remove();
+        }
+
+        var unique_id = generateUUID();
 		var dynamic_section = '<div class="xepan-cms-group-panel xepan-component-dynamic-option clearfix xepan-cms-tool">'+
-								'<div data-toggle="collapse" data-target="#collapsedynamic" aria-expanded="false" class="xepan-cms-toolbar-heading">'+
-									'<span>Dynamic Option</span>'+
+								'<div data-toggle="collapse" data-target="#'+unique_id+'" aria-expanded="false" class="xepan-cms-toolbar-heading">'+
+									'<span>'+dynamic_option_name+'</span>'+
 									'<i class="fa fa-chevron-down pull-right"></i>'+
 								'</div>'+
-								'<div id="collapsedynamic" class="xepan-cms-tools-bar-panel row-fluid in" style="height: auto;">'+
+								'<div id="'+unique_id+'" class="xepan-cms-tools-bar-panel row-fluid in" style="height: auto;">'+
 									'<div class="xepan-toolbar-panel-body xepan-collasp-body">'
 							;
 
@@ -244,9 +276,9 @@ jQuery.widget("ui.xepanComponent",{
 			var old_value = "";
 
 			if(dyn_selector == "this"){
-				$targets = $(current_selected_component);
+				$targets = $(dynamic_option_for_component);
 			}else
-				$targets = $(current_selected_component).find(dyn_selector);
+				$targets = $(dynamic_option_for_component).find(dyn_selector);
 
 			
 			switch(where_to_set){
@@ -291,12 +323,13 @@ jQuery.widget("ui.xepanComponent",{
 		});
 		dynamic_section += '</div></div></div>';
 
-		$('#xepan-basic-css-panel.epan-css-options > hr ').after(dynamic_section);
+		// $('#xepan-basic-css-panel.epan-css-options > hr ').after(dynamic_section);
+
+		var list_options_object = $(dynamic_section).insertAfter('#xepan-basic-css-panel.epan-css-options > hr');
 		// $(dynamic_section).prependTo($('#xepan-basic-css-panel.epan-css-options'));
-		
 
 		// implement dynamic function change event
-		$('.xepan-dynamic-component-value').change(function(event) {
+		$(list_options_object).find('.xepan-dynamic-component-value').change(function(event) {
 			var dyn_option = $(this).attr('dynamic-selector');
 			var value_list = $(this).attr('data-list');
 			var option_array = dyn_option.split('|');
@@ -305,9 +338,9 @@ jQuery.widget("ui.xepanComponent",{
 			var new_value = $(this).val();
 
 			if(dyn_selector == "this"){
-				$targets = $(current_selected_component);
+				$targets = $(dynamic_option_for_component);
 			}else
-				$targets = $(current_selected_component).find(dyn_selector);
+				$targets = $(dynamic_option_for_component).find(dyn_selector);
 
 			switch(where_to_set){
 				case 'href':
@@ -353,7 +386,7 @@ jQuery.widget("ui.xepanComponent",{
 			getFileCallback : function(files, fm){
 				// console.log(files.url);
 				$(this).closest('.dynamic-img-wrapper').find('input').val(files.url);
-				$(current_selected_component).find(dyn_selector).attr('src',files.url);
+				$(dynamic_option_for_component).find(dyn_selector).attr('src',files.url);
 			},
 				commandsOptions : {	
 					getfile : {
