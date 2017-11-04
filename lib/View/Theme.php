@@ -91,7 +91,7 @@ class View_Theme extends \View{
         
         $grid->addHook('formatRow',function($g)use($domain,$sub_domain){
 			$g->current_row_html['preview'] = '<a class="btn btn-primary" target="_blank" href="http://www.'.$g->model['name'].'.'.$domain.'">Preview</a>';
-			$g->current_row_html['preview_image'] = '<div style="height:250px;overflow:auto;"><a target="_blank" href="http://www.'.$g->model['name'].'.'.$domain.'"><img alt=" we are uploading preview image of '.$g->model['name'].'" style="width:250px;" src="./websites/'.$g->model['name'].'/www/img/template_preview.png" /></img></a></div>';
+			$g->current_row_html['preview_image'] = '<div style="height:300px;overflow:auto;"><a target="_blank" href="http://www.'.$g->model['name'].'.'.$domain.'"><img alt=" we are uploading preview image of '.$g->model['name'].'" style="width:250px;" src="./websites/'.$g->model['name'].'/www/img/template_preview.png" /></img></a></div>';
 		});
 
         if($this->show_applynow_button){
