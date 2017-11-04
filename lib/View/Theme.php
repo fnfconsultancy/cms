@@ -18,8 +18,46 @@ class View_Theme extends \View{
 		// $this->app->readConfig('websites/'.$this->app->current_website_name.'/config.php');
         $this->app->dbConnect();
 
-        $epan_template = $this->epan_template = $this->app->db->dsql()->table('epan')->where('is_published',1)->where('is_template',1)->get();
-        
+        $cat_id = $this->app->stickyGET('epan_category_id');
+        if($cat_id){
+        	$epan_template = $this->epan_template = $this->app->db->dsql()
+	        					->table('epan')
+	        					->join('epan_category_association.epan_id')
+	        					->where('epan_category_association.epan_category_id',$cat_id)
+	        					->where('is_published',1)
+	        					->where('is_template',1)
+	        					->get();
+        }else{
+	        $epan_template = $this->epan_template = $this->app->db->dsql()
+	        					->table('epan')
+	        					->where('is_published',1)
+	        					->where('is_template',1)
+	        					->get();
+        }
+
+
+        $epan_category = $this->epan_category = $this->app->db->dsql()->table('epan_category')->where('status','Active')->get();
+ 		       	
+        $category = [0=>'All'];
+        foreach ($epan_category as $key => $array) {
+        	$category[$array['id']] = $array['name'];
+        }
+
+        $this->epan_category = $category;
+
+        if($this->show_search){
+	        $form = $this->add('Form');
+	        $form->add('xepan\base\Controller_FLC')
+	        	->makePanelsCoppalsible(true)
+		        ->layout([
+		        		'category'=>'Filter~c1~8~closed',
+		        		'FormButtons~&nbsp;'=>'c2~4'
+		        	])
+		        ;
+	        $form->addField('xepan\base\DropDown','category')->setValueList($category);
+	        $form->addSubmit('Filter')->addClass('btn btn-primary btn-block');
+        }
+
         $temp = [];
         foreach ($epan_template as $key => $array) {
         	$temp[$array['id']] = $array;
@@ -34,10 +72,13 @@ class View_Theme extends \View{
         $grid->addColumn('preview');
 
         if($this->show_search){
-        	$grid->addQuickSearch(['name']);
-        }else{
-        	$grid->template->tryDel('filter_wrapper');
+        	if($form->isSubmitted()){
+        		$grid->js()->reload(['epan_category_id'=>$form['category']])->execute();
+        	}
         }
+        // 	$grid->addQuickSearch(['name']);
+        // }else{
+        $grid->template->tryDel('filter_wrapper');
         
         $this->app->readConfig('websites/'.$this->app->current_website_name.'/config.php');
         $this->app->dbConnect();
@@ -64,6 +105,7 @@ class View_Theme extends \View{
 						$page->add('View')->set('some thing went wrong.')->addClass('alert alert-danger');
 						return;
 					}
+					
 					$form = $page->add('Form');
 					$form->add('View')->set('are you sure, installing new theme will remove all content ?')->addClass('alert alert-info');
 					$form->addSubmit('Yes, Install Theme');
