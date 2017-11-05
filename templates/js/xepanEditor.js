@@ -540,6 +540,16 @@ jQuery.widget("ui.xepanEditor",{
 		    self.options.file_path = self.options.template_file;
 		}		
 		
+		// remove unwanted code as per given attributes
+		$(html_body).find('[xepan-selector-to-remove-before-save]').each(function(index, el) {
+			$(this).find($(this).attr('xepan-selector-to-remove-before-save')).remove();
+		});
+
+		// run jquery code
+		$(html_body).find('[xepan-cmp-creator-code-run-before-save]').each(function(index, el) {
+			eval($(this).attr('xepan-cmp-creator-code-run-before-save'));
+		});
+
 	    $(html_body).find('.xepan-serverside-component').html("");
 	    $(html_body).find('.xepan-editable-text').attr('contenteditable','false');
 	    $(html_body).find('.mce-tinymce').remove();

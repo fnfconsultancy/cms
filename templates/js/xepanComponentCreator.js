@@ -245,6 +245,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 		}else
 			$(current_selected_dom).removeAttr('xepan-selector-to-remove-before-save');
 
+		// run jquery code
+		if($('#xepan-cmp-creator-code-run-before-save').val().length){
+			$(current_selected_dom).attr('xepan-cmp-creator-code-run-before-save',$('#xepan-cmp-creator-code-run-before-save').val());
+		}else
+			$(current_selected_dom).removeAttr('xepan-cmp-creator-code-run-before-save');
+
 		// dynamic option list
 		var find_str = "xepan-dynamic-option-";
 
@@ -825,6 +831,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			});
 		});
 	},
+
 	createClientSideComponentUI: function(){
 		// create UI 
 		var self = this;
@@ -893,6 +900,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// selector before remove
 		$('<div><label for="xepan-cmp-creator-selector-to-remove-before-save">Selector To Remove Before Page Save</label><textarea id="xepan-cmp-creator-selector-to-remove-before-save" ></textarea></div>').appendTo($creator_wrapper);
 		$('#xepan-cmp-creator-selector-to-remove-before-save').val($(current_selected_dom).attr('xepan-selector-to-remove-before-save'));
+
+		// eval jquery code
+		$('<div><label for="xepan-cmp-creator-code-run-before-save">Jquery Code To Run Before Page Save</label><textarea id="xepan-cmp-creator-code-run-before-save"></textarea></div>').appendTo($creator_wrapper);
+		$('#xepan-cmp-creator-code-run-before-save').val($(current_selected_dom).attr('xepan-cmp-creator-code-run-before-save'));
 
 		self.addDomCodeUI();
 
