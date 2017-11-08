@@ -26,7 +26,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\hr\Employee','created_by_id')->defaultValue(@$this->app->employee->id);
 		
 		$this->addField('name')->hint('used for display ie. menu');
-		$this->addField('path')->hint('folder_1/folder_2/file_name.html');
+		$this->addField('path')->hint('folder_1/folder_2/file_name.html or http://epan.in or #epan-promotion-section');
 		
 		$this->addField('page_title');
 		$this->addField('meta_kewords')->type('text');
@@ -61,6 +61,12 @@ class Model_Webpage extends \xepan\base\Model_Table{
 
 	function beforeSave(){
 		
+		// if page path start with http, https or # then not create the file
+		if((strpos($this['path'], "http") === 0) OR (strpos($this['path'], "https") === 0) OR (strpos($this['path'], "#") === 0)){
+			return;
+			// do nothing
+		}
+
 		// check for same entry or not
 		$this['path'] = str_replace(".html", "", $this['path']);
 
@@ -141,6 +147,13 @@ class Model_Webpage extends \xepan\base\Model_Table{
 				;
 			if($count)
 				throw new \Exception($count." Pages uses this template, first unlink this templete from all pages" );
+		}
+
+		$path = $this['path'];
+		// if page path start with http, https or # then not create the file
+		if((strpos($path, "http") === 0) OR (strpos($path, "https") === 0) OR (strpos($path, "#") === 0)){
+			return;
+			// do nothing
 		}
 
 		\Nette\Utils\FileSystem::delete($this->getPagePath());
