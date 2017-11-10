@@ -32,6 +32,22 @@ jQuery.widget("ui.xepanEditor",{
 		}else{
 			$('.xepan-page-wrapper').addClass('xepan-component');
 			$('.xepan-page-wrapper').addClass('xepan-sortable-component');
+			$('body .xepan-component:not(.xepan-page-wrapper):not(.xepan-page-wrapper .xepan-component)')
+			.dblclick(function(ev) {
+				ev.preventDefault();ev.stopPropagation();
+				$('<div><div>This component is in common portion of all pages called "Page Template", To Edit this section plese open Pages in SideBar and click "EDIT PAGE TEMPLATE"</div>, <img src="vendor/xepan/cms/templates/images/page-template-hint.png"> <div>Enter in page Template Editing ?</div></div>')
+				.dialog({
+					modal: true,
+					buttons: {
+						"Edit Template Now" : function(){
+							$(self.element).xepanEditor('editTemplate');
+						},
+						Cancel: function(){
+							$( this ).dialog( "close" );
+						}
+					}
+				});
+			});;
 		}
 
 		self.setupEnvironment();
