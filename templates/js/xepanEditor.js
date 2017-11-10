@@ -35,9 +35,10 @@ jQuery.widget("ui.xepanEditor",{
 			$('body .xepan-component:not(.xepan-page-wrapper):not(.xepan-page-wrapper .xepan-component)')
 			.dblclick(function(ev) {
 				ev.preventDefault();ev.stopPropagation();
-				$('<div><div>This component is in common portion of all pages called "Page Template", To Edit this section plese open Pages in SideBar and click "EDIT PAGE TEMPLATE"</div>, <img src="vendor/xepan/cms/templates/images/page-template-hint.png"> <div>Enter in page Template Editing ?</div></div>')
+				$('<div><div>This component is in common portion of all pages called "Page Template", To Edit this section plese open Pages in SideBar and click "EDIT PAGE TEMPLATE" Or Click "Edit Template Now" below</div>, <img src="vendor/xepan/cms/templates/images/page-template-hint.png"> <div>Enter in page Template Editing ?</div></div>')
 				.dialog({
 					modal: true,
+					width: 400,
 					buttons: {
 						"Edit Template Now" : function(){
 							$(self.element).xepanEditor('editTemplate');
