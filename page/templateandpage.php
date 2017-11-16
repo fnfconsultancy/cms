@@ -28,7 +28,7 @@ class page_templateandpage extends \xepan\base\Page{
 		$template->setEmptyText('Please Select Template');
 
 		$crud->setModel('xepan\cms\Template',['name','path','is_active']);
-		$crud->grid->removeColumn('action');
+		// $crud->grid->removeColumn('action');
 		$crud->grid->removeColumn('attachment_icon');
 		/*Start Live Edit Template */
 		$crud->grid->addColumn('Button','live_edit_template');
@@ -56,7 +56,7 @@ class page_templateandpage extends \xepan\base\Page{
 
 		$crud = $page_tab->add('xepan\hr\CRUD');
 		$crud->setModel('xepan\cms\Page');
-		$crud->grid->removeColumn('action');
+		// $crud->grid->removeColumn('action');
 		$crud->grid->removeColumn('attachment_icon');
 
 
