@@ -8,7 +8,7 @@ class Page_editfrontlogin extends \xepan\base\Page{
 		parent::init();
 
 		$cmseditors_mdl = $this->add('xepan\cms\Model_User_CMSEditor');
-		$cmseditors_mdl->tryLoad($this->app->auth->model->id);
+		$cmseditors_mdl->tryLoadBy('user_id',$this->app->auth->model->id);
 
 		if(!$cmseditors_mdl->loaded()){
 			$this->add('View_Error')->set('You are not permitted to edit website, update from CMS > CMS_Editors menu');
