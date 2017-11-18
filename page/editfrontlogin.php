@@ -33,6 +33,6 @@ class Page_editfrontlogin extends \xepan\base\Page{
 	        $this->sub_domain = $sub_domain = str_replace('www.','',$this->app->extract_subdomains($url))?:'www';
 	    
 	    $this->add('View')->set('A new window should have been opened, edit your site there');
-		$this->js(true)->univ()->newWindow($this->app->url($this->protocol.$epan['name'].".".$this->domain.str_replace('/admin/','',(string)$this->app->pathfinder->base_location->base_url),['access_token'=>$token]),'LiveEdit');
+		$this->js(true)->univ()->newWindow($this->app->url(str_replace('/admin/','',(string)$this->app->url('/')->absolute()),['access_token'=>$token]),'LiveEdit');
 	}
 }
