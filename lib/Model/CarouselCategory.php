@@ -6,8 +6,8 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 	public $table = 'carouselcategory';
 	public $status = ['Active','InActive'];
 	public $actions = [
-					'Active'=>['view','edit','delete','deactivate'],
-					'InActive'=>['view','edit','delete','activate']
+					'Active'=>['view','image','edit','delete','deactivate'],
+					'InActive'=>['view','image','edit','delete','activate']
 					];
 
 	function init(){
@@ -22,8 +22,9 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 		$this->addField('type');
 		$this->addCondition('type','CarouselCategory');
 
+		$this->addExpression('images')->set($this->add('xepan\cms\Model_CarouselImage')->addCondition('carousel_category_id',$this->getElement('id'))->count());
 		$this->hasMany('xepan\cms\CarouselImage','carousel_image_id');
-		
+
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
 		$this->addHook('beforeDelete',$this);
 	}
@@ -48,6 +49,10 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
             ->addActivity("Carousel Category : '".$this['name']."' is deactivated", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,null)
             ->notifyWhoCan('activate','InActive',$this);
 		$this->save();
+	}
+
+	function image(){
+		$this->app->redirect($this->app->url('xepan_cms_carouselimage',['carouselcategory_id'=>$this->id]));
 	}
 
 	function updateJsonFile(){

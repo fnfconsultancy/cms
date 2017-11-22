@@ -5,25 +5,14 @@ namespace xepan\cms;
 class page_carousel extends \xepan\base\Page{
 	public $title = "Carousel";
 
-	function page_index(){
+	function init(){
+        parent::init();
+                    
         $category_m = $this->add('xepan\cms\Model_CarouselCategory');
-        $category_c = $this->add('xepan\hr\CRUD',null,null,['grid\carouselcategory']);
-        $category_c->setModel($category_m,['name'],['name','status']);
-
-        $category_c->grid->addColumn('expander','Images');
-    }
-
-    function page_Images(){        
-        $category_id = $this->app->stickyGET('carouselcategory_id');
-
-        $image_m = $this->add('xepan\cms\Model_CarouselImage');
-        $image_m->addCondition('carousel_category_id',$category_id);
-
-        $image_c = $this->add('xepan\hr\CRUD',null,null,['grid\carouselimage']);
-        $image_c->setModel($image_m,['file_id','title','text_to_display','alt_text','order','link','carousel_category_id'],['file','title','text_to_display','alt_text','order','link','status']);
-    
-        $image_c->grid->addHook('formatRow',function($g){
-            $g->current_row_html['text_to_display'] = $g->model['text_to_display']; 
-        });
+        $category_c = $this->add('xepan\hr\CRUD');
+        $category_c->setModel($category_m,['name'],['name','status','images']);
+        $category_c->removeAttachment();
+        $category_c->grid->addPaginator($ipp=30);
+        $category_c->grid->addQuickSearch(['name']);
     }
 }
