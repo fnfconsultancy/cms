@@ -7,6 +7,11 @@ namespace xepan\cms;
 */
 class Model_ImageGalleryCategory extends \xepan\base\Model_Table{
 	public $table = 'xepan_cms_image_gallery_categories';
+	public $status = ['Active','InActive'];
+	public $actions = [
+					'Active'=>['view','image','edit','delete','deactivate'],
+					'InActive'=>['view','image','edit','delete','activate']
+					];
 
 	function init(){
 		parent::init();
@@ -18,6 +23,8 @@ class Model_ImageGalleryCategory extends \xepan\base\Model_Table{
 		$this->addCondition('type','ImageGalleryCategory');
 		$this->hasMany('xepan\cms\ImageGalleryImages','gallery_cat_id');
 
+		$this->addExpression('images')->set($this->add('xepan\cms\Model_ImageGalleryImages')->addCondition('gallery_cat_id',$this->getElement('id'))->count());
+
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
 		
 		$this->addHook('beforeDelete',$this);
@@ -27,6 +34,26 @@ class Model_ImageGalleryCategory extends \xepan\base\Model_Table{
 		$this->add('xepan\cms\Model_ImageGalleryImages')
 			->addCondition('gallery_cat_id',$this->id)
 			->deleteAll();
+	}
+
+	function activate(){
+		$this['status']='Active';
+		$this->app->employee
+            ->addActivity("Gallery Category : '".$this['name']."' Activated", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,null)
+            ->notifyWhoCan('deactivate','Active',$this);
+		$this->save();
+	}
+
+	function deactivate(){
+		$this['status']='InActive';
+		$this->app->employee
+            ->addActivity("Gallery Category : '".$this['name']."' is deactivated", null/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,null)
+            ->notifyWhoCan('activate','InActive',$this);
+		$this->save();
+	}
+
+	function image(){
+		$this->app->redirect($this->app->url('xepan_cms_galleryimages',['gallerycategory_id'=>$this->id]));
 	}
 
 	function updateJsonFile(){

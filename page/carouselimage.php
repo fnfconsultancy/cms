@@ -13,6 +13,7 @@ class page_carouselimage extends \xepan\base\Page{
         $cat = $this->add('xepan\cms\Model_CarouselCategory')->tryLoad($category_id);
         if(!$cat->loaded()){
             $this->add('View')->addClass('alert alert-danger')->set("category not found");
+            return;            
         }else{
             $this->title = "Carousel Image of Category: ".$cat['name'];
         }
