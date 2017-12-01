@@ -18,6 +18,7 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 
 		$this->pq = $pq = new phpQuery();
 		$this->dom = $dom = $pq->newDocument($this->owner->template->template_source);
+		$this->dom['head']->prepend("<meta name='generator' content='xEpan, Epan Services, A Xavoc Technocrats Pvt Ltd Product epan.in xavoc.com' />");
 		$this->dom['head']->prepend("<base href='{website_base}{/}'/>");
 
 		if(!$this->owner instanceof \Frontend){
