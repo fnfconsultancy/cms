@@ -52,17 +52,16 @@ jQuery.widget("ui.xepanEditor",{
 			});;
 		}
 
-		$(self.options.component_selector).each(function(index, el) {
-		
-			$(el).xepanComponent({editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id});
-			
-		});
 
 		self.setupEnvironment();
 		self.setupTools();
 		// self.setupToolbar();
 		self.setUpShortCuts();
-		// self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
+		self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
+
+		$(self.options.component_selector).each(function(index, el) {
+			$(el).xepanComponent({editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id});
+		});
 	},
 
 	setupEnvironment: function(){
@@ -697,7 +696,8 @@ jQuery.widget("ui.xepanEditor",{
 	},
 
 	cleanup: function(){
-		
+		$('.xepan-editable-text .xepan-component').removeClass('xepan-component');
+		$('.xepan-serverside-component .xepan-component').removeClass('xepan-component');
 	}
 
 	
