@@ -117,9 +117,18 @@ jQuery.widget("ui.xepanComponent",{
 		// }
 
 		$(this.element).dblclick(function(event,ui){
-			$(self.options.component_selector).xepanComponent('deselect');
+				$(self.options.component_selector).each(function(index, el) {
+					$('.xepan-selected-component').removeClass('xepan-selected-component');
+					try{
+						$(el).xepanComponent('deselect');	
+					}catch(e){
+						console.log('This looks like wrong xepanComponent in wrong position, class is not making it component');
+						console.log($(this));
+						// throw e;
+					}
+				});
 			$(this).xepanComponent('select');
-			event.stopPropagation();
+			event.preventDefault();event.stopPropagation();
 		});
 
 		// $(this.element).find('.xepan-component').xepanComponent(self.options);
@@ -167,13 +176,14 @@ jQuery.widget("ui.xepanComponent",{
     },
 
 	deselect: function (){
+		this.hideComponentToolBar();
+		this.manageDynamicOptionsList();
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			current_selected_component=undefined;
 			$(xepan_editor_element).xepanEditor('hideOptions');
 		}
 		$(this.element).removeClass('xepan-selected-component');
 		updateBreadCrumb();
-		this.hideComponentToolBar();
 	},
 
 	remove:function(){

@@ -34,6 +34,7 @@ jQuery.widget("ui.xepanEditor",{
 			$('.xepan-page-wrapper').addClass('xepan-sortable-component');
 			$('body .xepan-component:not(.xepan-page-wrapper):not(.xepan-page-wrapper .xepan-component)')
 			.dblclick(function(ev) {
+				console.log($(this));	
 				ev.preventDefault();ev.stopPropagation();
 				$('<div><div>This component is in common portion of all pages called "Page Template", To Edit this section plese open Pages in SideBar and click "EDIT PAGE TEMPLATE" Or Click "Edit Template Now" below</div>, <img src="vendor/xepan/cms/templates/images/page-template-hint.png"> <div>Enter in page Template Editing ?</div></div>')
 				.dialog({
@@ -534,11 +535,12 @@ jQuery.widget("ui.xepanEditor",{
 
 	    $('body').univ().infoMessage('Wait.. saving your page !!!');
 
+	    $('.xepan-selected-component').removeClass('xepan-selected-component');
 	    $(xepan_component_selector).each(function(index, comp) {
 	    	try{
 	    		$(comp).xepanComponent('deselect');
 	    	}catch(e){
-	    		console.log(e);
+	    		console.log(comp);
 	    	}
 	 	});
 
@@ -660,10 +662,21 @@ jQuery.widget("ui.xepanEditor",{
 	    });
 
 	    shortcut.add("Esc", function(event) {
-	        $(xepan_component_selector).xepanComponent('deselect');
+	    	$('.xepan-selected-component').removeClass('xepan-selected-component');
+				$('.xepan-selected-component').removeClass('xepan-selected-component');
+				$(xepan_component_selector).each(function(index, el) {
+	        		try{
+						$(el).xepanComponent('deselect');	
+					}catch(e){
+						console.log('This looks like wrong xepanComponent in wrong position, class is not making it component');
+						console.log($(this));
+						// throw e;
+					}
+				});
+
 	        $('#xepan-cms-toolbar-right-side-panel').removeClass('toggleSideBar');
 	        $('#xepan-cms-toolbar-left-side-panel').removeClass('toggleSideBar');
-	        event.stopPropagation();
+	        event.preventDefault();event.stopPropagation();
 	    });
 
 	    shortcut.add("F2", function(event) {
