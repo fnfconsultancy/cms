@@ -118,7 +118,7 @@ jQuery.widget("ui.xepanComponent",{
 
 		$(this.element).dblclick(function(event,ui){
 				$(self.options.component_selector).each(function(index, el) {
-					$('.xepan-selected-component').removeClass('xepan-selected-component');
+					// $('.xepan-selected-component').removeClass('xepan-selected-component');
 					try{
 						$(el).xepanComponent('deselect');	
 					}catch(e){
