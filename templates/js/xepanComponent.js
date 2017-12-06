@@ -124,6 +124,7 @@ jQuery.widget("ui.xepanComponent",{
 					}catch(e){
 						console.log('This looks like wrong xepanComponent in wrong position, class is not making it component');
 						console.log($(this));
+						console.trace();
 						// throw e;
 					}
 				});
@@ -551,7 +552,7 @@ function generateUUID() {
         d = Math.floor(d / 16);
         return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
     });
-    return uuid;
+    return 'xepan-'+uuid;
 }
 
 function updateBreadCrumb() {

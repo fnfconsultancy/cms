@@ -52,6 +52,12 @@ jQuery.widget("ui.xepanEditor",{
 			});;
 		}
 
+		$(self.options.component_selector).each(function(index, el) {
+		
+			$(el).xepanComponent({editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id});
+			
+		});
+
 		self.setupEnvironment();
 		self.setupTools();
 		// self.setupToolbar();
@@ -743,15 +749,25 @@ function tabSelection(event){
     if($(next_component).attr('id') === undefined){
         next_component = $('.xepan-page-wrapper').children('.xepan-component:first-child');
         if($(next_component).attr('id') === undefined){
-            event.stopPropagation();
+            event.preventDefault();event.stopPropagation();
             $.univ.errorMessage('No Component On Screen');
             return;
         }
     }
 
-    $(xepan_component_selector).xepanComponent('deselect');
+	$('.xepan-selected-component').removeClass('xepan-selected-component');
+    $(xepan_component_selector).each(function(index, el) {
+		try{
+			$(el).xepanComponent('deselect');	
+		}catch(e){
+			console.log('This looks like wrong xepanComponent in wrong position, class is not making it component');
+			console.log($(this));
+			console.trace();
+			// throw e;
+		}
+	});
     $(next_component).xepanComponent('select');
-    event.stopPropagation();
+    event.preventDefault();event.stopPropagation();
 }
 
 
@@ -772,7 +788,16 @@ function shiftTabSelection(event){
         }
     }
 
-    $(xepan_component_selector).xepanComponent('deselect');
+    $(xepan_component_selector).each(function(index, el) {
+		try{
+			$(el).xepanComponent('deselect');	
+		}catch(e){
+			console.log('This looks like wrong xepanComponent in wrong position, class is not making it component');
+			console.log($(this));
+			console.trace();
+			// throw e;
+		}
+	});
     $(next_component).xepanComponent('select');
     event.stopPropagation();
 }

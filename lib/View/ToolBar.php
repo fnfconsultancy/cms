@@ -151,7 +151,8 @@ class View_ToolBar extends \View {
 				'current_page'=> ucwords($this->app->xepan_cms_page['name'])
 			]);
 
-		$this->js(true)->xepanComponent(['editing_template'=>$editing_template,'component_selector'=>$component_selector,'editor_id'=>$this->getJSID()])->_selector($component_selector);
+		// Moved to xepanEditor.js
+		// $this->js(true)->xepanComponent(['editing_template'=>$editing_template,'component_selector'=>$component_selector,'editor_id'=>$this->getJSID()])->_selector($component_selector);
 
 		// html define in xepan editor.js
 		$this->js('click',$this->js()->univ()->frameURL('Override Tool Template',[$this->app->url('xepan_cms_overridetemplate'),'options'=> $this->js(null,'JSON.stringify($(current_selected_component).attr())') ,'xepan-tool-to-clone'=>$this->js()->_selector('.xepan-tools-options div[for-xepan-component]:visible')->attr('for-xepan-component')]))->_selector('#override-xepan-tool-template');
