@@ -41,9 +41,10 @@ jQuery.widget("ui.xepanComponent",{
 
 		$(this.element).find('.xepan-sortable-component').sortable(this.sortable_options);
 
-		if($(this.element).hasClass('xepan-editable-text')){
-			$(this.element).xepanComponent('createTextEditable');
-		}
+		// now moved in xepanEditor JS as seperate function setupEditableText
+		// if($(this.element).hasClass('xepan-editable-text')){
+		// 	$(this.element).xepanComponent('createTextEditable');
+		// }
 		
 		var enable_hover = true;
 
