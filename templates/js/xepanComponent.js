@@ -470,7 +470,7 @@ jQuery.widget("ui.xepanComponent",{
 			        $new_component.find('.xepan-component').addClass('component-outline');
 		    	}
 
-		    	$new_component.find('a').click(function(){ return false});
+		    	$new_component.find('a, .btn').click(function(ev){ ev.preventDefault();});
 				$new_component.find('i.xepan-cms-icon').removeAttr('onclick');
 
 			    if($('#epan-component-extra-padding:checked').size() > 0){

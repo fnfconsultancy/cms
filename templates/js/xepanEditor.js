@@ -158,7 +158,7 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		// disable all clicks
-		$('body').find('a').click(function(){ return false});
+		$('body').find('a, .btn').click(function(ev){ ev.preventDefault();});
 		$('body').find('i.xepan-cms-icon').removeAttr('onclick');
 
 
