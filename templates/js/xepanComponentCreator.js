@@ -64,6 +64,17 @@ jQuery.widget("ui.xepanComponentCreator",{
 						return;
 				}
 
+				// check if selected dom is img for existing image component
+
+				if($(current_selected_dom).closest('[xepan-component="xepan/cms/Tool_Image"]').length){
+					var r = confirm("This is image of existing Image Tool, selecting 'Image' component");
+					if (r == true) {
+						current_selected_dom = $(current_selected_dom).closest('[xepan-component="xepan/cms/Tool_Image"]');
+					}
+					if(r == false)
+						return;
+				}
+
 				self.manageDomSelected();
 			
 			},
@@ -190,6 +201,17 @@ jQuery.widget("ui.xepanComponentCreator",{
 	},
 
 	saveClientSideComponent: function(){
+
+		switch(current_selected_dom_component_type){
+			case 'xepan/cms/Tool_Image':
+				$(current_selected_dom).wrap('<span class="xepan-component" xepan-component="xepan/cms/Tool_Image" xepan-component-name="Image"></span>');
+				$.univ().infoMessage('saved and reload page');
+				// $('#xepan-component-creator-form').modal('close');
+				$('#xepan-component-creator-form').remove();
+				$('.modal-backdrop').remove();
+				return;
+		}
+
 		// xepan component 
 		if($('#xepan-cmp-creator-xepan-component:checked').size() > 0)
 			$(current_selected_dom).addClass('xepan-component');

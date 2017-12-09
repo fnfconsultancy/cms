@@ -577,6 +577,10 @@
     text-transform: lowercase;
 }
 
+#xepan-creator-dynamic-title {
+    text-transform: none;
+}
+
 .xepan-component-creator-extra-margin *{
     display: block;
     margin: 20px 0px !important;
