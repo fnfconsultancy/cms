@@ -1,0 +1,40 @@
+
+<div id="{$_name}" style="{$style}" class="{$class}">
+  <div class="row">
+    <div class="col-cs-12">
+      <ul id="filter-list">
+        <li data-filter="all" class="filter">ALL</li>{$category}
+        {category_list}
+        {$Content}
+        {rows}{row}
+        <li data-filter="{$name}" class="filter">{$name}</li>{/}{/}
+        {/}
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="portfolio_items">
+        {$item_list}
+        {item}
+        {$Content}
+        <li class="portfolio {$gallery_cat}">
+          <div class="post_thumb"><img src="{$image_path}"/>
+            <div class="portfolio-overlay">
+              <div class="overlay-inner">
+                <h3>{$name}</h3><a href="{$image}" class="fancybox"><i class="fa fa-camera"></i></a><a href="{$detail_url}" class="fancybox"><i class="fa fa-link"></i></a>
+              </div>
+            </div>
+          </div>
+        </li>{/}
+      </ul>
+    </div>
+  </div>
+  <script>
+    $('.portfolio_items').mixitup({
+    	targetSelector: '.portfolio',
+    	transitionSpeed: 450
+    });
+    $('a.fancybox').fancybox();
+  </script>
+</div>
