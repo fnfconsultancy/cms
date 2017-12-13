@@ -210,6 +210,28 @@ jQuery.widget("ui.xepanComponentCreator",{
 				$('#xepan-component-creator-form').remove();
 				$('.modal-backdrop').remove();
 				return;
+			case 'xepan/cms/Tool_Icon':
+			// i.xepan-component.xepan-cms-icon.text-center.fa.fa-leaf(id="{$_name}" xepan-component='xepan/cms/Tool_Icon' icon-link-target="none" icon-class="fa-leaf" icon-size="fa-1x" icon-link="#" icon-align="text-center" style="width:100%;" xepan-component-name="Icon")
+				$(current_selected_dom)
+					.addClass('xepan-component')
+					.attr({
+						'xepan-component'	: 'xepan/cms/Tool_Icon',
+						'icon-link-target'	: 'none',
+						'icon-size'			: "fa-1x",
+						'icon-link'			: "#",
+						'icon-align'		: "text-center",
+						'icon-class'		:"fa-leaf",
+						'xepan-component-name': "Icon"
+					});
+				var classNames = $(current_selected_dom).attr("class").toString().split(' ');
+		        $.each(classNames, function (i, className) {
+		            if(className.match(/fa-/i)){
+		            	$(current_selected_dom).attr('icon-class', className);
+		            }
+		        });
+				$('#xepan-component-creator-form').remove();
+				$('.modal-backdrop').remove();
+				return;
 		}
 
 		// xepan component 
@@ -955,6 +977,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 												'<option value="css">css</option>'+
 												'<option value="src">src</option>'+
 												'<option value="label">label</option>'+
+												'<option value="attr">attribute</option>'+
 											'</select>'+
 										'</div>'+
 									'</div>'+
