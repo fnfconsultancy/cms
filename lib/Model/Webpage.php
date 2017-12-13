@@ -36,6 +36,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->addField('is_template')->type('boolean')->defaultValue(false);
 		$this->addField('is_muted')->type('boolean')->hint('for show or hide on menu');
 		$this->addField('is_active')->type('boolean')->defaultValue(1);
+		$this->addField('order')->type('number');
 
 		$this->hasMany('xepan\cms\Webpage','template_id',null,'Pages');
 		$this->hasMany('xepan\cms\Webpage','parent_page_id',null,'SubPages');
@@ -48,6 +49,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->addHook('beforeSave',$this);
 		$this->addHook('beforeDelete',$this);
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
+
 	}
 
 	function mergeFromTemplate(){
@@ -156,7 +158,10 @@ class Model_Webpage extends \xepan\base\Model_Table{
 			// do nothing
 		}
 
-		\Nette\Utils\FileSystem::delete($this->getPagePath());
+		if($this->app->getConfig('remove_page_file',true)){
+			\Nette\Utils\FileSystem::delete($this->getPagePath());
+		}
+
 	}
 
 	function getPagePath($include_file_name=true){

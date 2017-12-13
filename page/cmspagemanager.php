@@ -46,16 +46,17 @@ class page_cmspagemanager extends \xepan\base\Page{
 		$crud->form->add('xepan\base\Controller_FLC')
 					->layout([
 							'template_id'=>'Template~c1~12',
-							'name'=>'Page Info~c1~4',
+							'name'=>'Page Info~c1~3',
 							'path'=>'c2~6',
-							'is_muted~'=>'c3~2~<br/>Hidden in menu?',
+							'order'=>'c3~1',
+							'is_muted~'=>'c4~2~<br/>Hidden in menu?',
 							'page_title'=>'Meta Info, Overrides Default Info~c1~12',
 							'meta_kewords'=>'c2~12',
 							'meta_description'=>'c3~12',
 							'after_body_code'=>'Any Code to insert after body tag~c1~12~Mainly used for analytical purpose'
 						]
 						);
-		$crud->setModel($page,['template_id','name','path','is_muted','page_title','meta_kewords','meta_description','after_body_code'],['template','name','path','is_muted']);
+		$crud->setModel($page,['template_id','name','path','order','is_muted','page_title','meta_kewords','meta_description','after_body_code'],['template','name','path','order','is_muted']);
 
 		$crud->grid->addColumn('Button','live_edit_page');
 		$crud->grid->addMethod('format_live_edit_page',function($g,$f){
