@@ -306,6 +306,9 @@ jQuery.widget("ui.xepanComponent",{
 				case 'src':
 					old_value = $targets.attr('src');
 				break;
+				case 'attr':
+					old_value = $targets.attr(dropdown_options);
+				break;
 			}
 
 			if(where_to_set == "text"){
@@ -348,6 +351,9 @@ jQuery.widget("ui.xepanComponent",{
 			var dyn_selector = option_array[0];
 			var where_to_set = $.trim(option_array[2]);
 			var new_value = $(this).val();
+			var dropdown_options = '';
+			if(option_array[3] != undefined)
+				dropdown_options = $.trim(option_array[3]);
 
 			if(dyn_selector == "this"){
 				$targets = $(dynamic_option_for_component);
@@ -380,6 +386,10 @@ jQuery.widget("ui.xepanComponent",{
 				case 'image':
 					$targets.attr('src',new_value);
 				break;
+				case 'attr':
+					$targets.attr(dropdown_options,new_value);
+				break;
+
 
 			}
 		});
