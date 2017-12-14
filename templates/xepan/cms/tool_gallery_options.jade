@@ -3,18 +3,22 @@
 		#collapse-item-list.xepan-cms-tools-bar-panel.row-fluid.collapse.in
 			.panel-body(style="padding-top:0px;padding-bottom:0px;")
 				.xepan-cms-groups-panel.collapse.in(id="xepan-cms-groups-panel")
-				.xepan-cms-group-panel.clearfix
-					div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#show-hide-gallery-option" aria-expanded="false")
-						span Hide/ Show
-						i.fa.fa-chevron-down.pull-right
-				#show-hide-gallery-option.xepan-cms-tools-bar-panel.row-fluid.collapse
+				//- .xepan-cms-group-panel.clearfix
+				//- 	div.panel.panel-heading.panel-primary.collapsed(data-toggle="collapse" data-target="#show-hide-gallery-option" aria-expanded="false")
+				//- 		span Hide/ Show
+				//- 		i.fa.fa-chevron-down.pull-right
+				#show-hide-gallery-option.xepan-cms-tools-bar-panel.row-fluid.collapse.in
 					table.table.table-condensed.table-hover.xepan-cms-tool-table
 						tr.xepan-tool-option
 							td.xepan-tool-option-title Gallery Type
 							td.xepan-tool-option-value
-								select#gallery_type(data-attr='gallery_type' data-defaultvalue="portfolio")
+								select#gallery_type(data-attr='gallery_type' data-defaultvalue="portfolio" data-togglevalue="portfolio" data-toggleclass=".xepan-cms-gallery-p-option")
 									option(value="portfolio") Portfolio
 									option(value="googlegallery") Google Gallery
+						tr.xepan-tool-option.xepan-cms-gallery-p-option
+							td.xepan-tool-option-title Detail Page
+							td.xepan-tool-option-value
+								input#detail_page(data-attr='detail_page')
 						tr.show-text
 							td.xepan-tool-option-title Show Title
 							td.xepan-tool-option-value 

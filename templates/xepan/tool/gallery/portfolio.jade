@@ -21,12 +21,20 @@ div(id="{$_name}" class="{$class}" style="{$style}")
 						img(src="{$image_path}")
 						.portfolio-overlay
 							.overlay-inner
+								{name_wrapper}
 								h3 {$name}
+								{/}
+								{description_wrapper}
 								p  {$description}
+								{/}
+								{fancybox_wrapper}
 								a(href="{$image_path}" class="fancybox")
 									i.fa.fa-camera
+								{/}
+								{link_wrapper}
 								a(href="{$link}" class="fancybox")
 									i.fa.fa-link
+								{/}
 				{/}
 	script.
 		$('.portfolio_items').mixitup({
