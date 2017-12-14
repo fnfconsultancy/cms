@@ -12,11 +12,11 @@ class Model_ImageGalleryImages extends \xepan\base\Model_Table{
 
 	function init(){
 		parent::init();
+
 		$this->hasOne('xepan\hr\Model_Employee','created_by_id')->defaultValue($this->app->employee->id);
 		$this->hasOne('xepan\cms\ImageGalleryCategory','gallery_cat_id');
 		
 		$this->addField('name')->caption('Title');
-		// $this->add('xepan/filestore/Field_Image',['name'=>'image_id']);
 		$this->addField('image_id')->display(['form'=>'xepan\base\ElImage']);
 		
 		$this->addField('status')->enum(['Active','InActive'])->defaultValue('Active');
@@ -24,13 +24,12 @@ class Model_ImageGalleryImages extends \xepan\base\Model_Table{
 		
 		$this->addField('type');
 		$this->addCondition('type','ImageGallery');
-		
+
 		$this->addField('description')->type('text')->display(['xepan\base\RichText']);
 
-		// $this->addExpression('thumb_url')->set(function($m,$q){
-		// 	return $q->expr('[0]',[$m->getElement('image')]);
-		// });
-
+		$this->addField('custom_link');
+		$this->addField('sequence_order')->type('int')->hint('descending order');
+		
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
 	}
 

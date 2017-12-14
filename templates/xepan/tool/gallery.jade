@@ -22,9 +22,10 @@ div(id="{$_name}" class="{$class}" style="{$style}")
 						.portfolio-overlay
 							.overlay-inner
 								h3 {$name}
-								a(href="{$image}" class="fancybox")
+								p  {$description}
+								a(href="{$image_path}" class="fancybox")
 									i.fa.fa-camera
-								a(href="{$detail_url}" class="fancybox")
+								a(href="{$link}" class="fancybox")
 									i.fa.fa-link
 				{/}
 	script.
@@ -32,4 +33,4 @@ div(id="{$_name}" class="{$class}" style="{$style}")
 			targetSelector: '.portfolio',
 			transitionSpeed: 450
 		});
-		$('a.fancybox').fancybox();
+		$('#{$_name} a.fancybox').fancybox();

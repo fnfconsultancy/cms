@@ -2,16 +2,13 @@
 
 namespace xepan\cms;
 
-
-/**
-* 
-*/
 class Tool_ImageGallery extends \xepan\cms\View_Tool{
 	public $options=[
-						'show_title'=>true,
-						'show_description'=>true,
-						'img_gallery_category'=>null
-	];
+			'show_title'=>true,
+			'show_description'=>true,
+			'img_gallery_category'=>null,
+		];
+
 	function init(){
 		parent::init();
 
@@ -28,12 +25,6 @@ class Tool_ImageGallery extends \xepan\cms\View_Tool{
 		$carousel_cl->setModel($image_m);
 
 		$carousel_cl->addHook('formatRow',function($l){
-			// if($this->count == 1)
-			// 	$l->current_row_html['active'] = "active";
-			// else
-			// 	$l->current_row_html['active'] = "deactive";
-			// $this->count++;
-
 			if($this->options['show_title']){
 				$l->current_row_html['show_title'] = $l->model['name'];
 			}else{
@@ -50,9 +41,4 @@ class Tool_ImageGallery extends \xepan\cms\View_Tool{
 		});
 
 	}
-		// function rander(){
-		// 	parent::rander();
-  //           $this->app->js(true)->_library('Grid')->init();
-		// }
-
 }
