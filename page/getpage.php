@@ -12,6 +12,7 @@ class page_getpage extends \Page{
 		$root_page->addCondition($root_page->_dsql()->orExpr()->where('parent_page_id',0)->where('parent_page_id',null))
 				->addCondition('is_active',true)
 				->addCondition('is_muted',false)
+				->setOrder('order')
 				;
 
 		foreach ($root_page as $parent_page) {
@@ -37,6 +38,7 @@ class page_getpage extends \Page{
 			$sub_pages = $parent_page->ref('SubPages')
 							->addCondition('is_active',true)
 							->addCondition('is_muted',false)
+							->setOrder('order')
 							;
 			foreach ($sub_pages as $junk_page) {
 				$output["".str_replace(".html", "", $junk_page['path'])] = [

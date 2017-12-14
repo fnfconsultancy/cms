@@ -41,21 +41,25 @@ class page_cmspagemanager extends \xepan\base\Page{
 		/*END Live Edit Template */
 
 		// // Website Pages
-		$page = $page_tab->add('xepan\cms\Model_Page');
+		$page = $page_tab->add('xepan\cms\Model_Page')
+					->setOrder(['parent_page_id','order'])
+					;
 		$crud = $page_tab->add('xepan\hr\CRUD');
 		$crud->form->add('xepan\base\Controller_FLC')
 					->layout([
 							'template_id'=>'Template~c1~12',
-							'name'=>'Page Info~c1~4',
+							'name'=>'Page Info~c1~3',
 							'path'=>'c2~6',
-							'is_muted~'=>'c3~2~<br/>Hidden in menu?',
+							'order'=>'c3~1',
+							'is_muted~'=>'c4~2~<br/>Hidden in menu?',
+							'parent_page_id'=>'Parent Menu~c1~12',
 							'page_title'=>'Meta Info, Overrides Default Info~c1~12',
 							'meta_kewords'=>'c2~12',
 							'meta_description'=>'c3~12',
 							'after_body_code'=>'Any Code to insert after body tag~c1~12~Mainly used for analytical purpose'
 						]
 						);
-		$crud->setModel($page,['template_id','name','path','is_muted','page_title','meta_kewords','meta_description','after_body_code'],['template','name','path','is_muted']);
+		$crud->setModel($page,['template_id','name','path','parent_page_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code'],['template','name','parent_page','path','order','is_muted']);
 
 		$crud->grid->addColumn('Button','live_edit_page');
 		$crud->grid->addMethod('format_live_edit_page',function($g,$f){

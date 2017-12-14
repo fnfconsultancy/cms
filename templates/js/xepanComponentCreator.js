@@ -5,6 +5,7 @@ current_selected_dom_component_type = undefined;
 repitative_selected_dom = 0;
 current_selected_tag_dom = 0;
 tags_associate_list = [];
+selection_previous_dom=[];
 
 jQuery.widget("ui.xepanComponentCreator",{
 	options:{
@@ -95,7 +96,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// filter types like if rows and bootstrap col-md/sd etc is there let column Type be there or remove
 
 		current_selected_dom_original_html = $(current_selected_dom).prop('outerHTML');
-
+		
 		$('.sidebar').removeClass('toggleSideBar');
 		if($('#xepan-component-creator-form').length){
 			$('#xepan-component-creator-form').remove();
@@ -136,16 +137,39 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// selection
 		selection_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($(form_body));
 
-		$('<button class="btn btn-primary">Selection</button>').appendTo($(selection_group));
+		$('<button class="btn btn-primary" id="xepan-creator-reselection">Selection</button>').appendTo($(selection_group));
 		var selection_parent = $('<button id="xepan-creator-current-dom-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(selection_group));
+		var selection_previous = $('<button id="xepan-creator-current-dom-select-previous" type="button" title="Previous" class="btn btn-default" style="display:none"><i class="fa fa-arrow-down"></i></button>').appendTo($(selection_group));
 		// var selection_child = $('<button id="xepan-creator-current-dom-select-child" type="button" title="Child/Next" class="btn btn-default"><i class="fa fa-arrow-down"></i></button>').appendTo($(selection_group));
 		// var selection_previous_sibling = $('<button id="xepan-creator-current-dom-select-previous-sibling" type="button" title="Previous Sibling" class="btn btn-default"><i class="fa fa-arrow-left"></i></button>').appendTo($(selection_group));
 		// var selection_next_sibling = $('<button id="xepan-creator-current-dom-select-next-sibling" type="button" title="Next Sibling" class="btn btn-default"><i class="fa fa-arrow-right"></i></button>').appendTo($(selection_group));
 
+		$(selection_group).click(function(event) {
+			$('#xepan-component-creator-form').remove();
+			$('.modal-backdrop').remove();
+			$('#xepan-tool-inspector').trigger('click');
+		});
+
 		$(selection_parent).click(function(event){
+			selection_previous_dom.push($(current_selected_dom));
 			current_selected_dom = $(current_selected_dom).parent()[0];
 			self.manageDomSelected();
 		});
+
+		$(selection_previous).click(function(event){
+			current_selected_dom = selection_previous_dom.pop()[0];
+			$(selection_parent).show();
+			self.manageDomSelected();
+		});
+
+		if($(current_selected_dom).parent('.xepan-page-wrapper').length){
+			$(selection_parent).hide();
+		}
+
+		if(selection_previous_dom.length > 0 ) 
+			$(selection_previous).show();
+		else
+			$(selection_previous).hide();
 
 		// $(self.selection_next_sibling).click(function(event){
 		// 	ctrlShiftRightSelection(event);
@@ -207,6 +231,28 @@ jQuery.widget("ui.xepanComponentCreator",{
 				$(current_selected_dom).wrap('<span class="xepan-component" xepan-component="xepan/cms/Tool_Image" xepan-component-name="Image"></span>');
 				$.univ().infoMessage('saved and reload page');
 				// $('#xepan-component-creator-form').modal('close');
+				$('#xepan-component-creator-form').remove();
+				$('.modal-backdrop').remove();
+				return;
+			case 'xepan/cms/Tool_Icon':
+			// i.xepan-component.xepan-cms-icon.text-center.fa.fa-leaf(id="{$_name}" xepan-component='xepan/cms/Tool_Icon' icon-link-target="none" icon-class="fa-leaf" icon-size="fa-1x" icon-link="#" icon-align="text-center" style="width:100%;" xepan-component-name="Icon")
+				$(current_selected_dom)
+					.addClass('xepan-component')
+					.attr({
+						'xepan-component'	: 'xepan/cms/Tool_Icon',
+						'icon-link-target'	: 'none',
+						'icon-size'			: "fa-1x",
+						'icon-link'			: "#",
+						'icon-align'		: "text-center",
+						'icon-class'		:"fa-leaf",
+						'xepan-component-name': "Icon"
+					});
+				var classNames = $(current_selected_dom).attr("class").toString().split(' ');
+		        $.each(classNames, function (i, className) {
+		            if(className.match(/fa-/i)){
+		            	$(current_selected_dom).attr('icon-class', className);
+		            }
+		        });
 				$('#xepan-component-creator-form').remove();
 				$('.modal-backdrop').remove();
 				return;
@@ -720,6 +766,15 @@ jQuery.widget("ui.xepanComponentCreator",{
 	addMoveToTemplate: function(){
 		var self = this;
 
+		// manage move to header of footer
+		if(self.options.template_editing){
+			return;	
+		}
+
+		if($(current_selected_dom).parent('.xepan-page-wrapper').length == 0){
+			return;
+		}
+
 		var wrapper = $('#xepan-component-creator-form .modal-body');
 		// edit dom code to change html
 		var btn_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($(wrapper));
@@ -955,6 +1010,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 												'<option value="css">css</option>'+
 												'<option value="src">src</option>'+
 												'<option value="label">label</option>'+
+												'<option value="attr">attribute</option>'+
 											'</select>'+
 										'</div>'+
 									'</div>'+
