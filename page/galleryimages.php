@@ -20,9 +20,10 @@ class page_galleryimages extends \xepan\base\Page{
         
         $image_m = $this->add('xepan\cms\Model_ImageGalleryImages');
         $image_m->addCondition('gallery_cat_id',$category_id);
+        $image_m->setOrder('sequence_order','desc');
 
         $image_c = $this->add('xepan\base\CRUD');
-        $image_c->setModel($image_m,['name','image_id','status','description'],['name','image_id','status','description']);
+        $image_c->setModel($image_m,['name','image_id','status','description','custom_link','sequence_order']);
         $image_c->grid->addHook('formatRow',function($g){
             $path = './websites/'.$this->app->current_website_name."/".$g->model['image_id'];
             $g->current_row_html['text_to_display'] = $g->model['text_to_display'];
