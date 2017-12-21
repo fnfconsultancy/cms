@@ -96,22 +96,22 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 		$option_array = [
 			'width'=> $this->category_model['width'],
 			'height'=> $this->category_model['height'],
-			'arrows'=> ($this->category_model['show_arrows']?true:false),
-			'buttons'=> ($this->category_model['show_buttons']?true:false),
-
-			'waitForLayers'=> true,
+			'arrows'=> ($this->category_model['show_arrows']?'true':'false'),
+			'buttons'=> ($this->category_model['show_buttons']?'true':'false'),
+			'loop' => 'true',
+			'waitForLayers'=> 'true',
 			'thumbnailWidth'=> $this->category_model['thumbnail_width'],
 			'thumbnailHeight'=> $this->category_model['thumbnail_height'],
-			'thumbnailPointer'=> ($this->category_model['thumbnail_pointer']?true:false),
-			'thumbnailArrows'=> ($this->category_model['thumbnail_arrows']?true:false),
-			'autoplay'=> ($this->category_model['autoplay']?true:false),
-			'autoScaleLayers'=> false,
+			'thumbnailPointer'=> ($this->category_model['thumbnail_pointer']?'true':'false'),
+			'thumbnailArrows'=> ($this->category_model['thumbnail_arrows']?'true':'false'),
+			'autoplay'=> ($this->category_model['autoplay']?'true':'false'),
+			'autoScaleLayers'=> 'false',
 
 			'visibleSize'=>$this->category_model['visible_size'],
 			'forceSize'=>$this->category_model['force_size'],
-			'autoSlideSize'=>($this->category_model['auto_slide_size']?true:false),
-			'autoHeight'=>($this->category_model['auto_height']?true:false),
-			'fullScreen'=>($this->category_model['full_screen']?true:false),
+			'autoSlideSize'=>($this->category_model['auto_slide_size']?'true':'false'),
+			'autoHeight'=>($this->category_model['auto_height']?'true':'false'),
+			'fullScreen'=>($this->category_model['full_screen']?'true':'false'),
 			
 			'breakpoints'=> [
 				'500'=> [
@@ -124,96 +124,47 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 		
 		$remove_key = [];
 		switch ($this->category_model['layout']) {
+
 			case 'highlighted-horizontal-text':
 				$remove_key = ['forceSize','visibleSize','autoSlideSize','autoHeight','fullScreen'];
 				break;
-			
+
 			case 'multislide':
-				$remove_key =[
-					'thumbnailWidth',
-					'thumbnailHeight',
-					'thumbnailPointer',
-					'thumbnailArrows',
-					'autoplay',
-					'autoScaleLayers',
-					'autoHeight',
-					'fullScreen',
-					'breakpoints'
-				];
+				$remove_key =['thumbnailWidth','thumbnailHeight','thumbnailPointer','thumbnailArrows','autoScaleLayers','autoHeight','fullScreen','breakpoints','waitForLayers'];
 				break;
+
 			case 'highlighted-horizontal-thumbnail':
-				$remove_key =[
-					'thumbnailWidth',
-					'thumbnailHeight',
-					'thumbnailPointer',
-					'autoScaleLayers',
-					'autoHeight',
-					'breakpoints',
-					'visibleSize',
-					'forceSize',
-					
-				];
+				$remove_key =['thumbnailWidth','thumbnailHeight','thumbnailPointer','autoScaleLayers','autoHeight','breakpoints','visibleSize','forceSize'];
 				$option_array['shuffle'] = true;
 				$option_array['fade'] = true;
-			break;		
+			break;
+
+			case 'highlighted-vertical-thumbnail':
+				
+				$remove_key = ['waitForLayers','thumbnailHeight','autoScaleLayers','visibleSize','forceSize','autoSlideSize','autoHeight','fullScreen'];
+				$option_array['orientation'] = 'true';
+				$option_array['thumbnailsPosition'] = 'right';
+
+				$option_array['breakpoints'] = 
+							[
+								'800'=> [
+									'thumbnailsPosition'=> 'bottom',
+									'thumbnailWidth'=> 270,
+									'thumbnailHeight'=> 100
+								],
+								'500'=> [
+									'thumbnailsPosition'=> 'bottom',
+									'thumbnailWidth'=> 120,
+									'thumbnailHeight'=> 50
+								]
+							];
+			break;
+
 		}
 
 		foreach ($remove_key as $key => $value) {
 			unset($option_array[$value]);
 		}
-
-		// if($this->category_model['layout'] == "multislide"){
-		// 	$option_array = [
-		// 		'width'=> 300,
-		// 		'height'=> 300,
-		// 		'visibleSize'=> '100%',
-		// 		'forceSize'=> 'fullWidth',
-		// 		'autoSlideSize'=> true
-		// 	];
-		// }
-
-		// if($this->category_model['layout'] == 'highlighted-horizontal-thumbnail'){
-		// 	$option_array = [
-		// 			'width'=> 960,
-		// 			'height'=> 500,
-		// 			'fade'=> true,
-		// 			'arrows'=> true,
-		// 			'buttons'=> false,
-		// 			'fullScreen'=> true,
-		// 			'shuffle'=> true,
-		// 			'smallSize'=> 500,
-		// 			'mediumSize'=> 1000,
-		// 			'largeSize'=> 3000,
-		// 			'thumbnailArrows'=> true,
-		// 			'autoplay'=> false
-		// 		];
-		// }
-
-		// if($this->category_model['layout'] == "highlighted-vertical-thumbnail"){
-		// 	$option_array = [
-		// 		'width'=> 670,
-		// 		'height'=> 500,
-		// 		'orientation'=> 'vertical',
-		// 		'loop'=> false,
-		// 		'arrows'=> true,
-		// 		'buttons'=> false,
-		// 		'thumbnailsPosition'=>'right',
-		// 		'thumbnailPointer'=> true,
-		// 		'thumbnailWidth'=> 290,
-		// 		'breakpoints'=> [
-		// 			'800' => [
-		// 				'thumbnailsPosition'=> 'bottom',
-		// 				'thumbnailWidth'=> 270,
-		// 				'thumbnailHeight'=> 100
-		// 			],
-		// 			'500'=> [
-		// 				'thumbnailsPosition'=> 'bottom',
-		// 				'thumbnailWidth'=> 120,
-		// 				'thumbnailHeight'=> 50
-		// 			]
-		// 		]
-		// 	];
-		// }
 		return $option_array;
 	}
 
