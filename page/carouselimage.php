@@ -21,7 +21,7 @@ class page_carouselimage extends \xepan\base\Page{
         $image_m = $this->add('xepan\cms\Model_CarouselImage');
         $image_m->addCondition('carousel_category_id',$category_id);
         $image_c = $this->add('xepan\hr\CRUD');
-        $image_c->setModel($image_m,['file_id','title','text_to_display','alt_text','order','link','created_at','status']);
+        $image_c->setModel($image_m,['file_id','title','text_to_display','alt_text','order','link','slide_type','created_at','status']);
         $image_c->grid->removeColumn('status');
         $image_c->grid->removeAttachment();
         $image_c->addButton('Carousel Category')->addClass('btn btn-primary')->js('click')->univ()->location('xepan_cms_carousel');

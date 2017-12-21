@@ -10,7 +10,7 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 	];
 
 	public $actions=[
-		'Visible'=>['view','edit','delete','hide'],
+		'Visible'=>['view','layers','edit','delete','hide'],
 		'Hidden'=>['view','edit','delete','show']
 	];
 
@@ -28,6 +28,8 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		$this->addField('order');
 		$this->addField('link');
 
+		$this->addField('slide_type')->enum(['Image','Video']);
+
 		$this->addField('created_at')->type('datetime')->defaultValue($this->app->now);
 		$this->addField('status')->enum($this->status)->defaultValue('Visible');
 		
@@ -39,6 +41,7 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		// });
 
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
+		$this->add('dynamic_model/Controller_AutoCreator');
 	}
 
 	function show(){
@@ -66,4 +69,14 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		$master = $this->add('xepan\cms\Model_CarouselCategory');
 		$master->load($this['carousel_category_id'])->updateJsonFile();
 	}
+
+
+	function page_layers($page){
+
+		$img = $page->add('xepan\cms\Model_CarouselLayer');
+		$img->addCondition('carousel_image_id',$this->id);
+		$crud = $page->add('xepan\base\CRUD');
+		$crud->setModel($img);
+	}
+
 }

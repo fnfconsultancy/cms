@@ -1,0 +1,233 @@
+<?php
+
+namespace xepan\cms;
+
+/**
+* display all category and image can be used in portfoli or slide show
+* 
+* @author : RK Sinha
+* @email : info@xavoc.com
+* @website : http://xepan.org
+* 
+*/
+
+class Tool_SlideShow extends \xepan\cms\View_Tool{
+
+	public $options=[
+				'slideshow_type'=>'slidepro',
+				'carousel_category'=>'',
+				'show_thumbnail'=>true
+			];
+
+	function init(){
+		parent::init();
+
+		if($this->owner instanceof \AbstractController) return;
+
+		if(!$this->options['slideshow_type']){
+			$this->add('View')->set('Please Select Slide Show Type');
+			return;
+		}
+
+		if(!$this->options['carousel_category']){
+			$this->add('View')->set('Please Select Carousel Category');
+			return;
+		}
+
+		$this->category_model = $this->add('xepan\cms\Model_CarouselCategory');
+		$this->category_model->addCondition('name',$this->options['carousel_category']);
+		$this->category_model->tryLoadAny();
+		if(!$this->category_model->loaded()){
+			$this->add('View')->set('selected category not found');
+			return;
+		}
+
+		switch ($this->options['slideshow_type']){
+			case 'slidepro':
+				$this->slideproSlideShow();
+				break;
+		}
+	}
+	
+	function slideproSlideShow(){
+		// incude css
+		$this->js(true)->_css('slidepro/examples');
+		$this->js(true)->_css('slidepro/slider-pro.min');
+		$this->js(true)->_css('fancybox/jquery.fancybox');
+
+		// incude js
+		$this->app->jquery->addStaticInclude('slidepro/jquery.sliderPro.min');
+		$this->app->jquery->addStaticInclude('fancybox/jquery.fancybox.pack');
+
+		$template = 'view\tool\slideshow\slidepro-'.$this->category_model['layout'];
+
+		$image = $this->add('xepan\cms\Model_CarouselImage');
+		$image->addCondition('carousel_category_id',$this->category_model->id);
+		$image->addCondition('status','Visible');
+
+		$v = $this->add('View',null,null,[$template]);
+
+		$lister = $v->add('CompleteLister',null,'lister_wrapper',[$template,'lister_wrapper']);
+		$lister->setModel($image);
+		$lister->addHook('formatRow',function($l){
+			$layer_html = $this->getLayerHtml($l->model->id);
+			$l->current_row_html['layer_wrapper'] = $layer_html;
+			$l->current_row['file'] = './websites/'.$this->app->current_website_name."/".$l->model['file_id'];
+			$l->current_row_html['text'] = $l->model['text_to_display'];
+		});
+
+		if($this->options['show_thumbnail']){
+			$lister = $v->add('CompleteLister',null,'thumbnail_wrapper',[$template,'thumbnail_wrapper']);
+			$lister->setModel($image);
+
+			$lister->addHook('formatRow',function($l){
+				$l->current_row_html['text'] = $l->model['text_to_display'];
+				$l->current_row_html['file'] = './websites/'.$this->app->current_website_name."/".$l->model['file_id'];
+			});
+		}else
+			$v->template->tryDel('thumbnail_wrapper');
+
+		$option_array = $this->getSliderProOptions();
+		$v->js(true)->sliderPro($option_array);
+	}
+
+	function getSliderProOptions(){
+		
+		$option_array = [
+			'width'=> $this->category_model['width'],
+			'height'=> $this->category_model['height'],
+			'arrows'=> ($this->category_model['show_arrows']?true:false),
+			'buttons'=> ($this->category_model['show_buttons']?true:false),
+
+			'waitForLayers'=> true,
+			'thumbnailWidth'=> $this->category_model['thumbnail_width'],
+			'thumbnailHeight'=> $this->category_model['thumbnail_height'],
+			'thumbnailPointer'=> ($this->category_model['thumbnail_pointer']?true:false),
+			'thumbnailArrows'=> ($this->category_model['thumbnail_arrows']?true:false),
+			'autoplay'=> ($this->category_model['autoplay']?true:false),
+			'autoScaleLayers'=> false,
+
+			'visibleSize'=>$this->category_model['visible_size'],
+			'forceSize'=>$this->category_model['force_size'],
+			'autoSlideSize'=>($this->category_model['auto_slide_size']?true:false),
+			'autoHeight'=>($this->category_model['auto_height']?true:false),
+			'fullScreen'=>($this->category_model['full_screen']?true:false),
+			
+			'breakpoints'=> [
+				'500'=> [
+					'thumbnailWidth' => 120,
+					'thumbnailHeight' => 500
+				]
+			]
+			
+		];
+		
+		$remove_key = [];
+		switch ($this->category_model['layout']) {
+			case 'highlighted-horizontal-text':
+				$remove_key = ['forceSize','visibleSize','autoSlideSize','autoHeight','fullScreen'];
+				break;
+			
+			case 'multislide':
+				$remove_key =[
+					'thumbnailWidth',
+					'thumbnailHeight',
+					'thumbnailPointer',
+					'thumbnailArrows',
+					'autoplay',
+					'autoScaleLayers',
+					'autoHeight',
+					'fullScreen',
+					'breakpoints'
+				];
+				break;
+			case 'highlighted-horizontal-thumbnail':
+				$remove_key =[
+					'thumbnailWidth',
+					'thumbnailHeight',
+					'thumbnailPointer',
+					'autoScaleLayers',
+					'autoHeight',
+					'breakpoints',
+					'visibleSize',
+					'forceSize',
+					
+				];
+				$option_array['shuffle'] = true;
+				$option_array['fade'] = true;
+			break;		
+		}
+
+		foreach ($remove_key as $key => $value) {
+			unset($option_array[$value]);
+		}
+
+		// if($this->category_model['layout'] == "multislide"){
+		// 	$option_array = [
+		// 		'width'=> 300,
+		// 		'height'=> 300,
+		// 		'visibleSize'=> '100%',
+		// 		'forceSize'=> 'fullWidth',
+		// 		'autoSlideSize'=> true
+		// 	];
+		// }
+
+		// if($this->category_model['layout'] == 'highlighted-horizontal-thumbnail'){
+		// 	$option_array = [
+		// 			'width'=> 960,
+		// 			'height'=> 500,
+		// 			'fade'=> true,
+		// 			'arrows'=> true,
+		// 			'buttons'=> false,
+		// 			'fullScreen'=> true,
+		// 			'shuffle'=> true,
+		// 			'smallSize'=> 500,
+		// 			'mediumSize'=> 1000,
+		// 			'largeSize'=> 3000,
+		// 			'thumbnailArrows'=> true,
+		// 			'autoplay'=> false
+		// 		];
+		// }
+
+		// if($this->category_model['layout'] == "highlighted-vertical-thumbnail"){
+		// 	$option_array = [
+		// 		'width'=> 670,
+		// 		'height'=> 500,
+		// 		'orientation'=> 'vertical',
+		// 		'loop'=> false,
+		// 		'arrows'=> true,
+		// 		'buttons'=> false,
+		// 		'thumbnailsPosition'=>'right',
+		// 		'thumbnailPointer'=> true,
+		// 		'thumbnailWidth'=> 290,
+		// 		'breakpoints'=> [
+		// 			'800' => [
+		// 				'thumbnailsPosition'=> 'bottom',
+		// 				'thumbnailWidth'=> 270,
+		// 				'thumbnailHeight'=> 100
+		// 			],
+		// 			'500'=> [
+		// 				'thumbnailsPosition'=> 'bottom',
+		// 				'thumbnailWidth'=> 120,
+		// 				'thumbnailHeight'=> 50
+		// 			]
+		// 		]
+		// 	];
+		// }
+		return $option_array;
+	}
+
+	function getLayerHtml($image_id){
+
+		$lm = $this->add('xepan\cms\Model_CarouselLayer');
+		$lm->addCondition('carousel_image_id',$image_id);
+		$lm->addCondition('status','Active');
+		$html = "";
+
+		foreach ($lm as $m) {
+			$html .= '<div class="sp-layer '.str_replace(",", "",$m['layer_class']).'" data-horizontal="'.$m['horizontal_position'].'" data-vertical="'.$m['vertical_position'].'" data-show-transition="'.$m['show_transition'].'" data-hide-transition="'.$m['hide_transition'].'" data-show-delay="'.$m['show_delay'].'" data-hide-delay="'.$m['hide_delay'].'"> '.$m['text'].'</div>;';
+		}
+
+		return $html;
+	}
+}

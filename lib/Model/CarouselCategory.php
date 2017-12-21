@@ -19,6 +19,28 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 		$this->addField('status')->enum(['Active','InActive'])->defaultValue('Active');
 		$this->addField('created_at')->type('datetime')->defaultValue($this->app->now);
 
+		$this->addField('layout')->enum(['highlighted-horizontal-text','multislide','highlighted-horizontal-thumbnail','mixed-video','highlighted-vertical-thumbnail']);
+
+		$this->addField('width')->type('int')->defaultValue(960);
+		$this->addField('height')->type('int')->defaultValue(500);
+		$this->addField('show_arrows')->type('boolean')->defaultValue(true);
+		$this->addField('autoplay')->type('boolean')->defaultValue(true);
+		$this->addField('show_buttons')->type('boolean')->defaultValue(true);
+		$this->addField('auto_slide_size')->type('boolean')->defaultValue(true);
+		$this->addField('auto_height')->type('boolean')->defaultValue(true);
+
+		$this->addField('full_screen')->type('boolean')->defaultValue(true);
+		$this->addField('visible_size')->defaultValue(100);
+		$this->addField('force_size')->defaultValue('fullWidth');
+		$this->addField('shuffle')->type('boolean')->defaultValue(true);
+		$this->addField('orientation')->enum(['vertical','horizontal']);
+		
+		$this->addField('thumbnails_position')->enum(['right','left']);
+		$this->addField('thumbnail_pointer')->type('boolean')->defaultValue(true);
+		$this->addField('thumbnail_width')->type('int')->defaultValue(200);
+		$this->addField('thumbnail_height')->type('int')->defaultValue(100);
+		$this->addField('thumbnail_arrows')->type('int')->defaultValue(100);
+		
 		$this->addField('type');
 		$this->addCondition('type','CarouselCategory');
 
@@ -27,6 +49,11 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 
 		$this->addHook('afterSave',[$this,'updateJsonFile']);
 		$this->addHook('beforeDelete',$this);
+
+		$this->is([
+				'name|to_trim|required',
+				'layout|required'
+			]);
 	}
 
 	function beforeDelete(){
