@@ -20,7 +20,7 @@ class Initiator extends \Controller_Addon {
             $m->addItem([' Edit Site','icon'=>' fa fa-pencil'],'xepan_cms_editfrontlogin');
             $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
             $m->addItem([' Gallery','icon'=>' fa fa-file-image-o'],'xepan_cms_gallery');
-            $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_templateandpage');
+            $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_cmspagemanager');
             $m->addItem([' Themes','icon'=>' fa fa-file'],'xepan_cms_theme');
             $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
             $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
@@ -30,6 +30,7 @@ class Initiator extends \Controller_Addon {
         }
 
         $this->app->addHook('entity_collection',[$this,'exportEntities']);
+        $this->app->addHook('collect_shortcuts',[$this,'collect_shortcuts']);
         
         return $this;
     }
@@ -41,6 +42,20 @@ class Initiator extends \Controller_Addon {
         $array['Custom_Form'] = ['caption'=>'Custom_Form','type'=>'DropDown','model'=>'xepan\cms\Model_Custom_Form'];
         $array['ImageGalleryCategory'] = ['caption'=>'Image Gallery Cateory','type'=>'DropDown','model'=>'xepan\cms\Model_ImageGalleryCategory'];
         $array['ImageGalleryImages'] = ['caption'=>'Image Gallery Images','type'=>'DropDown','model'=>'xepan\cms\Model_ImageGalleryImages'];
+    }
+
+    function collect_shortcuts($app,&$shortcuts){
+        $shortcuts[]=["title"=>"Carousel","keywords"=>"carousel carousal slideshow","description"=>"Manage Carousel","normal_access"=>"CMS -> Carousel","url"=>$this->app->url('xepan_cms_carousel'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"Gallery","keywords"=>"gallery","description"=>"Manage Gallery","normal_access"=>"CMS -> Gallery","url"=>$this->app->url('xepan_cms_gallery'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"Templates and Pages","keywords"=>"website pages frontend template meta tag keywords google analytics code","description"=>"Manage Website's Pages and Templates and website meta details","normal_access"=>"CMS -> Templates And Pages","url"=>$this->app->url('xepan_cms_cmspagemanager'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"Change website template","keywords"=>"change website template theme","description"=>"Change your websites template","normal_access"=>"CMS -> Theme","url"=>$this->app->url('xepan_cms_theme'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"FileManager","keywords"=>"website edit file html css code www","description"=>"Manage and edit files of your website","normal_access"=>"CMS -> FileManager","url"=>$this->app->url('xepan_cms_websites')];
+        $shortcuts[]=["title"=>"Website Editors","keywords"=>"editors cms website frontend who can edit","description"=>"Manage which employee can edit page or template for your website","normal_access"=>"CMS -> CMS Editors","url"=>$this->app->url('xepan_cms_cmseditors'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"Custom Forms","keywords"=>"subscriptions custom contact forms enquiry inquiry forms submitted data","description"=>"Manage subscription / contact / custom forms for website and their data","normal_access"=>"CMS -> Custom Form","url"=>$this->app->url('xepan_cms_customform'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"SEF Config","keywords"=>"sef search engine freindly url blog commerce","description"=>"Configure Epan for SEF Urls","normal_access"=>"CMS -> SEF Config","url"=>$this->app->url('xepan_cms_sefconfig'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"Make Website offline","keywords"=>"coming soon website offline down close maintenance","description"=>"Put your website on maintenance mode","normal_access"=>"CMS -> Configuration","url"=>$this->app->url('xepan_cms_configuration'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"Blog Cateory","keywords"=>"blog catgory sections segments","description"=>"Manage Blog Categories","normal_access"=>"CMS -> Blog Category","url"=>$this->app->url('xepan_blog_blogpostcategory'),'mode'=>'frame'];
+        $shortcuts[]=["title"=>"Blog Post","keywords"=>"blog post content article write","description"=>"Manage your blogs / articles","normal_access"=>"CMS -> Blog Post","url"=>$this->app->url('xepan_blog_blogpost'),'mode'=>'frame'];
     }
 
     function setup_pre_frontend(){
