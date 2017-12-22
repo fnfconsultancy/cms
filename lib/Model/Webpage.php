@@ -35,6 +35,8 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		
 		$this->addField('is_template')->type('boolean')->defaultValue(false);
 		$this->addField('is_muted')->type('boolean')->hint('for show or hide on menu');
+		$this->addField('icon_class')->hint('for show icon on menu, define multiple value space seperate');
+			
 		$this->addField('is_active')->type('boolean')->defaultValue(1);
 		$this->addField('order')->type('number');
 

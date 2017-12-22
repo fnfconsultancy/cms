@@ -19,7 +19,8 @@ class page_getpage extends \Page{
 			$pages["".str_replace(".html", "", $parent_page['path'])] = [
 									'name'=>$parent_page['name'],
 									// 'template_path'=>$parent_page['template_path'],
-									'subpage'=>$this->getPages($parent_page)
+									'subpage'=>$this->getPages($parent_page),
+									'iconclass'=>$parent_page['icon_class']
 								];
 		}
 
@@ -44,7 +45,8 @@ class page_getpage extends \Page{
 				$output["".str_replace(".html", "", $junk_page['path'])] = [
 										'name'=>$junk_page['name'],
 										// 'template_path'=>$junk_page['template_path'],
-										'subpage'=>$this->getPages($junk_page)
+										'subpage'=>$this->getPages($junk_page),
+										'iconclass'=>$junk_page['icon_class']
 									];
 			}
 

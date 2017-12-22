@@ -167,17 +167,26 @@
     })
     
     function getSubPageHtml(path,page_data){
-    
+
     	if($(page_data.subpage).length){
     		var html = '<li class="dropdown dropdown-submenu">';
-    			html += '<a href="'+path+'" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'+page_data.name+' <span class="caret"></span></a>';
+
+    			html += '<a href="'+path+'" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+                if(page_data.iconclass != null){
+                    html += '<i class="'+page_data.iconclass+'"></i>&nbsp;';
+                }
+                html += page_data.name+' <span class="caret"></span></a>';
     			html += '<ul class="dropdown-menu">';
+
     		$.each(page_data.subpage,function(sub_page_path,sub_page_data){
     			html += getSubPageHtml(sub_page_path,sub_page_data);
     		});
     		html += '</ul></li>';
     	}else{
-    		var html = '<li><a href="'+path+'">'+page_data.name+'</a></li>';
+            if(page_data.iconclass != null){
+    		  var html = '<li><a href="'+path+'"><i class="'+page_data.iconclass+'"></i>&nbsp;'+page_data.name+'</a></li>';
+            }else
+              var html = '<li><a href="'+path+'">'+page_data.name+'</a></li>';
     	}
     
     	return html;
