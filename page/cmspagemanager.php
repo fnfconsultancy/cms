@@ -60,7 +60,7 @@ class page_cmspagemanager extends \xepan\base\Page{
 							'after_body_code'=>'Any Code to insert after body tag~c1~12~Mainly used for analytical purpose'
 						]
 						);
-		$crud->setModel($page,['template_id','name','path','parent_page_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code'],['template','name','parent_page','path','order','is_muted']);
+		$crud->setModel($page,['template_id','name','path','parent_page_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code','icon_class'],['template','name','parent_page','path','order','is_muted']);
 
 		$crud->grid->addColumn('Button','live_edit_page');
 		$crud->grid->addMethod('format_live_edit_page',function($g,$f){
