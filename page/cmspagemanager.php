@@ -49,7 +49,7 @@ class page_cmspagemanager extends \xepan\base\Page{
 					->layout([
 							'template_id'=>'Template~c1~12',
 							'name'=>'Page Info~c1~3',
-							'path'=>'c2~2',
+							'path'=>'c2~4',
 							'icon_class'=>'c3~2',
 							'order'=>'c4~1',
 							'is_muted~'=>'c5~2~<br/>Hidden in menu?',
