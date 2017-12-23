@@ -49,9 +49,10 @@ class page_cmspagemanager extends \xepan\base\Page{
 					->layout([
 							'template_id'=>'Template~c1~12',
 							'name'=>'Page Info~c1~3',
-							'path'=>'c2~6',
-							'order'=>'c3~1',
-							'is_muted~'=>'c4~2~<br/>Hidden in menu?',
+							'path'=>'c2~2',
+							'icon_class'=>'c3~2',
+							'order'=>'c4~1',
+							'is_muted~'=>'c5~2~<br/>Hidden in menu?',
 							'parent_page_id'=>'Parent Menu~c1~12',
 							'page_title'=>'Meta Info, Overrides Default Info~c1~12',
 							'meta_kewords'=>'c2~12',
