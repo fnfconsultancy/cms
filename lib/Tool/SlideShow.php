@@ -51,7 +51,7 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 	
 	function slideproSlideShow(){
 		// incude css
-		$this->js(true)->_css('slidepro/examples');
+		// $this->js(true)->_css('slidepro/examples');
 		$this->js(true)->_css('slidepro/slider-pro.min');
 		$this->js(true)->_css('fancybox/jquery.fancybox');
 
