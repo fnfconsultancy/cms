@@ -94,8 +94,8 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 	function getSliderProOptions(){
 		
 		$option_array = [
-			'width'=> $this->category_model['width'],
-			'height'=> $this->category_model['height'],
+			'width'=> (int)$this->category_model['width'],
+			'height'=> (int)$this->category_model['height'],
 			'arrows'=> ($this->category_model['show_arrows']?'true':'false'),
 			'buttons'=> ($this->category_model['show_buttons']?'true':'false'),
 			'loop' => 'true',
@@ -131,6 +131,8 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 
 			case 'multislide':
 				$remove_key =['thumbnailWidth','thumbnailHeight','thumbnailPointer','thumbnailArrows','autoScaleLayers','autoHeight','fullScreen','breakpoints','waitForLayers'];
+				if(substr($option_array['visibleSize'], -1) != '%')
+					$option_array['visibleSize'] = $option_array['visibleSize']."%";
 				break;
 
 			case 'highlighted-horizontal-thumbnail':
