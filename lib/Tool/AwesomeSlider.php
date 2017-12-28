@@ -2,10 +2,6 @@
 
 namespace xepan\cms;
 
-
-/**
-* 
-*/
 class Tool_AwesomeSlider extends \xepan\cms\View_Tool{
 	public $options = [
 				'show_caption'=>true,
@@ -24,8 +20,9 @@ class Tool_AwesomeSlider extends \xepan\cms\View_Tool{
 			return;
 		}			
 
+		
 		$image_m = $this->add('xepan\cms\Model_CarouselImage');
-		$image_m->addCondition('carousel_category_id',$this->options['slider_category']);
+		$image_m->addCondition([['carousel_category_id',$this->options['slider_category']],['carousel_category',$this->options['slider_category']]]);
 
 		$carousel_cl = $this->add('CompleteLister',null,null,['view\tool\awesome-slider']);
 		$carousel_cl->setModel($image_m);
@@ -40,7 +37,7 @@ class Tool_AwesomeSlider extends \xepan\cms\View_Tool{
 		}else{
 			$this->controlNav= false;
 		}
-
+		
 	}
 
 	function render(){
@@ -58,8 +55,6 @@ class Tool_AwesomeSlider extends \xepan\cms\View_Tool{
 					'controlNav'=> $this->controlNav,
 					'controlNavThumbs'=> false,
 					'pauseOnHover'=> true,
-					'
-					'=> false,
 					'prevText'=> 'Prev',
 					'nextText'=> 'Next',
 					'randomStart'=> true
