@@ -178,7 +178,18 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 		$html = "";
 
 		foreach ($lm as $m) {
-			$html .= '<div class="sp-layer '.str_replace(",", "",$m['layer_class']).'" data-horizontal="'.$m['horizontal_position'].'" data-vertical="'.$m['vertical_position'].'" data-show-transition="'.$m['show_transition'].'" data-hide-transition="'.$m['hide_transition'].'" data-show-delay="'.$m['show_delay'].'" data-hide-delay="'.$m['hide_delay'].'"> '.$m['text'].'</div>;';
+			$html .= '<div class="sp-layer '.str_replace(",", "",$m['layer_class']).'" data-horizontal="'.$m['horizontal_position'].'" data-vertical="'.$m['vertical_position'].'" data-show-transition="'.$m['show_transition'].'" data-hide-transition="'.$m['hide_transition'].'" data-show-delay="'.$m['show_delay'].'" data-hide-delay="'.$m['hide_delay'].'">';
+			if($m['layer_type'] == "Image"){
+				$html .= '<div class="sp-thumbnail-container"> <img src="'.'./websites/'.$this->app->current_website_name."/".$m['image_id'].'" width="'.$m['width'].'" height="'.$m['height'].'"/></div>';
+			}
+
+			if($m['layer_type'] == "Text")
+				$html .= $m['text'];
+
+			if($m['layer_type'] == "Video")
+				$html .= '<a class="sp-video" href="'.$m['video_url'].'"><img src="'.'./websites/'.$this->app->current_website_name."/".$m['image_id'].'" width="'.$m['width'].'" height="'.$m['height'].'" /></a>';
+
+			$html .= '</div>;';
 		}
 
 		return $html;
