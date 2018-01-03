@@ -55,7 +55,7 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 	function portfolioGallery(){
 		$this->js(true)->_css('gallery');
 		$this->app->jquery->addStaticInclude('jquery.mixitup.min');
-		$this->app->jquery->addStaticInclude('jquery.fancybox');
+		$this->app->jquery->addStaticInclude('fancybox/jquery.fancybox');
 		$this->js(true)->_css('tool/jquery.fancybox');
 
 		$v = $this->add('View',null,null,['xepan\tool\gallery\portfolio']);

@@ -51,7 +51,7 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 	
 	function slideproSlideShow(){
 		// incude css
-		$this->js(true)->_css('slidepro/examples');
+		// $this->js(true)->_css('slidepro/examples');
 		$this->js(true)->_css('slidepro/slider-pro.min');
 		$this->js(true)->_css('fancybox/jquery.fancybox');
 
@@ -94,8 +94,8 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 	function getSliderProOptions(){
 		
 		$option_array = [
-			'width'=> $this->category_model['width'],
-			'height'=> $this->category_model['height'],
+			'width'=> (int)$this->category_model['width'],
+			'height'=> (int)$this->category_model['height'],
 			'arrows'=> ($this->category_model['show_arrows']?'true':'false'),
 			'buttons'=> ($this->category_model['show_buttons']?'true':'false'),
 			'loop' => 'true',
@@ -131,6 +131,8 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 
 			case 'multislide':
 				$remove_key =['thumbnailWidth','thumbnailHeight','thumbnailPointer','thumbnailArrows','autoScaleLayers','autoHeight','fullScreen','breakpoints','waitForLayers'];
+				if(substr($option_array['visibleSize'], -1) != '%')
+					$option_array['visibleSize'] = $option_array['visibleSize']."%";
 				break;
 
 			case 'highlighted-horizontal-thumbnail':
@@ -176,7 +178,18 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 		$html = "";
 
 		foreach ($lm as $m) {
-			$html .= '<div class="sp-layer '.str_replace(",", "",$m['layer_class']).'" data-horizontal="'.$m['horizontal_position'].'" data-vertical="'.$m['vertical_position'].'" data-show-transition="'.$m['show_transition'].'" data-hide-transition="'.$m['hide_transition'].'" data-show-delay="'.$m['show_delay'].'" data-hide-delay="'.$m['hide_delay'].'"> '.$m['text'].'</div>;';
+			$html .= '<div class="sp-layer '.str_replace(",", "",$m['layer_class']).'" data-horizontal="'.$m['horizontal_position'].'" data-vertical="'.$m['vertical_position'].'" data-show-transition="'.$m['show_transition'].'" data-hide-transition="'.$m['hide_transition'].'" data-show-delay="'.$m['show_delay'].'" data-hide-delay="'.$m['hide_delay'].'">';
+			if($m['layer_type'] == "Image"){
+				$html .= '<div class="sp-thumbnail-container"> <img src="'.'./websites/'.$this->app->current_website_name."/".$m['image_id'].'" width="'.$m['width'].'" height="'.$m['height'].'"/></div>';
+			}
+
+			if($m['layer_type'] == "Text")
+				$html .= $m['text'];
+
+			if($m['layer_type'] == "Video")
+				$html .= '<a class="sp-video" href="'.$m['video_url'].'"><img src="'.'./websites/'.$this->app->current_website_name."/".$m['image_id'].'" width="'.$m['width'].'" height="'.$m['height'].'" /></a>';
+
+			$html .= '</div>;';
 		}
 
 		return $html;

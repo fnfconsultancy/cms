@@ -135,8 +135,9 @@ class View_Theme extends \View{
 							
 							if($this->apply_theme_on_website_id){
 								$js_event =[
-										$form->js()->univ()->newWindow($this->protocol.$apply_theme_epan_name.".".$this->domain),
-										$form->js()->univ()->location($this->app->url($this->dashboard_page))
+										/* stopped jumping to new window and new website as this mislead them the process to login on epan.in and edit website */
+										// $form->js()->univ()->newWindow($this->protocol.$apply_theme_epan_name.".".$this->domain),
+										$form->js()->univ()->location($this->app->url($this->dashboard_page,['message'=>'New Epan Created, Visit or Edit from the below list']))
 									];
 							}else{
 								$js_event[] = $form->js()->univ()->location()->reload();
