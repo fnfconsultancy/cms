@@ -104,7 +104,7 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 			'thumbnailHeight'=> $this->category_model['thumbnail_height'],
 			'thumbnailPointer'=> ($this->category_model['thumbnail_pointer']?'true':'false'),
 			'thumbnailArrows'=> ($this->category_model['thumbnail_arrows']?'true':'false'),
-			'autoplay'=> ($this->category_model['autoplay']?'true':'false'),
+			'autoplay'=> ($this->category_model['autoplay']?true:false),
 			'autoScaleLayers'=> 'false',
 
 			'visibleSize'=>$this->category_model['visible_size'],
