@@ -96,22 +96,22 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 		$option_array = [
 			'width'=> (int)$this->category_model['width'],
 			'height'=> (int)$this->category_model['height'],
-			'arrows'=> ($this->category_model['show_arrows']?'true':'false'),
-			'buttons'=> ($this->category_model['show_buttons']?'true':'false'),
-			'loop' => 'true',
-			'waitForLayers'=> 'true',
+			'arrows'=> ($this->category_model['show_arrows']?true:false),
+			'buttons'=> ($this->category_model['show_buttons']?true:false),
+			'loop' => true,
+			'waitForLayers'=> true,
 			'thumbnailWidth'=> $this->category_model['thumbnail_width'],
 			'thumbnailHeight'=> $this->category_model['thumbnail_height'],
-			'thumbnailPointer'=> ($this->category_model['thumbnail_pointer']?'true':'false'),
-			'thumbnailArrows'=> ($this->category_model['thumbnail_arrows']?'true':'false'),
+			'thumbnailPointer'=> ($this->category_model['thumbnail_pointer']?true:false),
+			'thumbnailArrows'=> ($this->category_model['thumbnail_arrows']?true:false),
 			'autoplay'=> ($this->category_model['autoplay']?true:false),
-			'autoScaleLayers'=> 'false',
+			'autoScaleLayers'=> false,
 
 			'visibleSize'=>$this->category_model['visible_size'],
 			'forceSize'=>$this->category_model['force_size'],
-			'autoSlideSize'=>($this->category_model['auto_slide_size']?'true':'false'),
-			'autoHeight'=>($this->category_model['auto_height']?'true':'false'),
-			'fullScreen'=>($this->category_model['full_screen']?'true':'false'),
+			'autoSlideSize'=>($this->category_model['auto_slide_size']?true:false),
+			'autoHeight'=>($this->category_model['auto_height']?true:false),
+			'fullScreen'=>($this->category_model['full_screen']?true:false),
 			
 			'breakpoints'=> [
 				'500'=> [
