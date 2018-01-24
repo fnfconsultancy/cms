@@ -66,8 +66,12 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		
 		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
 		
-		$master = $this->add('xepan\cms\Model_CarouselCategory');
-		$master->load($this['carousel_category_id'])->updateJsonFile();
+		try{
+			$master = $this->add('xepan\cms\Model_CarouselCategory');
+			$master->load($this['carousel_category_id'])->updateJsonFile();
+		}catch(\Exception $e){
+			
+		}
 	}
 
 
