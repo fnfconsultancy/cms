@@ -55,6 +55,6 @@ class page_carouselimage extends \xepan\base\Page{
         $image_c->grid->addQuickSearch(['title','file_id']);
         // $image_c->js('reload',$this->js()->univ()->location());
         
-        $image_c->grid->addFormatter('link','wrap');
+        // $image_c->grid->addFormatter('link','wrap');
     }
 }
