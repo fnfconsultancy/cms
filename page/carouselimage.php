@@ -33,15 +33,14 @@ class page_carouselimage extends \xepan\base\Page{
                 'alt_text'=>'c4~4',
                 'order'=>'c5~4',
                 'link'=>'c6~4',
-                
                 'slide_type'=>'Slide Info~c11~4',
                 'created_at'=>'c12~4',
                 'status'=>'c13~4',
 
 
             ]);
-        $all_fields = $image_m->getActualFields();
-        $image_c->setModel($image_m,$all_fields,['file_id','title','order','slide_type','created_at','status']);
+        // $all_fields = $image_m->getActualFields();
+        $image_c->setModel($image_m,null,['file_id','title','order','slide_type','created_at','status']);
         $image_c->grid->removeColumn('status');
         $image_c->grid->removeAttachment();
         $image_c->addButton('Carousel Category')->addClass('btn btn-primary')->js('click')->univ()->location('xepan_cms_carousel');
