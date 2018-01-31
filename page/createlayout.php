@@ -2,6 +2,7 @@
 
 namespace xepan\cms;
 use \Nette\Utils\Image;
+
 class page_createlayout extends \Page{
 
 	function page_index(){
@@ -44,6 +45,10 @@ class page_createlayout extends \Page{
 			echo json_encode($return);
 			exit;
 		}
+
+		// remove template/current website specific path, each website adds its path at run time already
+		$domain = 'websites/'.$this->app->current_website_name.'/www/';
+		$file_content = str_replace($domain, '', $file_content);
 
 		$fs = \Nette\Utils\FileSystem::write('./websites/'.$this->app->current_website_name.'/www/'.$folder_name.'/'.$file_name,$file_content);
 		
