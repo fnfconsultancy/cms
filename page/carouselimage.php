@@ -21,7 +21,27 @@ class page_carouselimage extends \xepan\base\Page{
         $image_m = $this->add('xepan\cms\Model_CarouselImage');
         $image_m->addCondition('carousel_category_id',$category_id);
         $image_c = $this->add('xepan\hr\CRUD');
-        $image_c->setModel($image_m,['file_id','title','text_to_display','alt_text','order','link','slide_type','created_at','status']);
+        $form = $image_c->form;
+        $form->add('xepan\base\Controller_FLC')
+        ->showLables(true)
+        ->addContentSpot()
+        // ->makePanelsCoppalsible(true)
+        ->layout([
+                'file_id~Attach Image'=>'Carousel Image Details~c1~6',
+                'title'=>'c2~6',
+                'text_to_display'=>'c3~12',
+                'alt_text'=>'c4~4',
+                'order'=>'c5~4',
+                'link'=>'c6~4',
+                
+                'slide_type'=>'Slide Info~c11~4',
+                'created_at'=>'c12~4',
+                'status'=>'c13~4',
+
+
+            ]);
+        $all_fields = $image_m->getActualFields();
+        $image_c->setModel($image_m,$all_fields,['file_id','title','order','slide_type','created_at','status']);
         $image_c->grid->removeColumn('status');
         $image_c->grid->removeAttachment();
         $image_c->addButton('Carousel Category')->addClass('btn btn-primary')->js('click')->univ()->location('xepan_cms_carousel');
