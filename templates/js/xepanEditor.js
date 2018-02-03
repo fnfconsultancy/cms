@@ -32,6 +32,21 @@ jQuery.widget("ui.xepanEditor",{
 		}else{
 			$('.xepan-page-wrapper').addClass('xepan-component');
 			$('.xepan-page-wrapper').addClass('xepan-sortable-component');
+		}
+
+
+		self.setupEnvironment();
+		self.setupTools();
+		// self.setupToolbar();
+		self.setUpShortCuts();
+		self.setupEditableText();
+		self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
+
+		$(self.options.component_selector).each(function(index, el) {
+			$(el).xepanComponent({editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id});
+		});
+
+		if(!self.options.template_editing){
 			$('body .xepan-component:not(.xepan-page-wrapper):not(.xepan-page-wrapper .xepan-component)')
 			.dblclick(function(ev) {
 				console.log($(this));	
@@ -49,20 +64,9 @@ jQuery.widget("ui.xepanEditor",{
 						}
 					}
 				});
-			});;
+			});
 		}
 
-
-		self.setupEnvironment();
-		self.setupTools();
-		// self.setupToolbar();
-		self.setUpShortCuts();
-		self.setupEditableText();
-		self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
-
-		$(self.options.component_selector).each(function(index, el) {
-			$(el).xepanComponent({editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id});
-		});
 	},
 
 	setupEnvironment: function(){
@@ -603,7 +607,6 @@ jQuery.widget("ui.xepanEditor",{
 	    $(html_body).find('.xepan-component').removeClass('xepan-sortable-extra-padding');
 
 	    html_body = encodeURIComponent($.trim($(html_body).html()));
-
 
 	    html_crc = crc32(html_body);
 
