@@ -586,8 +586,6 @@
     margin: 20px 0px !important;
 }
 
-.ui-widget-overlay,
-.ui-colorpicker
-{
-    z-index: 99999999 !important;
+.ui-colorpicker.ui-colorpicker-dialog + .ui-widget-overlay{
+    z-index:9999999 !important;
 }
