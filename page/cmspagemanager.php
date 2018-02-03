@@ -72,9 +72,9 @@ class page_cmspagemanager extends \xepan\base\Page{
 		$crud->grid->addFormatter('live_edit_page','live_edit_page');
 		/*END Live Edit Page */
 
-		$epan = $this->add('xepan\epanservices\Model_Epan')->load($this->app->epan->id);
-		$extra_info = json_decode($epan['extra_info'],true);
 
+		$epan = $this->add('xepan\base\Model_Epan')->load($this->app->epan->id);
+		$extra_info = json_decode($epan['extra_info'],true);
 		$form = $meta_tab->add('Form');
 		$form->add('xepan\base\Controller_FLC')
 			->layout([
@@ -88,7 +88,6 @@ class page_cmspagemanager extends \xepan\base\Page{
 		$form->addField('text','meta_description')->set($extra_info['meta_description'])->addClass('xepan-push');
 		$form->addField('text','after_body_code')->set($extra_info['after_body_code'])->addClass('xepan-push');
 		$form->addSubmit('Save')->addClass('btn btn-primary btn-block');
-
 		if($form->isSubmitted()){
 			$extra_info['title'] = $form['title']; 
 			$extra_info['meta_keyword'] = $form['meta_keyword'];

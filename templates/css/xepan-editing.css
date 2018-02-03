@@ -585,3 +585,7 @@
     display: block;
     margin: 20px 0px !important;
 }
+
+.ui-colorpicker.ui-colorpicker-dialog + .ui-widget-overlay{
+    z-index:9999999 !important;
+}
