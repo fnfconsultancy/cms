@@ -2,28 +2,28 @@
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_CustomForm" class="xepan-tool-options">
   <table class="table-condensed table-hover xepan-cms-tool-table">
     <tr>
-      <div class="xepan-tool-option">
+      <td class="xepan-tool-option-title">Custom Form</td>
+      <td>
+        <div class="btn btn-primary btn-sm xepan-manage-customform-btn">Manage Forms</div>
+      </td>
+    </tr>
+    <tr>
         <td class="xepan-tool-option-title">Custom Form</td>
         <td class="xepan-tool-option-value">
           <select id="custom_form_{$id}" data-attr="customformid"></select>
         </td>
-      </div>
     </tr>
     <tr>
-      <div class="xepan-tool-option">
         <td class="xepan-tool-option-title">Custom Template</td>
         <td class="xepan-tool-option-value"> 
           <input id="custom_form_layout" data-attr="template"/>
         </td>
-      </div>
     </tr>
     <tr>
-      <div class="xepan-tool-option">
         <td class="xepan-tool-option-title">Success URL</td>
         <td class="xepan-tool-option-value"> 
           <input id="custom-form-sucess-url" data-attr="custom_form_success_url" data-shortname="success_url"/>
         </td>
-      </div>
     </tr>
   </table>
   <script>
@@ -50,5 +50,10 @@
     			}
     	});
     });
+
+    $('.xepan-manage-customform-btn').click(function(event) {
+      $.univ().frameURL('Custom Forms','index.php?page=xepan_cms_customform&cut_page=1');
+    });
+
   </script>
 </div>
