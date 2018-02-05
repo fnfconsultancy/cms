@@ -602,8 +602,8 @@ jQuery.widget("ui.xepanEditor",{
 	    $(html_body).find('.xepan-component').removeClass('xepan-selected-component');
 	    $(html_body).find('.xepan-component').removeClass('xepan-sortable-extra-padding');
 
-	    // html_body = encodeURIComponent($.trim($(html_body).html()));
-	    html_body = ($.trim($(html_body).html()));
+	    html_body = encodeURIComponent($.trim($(html_body).html()));
+	    // html_body = ($.trim($(html_body).html()));
 
 
 	    html_crc = crc32(html_body);
