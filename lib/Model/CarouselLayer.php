@@ -30,22 +30,38 @@ class Model_CarouselLayer extends \xepan\base\Model_Table{
 		$this->addField('show_offset')->hint('Sets an offset for the position of the layer from which the layer will be animated towards the final position when it appears in the slide. Needs to be set to a fixed value.');
 		$this->addField('hide_offset')->hint('Sets an offset for the position of the layer towards which the layer will be animated from the original position when it disappears from the slide. Needs to be set to a fixed value.');
 		$this->addField('hide_delay')->hint('Sets a delay for the hide transition.');
-		$this->addField('show_duration')->type('int')->hint('Sets the duration of the show transition.');
-		$this->addField('hide_duration')->type('int')->hint('Sets the duration of the hide transition.');
+		$this->addField('show_duration')->type('int')->hint('Sets the duration of the show transition.')->defaultValue(50);
+		$this->addField('hide_duration')->type('int')->hint('Sets the duration of the hide transition.')->defaultValue(50);
 
 		$this->addField('is_static')->type('boolean')->hint('Sets the layer to be visible all the time, not animated.');
 
 		$this->addField('layer_class')->hint('sp-white, sp-black, sp-padding, sp-rounded');
 		$this->addField('position')->enum(['topLeft','topCenter','topRight','bottomLeft','bottomCenter','bottomRight','centerLeft','centerRight','centerCenter'])->hint('Sets the position of the layer. Can be set to topLeft (which is the default value), topCenter, topRight, bottomLeft, bottomCenter, bottomRight, centerLeft, centerRight and centerCenter.');
 
-		$this->addField('width')->type('int')->hint('Sets the width of the layer. Can be set to a fixed or percentage value. If it\'s not set, the layer\'s width will adapt to the width of the inner content.');
-		$this->addField('height')->type('int')->hint('Sets the height of the layer. Can be set to a fixed or percentage value. If it\'s not set, the layer\'s height will adapt to the height of the inner content.');
-		$this->addField('depth')->type('int')->hint('Sets the depth (z-index, in CSS terms) of the layer.');
+		$this->addField('width')->type('int')->hint('Sets the width of the layer. Can be set to a fixed or percentage value. If it\'s not set, the layer\'s width will adapt to the width of the inner content.')->defaultValue(100);
+		$this->addField('height')->type('int')->hint('Sets the height of the layer. Can be set to a fixed or percentage value. If it\'s not set, the layer\'s height will adapt to the height of the inner content.')->defaultValue(50);
+		$this->addField('depth')->type('int')->hint('Sets the depth (z-index, in CSS terms) of the layer.')->defaultValue(10);
 
 		$this->addField('type');
 		$this->addCondition('type','CarouselLayer');
 
 		$this->addField('status')->enum(['Active','Inactive'])->defaultValue('Active');
 		$this->add('dynamic_model/Controller_AutoCreator');
+
+		$this->addExpression('category_id')->set($this->refSQL('carousel_image_id')->fieldQuery('carousel_category_id'));
+
+		$this->addHook('afterSave',[$this,'updateJsonFile']);
+	}
+
+	function updateJsonFile(){
+
+		if(isset($this->app->skipDefaultTemplateJsonUpdate) && $this->app->skipDefaultTemplateJsonUpdate) return;
+		
+		try{
+			$master = $this->add('xepan\cms\Model_CarouselCategory');
+			$master->load($this['category_id'])->updateJsonFile();
+		}catch(\Exception $e){
+			
+		}
 	}
 }

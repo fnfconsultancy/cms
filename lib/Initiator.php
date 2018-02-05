@@ -351,18 +351,21 @@ class Initiator extends \Controller_Addon {
 
     function themeApplied($app){
         $path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name."/www/layout";
-        
-        $this->app->skipDefaultTemplateJsonUpdate = true;
 
+        $this->app->skipDefaultTemplateJsonUpdate = true;
         $layouts = $this->add('xepan/cms/Model_Layout',['path'=>$path]);
         foreach($layouts as $l) {
             if(!strpos($l['name'], ".json")) continue;
 
             $data = \Nette\Utils\FileSystem::read($l->path());
             $name = 'import'.str_replace(".json", "", $l['name']);
-            $this->$name(json_decode($data,true));
+            try{
+                $this->$name(json_decode($data,true));
+            }catch(\Exception $e){
+                throw $e;
+                if($this->app->db->inTransaction()) $this->app->db->rollback();
+            }
         }
-
     }
 
     // import from json file to database
@@ -371,23 +374,38 @@ class Initiator extends \Controller_Addon {
         foreach ($data as $category) {
            $m = $this->add('xepan\cms\Model_CarouselCategory');
            $m->addCondition('name',$category['name']);
+           $m->addCondition('layout',$category['layout']);
            $m->tryLoadAny();
            if($m->loaded()) continue;
 
-           $m['status'] = $category['status'];
+           unset($category['created_by_id']);
+           unset($category['created_at']);
+           unset($category['id']);
+
+           $m->set($category);
            $m->save();
 
            foreach ($category['images'] as $key => $image) {
-                $fields = $this->add('xepan\cms\Model_CarouselImage');
-                $fields['carousel_category_id'] = $m->id;
-                $fields['name'] = $image['title'];
-                $fields['text_to_display'] = $image['text_to_display'];
-                $fields['alt_text'] = $image['alt_text'];
-                $fields['order'] = $image['order'];
-                $fields['link'] = $image['link'];
-                $fields['status'] = $image['status'];
-                $fields['file_id'] = $image['file_id'];
-                $fields->save();
+                $img = $this->add('xepan\cms\Model_CarouselImage');
+                $img['carousel_category_id'] = $m->id;
+                $img['title'] = $image['title'];
+                $img['text_to_display'] = $image['text_to_display'];
+                $img['alt_text'] = $image['alt_text'];
+                $img['order'] = $image['order'];
+                $img['link'] = $image['link'];
+                $img['status'] = $image['status'];
+                $img['file_id'] = $image['file_id'];
+                $img['slide_type'] = $image['slide_type'];
+                $img->save();
+
+                foreach ($image['layers'] as $key => $value){
+                    unset($value['id']);
+                    $value['carousel_image_id'] = $img->id;
+                    $layers = $this->add('xepan\cms\Model_CarouselLayer');
+                    $layers->set($value);
+                    $layers->save();
+                }
+
            }
         }
     }
@@ -453,7 +471,6 @@ class Initiator extends \Controller_Addon {
     }
 
     function importwebpage($data){
-
         foreach ($data as $webpage) {
             $web = $this->add('xepan\cms\Model_Webpage');
             $web->addCondition('name',$webpage['name']);

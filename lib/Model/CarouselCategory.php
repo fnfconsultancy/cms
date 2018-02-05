@@ -19,7 +19,7 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 		$this->addField('status')->enum(['Active','InActive'])->defaultValue('Active');
 		$this->addField('created_at')->type('datetime')->defaultValue($this->app->now);
 
-		$this->addField('layout')->enum(['highlighted-horizontal-text','multislide','highlighted-horizontal-thumbnail','mixed-video','highlighted-vertical-thumbnail']);
+		$this->addField('layout')->enum(['highlighted-horizontal-text','multislide','highlighted-horizontal-thumbnail','mixed-video','highlighted-vertical-thumbnail'])->defaultValue('highlighted-horizontal-text');
 
 		$this->addField('width')->type('int')->defaultValue(960);
 		$this->addField('height')->type('int')->defaultValue(500);
@@ -51,8 +51,7 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 		$this->addHook('beforeDelete',$this);
 
 		$this->is([
-				'name|to_trim|required',
-				'layout|required'
+				'name|to_trim|required'
 			]);
 	}
 
@@ -98,8 +97,17 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 			$images = $this->add('xepan\cms\Model_CarouselImage');
 			$images->addCondition('carousel_category_id',$cat['id']);
 			$cat['images'] = $images->getRows();
+
+			foreach ($cat['images'] as &$img_data) {
+				$layers = $this->add('xepan\cms\Model_CarouselLayer');
+				$layers->addCondition('carousel_image_id',$img_data['id']);
+				$img_data['layers'] = $layers->getRows();
+			}
 		}
 
+		echo "<pre>";
+		print_r($cat);
+		echo "</pre>";
 		$file_content = json_encode($cats);
 		$fs = \Nette\Utils\FileSystem::write('./websites/'.$this->app->current_website_name.'/www/layout/carousel.json',$file_content);
 	}
