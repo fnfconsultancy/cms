@@ -25,12 +25,12 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 		if($this->owner instanceof \AbstractController) return;
 
 		if(!$this->options['slideshow_type']){
-			$this->add('View')->set('Please Select Slide Show Type');
+			$this->add('View')->set('Please Select Slide Show Type')->addClass('alert alert-info');
 			return;
 		}
 
 		if(!$this->options['carousel_category']){
-			$this->add('View')->set('Please Select Carousel Category');
+			$this->add('View')->set('Please Select Slide Show Category')->addClass('alert alert-info');
 			return;
 		}
 

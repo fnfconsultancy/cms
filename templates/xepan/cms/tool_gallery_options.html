@@ -6,6 +6,11 @@
         <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
         <div id="show-hide-gallery-option" class="xepan-cms-tools-bar-panel row-fluid collapse in">
           <table class="table table-condensed table-hover xepan-cms-tool-table">
+            <tr>
+              <td colspan="2">
+                <div class="btn btn-primary btn-sm xepan-manage-gallery-btn">Manage Gallery</div>
+              </td>
+            </tr>
             <tr class="xepan-tool-option">
               <td class="xepan-tool-option-title">Gallery Type</td>
               <td class="xepan-tool-option-value">
@@ -100,6 +105,16 @@
     		
     		$(this).val(default_value);
     	});
+    });
+
+    $('.xepan-manage-gallery-btn').click(function(event) {
+      $.univ().frameURL(
+        'Manage Image Gallery',
+        'index.php?page=xepan_cms_gallery&cut_page=1',
+        null,
+        function(events){
+          $('.xepan-document-actions .dropdown-toggle').dropdown('toggle');
+        });
     });
   </script>
 </div>
