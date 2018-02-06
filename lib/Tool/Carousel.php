@@ -14,8 +14,12 @@ class Tool_Carousel extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
-		if(!$this->options['carousel_category'])			
+		if($this->owner instanceof \AbstractController) return;
+
+		if(!$this->options['carousel_category']){
+			$this->add('View')->addClass('alert alert-info')->set('Please Select Carousel Category');
 			return;
+		}		
 		
 		$image_m = $this->add('xepan\cms\Model_CarouselImage');
 		$image_m->addCondition([['carousel_category_id',$this->options['carousel_category']],['carousel_category',$this->options['carousel_category']]]);

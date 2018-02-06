@@ -52,7 +52,13 @@
     });
 
     $('.xepan-manage-customform-btn').click(function(event) {
-      $.univ().frameURL('Custom Forms','index.php?page=xepan_cms_customform&cut_page=1');
+      $.univ().frameURL(
+        'Custom Forms',
+        'index.php?page=xepan_cms_customform&cut_page=1',
+        null,
+        function(events){
+          $('.dropdown-toggle').dropdown('toggle');
+        });
     });
 
   </script>
