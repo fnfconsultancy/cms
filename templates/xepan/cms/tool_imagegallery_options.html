@@ -1,8 +1,12 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_ImageGallery" class="xepan-tool-options">
   <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <td colspan="2">
+        <div class="btn btn-primary btn-sm xepan-manage-gallery-btn">Manage Gallery</div>
+      </td>
+    </tr>
     <tr class="show-text">
-      <div class="xepan-tool-option">
         <td class="xepan-tool-option-title">Show Title</td>
         <td class="xepan-tool-option-value"> 
           <select id="show_title" data-attr="show_title" data-defaultvalue="true">
@@ -10,10 +14,8 @@
             <option value="false">No</option>
           </select>
         </td>
-      </div>
     </tr>
     <tr class="show-description">
-      <div class="xepan-tool-option">		
         <td class="xepan-tool-option-title">Show Description</td>
         <td class="xepan-tool-option-value">
           <select id="show_title" data-attr="show_description" data-defaultvalue="true">
@@ -21,15 +23,12 @@
             <option value="false">No</option>
           </select>
         </td>
-      </div>
     </tr>
     <tr class="category">
-      <div class="xepan-tool-option">
         <td class="xepan-tool-option-title">Category</td>
         <td colspan="2" class="xepan-tool-option-value">
           <select id="{$_name}_dropdown" style="width:100%;" data-attr="img_gallery_category" class="chosen-select option-category"></select>
         </td>
-      </div>
     </tr>
   </table>
   <script>
@@ -51,6 +50,16 @@
     	$('#{$_name} [data-attr]').each(function(index,value){
     		$(this).val($(current_selected_component).attr($(this).data('attr')));				
     	});
+    });
+
+    $('.xepan-manage-gallery-btn').click(function(event) {
+      $.univ().frameURL(
+        'Manage Image Gallery',
+        'index.php?page=xepan_cms_gallery&cut_page=1',
+        null,
+        function(events){
+          $('.dropdown-toggle').dropdown('toggle');
+        });
     });
   </script>
 </div>

@@ -1,6 +1,11 @@
 
 <div id="{$_name}" style="display:none" for-xepan-component="xepan/cms/Tool_AwesomeSlider" class="xepan-tool-options">
   <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr>
+      <td colspan="2">
+        <div class="btn btn-primary btn-sm xepan-manage-gallery-btn">Manage Gallery</div>
+      </td>
+    </tr>
     <tr class="category">
       <td class="xepan-tool-option-title">Gallery</td>
       <td colspan="2" class="xepan-tool-option-value">
@@ -80,5 +85,15 @@
     //- $('#AwesomeSlider_Paginator-pos').change(function(event) {
     //- 	$(current_selected_component).find('.nivo-controlNav').addClass($(current_selected_component).attr('paginator-position'));
     //- });
+    $('.xepan-manage-gallery-btn').click(function(event) {
+      $.univ().frameURL(
+        'Manage Image Gallery',
+        'index.php?page=xepan_cms_gallery&cut_page=1',
+        null,
+        function(events){
+          $('.dropdown-toggle').dropdown('toggle');
+        });
+    });
+    
   </script>
 </div>
