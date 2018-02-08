@@ -89,6 +89,12 @@ class View_ToolBar extends \View {
 
 		// theme layout
 		$layout_folder_list = ['themelayout','customlayout'];
+
+		$this->pq = $pq = new phpQuery();
+		
+		$domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www';
+		$rel_path = 'websites/'.$this->app->current_website_name.'/www/';
+
 		foreach ($layout_folder_list as $key => $folder_name) {
 			$absolute_theme_path = $this->api->pathfinder->base_location->base_path.'/websites/'.$this->app->current_website_name.'/www/'.$folder_name.'/';
 			$theme_path = '/'.$folder_name.'/';
@@ -108,14 +114,25 @@ class View_ToolBar extends \View {
 				}else{
 					$icon_img = '';
 				}
-				
+
+				$layout_html = $t_v->getHTML();
+				$layout_html = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$rel_path.'$1)', $layout_html);
+				$dom = $pq->newDocument($layout_html);
+
+				foreach ($dom['img']->not('[src^="http"]')->not('[src^="data:"]')->not('[src^="websites/'.$this->app->current_website_name.'"')->not('[src^="vendor/"]') as $img) {
+					$img= $this->pq->pq($img);
+					$img->attr('src',$rel_path.$img->attr('src'));
+				}
+
+				$layout_html = $dom->html();
+
 				// continue;
 				$tools_array['Layouts'][] = [
 												'name'=>$file_name,
 												'is_serverside'=>$t_v->runatServer,
 												'tool'=>'xepan/cms/Tool_Layout',
 												'category'=>$folder_name,
-												'drop_html'=>$t_v->getHTML(),
+												'drop_html'=>$layout_html,
 												'option_html'=>$t_option_v->getHTML(),
 												'icon_img'=>$icon_img
 												// 'icon_img'=>$theme_path.'/'.str_replace(".html", ".png", $l['name'])
