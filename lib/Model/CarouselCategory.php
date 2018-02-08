@@ -104,10 +104,7 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 				$img_data['layers'] = $layers->getRows();
 			}
 		}
-
-		echo "<pre>";
-		print_r($cat);
-		echo "</pre>";
+		
 		$file_content = json_encode($cats);
 		$fs = \Nette\Utils\FileSystem::write('./websites/'.$this->app->current_website_name.'/www/layout/carousel.json',$file_content);
 	}
