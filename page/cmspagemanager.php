@@ -15,6 +15,7 @@ class page_cmspagemanager extends \xepan\base\Page{
 		$page_tab = $tab->addTab('Page');
 		$temp_tab = $tab->addTab('Template');
 		$meta_tab = $tab->addTab('Default Meta Info');
+		$menu_tab = $tab->addTab('Menu Groups');
 		
 		// Website Template
 		$template = $temp_tab->add('xepan\cms\Model_Template');
@@ -99,6 +100,39 @@ class page_cmspagemanager extends \xepan\base\Page{
 			return $form->js()->univ()->successMessage('Done')->execute();
 		}
 
+		$menu_model = $this->add('xepan\cms\Model_MenuGroup');
+		$menu_crud = $menu_tab->add('xepan\hr\CRUD');
+
+		if($menu_crud->isEditing()){
+			$form = $menu_crud->form;
+			foreach ( $this->add('xepan\cms\Model_Page') as $page) {
+			 	$field = $form->addField('checkbox',$this->app->normalizeName($page['name']),$page['name']);
+			}
+		}
+
+		$menu_crud->addHook('formSubmit',function($c,$cf){
+			$pages = $cf->getAllFields();
+			foreach ($pages as $key => $value) {
+				if(!$value) unset($pages[$key]);
+			}
+			$cf->model->addHook('beforeSave',function($m)use($pages){
+				$m['pages'] = $pages;
+			});
+		});
+
+		$menu_crud->setModel($menu_model);
+
+		if($menu_crud->isEditing('edit')){
+			$form = $menu_crud->form;
+			foreach ( $this->add('xepan\cms\Model_Page') as $page) {
+
+				$page_name = $this->app->normalizeName($page['name']);
+
+			 	$field = $form->getElement($page_name);
+			 	if(isset($menu_crud->model['pages'][$page_name]))
+			 		$field->set(true);
+			}
+		}
 	}
 
 	function page_getpage(){
