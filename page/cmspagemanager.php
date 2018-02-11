@@ -102,34 +102,33 @@ class page_cmspagemanager extends \xepan\base\Page{
 
 		$menu_model = $this->add('xepan\cms\Model_MenuGroup');
 		$menu_crud = $menu_tab->add('xepan\hr\CRUD');
-
+		
 		if($menu_crud->isEditing()){
 			$form = $menu_crud->form;
 			foreach ( $this->add('xepan\cms\Model_Page') as $page) {
 			 	$field = $form->addField('checkbox',$this->app->normalizeName($page['name']),$page['name']);
 			}
 		}
-
+		
 		$menu_crud->addHook('formSubmit',function($c,$cf){
-			$pages = $cf->getAllFields();
-			foreach ($pages as $key => $value) {
-				if(!$value) unset($pages[$key]);
-			}
-			$cf->model->addHook('beforeSave',function($m)use($pages){
-				$m['pages'] = $pages;
-			});
+			$temp = $cf->getAllFields();
+			$cf->model['name'] = $temp['name'];
+			unset($temp['name']);
+			$cf->model['pages'] = $temp;
+			$cf->model->save();
+			return true; // do not proceed with default crud form submit behaviour
 		});
-
+		
 		$menu_crud->setModel($menu_model);
+		
+
 
 		if($menu_crud->isEditing('edit')){
 			$form = $menu_crud->form;
 			foreach ( $this->add('xepan\cms\Model_Page') as $page) {
-
 				$page_name = $this->app->normalizeName($page['name']);
-
 			 	$field = $form->getElement($page_name);
-			 	if(isset($menu_crud->model['pages'][$page_name]))
+			 	if(isset($menu_crud->model['pages'][$page_name]) && $menu_crud->model['pages'][$page_name])
 			 		$field->set(true);
 			}
 		}
@@ -140,9 +139,14 @@ class page_cmspagemanager extends \xepan\base\Page{
 		$page = $this->add('xepan\cms\Model_Page')
             	->addCondition('is_active',true)
             	;
+        if($gid = $_GET['group_id']){
+        	$mg = $this->add('xepan\cms\Model_MenuGroup');
+        	$mg->load($gid);
+        }
         $drop_down = "";
         // $drop_down = '<ul class="dropdown-menu">';
         foreach ($page as $p) {
+        	if($gid && !in_array($this->app->normalizeName($p['name']), array_keys($mg['pages']) )) continue;
             $url = $this->app->url($p['path']);
             $drop_down .= '<li><a href="(string)$url">'.$p['name'].'</a></li>';
         }
