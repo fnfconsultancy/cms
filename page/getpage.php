@@ -4,8 +4,13 @@ namespace xepan\cms;
 
 class page_getpage extends \Page{
 
-	function init(){
-		parent::init();
+	function page_index(){
+
+		if($this->groupid = $_GET['group_id']){
+        	$this->mg = $this->add('xepan\cms\Model_MenuGroup');
+        	$this->mg->load($this->groupid);
+        }
+
 
 		$pages = [];
 		$root_page = $this->add('xepan\cms\Model_Page');
@@ -16,6 +21,8 @@ class page_getpage extends \Page{
 				;
 
 		foreach ($root_page as $parent_page) {
+			if($this->groupid && !$this->mg['pages'][$this->app->normalizeName($parent_page['name'])]) continue;
+
 			$pages["".str_replace(".html", "", $parent_page['path'])] = [
 									'name'=>$parent_page['name'],
 									// 'template_path'=>$parent_page['template_path'],
@@ -42,6 +49,9 @@ class page_getpage extends \Page{
 							->setOrder('order')
 							;
 			foreach ($sub_pages as $junk_page) {
+
+				if($this->groupid && !$this->mg['pages'][$this->app->normalizeName($junk_page['name'])]) continue;
+
 				$output["".str_replace(".html", "", $junk_page['path'])] = [
 										'name'=>$junk_page['name'],
 										// 'template_path'=>$junk_page['template_path'],
@@ -53,6 +63,17 @@ class page_getpage extends \Page{
 		}
 
 		return $output;
+	}
+
+	function page_allmenugroup(){
+		
+		$lists = $this->add('xepan\cms\Model_MenuGroup');
+		$option = "<option value='0'>Please Select </option>";
+		foreach ($lists as $list) {
+			$option .= "<option value='".$list['id']."'>".$list['name']."</option>";
+		}
+		echo $option;
+		exit;
 	}
 
 }

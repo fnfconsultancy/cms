@@ -17,6 +17,15 @@
         <input id="xbmenu-logo-src" type="text" disabled="true" data-attr="xbmenu-logo-src" style="width:100%;"/>
       </td>
     </tr>
+    <tr class="menugroup">
+        <td class="xepan-tool-option-title">Menu Group</td>
+        <td colspan="2" class="xepan-tool-option-value">
+          <select id="{$_name}_menu_group" data-attr="menu_group" default-value="0">
+
+          </select>
+        </td>
+    </tr>
+
     <tr>
       <td>Get Pages</td>
       <td>
@@ -65,6 +74,17 @@
     	});	
     
     	$('#{$_name}').find('.bnavbar-innersection-width').val($(current_selected_component).find('.navbar-inner-container').attr('inner-width'));
+
+        // get layout page
+        $.ajax({
+            url: 'index.php?page=xepan_cms_getpage_allmenugroup',
+            type: 'GET',
+            data: { },
+            success: function ( data ){
+                $('#{$_name}_menu_group').html(data);
+            }
+        });
+
     });
     
     //- brand name change value
@@ -196,7 +216,7 @@
     	$.ajax({
     		url: 'index.php?page=xepan_cms_getpage',
     		type: 'GET',
-    		data: { },
+    		data: {'group_id':$('#{$_name}_menu_group').val()},
     		success: function (data){
     			var pages = JSON.parse(data);
     			var list_html = "" ;

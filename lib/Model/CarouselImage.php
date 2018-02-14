@@ -23,7 +23,7 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
 		$this->addField('file_id')->display(['form'=>'xepan\base\ElImage']);
 		
 		$this->addField('title');
-		$this->addField('text_to_display')->display(['form'=>'xepan\base\RichText']);
+		$this->addField('text_to_display')->display(['form'=>'xepan\base\RichText'])->type('text');
 		$this->addField('alt_text');
 		$this->addField('order');
 		$this->addField('link');
