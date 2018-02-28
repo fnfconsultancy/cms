@@ -207,7 +207,10 @@ jQuery.widget("ui.xepanEditor",{
 				$.univ().errorMessage('Snapshots for Page Templates will be available soon');
 				return;
 			}
-			xepan_save_and_take_snapshot = true;
+			var snapshot_name = prompt("Please enter name for snapshot", Date());
+			if(snapshot_name == null ) snapshot_name = Date();
+
+			xepan_save_and_take_snapshot = snapshot_name;
 			$(self.element).xepanEditor('savePage');
 		});
 
@@ -635,7 +638,7 @@ jQuery.widget("ui.xepanEditor",{
 	        data: {
 	            body_html: html_body,
 	            body_attributes: encodeURIComponent($('body').attr('style')),
-	            take_snapshot: xepan_save_and_take_snapshot==true ? 'Y' : 'N',
+	            take_snapshot: xepan_save_and_take_snapshot==false ? 'N' : xepan_save_and_take_snapshot,
 	            crc32: html_crc,
 	            length: html_body.length,
 	            file_path: self.options.file_path,

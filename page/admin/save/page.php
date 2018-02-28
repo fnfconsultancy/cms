@@ -66,12 +66,13 @@ class page_admin_save_page extends \Page {
 
 		// $this->js()->univ()->errorMessage($this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/layout/')->execute();
 
-		if($_POST['take_snapshot']==='Y'){
+		if($_POST['take_snapshot'] !=='N'){
 			$snap = $this->add('xepan\cms\Model_Snapshots');
 			$snap['content']=$html_content;
 			$snap['page_url']=$_POST['file_path'];
 			$snap['page_id']=$_POST['webpage_id'];
 			$snap['created_by_id']=$this->add('xepan\base\Model_Contact')->loadLoggedIn(null,true)->get('id');
+			$snap['name']=$_POST['take_snapshot'];
 			$snap->save();
 		}
 

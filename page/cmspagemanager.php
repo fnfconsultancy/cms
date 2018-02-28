@@ -82,8 +82,8 @@ class page_cmspagemanager extends \xepan\base\Page{
 	          $m = $this->add('xepan\cms\Model_Snapshots')
 	          		->addCondition('page_id',$id)
 	          		->setOrder('created_at','desc');
-	          $c = $page->add('CRUD',['allow_add'=>false,'allow_edit'=>false]);
-	          $c->setModel($m,['created_at','page_url','page','content']);
+	          $c = $page->add('xepan\hr\CRUD',['allow_add'=>false]);
+	          $c->setModel($m,['name'],['name','created_at','page_url','page','content']);
 	          $c->grid->addColumn('Button','Revert');
 	          $c->grid->removeColumn('content');
 	          $c->grid->removeColumn('page_url');
