@@ -43,7 +43,7 @@ class page_cmspagemanager extends \xepan\base\Page{
 
 		// // Website Pages
 		$page = $page_tab->add('xepan\cms\Model_Page')
-					->setOrder(['parent_page_id','order'])
+					->setOrder(['parent_page_id','order','name'])
 					;
 		$crud = $page_tab->add('xepan\hr\CRUD');
 		$crud->form->add('xepan\base\Controller_FLC')
@@ -58,10 +58,22 @@ class page_cmspagemanager extends \xepan\base\Page{
 							'page_title'=>'Meta Info, Overrides Default Info~c1~12',
 							'meta_kewords'=>'c2~12',
 							'meta_description'=>'c3~12',
-							'after_body_code'=>'Any Code to insert after body tag~c1~12~Mainly used for analytical purpose'
+							'after_body_code'=>'Any Code to insert after body tag~c1~12~Mainly used for analytical purpose',
+							'is_secure'=>'Restricted Access~c1~3',
+							'secure_only_for'=>'c2~9~Only these types of user can access page',
 						]
 						);
-		$crud->setModel($page,['template_id','name','path','parent_page_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code','icon_class'],['template','name','parent_page','path','order','is_muted']);
+
+		$crud->setModel($page,['name','path','parent_page_id','template_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code','icon_class','is_secure','secure_only_for'],['name','parent_page','path','template','order','is_muted','is_secure']);
+		if($crud->isEditing()){
+			
+			$config_m = $page_tab->add('xepan\base\Model_Config_FrontendWebsiteStatus');
+			$config_m->tryLoadAny();
+			$f = $crud->form->getElement('secure_only_for');
+			$f->setAttr('multiple');
+			$f->setValueList(array_combine(explode(",", $config_m['system_contact_types']),explode(",", $config_m['system_contact_types'])));
+			$f->set(explode(",", $crud->form->model['secure_only_for']));
+		}
 
 		$crud->grid->addColumn('Button','live_edit_page');
 		$crud->grid->addMethod('format_live_edit_page',function($g,$f){
