@@ -1,6 +1,6 @@
 <?php
 
-namespace xepan\base;
+namespace xepan\cms;
 
 
 class Model_Config_FrontendWebsiteStatus extends \xepan\base\Model_ConfigJsonModel{
