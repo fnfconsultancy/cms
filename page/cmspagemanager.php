@@ -80,7 +80,8 @@ class page_cmspagemanager extends \xepan\base\Page{
 	      ->set(function($page){
 	          $id = $this->app->stickyGET($page->short_name.'_id');
 	          $m = $this->add('xepan\cms\Model_Snapshots')
-	          		->addCondition('page_id',$id);
+	          		->addCondition('page_id',$id)
+	          		->setOrder('created_at','desc');
 	          $c = $page->add('CRUD',['allow_add'=>false,'allow_edit'=>false]);
 	          $c->setModel($m,['created_at','page_url','page','content']);
 	          $c->grid->addColumn('Button','Revert');

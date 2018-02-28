@@ -203,6 +203,10 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		$(save_btn_with_snapshot).click(function(){
+			if(self.options.template_editing == true) {
+				$.univ().errorMessage('Snapshots for Page Templates will be available soon');
+				return;
+			}
 			xepan_save_and_take_snapshot = true;
 			$(self.element).xepanEditor('savePage');
 		});
