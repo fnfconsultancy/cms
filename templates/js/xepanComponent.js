@@ -181,9 +181,9 @@ jQuery.widget("ui.xepanComponent",{
 		this.hideComponentToolBar();
 		this.manageDynamicOptionsList();
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
-			current_selected_component=undefined;
 			$(xepan_editor_element).xepanEditor('hideOptions');
 		}
+		current_selected_component=$('body')[0];
 		$(this.element).removeClass('xepan-selected-component');
 		updateBreadCrumb();
 	},

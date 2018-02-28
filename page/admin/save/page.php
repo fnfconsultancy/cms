@@ -71,6 +71,7 @@ class page_admin_save_page extends \Page {
 		foreach ($old_dom['body'] as $one_body) {
 			// replace body with coming content 
 			$d=$pq->pq($one_body);
+			$d->attr('style',urldecode($_POST['body_attributes']));
 			$d->html($html_content);	
 		}
 

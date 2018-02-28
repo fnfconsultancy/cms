@@ -26,6 +26,9 @@ jQuery.widget("ui.xepanEditor",{
 
 	_create: function(){
 		var self = this;
+		current_selected_component = $('body');
+		console.log('current_selected_component');
+		console.log(current_selected_component);
 		xepan_editor_element = self.element;
 		xepan_component_selector = self.options.component_selector;
 		
@@ -208,8 +211,11 @@ jQuery.widget("ui.xepanEditor",{
 				$.univ().errorMessage('Snapshots for Page Templates will be available soon');
 				return;
 			}
-			var snapshot_name = prompt("Please enter name for snapshot", Date());
-			if(snapshot_name == null ) snapshot_name = Date();
+			var snapshot_name = prompt("Please enter name for snapshot, [Only Page Content snapshot will be saved, NOT PAGE TEMPLATE]", Date());
+			if(snapshot_name == null ) {
+				alert('Canceled, not saving page');
+				return;
+			}
 
 			xepan_save_and_take_snapshot = snapshot_name;
 			$(self.element).xepanEditor('savePage');
