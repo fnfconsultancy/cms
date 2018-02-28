@@ -4,6 +4,7 @@ xepan_drop_component_html= '';
 xepan_editor_element = null;
 xepan_component_selector = null;
 xepan_component_layout_optioned_added = false;
+xepan_save_and_take_snapshot=false;
 
 jQuery.widget("ui.xepanEditor",{
 	options:{
@@ -16,6 +17,7 @@ jQuery.widget("ui.xepanEditor",{
 		tools:{},
 		basic_properties: undefined,
 		component_selector: '.xepan-component',
+		webpage_id: undefined
 	},
 
 	topbar:{},
@@ -186,15 +188,22 @@ jQuery.widget("ui.xepanEditor",{
 		// var save_tool_bar = $('<div class="btn-toolbar-no-need" role="toolbar">').appendTo(self.editor_helper_wrapper);
 		var save_btn_group = $('<div class="btn-group btn-group-justified" role="group">').appendTo(self.editor_helper_wrapper);
 		// var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default btn-sm" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
-		var change_theme = $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Theme<span class="fa fa-web"></span></button></div>').appendTo(save_btn_group);
-		var save_btn = $('  <div class="btn-group btn-group-xs" role="group"><button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button></div>').appendTo(save_btn_group);
-		var logout_btn = $('  <div class="btn-group btn-group-xs" role="group"><button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button></div>').appendTo(save_btn_group);
+		var change_theme 			= $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Theme<span class="fa fa-web"></span></button></div>').appendTo(save_btn_group);
+		var save_btn 				= $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button></div>').appendTo(save_btn_group);
+		var save_btn_with_snapshot 	= $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-savepage-btn-with-snapshot" title="Save & Snapshot" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span>/<span class="fa fa-camera"></span></button></div>').appendTo(save_btn_group);
+		var logout_btn 				= $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button></div>').appendTo(save_btn_group);
 
 		$(change_theme).click(function(event) {
 			$.univ().frameURL('Change Template','index.php?page=xepan_cms_theme&cut_page=1');
 		});
 
 		$(save_btn).click(function(){
+			xepan_save_and_take_snapshot = false;
+			$(self.element).xepanEditor('savePage');
+		});
+
+		$(save_btn_with_snapshot).click(function(){
+			xepan_save_and_take_snapshot = true;
 			$(self.element).xepanEditor('savePage');
 		});
 
@@ -615,9 +624,6 @@ jQuery.widget("ui.xepanEditor",{
 
 	    $("body").css("cursor", "default");
 
-	    var save_and_take_snapshot='Y';
-
-
 	    $.ajax({
 	        url: this.options.save_url,
 	        type: 'POST',
@@ -625,11 +631,13 @@ jQuery.widget("ui.xepanEditor",{
 	        data: {
 	            body_html: html_body,
 	            body_attributes: encodeURIComponent($('body').attr('style')),
-	            take_snapshot: save_and_take_snapshot ? 'Y' : 'N',
+	            take_snapshot: xepan_save_and_take_snapshot==true ? 'Y' : 'N',
 	            crc32: html_crc,
 	            length: html_body.length,
 	            file_path: self.options.file_path,
-	            is_template: self.options.template_editing
+	            is_template: self.options.template_editing,
+	            page_name: self.options.current_page,
+	            webpage_id: self.options.webpage_id
 	        },
 	    })
 	    .done(function(message) {

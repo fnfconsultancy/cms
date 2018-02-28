@@ -153,7 +153,7 @@ class View_ToolBar extends \View {
 
 		$this->js(true)
 			// ->_load('xepanComponent')
-			->_load('xepanEditor')
+			// ->_load('xepanEditor')
 			->xepanEditor([
 				'base_url'=>$this->api->url()->absolute()->getBaseURL(),
 				'file_path'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->page_object->template->origin_filename):'false',
@@ -165,7 +165,8 @@ class View_ToolBar extends \View {
 				'basic_properties'=>$bs_view->getHTML(),
 				'component_selector'=>$component_selector,
 				'editor_id'=>$this->getJSID(),
-				'current_page'=> ucwords($this->app->xepan_cms_page['name'])
+				'current_page'=> ucwords($this->app->xepan_cms_page['name']),
+				'webpage_id'=> @$this->app->xepan_cms_page->id
 			]);
 
 		// Moved to xepanEditor.js
