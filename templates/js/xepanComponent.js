@@ -183,7 +183,7 @@ jQuery.widget("ui.xepanComponent",{
 		if(typeof current_selected_component !== 'undefined' && this.element == current_selected_component){
 			$(xepan_editor_element).xepanEditor('hideOptions');
 		}
-		current_selected_component=$('body')[0];
+		current_selected_component=$('body');
 		$(this.element).removeClass('xepan-selected-component');
 		updateBreadCrumb();
 	},

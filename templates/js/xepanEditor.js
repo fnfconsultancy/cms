@@ -27,8 +27,6 @@ jQuery.widget("ui.xepanEditor",{
 	_create: function(){
 		var self = this;
 		current_selected_component = $('body');
-		console.log('current_selected_component');
-		console.log(current_selected_component);
 		xepan_editor_element = self.element;
 		xepan_component_selector = self.options.component_selector;
 		
