@@ -67,7 +67,7 @@ class page_cmspagemanager extends \xepan\base\Page{
 		$crud->setModel($page,['name','path','parent_page_id','template_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code','icon_class','is_secure','secure_only_for'],['name','parent_page','path','template','order','is_muted','is_secure']);
 		if($crud->isEditing()){
 			
-			$config_m = $page_tab->add('xepan\base\Model_Config_FrontendWebsiteStatus');
+			$config_m = $page_tab->add('xepan\cms\Model_Config_FrontendWebsiteStatus');
 			$config_m->tryLoadAny();
 			$f = $crud->form->getElement('secure_only_for');
 			$f->setAttr('multiple');
