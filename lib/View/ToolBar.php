@@ -151,13 +151,15 @@ class View_ToolBar extends \View {
 			// $this->js(true)->_selector('.xepan-page-wrapper')->removeClass('xepan-component xepan-sortable-component');
 		}
 
+		$component_selector = '.xepan-component';
+
 		$this->js(true)
 			// ->_load('xepanComponent')
 			// ->_load('xepanEditor')
 			->xepanEditor([
 				'base_url'=>$this->api->url()->absolute()->getBaseURL(),
 				'file_path'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->page_object->template->origin_filename):'false',
-				'template_file'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->template->origin_filename):'false',
+				'template_file_path'=>$this->app->page_object instanceof \xepan\cms\page_cms?realpath($this->app->template->origin_filename):'false',
 				'template'=>$this->app->page_object instanceof \xepan\cms\page_cms?$this->app->template->template_file:'false',
 				'save_url'=> $this->api->url()->absolute()->getBaseURL().'?page=xepan/cms/admin/save_page&cut_page=1',
 				'template_editing'=> isset($this->app->editing_template),
