@@ -25,6 +25,11 @@ class Model_Snapshots extends \xepan\base\Model_Table{
 		$this->addField('content')->type('text');
 		$this->addField('page_url');
 
+		$this->add('misc/Field_Callback','page')->set(function($m){
+ 			$file = str_replace($this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/www/', '', $m['page_url']);
+ 			return $file;
+		});
+
 	}
 
 }
