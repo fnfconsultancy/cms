@@ -266,7 +266,7 @@ class Initiator extends \Controller_Addon {
     }
 
     function isSiteOffline(){
-        $config_m = $this->add('xepan\base\Model_Config_FrontendWebsiteStatus');
+        $config_m = $this->add('xepan\cms\Model_Config_FrontendWebsiteStatus');
         $config_m->tryLoadAny();
 
         if(!$config_m['site_offline']) return false;

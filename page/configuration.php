@@ -8,7 +8,7 @@ class page_configuration extends \xepan\base\Page{
 	function init(){
 		parent::init();
 
-		$config_m = $this->add('xepan\base\Model_Config_FrontendWebsiteStatus');
+		$config_m = $this->add('xepan\cms\Model_Config_FrontendWebsiteStatus');
 		$config_m->add('xepan\hr\Controller_ACL');
 		$config_m->tryLoadAny();
 
