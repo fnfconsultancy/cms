@@ -39,7 +39,7 @@ class page_cms extends \Page {
 			if(!$allowed){
 				$config_m = $this->add('xepan\cms\Model_Config_FrontendWebsiteStatus');
 				$config_m->tryLoadAny();
-				$this->app->redirect($this->app->url($config_m['default_login_page']?:'/'));
+				$this->app->redirect($this->app->url($config_m['default_login_page']?:'xepan_cms_login'));
 			}
 
 		}

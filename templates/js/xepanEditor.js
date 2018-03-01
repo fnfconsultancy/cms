@@ -10,14 +10,15 @@ jQuery.widget("ui.xepanEditor",{
 	options:{
 		base_url:undefined,
 		file_path:undefined,
-		template_file:undefined,
+		template_file_path:undefined,
 		template:undefined,
 		save_url:undefined,
 		template_editing:undefined,
 		tools:{},
 		basic_properties: undefined,
 		component_selector: '.xepan-component',
-		webpage_id: undefined
+		webpage_id: undefined,
+		webtemplate_id: undefined
 	},
 
 	topbar:{},
@@ -26,34 +27,36 @@ jQuery.widget("ui.xepanEditor",{
 
 	_create: function(){
 		var self = this;
+		current_selected_component = $('body');
 		xepan_editor_element = self.element;
 		xepan_component_selector = self.options.component_selector;
 		
-		if(self.options.template_editing){
-			$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
-		}else{
-			$('.xepan-page-wrapper').addClass('xepan-component');
-			$('.xepan-page-wrapper').addClass('xepan-sortable-component');
-			$('body .xepan-component:not(.xepan-page-wrapper):not(.xepan-page-wrapper .xepan-component)')
-			.dblclick(function(ev) {
-				console.log($(this));	
-				ev.preventDefault();ev.stopPropagation();
-				$('<div><div>This component is in common portion of all pages called "Page Template", To Edit this section plese open Pages in SideBar and click "EDIT PAGE TEMPLATE" Or Click "Edit Template Now" below</div>, <img src="vendor/xepan/cms/templates/images/page-template-hint.png"> <div>Enter in page Template Editing ?</div></div>')
-				.dialog({
-					modal: true,
-					width: 400,
-					buttons: {
-						"Edit Template Now" : function(){
-							$(self.element).xepanEditor('editTemplate');
-						},
-						Cancel: function(){
-							$( this ).dialog( "close" );
-						}
-					}
-				});
-			});;
-		}
+		// if(self.options.template_editing){
+		// 	$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
+		// }else{
+		// 	$('.xepan-page-wrapper').addClass('xepan-component');
+		// 	$('.xepan-page-wrapper').addClass('xepan-sortable-component');
+		// 	$('body .xepan-component:not(.xepan-page-wrapper):not(.xepan-page-wrapper .xepan-component)')
+		// 	.dblclick(function(ev) {
+		// 		console.log($(this));	
+		// 		ev.preventDefault();ev.stopPropagation();
+		// 		$('<div><div>This component is in common portion of all pages called "Page Template", To Edit this section plese open Pages in SideBar and click "EDIT PAGE TEMPLATE" Or Click "Edit Template Now" below</div>, <img src="vendor/xepan/cms/templates/images/page-template-hint.png"> <div>Enter in page Template Editing ?</div></div>')
+		// 		.dialog({
+		// 			modal: true,
+		// 			width: 400,
+		// 			buttons: {
+		// 				"Edit Template Now" : function(){
+		// 					$(self.element).xepanEditor('editTemplate');
+		// 				},
+		// 				Cancel: function(){
+		// 					$( this ).dialog( "close" );
+		// 				}
+		// 			}
+		// 		});
+		// 	});;
+		// }
 
+		// console.log(self.options);
 
 		self.setupEnvironment();
 		self.setupTools();
@@ -203,15 +206,15 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		$(save_btn_with_snapshot).click(function(){
-			if(self.options.template_editing == true) {
-				$.univ().errorMessage('Snapshots for Page Templates will be available soon');
+			var snapshot_name = prompt("Please enter name for snapshot, [Only Page Content snapshot will be saved, NOT PAGE TEMPLATE]", Date());
+			if(snapshot_name == null ) {
+				alert('Canceled, not saving page');
 				return;
 			}
-			var snapshot_name = prompt("Please enter name for snapshot", Date());
-			if(snapshot_name == null ) snapshot_name = Date();
 
 			xepan_save_and_take_snapshot = snapshot_name;
 			$(self.element).xepanEditor('savePage');
+			xepan_save_and_take_snapshot = false;
 		});
 
 		$(logout_btn).click(function(event) {
@@ -587,14 +590,15 @@ jQuery.widget("ui.xepanEditor",{
 	    var overlay = jQuery('<div id="xepan-cms-page-save-overlay"> </div>');
 	    overlay.insertAfter(document.body).css('z-index','10000');
 
-	    html_body = $('.xepan-page-wrapper').clone();
+	    var template_file_path = self.options.template_file;
+	    var page_file_path = self.options.file_path;
+	    
 		
-		if(self.options.template_editing){
-		    html_body = $('body').clone();
-		    if($(html_body).find('.xepan-v-body').length > 0 )
-		    	$(html_body).children().filter(":not(.xepan-v-body)").remove();
-		    self.options.file_path = self.options.template_file;
-		}		
+		// if(self.options.template_editing){
+	    var html_body = $('body').clone();
+	    if($(html_body).find('.xepan-v-body').length > 0 )
+	    	$(html_body).children().filter(":not(.xepan-v-body)").remove();
+		// }		
 		
 		// remove unwanted code as per given attributes
 		$(html_body).find('[xepan-selector-to-remove-before-save]').each(function(index, el) {
@@ -618,11 +622,18 @@ jQuery.widget("ui.xepanEditor",{
 	    $(html_body).find('.xepan-component').removeClass('xepan-selected-component');
 	    $(html_body).find('.xepan-component').removeClass('xepan-sortable-extra-padding');
 
+	    page_html = encodeURIComponent($.trim($(html_body).find('.xepan-page-wrapper').first().html()));
+	    // console.log('page_html');
+	    // console.log($.trim($(html_body).find('.xepan-page-wrapper').first().html()));
+	    page_crc = crc32(page_html);
+
+
+	    $(html_body).find('.xepan-page-wrapper').html('{$Content}');
+
 	    html_body = encodeURIComponent($.trim($(html_body).html()));
-	    // html_body = ($.trim($(html_body).html()));
-
-
 	    html_crc = crc32(html_body);
+	    
+	    // html_body = ($.trim($(html_body).html()));
 
 	    // if (edit_template == true) {
 	    //     html_body = encodeURIComponent($.trim($('#epan-content-wrapper').html()));
@@ -636,15 +647,23 @@ jQuery.widget("ui.xepanEditor",{
 	        type: 'POST',
 	        dataType: 'html',
 	        data: {
+	            
 	            body_html: html_body,
+	            html_crc32: html_crc,
+	            html_length: html_body.length,
+	            webtemplate_id: self.options.webtemplate_id,
 	            body_attributes: encodeURIComponent($('body').attr('style')),
-	            take_snapshot: xepan_save_and_take_snapshot==false ? 'N' : xepan_save_and_take_snapshot,
-	            crc32: html_crc,
-	            length: html_body.length,
+	            
+	            page_html: page_html,
+	            page_crc32: page_crc,
+	            page_length: page_html.length,
+	            webpage_id: self.options.webpage_id,
+
+	            take_snapshot: ((xepan_save_and_take_snapshot==false) ? 'N' : xepan_save_and_take_snapshot),
 	            file_path: self.options.file_path,
+	            template_file_path: self.options.template_file_path,
 	            is_template: self.options.template_editing,
-	            page_name: self.options.current_page,
-	            webpage_id: self.options.webpage_id
+	            page_name: self.options.current_page
 	        },
 	    })
 	    .done(function(message) {

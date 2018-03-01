@@ -370,9 +370,23 @@
     width:230px !important;
 }
 
-/*droppable placeholder*/
+/*droppable placeholder in body */
 .ui-sortable-placeholder,
 .xepan-cms-tool.ui-sortable-placeholder{
+    height:40px;
+    background-color: red;
+    margin:0 10px 12px 10px;
+    box-shadow:2px 5px 5px #acacac;
+    border-radius:2px; 
+    text-align:center;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:14px;
+}
+
+/*droppable placeholder in Page content region override */
+.xepan-page-wrapper .ui-sortable-placeholder,
+.xepan-page-wrapper .xepan-cms-tool.ui-sortable-placeholder{
     height:40px;
     background-color: #fdfcdf;
     margin:0 10px 12px 10px;
