@@ -39,6 +39,33 @@ class page_cmspagemanager extends \xepan\base\Page{
 			$g->current_row_html['live_edit_template']= '<a href="javascript:void(0)" onclick="'.$g->js()->univ()->newWindow($url).'"><span class="btn btn-success">Live Edit</span></a>';
 		});
 		$crud->grid->addFormatter('live_edit_template','live_edit_template');
+
+		$crud->grid->add('VirtualPage')
+	      ->addColumn('snapshots')
+	      ->set(function($page){
+	          $id = $this->app->stickyGET($page->short_name.'_id');
+	          $m = $this->add('xepan\cms\Model_Snapshots')
+	          		->addCondition('page_id',$id)
+	          		->setOrder('created_at','desc');
+	          $c = $page->add('xepan\hr\CRUD',['allow_add'=>false]);
+	          $c->setModel($m,['name'],['name','created_at','page_url','page','content']);
+	          $c->grid->addColumn('Button','Revert');
+	          $c->grid->removeColumn('content');
+	          $c->grid->removeColumn('page_url');
+	          $c->grid->removeColumn('page');
+
+	          if($snap_id = $_GET['Revert']){
+	          	$m->load($snap_id);
+	          	file_put_contents($m['page_url'], $m['content']);
+	          	$this->js()->univ()->successMessage('File Content Replaced, please visit the page')->execute();
+	          	// $this->js()->univ()->successMessage($this->app->url(str_replace(".html",'', $m->ref('page_id')->get('path'))))->execute();
+	          	// $this->js(true,'document.location.href = document.location.href + "&xepan_snapshot_id="+'.$snap_id)->execute();
+	          	// $this->app->redirect($this->app->url('/'.$this->app->page,['snapshot_show'=>$snap_id]));
+	          }
+	      });
+
+
+		
 		/*END Live Edit Template */
 
 		// // Website Pages

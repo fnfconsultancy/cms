@@ -19,7 +19,7 @@ class page_admin_save_page extends \Page {
 		if(!$this->api->auth->isLoggedIn())	{
 			$this->js()->univ()->errorMessage('You Are Not Logged In')->execute();
 		}
-		
+
 		if ( $_POST['html_length'] != strlen( $_POST['body_html'] ) ) {
 			$this->js()->univ()->errorMessage( 'Template Data Length send ' . $_POST['html_length'] . " AND Length calculated again is " . strlen( $_POST['body_html'] ) )->execute();
 		}
@@ -79,8 +79,8 @@ class page_admin_save_page extends \Page {
 		
 		if($_POST['take_snapshot'] !=='N'){
 			$snap = $this->add('xepan\cms\Model_Snapshots');
-			$snap['content']=$page_content;
-			$snap['page_url']=$_POST['file_path'];
+			$snap['content']= $_POST['is_template']==='true'? $html_content : $page_content;
+			$snap['page_url']= $_POST['is_template']==='true'? $_POST['template_file_path']: $_POST['file_path'];
 			$snap['page_id']=$_POST['webpage_id'];
 			$snap['created_by_id']=$this->add('xepan\base\Model_Contact')->loadLoggedIn(null,true)->get('id');
 			$snap['name']=$_POST['take_snapshot'];
@@ -88,8 +88,8 @@ class page_admin_save_page extends \Page {
 		}
 
 		try{
-			file_put_contents($_POST['file_path'], $page_content);
-			file_put_contents($_POST['template_file_path'], $html_content);
+			if(trim($page_content)) file_put_contents($_POST['file_path'], $page_content);
+			if(trim($html_content)) file_put_contents($_POST['template_file_path'], $html_content);
 			$this->js()->_selectorDocument()->univ()->successMessage("Content Saved")->execute();
 		}catch(\Exception $e){
 			$this->js()->_selectorDocument()->univ()->errorMessage($e->getMessage())->execute();

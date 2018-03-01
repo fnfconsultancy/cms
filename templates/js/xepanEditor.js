@@ -205,10 +205,10 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		$(save_btn_with_snapshot).click(function(){
-			if(self.options.template_editing == true) {
-				$.univ().errorMessage('Snapshots for Page Templates will be available soon');
-				return;
-			}
+			// if(self.options.template_editing == true) {
+			// 	$.univ().errorMessage('Snapshots for Page Templates will be available soon');
+			// 	return;
+			// }
 			var snapshot_name = prompt("Please enter name for snapshot, [Only Page Content snapshot will be saved, NOT PAGE TEMPLATE]", Date());
 			if(snapshot_name == null ) {
 				alert('Canceled, not saving page');
