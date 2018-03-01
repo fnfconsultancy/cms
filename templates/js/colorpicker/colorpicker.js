@@ -1,5 +1,5 @@
 $.each({
-	xEpanColorPicker: function(){
+	xEpanColorPicker: function(options){
 		$(this.jquery).colorpicker({
 			parts:'full',
 	        alpha:true,
@@ -12,7 +12,15 @@ $.each({
 				of: window
 			},
 			modal: true,
+			// 'colorFormat': 'RGBA',
 			buttonImage:'vendor/xepan/cms/templates/css/colorpicker/images/ui-colorpicker.png',
+			revert:true,
+			open: function(){
+				// console.log($(current_selected_component).css('background-color'));
+			},
+			cancel:function(){
+				// console.log('Color panel cancled');
+			}
 			// ok: function(event,color){
 			// 	console.log('ok '+color.formatted);
 			// },
