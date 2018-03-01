@@ -147,18 +147,19 @@ class View_ToolBar extends \View {
 		if($this->app->editing_template){
 			$editing_template = $this->app->editing_template;
 			$this->js(true)->_selector('.xepan-v-body')->addClass('xepan-component xepan-sortable-component');
-			$template_m = $this->add('xepan\cms\Model_Webpage')
-								->addCondition('is_template',true)
-								->addCondition('path',str_replace("layout/", '', $this->app->editing_template.'.html'))
-								->tryLoadAny();
-			if(!$template_m->loaded()) {
-				if(!$template_m['name']) $template_m['name']=$template_m['path'];
-				$template_m->save();
-			}
-			$webpage_id = $template_m->id;
-		}else{
-			$webpage_id = $this->app->xepan_cms_page->id;
 		}
+		
+		$template_m = $this->add('xepan\cms\Model_Webpage')
+							->addCondition('is_template',true)
+							->addCondition('path',str_replace("layout/", '', $this->app->template->template_file.'.html'))
+							->tryLoadAny();
+		if(!$template_m->loaded()) {
+			if(!$template_m['name']) $template_m['name']=$template_m['path'];
+			$template_m->save();
+		}
+		
+		$webtemplate_id = $template_m->id;
+		$webpage_id = @$this->app->xepan_cms_page->id;
 
 		$component_selector = '.xepan-component';
 
@@ -177,7 +178,8 @@ class View_ToolBar extends \View {
 				'component_selector'=>$component_selector,
 				'editor_id'=>$this->getJSID(),
 				'current_page'=> ucwords($this->app->xepan_cms_page['name']),
-				'webpage_id'=> $webpage_id
+				'webpage_id'=> $webpage_id,
+				'webtemplate_id'=> $webtemplate_id
 			]);
 
 		// Moved to xepanEditor.js

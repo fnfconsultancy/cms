@@ -17,7 +17,8 @@ jQuery.widget("ui.xepanEditor",{
 		tools:{},
 		basic_properties: undefined,
 		component_selector: '.xepan-component',
-		webpage_id: undefined
+		webpage_id: undefined,
+		webtemplate_id: undefined
 	},
 
 	topbar:{},
@@ -205,10 +206,6 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		$(save_btn_with_snapshot).click(function(){
-			// if(self.options.template_editing == true) {
-			// 	$.univ().errorMessage('Snapshots for Page Templates will be available soon');
-			// 	return;
-			// }
 			var snapshot_name = prompt("Please enter name for snapshot, [Only Page Content snapshot will be saved, NOT PAGE TEMPLATE]", Date());
 			if(snapshot_name == null ) {
 				alert('Canceled, not saving page');
@@ -217,6 +214,7 @@ jQuery.widget("ui.xepanEditor",{
 
 			xepan_save_and_take_snapshot = snapshot_name;
 			$(self.element).xepanEditor('savePage');
+			xepan_save_and_take_snapshot = false;
 		});
 
 		$(logout_btn).click(function(event) {
@@ -637,8 +635,6 @@ jQuery.widget("ui.xepanEditor",{
 	    
 	    // html_body = ($.trim($(html_body).html()));
 
-
-
 	    // if (edit_template == true) {
 	    //     html_body = encodeURIComponent($.trim($('#epan-content-wrapper').html()));
 	    //     html_crc = crc32(html_body);
@@ -655,18 +651,19 @@ jQuery.widget("ui.xepanEditor",{
 	            body_html: html_body,
 	            html_crc32: html_crc,
 	            html_length: html_body.length,
+	            webtemplate_id: self.options.webtemplate_id,
+	            body_attributes: encodeURIComponent($('body').attr('style')),
 	            
 	            page_html: page_html,
 	            page_crc32: page_crc,
 	            page_length: page_html.length,
+	            webpage_id: self.options.webpage_id,
 
-	            body_attributes: encodeURIComponent($('body').attr('style')),
-	            take_snapshot: xepan_save_and_take_snapshot==false ? 'N' : xepan_save_and_take_snapshot,
+	            take_snapshot: ((xepan_save_and_take_snapshot==false) ? 'N' : xepan_save_and_take_snapshot),
 	            file_path: self.options.file_path,
 	            template_file_path: self.options.template_file_path,
 	            is_template: self.options.template_editing,
-	            page_name: self.options.current_page,
-	            webpage_id: self.options.webpage_id
+	            page_name: self.options.current_page
 	        },
 	    })
 	    .done(function(message) {
