@@ -251,7 +251,7 @@ class page_websites extends \xepan\base\Page{
 		// $p = scandir('websites/'.$this->app->current_website_name);
 		$p = glob('websites/'.$this->app->current_website_name.'/*',GLOB_ONLYDIR);
 		$p =array_filter($p,function($v){
-			return strpos($v, 'www_') !== false;
+			return strpos($v, 'www-') !== false;
 		});
         arsort($p);
         $m->setSource('Array',$p);
@@ -259,6 +259,16 @@ class page_websites extends \xepan\base\Page{
 		$crud = $this->add('xepan\hr\CRUD',['allow_add'=>false,'allow_edit'=>false]);
 		$crud->setModel($m);
 		$crud->grid->removeColumn('id');
+		$crud->grid->addColumn('Button','Revert');
+
+		if($_GET['Revert']){
+			$m->load($_GET['Revert']);
+			\Nette\Utils\FileSystem::delete('./websites/'.$this->app->current_website_name.'/www-before_revert');
+			\Nette\Utils\FileSystem::rename('./websites/'.$this->app->current_website_name.'/www','./websites/'.$this->app->current_website_name.'/www-before_revert');
+			\Nette\Utils\FileSystem::createDir('./websites/'.$this->app->current_website_name.'/www');
+			\Nette\Utils\FileSystem::copy($m['name'],'./websites/'.$this->app->current_website_name.'/www',true);
+			$this->js()->univ()->successMessage($m['name'].' Is copied to www and old www is saved in www-before_revert')->execute();
+		}
 
 	}
 }
