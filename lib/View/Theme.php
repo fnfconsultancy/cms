@@ -119,6 +119,10 @@ class View_Theme extends \View{
 											->addMoreInfo('epan',$selected_template['name']);
 							}
 
+							if($selected_template == $this->app->current_website_name){
+								throw new \Exception("Cannot apply same theme on same epan", 1);
+							}
+
 							$apply_theme_epan_name = $this->app->current_website_name;
 							if($this->apply_theme_on_website){
 								$apply_theme_epan_name = $this->apply_theme_on_website;
@@ -143,6 +147,14 @@ class View_Theme extends \View{
 								$js_event[] = $form->js()->univ()->location()->reload();
 							}
 
+							$this->app->readConfig('websites/www/config.php');
+					        $this->app->dbConnect();
+							$this->add('xepan\base\Model_Epan')->tryLoadBy('name',$apply_theme_epan_name)->set('xepan_template_id',$id)->save();
+
+							$this->app->readConfig('websites/'.$this->app->current_website_name.'/config.php');
+					        $this->app->dbConnect();
+
+							$this->add('xepan\base\Model_Epan')->tryLoadBy('name',$apply_theme_epan_name)->set('xepan_template_id',$id)->save();
 							// theme applied hook
 							$this->app->Hook('ThemeApplied');
 
