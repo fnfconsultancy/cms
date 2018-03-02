@@ -130,7 +130,7 @@ jQuery.widget("ui.xepanEditor",{
 
 		self.extra_html_wrapper = $('<div class="btn btn-group btn-group-xs" style="padding:0px;"></div>').appendTo(self.generic_tool_wrapper);
  		// Create Layout Button
- 		extra_html = '<div class="btn btn-primary" id="xepan-tool-createlayoutbtn" title="Create Layout"><i class="fa fa-plus"></i>&nbsp;Layout'+
+ 		extra_html = '<div class="btn btn-primary btn-xs" id="xepan-tool-createlayoutbtn" title="Create Layout"><i class="fa fa-plus"></i>&nbsp;Layout'+
  						'<div class="xepan-create-layout-dialoge" style="display:none;">'+
  							'<p> All form fields are required.</p>'+
 							'<div class="xepan-create-layout-form">'+
@@ -147,11 +147,11 @@ jQuery.widget("ui.xepanEditor",{
 					'</div>';
 
 		// Override template
-		extra_html += '<div class="btn btn-danger" id="override-xepan-tool-template" title="Override HTML Templates"><i class="fa fa-code"></i>Html</div>';
+		extra_html += '<div class="btn btn-danger btn-xs" id="override-xepan-tool-template" title="Override HTML Templates"><i class="fa fa-code"></i>Html</div>';
 		// Custom CSS
-		extra_html += '<div class="btn btn-success" id="xepan-tool-mystyle" title="Edit Custom CSS"><i class="fa fa-pencil"></i>CSS</div>';
+		extra_html += '<div class="btn btn-success btn-xs" id="xepan-tool-mystyle" title="Edit Custom CSS"><i class="fa fa-pencil"></i>CSS</div>';
 		// inspector
-		extra_html += '<div class="btn btn-warning" id="xepan-tool-inspector" title="inspector"><i class="fa fa-arrows"></i></div>';
+		extra_html += '<div class="btn btn-warning btn-xs" id="xepan-tool-inspector" title="inspector"><i class="fa fa-arrows"></i></div>';
 		$(extra_html).appendTo(self.extra_html_wrapper);
 
 		// right bar content
