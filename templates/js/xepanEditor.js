@@ -259,6 +259,7 @@ jQuery.widget("ui.xepanEditor",{
 		$('#epan-hide-template-content').change(function(event) {
 			if($('#epan-hide-template-content:checked').size() > 0 ){
 				if($('#epan-hide-page-content:checked').size() > 0 ) $('#epan-hide-page-content').click();
+				$(':ui-xepanComponent').xepanComponent('deselect');
 				$('.xepan-page-wrapper').wrap('<div class="xepan-page-wrapper-temp_spot"></div>')
 				$('.xepan-page-wrapper').appendTo('.xepan-v-body');
 				$('.xepan-v-body').children().filter(":not(.xepan-page-wrapper)").hide();
@@ -272,7 +273,7 @@ jQuery.widget("ui.xepanEditor",{
 		$('#epan-hide-page-content').change(function(event) {
 			if($('#epan-hide-page-content:checked').size() > 0 ){
 				if($('#epan-hide-template-content:checked').size() > 0 ) $('#epan-hide-template-content:checked').click();
-
+				$(':ui-xepanComponent').xepanComponent('deselect');
 				$('.xepan-page-wrapper').wrap('<div class="xepan-hide-page-content-wrapper"></div>')
 				$('<div class="xepan-hide-page-content-wrapper-heading"> <h1 align="center" >PAGE CONTENT AREA</h1><h3 align="center" > It helps you focus on Page Template only.. </h3> </div>').appendTo('.xepan-hide-page-content-wrapper');
 				$('.xepan-page-wrapper').hide();

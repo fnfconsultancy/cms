@@ -18,6 +18,7 @@ xepan_cms_tinymce_options={
     	}
 	};
 
+toolbar_initialized = false;
 
 jQuery.widget("ui.xepanComponent",{
 	self: undefined,
@@ -26,9 +27,25 @@ jQuery.widget("ui.xepanComponent",{
 		component_selector:null,
 		editor_id: null
 	},
+	opts: {
+        namespace: 'xepan-',
+        borderWidth: 2,
+        onClick: false,
+        filter: false
+    },
+    keyCodes: {
+        BACKSPACE: 8,
+        ESC: 27,
+        DELETE: 46
+    },
+    active: false,
+    elements: {},
+    pub:{},
 
 	_create: function(){
 		var self=this;
+
+		self.initStylesheet();
 
 		if($(this.element).closest('.xepan-toolbar').length !=0) return;
 		if(!$(this.element).attr('id')) $(this.element).attr('id',generateUUID());
@@ -138,7 +155,7 @@ jQuery.widget("ui.xepanComponent",{
 
 	select: function (){
 		current_selected_component = this.element;
-		$(this.element).addClass('xepan-selected-component');
+		// $(this.element).addClass('xepan-selected-component');
 		$('.xepan-tool-options').hide();
 		this.options.option_panel.show();
 		$('#'+this.options.option_panel.attr('id')).trigger('show');
@@ -451,6 +468,7 @@ jQuery.widget("ui.xepanComponent",{
 	    start: function(event, ui) {
 	    	$(ui.placeholder).removeClass("col-md-6 col-sm-6 xepan-tool-bar-tool ui-draggable").css('visibility','visible');
 	    	$('.xepan-sortable-component').addClass('xepan-sortable-highlight-droppable');
+	    	$(current_selected_component).xepanComponent('hideComponentToolBar');
 	        // if ($(ui.item).hasClass('ui-sortable')) {
          //    	sortable_disabled = true;
          //    	$(ui.item).sortable("option", "disabled", true);
@@ -492,6 +510,7 @@ jQuery.widget("ui.xepanComponent",{
 			    }
 			    
 		    	$(ui.item).replaceWith($new_component);
+		    	$(ui.item).xepanComponent('select');
 	    	}
 	    	// console.log(origin);
 		    origin='page';
@@ -503,10 +522,113 @@ jQuery.widget("ui.xepanComponent",{
 		return self.options.component_selector;
 	},
 
+    // ====== tool bar creation start =====
+	createOutlineElements: function() {
+		var self = this;
+        self.elements.label = jQuery('<div></div>').addClass(self.opts.namespace + '_label').appendTo('body');
+        self.elements.top = jQuery('<div></div>').addClass(self.opts.namespace).appendTo('body');
+        self.elements.bottom = jQuery('<div></div>').addClass(self.opts.namespace).appendTo('body');
+        self.elements.left = jQuery('<div></div>').addClass(self.opts.namespace).appendTo('body');
+        self.elements.right = jQuery('<div></div>').addClass(self.opts.namespace).appendTo('body');
+    },
+
+    removeOutlineElements: function () {
+    	var self = this;
+        jQuery.each(self.elements, function(name, element) {
+            element.remove();
+        });
+    },
+
+    compileLabelText: function(element, width, height) {
+        var label = element.tagName.toLowerCase();
+        if (element.id) {
+            label += '#' + element.id;
+        }
+        if (element.className) {
+            label += ('.' + jQuery.trim(element.className).replace(/ /g, '.')).replace(/\.\.+/g, '.');
+        }
+        return label + ' (' + Math.round(width) + 'x' + Math.round(height) + ')';
+    },
+
+    getScrollTop: function() {
+    	var self = this;
+        if (!self.elements.window) {
+            self.elements.window = jQuery(window);
+        }
+        return self.elements.window.scrollTop();
+    },
+
+    updateOutlinePosition: function(e) {
+    	var self = this;
+    	var pub =self.pub;
+        pub.element = e;
+
+        var b = self.opts.borderWidth;
+        var scroll_top = self.getScrollTop();
+        var pos = pub.element.getBoundingClientRect();
+        var top = pos.top + scroll_top;
+
+        var label_text = self.compileLabelText(pub.element, pos.width, pos.height);
+        var label_top = Math.max(0, top - 20 - b, scroll_top);
+        var label_left = Math.max(0, pos.left - b);
+
+        self.elements.label.css({ top: label_top, left: label_left }).text(label_text);
+        self.elements.top.css({ top: Math.max(0, top - b), left: pos.left - b, width: pos.width + b, height: b });
+        self.elements.bottom.css({ top: top + pos.height, left: pos.left - b, width: pos.width + b, height: b });
+        self.elements.left.css({ top: top - b, left: Math.max(0, pos.left - b), width: b, height: pos.height + b });
+        self.elements.right.css({ top: top - b, left: pos.left + pos.width, width: b, height: pos.height + (b * 2) });
+    },
+
+
+    writeStylesheet: function(css) {
+        var element = document.createElement('style');
+        element.type = 'text/css';
+        document.getElementsByTagName('head')[0].appendChild(element);
+
+        if (element.styleSheet) {
+            element.styleSheet.cssText = css; // IE
+        } else {
+            element.innerHTML = css; // Non-IE
+        }
+    },
+
+    initStylesheet: function() {
+    	var self = this;
+
+        if (toolbar_initialized !== true) {
+            var css = '' +
+                '.' + self.opts.namespace + ' {' +
+                '    background: #09c;' +
+                '    position: absolute;' +
+                '    z-index: 1000000;' +
+                '}' +
+                '.' + self.opts.namespace + '_label {' +
+                '    background: #09c;' +
+                '    border-radius: 2px;' +
+                '    color: #fff;' +
+                '    font: bold 12px/12px Helvetica, sans-serif;' +
+                '    padding: 4px 6px;' +
+                '    position: absolute;' +
+                '    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);' +
+                '    z-index: 1000001;' +
+                '}';
+
+            self.writeStylesheet(css);
+            toolbar_initialized = true;
+        }
+    },
+
 	showComponentToolBar:function(){
+		var self = this;
+
 		$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
 		$('.xepan-component-hoverbar').remove();
 		if($(self.element).hasClass('xepan-no-move') && ($(self.element).hasClass('xepan-no-delete') || $(self.element).hasClass('xepan-no-remove')) ) return;
+
+		self.createOutlineElements();
+		self.updateOutlinePosition(current_selected_component[0]);
+		var	drag_btn =  $('<div class="xepan-component-drag-handler"></div>').appendTo(current_selected_component);
+		return;
 
 		$(current_selected_component).addClass('xepan-component-hover-selector');
 		var hoverbar = $('<div class="xepan-component-hoverbar">').appendTo($(current_selected_component));
@@ -552,8 +674,11 @@ jQuery.widget("ui.xepanComponent",{
 	},
 
 	hideComponentToolBar:function(){
-		$('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
-		$('.xepan-component-hoverbar').remove();
+		var self = this;
+		self.removeOutlineElements();
+		$(current_selected_component).find('.xepan-component-drag-handler').remove();
+		// $('.xepan-component-hover-selector').removeClass('xepan-component-hover-selector');
+		// $('.xepan-component-hoverbar').remove();
 	}
 	
 });

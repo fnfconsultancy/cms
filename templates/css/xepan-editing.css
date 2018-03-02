@@ -350,9 +350,14 @@
 
 .xepan-component-drag-handler{
     background: rgb(175, 206, 1) none repeat scroll 0 0;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    /*border-top-left-radius: 5px;
+    border-top-right-radius: 5px;*/
     cursor: move;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
 }
 
 .xepan-component-remove{
