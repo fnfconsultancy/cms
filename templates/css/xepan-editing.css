@@ -483,7 +483,15 @@
 }
 
 .component-outline{
+    outline:2px dashed darkgray !important
+}
+
+.xepan-page-wrapper .component-outline{
     outline:2px dotted gray !important
+}
+
+.xepan-page-wrapper.component-outline{
+    outline:5px groove red !important
 }
 
 .xepan-selected-component{
