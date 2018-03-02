@@ -222,9 +222,12 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		// show border and easy drop
-		var easy_wrapper = $('<div class="xepan-cms-easy-drop-wrapper xepan-cms-tool" style="margin:0px;padding:0px;">').appendTo(self.editor_helper_wrapper);
-		var easy_drop = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-extra-padding" style="font-weight:normal;">Easy Drop</label></div></div>').appendTo(easy_wrapper);
-		var show_border = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-border" style="font-weight:normal;">Show Border</label></div></div>').appendTo(easy_wrapper);
+		var easy_wrapper = $('<div class="xepan-cms-easy-drop-wrapper xepan-cms-tool btn-group btn-group-justified" style="margin:0px;padding:0px;">').appendTo(self.editor_helper_wrapper);
+		var easy_drop = $('<label for="epan-component-extra-padding" style="font-weight:normal;" class="btn btn-primary btn-xs"><input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"> Easy Drop</label>').appendTo(easy_wrapper);
+		var show_border = $('<label for="epan-component-border" style="font-weight:normal;" class="btn btn-primary  btn-xs"><input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"> Show Border</label>').appendTo(easy_wrapper);
+		var hide_temp_page_wrapper = $('<div class="xepan-cms-hide-temp-page-wrapper xepan-cms-tool btn-group btn-group-justified" style="margin:0px;padding:0px;">').appendTo(self.editor_helper_wrapper);
+		var hide_template = $('<label for="epan-hide-template-content" style="font-weight:normal;" class="btn btn-primary btn-xs"><input id="epan-hide-template-content" aria-label="Checkbox for following text input" type="checkbox"> Hide Page Template</label>').appendTo(hide_temp_page_wrapper);
+		var hide_page = $('<label for="epan-hide-page-content" style="font-weight:normal;" class="btn btn-primary btn-xs"><input id="epan-hide-page-content" aria-label="Checkbox for following text input" type="checkbox"> Hide Page</label>').appendTo(hide_temp_page_wrapper);
 
 		/*Component Editing outline show border*/
 		$("#epan-component-border").click(function(event) {
@@ -242,6 +245,33 @@ jQuery.widget("ui.xepanEditor",{
 		    }else{
 		        $(xepan_component_selector).find('.xepan-sortable-component').removeClass('xepan-sortable-extra-padding');
 		    }
+		});
+
+		/* Hide page template */
+		$('#epan-hide-template-content').change(function(event) {
+			if($('#epan-hide-template-content:checked').size() > 0 ){
+				if($('#epan-hide-page-content:checked').size() > 0 ) $('#epan-hide-page-content').click();
+				$('.xepan-page-wrapper').wrap('<div class="xepan-page-wrapper-temp_spot"></div>')
+				$('.xepan-page-wrapper').appendTo('.xepan-v-body');
+				$('.xepan-v-body').children().filter(":not(.xepan-page-wrapper)").hide();
+			}else{
+				$('.xepan-v-body').children().filter(":not(.xepan-page-wrapper)").show();
+				$('.xepan-page-wrapper').appendTo('.xepan-page-wrapper-temp_spot');
+				$('.xepan-page-wrapper').unwrap();
+			}
+		});
+
+		$('#epan-hide-page-content').change(function(event) {
+			if($('#epan-hide-page-content:checked').size() > 0 ){
+				if($('#epan-hide-template-content:checked').size() > 0 ) $('#epan-hide-template-content:checked').click();
+
+				$('.xepan-page-wrapper').wrap('<div class="xepan-hide-page-content-wrapper"></div>')
+				$('<div class="xepan-hide-page-content-wrapper-heading"> <h1 align="center" >PAGE CONTENT AREA</h1><h3 align="center" > It helps you focus on Page Template only.. </h3> </div>').appendTo('.xepan-hide-page-content-wrapper');
+				$('.xepan-page-wrapper').hide();
+			}else{
+				$('.xepan-hide-page-content-wrapper .xepan-hide-page-content-wrapper-heading').remove();
+				$('.xepan-page-wrapper').unwrap().show();
+			}
 		});
 
 		// settings up tool buttons
@@ -565,6 +595,10 @@ jQuery.widget("ui.xepanEditor",{
 		// console.log(this.options.file_path);
 
 		var self= this;
+
+		// show all contents from D&D helper - page and template first
+		if($('#epan-hide-template-content:checked').size() > 0 ) $('#epan-hide-template-content:checked').click();
+		if($('#epan-hide-page-content:checked').size() > 0 ) $('#epan-hide-page-content:checked').click();
 		
 		// $('body').trigger('beforeSave');
 		try{

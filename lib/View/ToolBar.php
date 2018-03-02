@@ -161,7 +161,7 @@ class View_ToolBar extends \View {
 		$webtemplate_id = $template_m->id;
 		$webpage_id = @$this->app->xepan_cms_page->id;
 
-		$component_selector = '.xepan-component';
+		$component_selector = '.xepan-v-body .xepan-component';
 
 		$this->js(true)
 			// ->_load('xepanComponent')

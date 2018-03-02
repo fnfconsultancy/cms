@@ -603,3 +603,12 @@
 .ui-colorpicker.ui-colorpicker-dialog + .ui-widget-overlay{
     z-index:9999999 !important;
 }
+
+.xepan-hide-page-content-wrapper {
+    height:100px; 
+    background-color:black; 
+    color:yellow;
+    padding: 0 auto;
+    font-size: 20px;
+    margin: 20px 0;
+}
