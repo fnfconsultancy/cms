@@ -490,14 +490,13 @@
     outline:2px dotted gray !important
 }
 
-.xepan-page-wrapper.component-outline{
-    outline:5px groove red !important
-}
-
-.xepan-selected-component{
+.xepan-page-wrapper .xepan-selected-component,.xepan-page-wrapper.xepan-selected-component, .xepan-v-body .xepan-selected-component,.xepan-v-body.xepan-selected-component{
     outline: 2px dashed #b82005 !important;
 }
 
+.xepan-page-wrapper.component-outline{
+    outline:5px groove red !important
+}
 
 .xepan-sortable-extra-padding{
     padding-bottom:30px !important;
