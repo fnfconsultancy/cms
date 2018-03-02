@@ -162,6 +162,14 @@ jQuery.widget("ui.xepanEditor",{
 			$('#xepan-cms-toolbar-right-side-panel').toggleClass('toggleSideBar');
 		});
 
+		$('#override-xepan-tool-template').click(function(event) {
+			if(typeof current_selected_component == 'undefined' || current_selected_component.is($('body'))) {
+				$.univ().dialogOK('Please select any component','No component is selected, please select any to override template');
+				return;
+			}
+			$.univ().frameURL('Override Tool Template',{'0':'/?page=xepan_cms_overridetemplate','options':JSON.stringify($(current_selected_component).attr()),'xepan-tool-to-clone':$(".xepan-tools-options div[for-xepan-component]:visible").attr('for-xepan-component')});
+		});
+
 		// disable all clicks
 		$('body').find('a, .btn').click(function(ev){ ev.preventDefault();});
 		$('body').find('i.xepan-cms-icon').removeAttr('onclick');
@@ -232,18 +240,18 @@ jQuery.widget("ui.xepanEditor",{
 		/*Component Editing outline show border*/
 		$("#epan-component-border").click(function(event) {
 		    if($('#epan-component-border:checked').size() > 0){
-		        $(xepan_component_selector).find('.xepan-component').addClass('component-outline');
+		        $('.xepan-component').addClass('component-outline');
 		    }else{
-		        $(xepan_component_selector).find('.xepan-component').removeClass('component-outline');
+		        $('.xepan-component').removeClass('component-outline');
 		    }
 		});
 
 		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
 		$('#epan-component-extra-padding').click(function(event) {
 		    if($('#epan-component-extra-padding:checked').size() > 0){
-		        $(xepan_component_selector).find('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
+		        $('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
 		    }else{
-		        $(xepan_component_selector).find('.xepan-sortable-component').removeClass('xepan-sortable-extra-padding');
+		        $('.xepan-sortable-component').removeClass('xepan-sortable-extra-padding');
 		    }
 		});
 
@@ -725,7 +733,8 @@ jQuery.widget("ui.xepanEditor",{
 
 	    shortcut.add("Ctrl+backspace", function(event) {
 	    	if (typeof current_selected_component == 'undefined') return;
-	        $(current_selected_component).xepanComponent('remove');
+	        if(!$(current_selected_component).hasClass('xepan-no-delete') && !$(current_selected_component).hasClass('xepan-no-remove'))
+	        	$(current_selected_component).xepanComponent('remove');
 	        event.stopPropagation();
 	    });
 
