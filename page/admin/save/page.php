@@ -55,20 +55,20 @@ class page_admin_save_page extends \Page {
 		$page_content = str_replace($www_domain, '', $page_content);
 		$body_attributes = str_replace($www_domain, '', $body_attributes);
 
-		$assets_domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/assets/';
-		$html_content = str_replace($assets_domain, '', $html_content);
-		$page_content = str_replace($assets_domain, '', $page_content);
-		$body_attributes = str_replace($assets_domain, '', $body_attributes);
+		// $assets_domain = $this->app->pm->base_url.$this->app->pm->base_path.'websites/'.$this->app->current_website_name.'/assets/';
+		// $html_content = str_replace($assets_domain, '', $html_content);
+		// $page_content = str_replace($assets_domain, '', $page_content);
+		// $body_attributes = str_replace($assets_domain, '', $body_attributes);
 
 		$www_domain = 'websites/'.$this->app->current_website_name.'/www/';
 		$html_content = str_replace($www_domain, '', $html_content);
 		$page_content = str_replace($www_domain, '', $page_content);
 		$body_attributes = str_replace($www_domain, '', $body_attributes);
 
-		$assets_domain = 'websites/'.$this->app->current_website_name.'/assets/';
-		$html_content = str_replace($assets_domain, '', $html_content);
-		$page_content = str_replace($assets_domain, '', $page_content);
-		$body_attributes = str_replace($assets_domain, '', $body_attributes);
+		// $assets_domain = 'websites/'.$this->app->current_website_name.'/assets/';
+		// $html_content = str_replace($assets_domain, '', $html_content);
+		// $page_content = str_replace($assets_domain, '', $page_content);
+		// $body_attributes = str_replace($assets_domain, '', $body_attributes);
 
 		// add {$Content} tag for template content saved
 		$this->pq = $pq = new phpQuery();
