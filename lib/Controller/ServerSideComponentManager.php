@@ -102,9 +102,10 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 			$img->attr('src',$rel_path.$img->attr('src'));
 		}
 		
-
+		$pattern = '/url\s*\(\s*[\'"]?\/?([^(http|vendor|website)].+?)[\'"]?\s*\)/i';
+		$pattern = "/url([\s]?)(\((['\" ])*(?!data:|https?:\/\/|vendor|websites|http)([^\"'\)]+)['\" ]*)/i";
 		// $content = preg_replace("/(link.*|img.*|script.*)(href|src)\s*\=\s*[\"\']([^(http)])(\/)?/", "$1$2=\"$domain$3", $content);
-		$content = preg_replace('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', 'url('.$rel_path.'$1)', $dom->html());
+		$content = preg_replace($pattern, 'url('.$rel_path.'$4', $dom->html());
 
 		// $content = $dom->html();
 
