@@ -370,9 +370,23 @@
     width:230px !important;
 }
 
-/*droppable placeholder*/
+/*droppable placeholder in body */
 .ui-sortable-placeholder,
 .xepan-cms-tool.ui-sortable-placeholder{
+    height:40px;
+    background-color: red;
+    margin:0 10px 12px 10px;
+    box-shadow:2px 5px 5px #acacac;
+    border-radius:2px; 
+    text-align:center;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:14px;
+}
+
+/*droppable placeholder in Page content region override */
+.xepan-page-wrapper .ui-sortable-placeholder,
+.xepan-page-wrapper .xepan-cms-tool.ui-sortable-placeholder{
     height:40px;
     background-color: #fdfcdf;
     margin:0 10px 12px 10px;
@@ -469,13 +483,20 @@
 }
 
 .component-outline{
+    outline:2px dashed darkgray !important
+}
+
+.xepan-page-wrapper .component-outline{
     outline:2px dotted gray !important
 }
 
-.xepan-selected-component{
+.xepan-page-wrapper .xepan-selected-component,.xepan-page-wrapper.xepan-selected-component, .xepan-v-body .xepan-selected-component,.xepan-v-body.xepan-selected-component{
     outline: 2px dashed #b82005 !important;
 }
 
+.xepan-page-wrapper.component-outline{
+    outline:5px groove red !important
+}
 
 .xepan-sortable-extra-padding{
     padding-bottom:30px !important;
@@ -588,4 +609,13 @@
 
 .ui-colorpicker.ui-colorpicker-dialog + .ui-widget-overlay{
     z-index:9999999 !important;
+}
+
+.xepan-hide-page-content-wrapper {
+    height:100px; 
+    background-color:black; 
+    color:yellow;
+    padding: 0 auto;
+    font-size: 20px;
+    margin: 20px 0;
 }

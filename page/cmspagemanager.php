@@ -39,11 +39,38 @@ class page_cmspagemanager extends \xepan\base\Page{
 			$g->current_row_html['live_edit_template']= '<a href="javascript:void(0)" onclick="'.$g->js()->univ()->newWindow($url).'"><span class="btn btn-success">Live Edit</span></a>';
 		});
 		$crud->grid->addFormatter('live_edit_template','live_edit_template');
+
+		$crud->grid->add('VirtualPage')
+	      ->addColumn('snapshots')
+	      ->set(function($page){
+	          $id = $this->app->stickyGET($page->short_name.'_id');
+	          $m = $this->add('xepan\cms\Model_Snapshots')
+	          		->addCondition('page_id',$id)
+	          		->setOrder('created_at','desc');
+	          $c = $page->add('xepan\hr\CRUD',['allow_add'=>false]);
+	          $c->setModel($m,['name'],['name','created_at','page_url','page','content']);
+	          $c->grid->addColumn('Button','Revert');
+	          $c->grid->removeColumn('content');
+	          $c->grid->removeColumn('page_url');
+	          $c->grid->removeColumn('page');
+
+	          if($snap_id = $_GET['Revert']){
+	          	$m->load($snap_id);
+	          	file_put_contents($m['page_url'], $m['content']);
+	          	$this->js()->univ()->successMessage('File Content Replaced, please visit the page')->execute();
+	          	// $this->js()->univ()->successMessage($this->app->url(str_replace(".html",'', $m->ref('page_id')->get('path'))))->execute();
+	          	// $this->js(true,'document.location.href = document.location.href + "&xepan_snapshot_id="+'.$snap_id)->execute();
+	          	// $this->app->redirect($this->app->url('/'.$this->app->page,['snapshot_show'=>$snap_id]));
+	          }
+	      });
+
+
+		
 		/*END Live Edit Template */
 
 		// // Website Pages
 		$page = $page_tab->add('xepan\cms\Model_Page')
-					->setOrder(['parent_page_id','order'])
+					->setOrder(['parent_page_id','order','name'])
 					;
 		$crud = $page_tab->add('xepan\hr\CRUD');
 		$crud->form->add('xepan\base\Controller_FLC')
@@ -58,10 +85,47 @@ class page_cmspagemanager extends \xepan\base\Page{
 							'page_title'=>'Meta Info, Overrides Default Info~c1~12',
 							'meta_kewords'=>'c2~12',
 							'meta_description'=>'c3~12',
-							'after_body_code'=>'Any Code to insert after body tag~c1~12~Mainly used for analytical purpose'
+							'after_body_code'=>'Any Code to insert after body tag~c1~12~Mainly used for analytical purpose',
+							'is_secure'=>'Restricted Access~c1~3',
+							'secure_only_for'=>'c2~9~Only these types of user can access page',
 						]
 						);
-		$crud->setModel($page,['template_id','name','path','parent_page_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code','icon_class'],['template','name','parent_page','path','order','is_muted']);
+
+		$crud->setModel($page,['name','path','parent_page_id','template_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code','icon_class','is_secure','secure_only_for'],['name','parent_page','path','template','order','is_muted','is_secure']);
+		if($crud->isEditing()){
+			
+			$config_m = $page_tab->add('xepan\cms\Model_Config_FrontendWebsiteStatus');
+			$config_m->tryLoadAny();
+			$f = $crud->form->getElement('secure_only_for');
+			$f->setAttr('multiple');
+			$f->setValueList(array_combine(explode(",", $config_m['system_contact_types']),explode(",", $config_m['system_contact_types'])));
+			$f->set(explode(",", $crud->form->model['secure_only_for']));
+		}
+
+		$crud->grid->add('VirtualPage')
+	      ->addColumn('snapshots')
+	      ->set(function($page){
+	          $id = $this->app->stickyGET($page->short_name.'_id');
+	          $m = $this->add('xepan\cms\Model_Snapshots')
+	          		->addCondition('page_id',$id)
+	          		->setOrder('created_at','desc');
+	          $c = $page->add('xepan\hr\CRUD',['allow_add'=>false]);
+	          $c->setModel($m,['name'],['name','created_at','page_url','page','content']);
+	          $c->grid->addColumn('Button','Revert');
+	          $c->grid->removeColumn('content');
+	          $c->grid->removeColumn('page_url');
+	          $c->grid->removeColumn('page');
+
+	          if($snap_id = $_GET['Revert']){
+	          	$m->load($snap_id);
+	          	file_put_contents($m['page_url'], $m['content']);
+	          	$this->js()->univ()->successMessage('File Content Replaced, please visit the page')->execute();
+	          	// $this->js()->univ()->successMessage($this->app->url(str_replace(".html",'', $m->ref('page_id')->get('path'))))->execute();
+	          	// $this->js(true,'document.location.href = document.location.href + "&xepan_snapshot_id="+'.$snap_id)->execute();
+	          	// $this->app->redirect($this->app->url('/'.$this->app->page,['snapshot_show'=>$snap_id]));
+	          }
+	      });
+
 
 		$crud->grid->addColumn('Button','live_edit_page');
 		$crud->grid->addMethod('format_live_edit_page',function($g,$f){

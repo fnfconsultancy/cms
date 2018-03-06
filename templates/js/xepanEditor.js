@@ -4,18 +4,21 @@ xepan_drop_component_html= '';
 xepan_editor_element = null;
 xepan_component_selector = null;
 xepan_component_layout_optioned_added = false;
+xepan_save_and_take_snapshot=false;
 
 jQuery.widget("ui.xepanEditor",{
 	options:{
 		base_url:undefined,
 		file_path:undefined,
-		template_file:undefined,
+		template_file_path:undefined,
 		template:undefined,
 		save_url:undefined,
 		template_editing:undefined,
 		tools:{},
 		basic_properties: undefined,
 		component_selector: '.xepan-component',
+		webpage_id: undefined,
+		webtemplate_id: undefined
 	},
 
 	topbar:{},
@@ -24,34 +27,36 @@ jQuery.widget("ui.xepanEditor",{
 
 	_create: function(){
 		var self = this;
+		current_selected_component = $('body');
 		xepan_editor_element = self.element;
 		xepan_component_selector = self.options.component_selector;
 		
-		if(self.options.template_editing){
-			$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
-		}else{
-			$('.xepan-page-wrapper').addClass('xepan-component');
-			$('.xepan-page-wrapper').addClass('xepan-sortable-component');
-			$('body .xepan-component:not(.xepan-page-wrapper):not(.xepan-page-wrapper .xepan-component)')
-			.dblclick(function(ev) {
-				console.log($(this));	
-				ev.preventDefault();ev.stopPropagation();
-				$('<div><div>This component is in common portion of all pages called "Page Template", To Edit this section plese open Pages in SideBar and click "EDIT PAGE TEMPLATE" Or Click "Edit Template Now" below</div>, <img src="vendor/xepan/cms/templates/images/page-template-hint.png"> <div>Enter in page Template Editing ?</div></div>')
-				.dialog({
-					modal: true,
-					width: 400,
-					buttons: {
-						"Edit Template Now" : function(){
-							$(self.element).xepanEditor('editTemplate');
-						},
-						Cancel: function(){
-							$( this ).dialog( "close" );
-						}
-					}
-				});
-			});;
-		}
+		// if(self.options.template_editing){
+		// 	$('.xepan-page-wrapper').removeClass('xepan-sortable-component');
+		// }else{
+		// 	$('.xepan-page-wrapper').addClass('xepan-component');
+		// 	$('.xepan-page-wrapper').addClass('xepan-sortable-component');
+		// 	$('body .xepan-component:not(.xepan-page-wrapper):not(.xepan-page-wrapper .xepan-component)')
+		// 	.dblclick(function(ev) {
+		// 		console.log($(this));	
+		// 		ev.preventDefault();ev.stopPropagation();
+		// 		$('<div><div>This component is in common portion of all pages called "Page Template", To Edit this section plese open Pages in SideBar and click "EDIT PAGE TEMPLATE" Or Click "Edit Template Now" below</div>, <img src="vendor/xepan/cms/templates/images/page-template-hint.png"> <div>Enter in page Template Editing ?</div></div>')
+		// 		.dialog({
+		// 			modal: true,
+		// 			width: 400,
+		// 			buttons: {
+		// 				"Edit Template Now" : function(){
+		// 					$(self.element).xepanEditor('editTemplate');
+		// 				},
+		// 				Cancel: function(){
+		// 					$( this ).dialog( "close" );
+		// 				}
+		// 			}
+		// 		});
+		// 	});;
+		// }
 
+		// console.log(self.options);
 
 		self.setupEnvironment();
 		self.setupTools();
@@ -125,7 +130,7 @@ jQuery.widget("ui.xepanEditor",{
 
 		self.extra_html_wrapper = $('<div class="btn btn-group btn-group-xs" style="padding:0px;"></div>').appendTo(self.generic_tool_wrapper);
  		// Create Layout Button
- 		extra_html = '<div class="btn btn-primary" id="xepan-tool-createlayoutbtn" title="Create Layout"><i class="fa fa-plus"></i>&nbsp;Layout'+
+ 		extra_html = '<div class="btn btn-primary btn-xs" id="xepan-tool-createlayoutbtn" title="Create Layout"><i class="fa fa-plus"></i>&nbsp;Layout'+
  						'<div class="xepan-create-layout-dialoge" style="display:none;">'+
  							'<p> All form fields are required.</p>'+
 							'<div class="xepan-create-layout-form">'+
@@ -142,11 +147,11 @@ jQuery.widget("ui.xepanEditor",{
 					'</div>';
 
 		// Override template
-		extra_html += '<div class="btn btn-danger" id="override-xepan-tool-template" title="Override HTML Templates"><i class="fa fa-code"></i>Html</div>';
+		extra_html += '<div class="btn btn-danger btn-xs" id="override-xepan-tool-template" title="Override HTML Templates"><i class="fa fa-code"></i>Html</div>';
 		// Custom CSS
-		extra_html += '<div class="btn btn-success" id="xepan-tool-mystyle" title="Edit Custom CSS"><i class="fa fa-pencil"></i>CSS</div>';
+		extra_html += '<div class="btn btn-success btn-xs" id="xepan-tool-mystyle" title="Edit Custom CSS"><i class="fa fa-pencil"></i>CSS</div>';
 		// inspector
-		extra_html += '<div class="btn btn-warning" id="xepan-tool-inspector" title="inspector"><i class="fa fa-arrows"></i></div>';
+		extra_html += '<div class="btn btn-warning btn-xs" id="xepan-tool-inspector" title="inspector"><i class="fa fa-arrows"></i></div>';
 		$(extra_html).appendTo(self.extra_html_wrapper);
 
 		// right bar content
@@ -155,6 +160,14 @@ jQuery.widget("ui.xepanEditor",{
 		self.rightbar_toggle_btn = $('<div class="toggler"><span class="fa fa-chevron-left fa-2x" style="display: block;">&nbsp;</span> <span class="fa fa-chevron-right fa-2x" style="display: none;">&nbsp;</span></div>').appendTo(self.rightbar);
 		$(self.rightbar_toggle_btn).click(function(){
 			$('#xepan-cms-toolbar-right-side-panel').toggleClass('toggleSideBar');
+		});
+
+		$('#override-xepan-tool-template').click(function(event) {
+			if(typeof current_selected_component == 'undefined' || current_selected_component.is($('body'))) {
+				$.univ().dialogOK('Please select any component','No component is selected, please select any to override template');
+				return;
+			}
+			$.univ().frameURL('Override Tool Template',{'0':'/?page=xepan_cms_overridetemplate','options':JSON.stringify($(current_selected_component).attr()),'xepan-tool-to-clone':$(".xepan-tools-options div[for-xepan-component]:visible").attr('for-xepan-component')});
 		});
 
 		// disable all clicks
@@ -186,16 +199,30 @@ jQuery.widget("ui.xepanEditor",{
 		// var save_tool_bar = $('<div class="btn-toolbar-no-need" role="toolbar">').appendTo(self.editor_helper_wrapper);
 		var save_btn_group = $('<div class="btn-group btn-group-justified" role="group">').appendTo(self.editor_helper_wrapper);
 		// var snapshot_btn = $('<button id="save-as-snapshot" title="Save as Snapshot" type="button" class="btn btn-default btn-sm" ><span class="fa fa-camera-retro" aria-hidden="true"> Snapshot</span></button>').appendTo(save_btn_group);
-		var change_theme = $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Theme<span class="fa fa-web"></span></button></div>').appendTo(save_btn_group);
-		var save_btn = $('  <div class="btn-group btn-group-xs" role="group"><button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button></div>').appendTo(save_btn_group);
-		var logout_btn = $('  <div class="btn-group btn-group-xs" role="group"><button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button></div>').appendTo(save_btn_group);
+		var change_theme 			= $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-change-template-theme" title="Change Theme" class="btn btn-warning">Theme<span class="fa fa-web"></span></button></div>').appendTo(save_btn_group);
+		var save_btn 				= $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-savepage-btn" title="Save Page" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span> Save</button></div>').appendTo(save_btn_group);
+		var save_btn_with_snapshot 	= $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-savepage-btn-with-snapshot" title="Save & Snapshot" type="button" class="btn btn-success"><span class="fa fa-floppy-o"></span>/<span class="fa fa-camera"></span></button></div>').appendTo(save_btn_group);
+		var logout_btn 				= $('<div class="btn-group btn-group-xs" role="group"><button id="xepan-logout-btn" title="Logout" type="button" class="btn btn-danger"><span class="fa fa-power-off"></span></button></div>').appendTo(save_btn_group);
 
 		$(change_theme).click(function(event) {
 			$.univ().frameURL('Change Template','index.php?page=xepan_cms_theme&cut_page=1');
 		});
 
 		$(save_btn).click(function(){
+			xepan_save_and_take_snapshot = false;
 			$(self.element).xepanEditor('savePage');
+		});
+
+		$(save_btn_with_snapshot).click(function(){
+			var snapshot_name = prompt("Please enter name for snapshot, [Only Page Content snapshot will be saved, NOT PAGE TEMPLATE]", Date());
+			if(snapshot_name == null ) {
+				alert('Canceled, not saving page');
+				return;
+			}
+
+			xepan_save_and_take_snapshot = snapshot_name;
+			$(self.element).xepanEditor('savePage');
+			xepan_save_and_take_snapshot = false;
 		});
 
 		$(logout_btn).click(function(event) {
@@ -203,26 +230,56 @@ jQuery.widget("ui.xepanEditor",{
 		});
 
 		// show border and easy drop
-		var easy_wrapper = $('<div class="xepan-cms-easy-drop-wrapper xepan-cms-tool" style="margin:0px;padding:0px;">').appendTo(self.editor_helper_wrapper);
-		var easy_drop = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-extra-padding" style="font-weight:normal;">Easy Drop</label></div></div>').appendTo(easy_wrapper);
-		var show_border = $('<div class="row" style="padding:0px;margin:0px;"><div class="col-md-2 col-sm-2 col-lg-2"> <input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"></div><div class="col-md-10 col-sm-10 col-lg-10 text-left" style="padding-top:4px;"><label for="epan-component-border" style="font-weight:normal;">Show Border</label></div></div>').appendTo(easy_wrapper);
+		var easy_wrapper = $('<div class="xepan-cms-easy-drop-wrapper xepan-cms-tool btn-group btn-group-justified" style="margin:0px;padding:0px;">').appendTo(self.editor_helper_wrapper);
+		var easy_drop = $('<label for="epan-component-extra-padding" style="font-weight:normal;" class="btn btn-primary btn-xs"><input id="epan-component-extra-padding" aria-label="Checkbox for following text input" type="checkbox"> Easy Drop</label>').appendTo(easy_wrapper);
+		var show_border = $('<label for="epan-component-border" style="font-weight:normal;" class="btn btn-primary  btn-xs"><input id="epan-component-border" aria-label="Checkbox for following text input" type="checkbox"> Show Border</label>').appendTo(easy_wrapper);
+		var hide_temp_page_wrapper = $('<div class="xepan-cms-hide-temp-page-wrapper xepan-cms-tool btn-group btn-group-justified" style="margin:0px;padding:0px;">').appendTo(self.editor_helper_wrapper);
+		var hide_template = $('<label for="epan-hide-template-content" style="font-weight:normal;" class="btn btn-primary btn-xs"><input id="epan-hide-template-content" aria-label="Checkbox for following text input" type="checkbox"> Hide Page Template</label>').appendTo(hide_temp_page_wrapper);
+		var hide_page = $('<label for="epan-hide-page-content" style="font-weight:normal;" class="btn btn-primary btn-xs"><input id="epan-hide-page-content" aria-label="Checkbox for following text input" type="checkbox"> Hide Page</label>').appendTo(hide_temp_page_wrapper);
 
 		/*Component Editing outline show border*/
 		$("#epan-component-border").click(function(event) {
 		    if($('#epan-component-border:checked').size() > 0){
-		        $(xepan_component_selector).find('.xepan-component').addClass('component-outline');
+		        $('.xepan-component').addClass('component-outline');
 		    }else{
-		        $(xepan_component_selector).find('.xepan-component').removeClass('component-outline');
+		        $('.xepan-component').removeClass('component-outline');
 		    }
 		});
 
 		/*Drag & Drop Component to Another  Extra Padding top & Bottom*/
 		$('#epan-component-extra-padding').click(function(event) {
 		    if($('#epan-component-extra-padding:checked').size() > 0){
-		        $(xepan_component_selector).find('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
+		        $('.xepan-sortable-component').addClass('xepan-sortable-extra-padding');
 		    }else{
-		        $(xepan_component_selector).find('.xepan-sortable-component').removeClass('xepan-sortable-extra-padding');
+		        $('.xepan-sortable-component').removeClass('xepan-sortable-extra-padding');
 		    }
+		});
+
+		/* Hide page template */
+		$('#epan-hide-template-content').change(function(event) {
+			if($('#epan-hide-template-content:checked').size() > 0 ){
+				if($('#epan-hide-page-content:checked').size() > 0 ) $('#epan-hide-page-content').click();
+				$('.xepan-page-wrapper').wrap('<div class="xepan-page-wrapper-temp_spot"></div>')
+				$('.xepan-page-wrapper').appendTo('.xepan-v-body');
+				$('.xepan-v-body').children().filter(":not(.xepan-page-wrapper)").hide();
+			}else{
+				$('.xepan-v-body').children().filter(":not(.xepan-page-wrapper)").show();
+				$('.xepan-page-wrapper').appendTo('.xepan-page-wrapper-temp_spot');
+				$('.xepan-page-wrapper').unwrap();
+			}
+		});
+
+		$('#epan-hide-page-content').change(function(event) {
+			if($('#epan-hide-page-content:checked').size() > 0 ){
+				if($('#epan-hide-template-content:checked').size() > 0 ) $('#epan-hide-template-content:checked').click();
+
+				$('.xepan-page-wrapper').wrap('<div class="xepan-hide-page-content-wrapper"></div>')
+				$('<div class="xepan-hide-page-content-wrapper-heading"> <h1 align="center" >PAGE CONTENT AREA</h1><h3 align="center" > It helps you focus on Page Template only.. </h3> </div>').appendTo('.xepan-hide-page-content-wrapper');
+				$('.xepan-page-wrapper').hide();
+			}else{
+				$('.xepan-hide-page-content-wrapper .xepan-hide-page-content-wrapper-heading').remove();
+				$('.xepan-page-wrapper').unwrap().show();
+			}
 		});
 
 		// settings up tool buttons
@@ -546,6 +603,10 @@ jQuery.widget("ui.xepanEditor",{
 		// console.log(this.options.file_path);
 
 		var self= this;
+
+		// show all contents from D&D helper - page and template first
+		if($('#epan-hide-template-content:checked').size() > 0 ) $('#epan-hide-template-content:checked').click();
+		if($('#epan-hide-page-content:checked').size() > 0 ) $('#epan-hide-page-content:checked').click();
 		
 		// $('body').trigger('beforeSave');
 		try{
@@ -571,14 +632,15 @@ jQuery.widget("ui.xepanEditor",{
 	    var overlay = jQuery('<div id="xepan-cms-page-save-overlay"> </div>');
 	    overlay.insertAfter(document.body).css('z-index','10000');
 
-	    html_body = $('.xepan-page-wrapper').clone();
+	    var template_file_path = self.options.template_file;
+	    var page_file_path = self.options.file_path;
+	    
 		
-		if(self.options.template_editing){
-		    html_body = $('body').clone();
-		    if($(html_body).find('.xepan-v-body').length > 0 )
-		    	$(html_body).children().filter(":not(.xepan-v-body)").remove();
-		    self.options.file_path = self.options.template_file;
-		}		
+		// if(self.options.template_editing){
+	    var html_body = $('body').clone();
+	    if($(html_body).find('.xepan-v-body').length > 0 )
+	    	$(html_body).children().filter(":not(.xepan-v-body)").remove();
+		// }		
 		
 		// remove unwanted code as per given attributes
 		$(html_body).find('[xepan-selector-to-remove-before-save]').each(function(index, el) {
@@ -602,11 +664,18 @@ jQuery.widget("ui.xepanEditor",{
 	    $(html_body).find('.xepan-component').removeClass('xepan-selected-component');
 	    $(html_body).find('.xepan-component').removeClass('xepan-sortable-extra-padding');
 
+	    page_html = encodeURIComponent($.trim($(html_body).find('.xepan-page-wrapper').first().html()));
+	    // console.log('page_html');
+	    // console.log($.trim($(html_body).find('.xepan-page-wrapper').first().html()));
+	    page_crc = crc32(page_html);
+
+
+	    $(html_body).find('.xepan-page-wrapper').html('{$Content}');
+
 	    html_body = encodeURIComponent($.trim($(html_body).html()));
-	    // html_body = ($.trim($(html_body).html()));
-
-
 	    html_crc = crc32(html_body);
+	    
+	    // html_body = ($.trim($(html_body).html()));
 
 	    // if (edit_template == true) {
 	    //     html_body = encodeURIComponent($.trim($('#epan-content-wrapper').html()));
@@ -615,21 +684,28 @@ jQuery.widget("ui.xepanEditor",{
 
 	    $("body").css("cursor", "default");
 
-	    var save_and_take_snapshot='Y';
-
-
 	    $.ajax({
 	        url: this.options.save_url,
 	        type: 'POST',
 	        dataType: 'html',
 	        data: {
+	            
 	            body_html: html_body,
+	            html_crc32: html_crc,
+	            html_length: html_body.length,
+	            webtemplate_id: self.options.webtemplate_id,
 	            body_attributes: encodeURIComponent($('body').attr('style')),
-	            take_snapshot: save_and_take_snapshot ? 'Y' : 'N',
-	            crc32: html_crc,
-	            length: html_body.length,
+	            
+	            page_html: page_html,
+	            page_crc32: page_crc,
+	            page_length: page_html.length,
+	            webpage_id: self.options.webpage_id,
+
+	            take_snapshot: ((xepan_save_and_take_snapshot==false) ? 'N' : xepan_save_and_take_snapshot),
 	            file_path: self.options.file_path,
-	            is_template: self.options.template_editing
+	            template_file_path: self.options.template_file_path,
+	            is_template: self.options.template_editing,
+	            page_name: self.options.current_page
 	        },
 	    })
 	    .done(function(message) {
@@ -657,7 +733,8 @@ jQuery.widget("ui.xepanEditor",{
 
 	    shortcut.add("Ctrl+backspace", function(event) {
 	    	if (typeof current_selected_component == 'undefined') return;
-	        $(current_selected_component).xepanComponent('remove');
+	        if(!$(current_selected_component).hasClass('xepan-no-delete') && !$(current_selected_component).hasClass('xepan-no-remove'))
+	        	$(current_selected_component).xepanComponent('remove');
 	        event.stopPropagation();
 	    });
 

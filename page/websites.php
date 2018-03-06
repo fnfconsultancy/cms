@@ -22,9 +22,10 @@ class page_websites extends \xepan\base\Page{
 
 		if($_GET['step']) return;
 
-		$template_initializer = $this->app->layout->add('Button',null,'page_top_right')->set('Initialize Template')->addClass('btn btn-primary');
+		$template_initializer = $this->app->page_top_right_button_set->addButton('Initialize Template')->addClass('btn btn-primary');
+		$previous_themes = $this->app->page_top_right_button_set->addButton('Previous Themes')->addClass('btn btn-primary');
 		$template_initializer->js('click')->univ()->location($this->app->url('./step1'));
-
+		$previous_themes->js('click')->univ()->frameURL('Previous Themes',$this->app->url('./previousthemes'));
 		// as per page 
 		// http://codepen.io/kaizoku-kuma/pen/JDxtC
 		$this->app->jui->addStylesheet('codemirror/codemirror-5.15.2/lib/codemirror');
@@ -234,7 +235,40 @@ class page_websites extends \xepan\base\Page{
 
 			$this->app->redirect($this->app->url('xepan/cms/websites'));
 		}
+	}
 
+	function page_previousthemes(){
+
+		$m = $this->add('Model');
+		$m->addField('name');
+
+		$m->addHook('beforeDelete',function($m){
+	        if(file_exists($m['name'])){	        	
+	            \Nette\Utils\FileSystem::delete($m['name']);
+	        }
+    	});
+
+		// $p = scandir('websites/'.$this->app->current_website_name);
+		$p = glob('websites/'.$this->app->current_website_name.'/*',GLOB_ONLYDIR);
+		$p =array_filter($p,function($v){
+			return strpos($v, 'www-') !== false;
+		});
+        arsort($p);
+        $m->setSource('Array',$p);
+
+		$crud = $this->add('xepan\hr\CRUD',['allow_add'=>false,'allow_edit'=>false]);
+		$crud->setModel($m);
+		$crud->grid->removeColumn('id');
+		$crud->grid->addColumn('Button','Revert');
+
+		if($_GET['Revert']){
+			$m->load($_GET['Revert']);
+			\Nette\Utils\FileSystem::delete('./websites/'.$this->app->current_website_name.'/www-before_revert');
+			\Nette\Utils\FileSystem::rename('./websites/'.$this->app->current_website_name.'/www','./websites/'.$this->app->current_website_name.'/www-before_revert');
+			\Nette\Utils\FileSystem::createDir('./websites/'.$this->app->current_website_name.'/www');
+			\Nette\Utils\FileSystem::copy($m['name'],'./websites/'.$this->app->current_website_name.'/www',true);
+			$this->js()->univ()->successMessage($m['name'].' Is copied to www and old www is saved in www-before_revert')->execute();
+		}
 
 	}
 }

@@ -25,6 +25,25 @@ class page_cms extends \Page {
 	function init(){
 		parent::init();
 
+		if($this->app->xepan_cms_page['is_secure']){
+			$allowed = false;
+			if($this->app->auth->model->loaded()) $allowed= true;
+			
+			if(trim($this->app->xepan_cms_page['secure_only_for'])){
+				$contact = $this->add('xepan\base\Model_Contact');
+				$contact->loadLoggedIn();
+
+				if(!in_array($contact['type'], explode(",", trim($this->app->xepan_cms_page['secure_only_for'])))) $allowed = false;
+			}
+
+			if(!$allowed){
+				$config_m = $this->add('xepan\cms\Model_Config_FrontendWebsiteStatus');
+				$config_m->tryLoadAny();
+				$this->app->redirect($this->app->url($config_m['default_login_page']?:'xepan_cms_login'));
+			}
+
+		}
+
 		if($this->page_requested){
 			$this->app->template->trySet('title',$this->page_requested);
 		}

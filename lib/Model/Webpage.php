@@ -39,6 +39,9 @@ class Model_Webpage extends \xepan\base\Model_Table{
 			
 		$this->addField('is_active')->type('boolean')->defaultValue(1);
 		$this->addField('order')->type('number');
+		
+		$this->addField('is_secure')->type('boolean')->defaultValue(false);
+		$this->addField('secure_only_for')->display(['form'=>'xepan\base\NoValidateDropDown']);
 
 		$this->hasMany('xepan\cms\Webpage','template_id',null,'Pages');
 		$this->hasMany('xepan\cms\Webpage','parent_page_id',null,'SubPages');
@@ -64,9 +67,9 @@ class Model_Webpage extends \xepan\base\Model_Table{
 	}
 
 	function beforeSave(){
-		
+
 		// if page path start with http, https or # then not create the file
-		if((strpos($this['path'], "http") === 0) OR (strpos($this['path'], "https") === 0) OR (strpos($this['path'], "#") === 0)){
+		if((strpos($this['path'], "http") === 0) OR (strpos($this['path'], "https") === 0) OR (strpos($this['path'], "#") === 0)OR (strpos($this['path'], "/") === 0)){
 			return;
 			// do nothing
 		}
