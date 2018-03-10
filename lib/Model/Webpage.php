@@ -69,7 +69,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 	function beforeSave(){
 
 		// if page path start with http, https or # then not create the file
-		if((strpos($this['path'], "http") === 0) OR (strpos($this['path'], "https") === 0) OR (strpos($this['path'], "#") === 0)){
+		if((strpos($this['path'], "http") === 0) OR (strpos($this['path'], "https") === 0) OR (strpos($this['path'], "#") === 0)OR (strpos($this['path'], "/") === 0)){
 			return;
 			// do nothing
 		}
