@@ -169,7 +169,7 @@ jQuery.widget("ui.xepanComponent",{
 		if(!$(this.element).hasClass('xepan-editable-text')) return;
 		$(this.element).attr('contenteditable','true');
 		if($(this.element).hasClass('xepan-no-richtext')) return;
-		$.univ().richtext(self.element,xepan_cms_tinymce_options,true);
+		$.univ().xepan_richtext_admin(self.element,xepan_cms_tinymce_options,true);
 	},
 
 	getOptions:function(){
@@ -474,7 +474,7 @@ jQuery.widget("ui.xepanComponent",{
 				$($new_component).attr('id',generateUUID());
 				window.setTimeout(function(){
 					if($($new_component).hasClass('xepan-editable-text') && !$($new_component).hasClass('xepan-no-richtext'))
-						$.univ().richtext($new_component,xepan_cms_tinymce_options,true);
+						$.univ().xepan_richtext_admin($new_component,xepan_cms_tinymce_options,true);
 				},400);
 
 		    	if($('#epan-component-border:checked').size() > 0){
