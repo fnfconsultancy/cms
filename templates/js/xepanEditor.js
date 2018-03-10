@@ -469,7 +469,7 @@ jQuery.widget("ui.xepanEditor",{
 
 		$(selector).attr('contenteditable','true');
 		$(selector+ ':not(.xepan-no-richtext)').each(function(index, el) {
-			$.univ().richtext($(this)[0],xepan_cms_tinymce_options,true);
+			$.univ().xepan_richtext_admin($(this)[0],xepan_cms_tinymce_options,true);
 		});
 	},
 
