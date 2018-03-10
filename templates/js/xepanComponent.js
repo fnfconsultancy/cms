@@ -169,7 +169,7 @@ jQuery.widget("ui.xepanComponent",{
 		if(!$(this.element).hasClass('xepan-editable-text')) return;
 		$(this.element).attr('contenteditable','true');
 		if($(this.element).hasClass('xepan-no-richtext')) return;
-		$.univ().richtext(self.element,xepan_cms_tinymce_options,true);
+		$.univ().xepan_richtext_admin(self.element,xepan_cms_tinymce_options,true);
 	},
 
 	getOptions:function(){
