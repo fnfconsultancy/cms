@@ -474,7 +474,7 @@ jQuery.widget("ui.xepanComponent",{
 				$($new_component).attr('id',generateUUID());
 				window.setTimeout(function(){
 					if($($new_component).hasClass('xepan-editable-text') && !$($new_component).hasClass('xepan-no-richtext'))
-						$.univ().richtext($new_component,xepan_cms_tinymce_options,true);
+						$.univ().xepan_richtext_admin($new_component,xepan_cms_tinymce_options,true);
 				},400);
 
 		    	if($('#epan-component-border:checked').size() > 0){
