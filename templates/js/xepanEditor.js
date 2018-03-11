@@ -460,12 +460,12 @@ jQuery.widget("ui.xepanEditor",{
 
 	setupEditableText: function(){
 		var self = this;
-		var selector;
-		if(self.options.template_editing){
-			selector= '.xepan-v-body .xepan-editable-text';
-		}else{
-			selector= '.xepan-page-wrapper .xepan-editable-text';
-		}
+		var selector = ".xepan-editable-text";
+		// if(self.options.template_editing){
+		// 	selector= '.xepan-v-body .xepan-editable-text';
+		// }else{
+		// 	selector= '.xepan-page-wrapper .xepan-editable-text';
+		// }
 
 		$(selector).attr('contenteditable','true');
 		$(selector+ ':not(.xepan-no-richtext)').each(function(index, el) {
