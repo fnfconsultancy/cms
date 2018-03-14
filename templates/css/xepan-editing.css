@@ -501,6 +501,8 @@
 .xepan-sortable-extra-padding{
     padding-bottom:30px !important;
     padding-top:30px !important
+    margin-bottom:30px !important;
+    margin-top:30px !important
 }
 
 .xepan-cms-responsive-wrapper{
