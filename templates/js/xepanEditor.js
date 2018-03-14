@@ -739,10 +739,11 @@ jQuery.widget("ui.xepanEditor",{
 	    });
 
 		shortcut.add("Ctrl+Shift+Up", function(event) {
-	        ctrlShiftUpSelection(event);
+        	ctrlShiftUpSelection(event);
 	    });
 
 	    shortcut.add("Ctrl+Shift+Left", function(event) {
+
 	    	ctrlShiftLeftSelection(event);
 	    });
 
@@ -898,6 +899,10 @@ function shiftTabSelection(event){
 
 function componentMoveLeft(event){
 	if (typeof current_selected_component == 'undefined') return;
+	if($(current_selected_component).hasClass('xepan-no-move')){
+		$.univ().errorMessage('This Component is restricted to be moved');
+		return;
+	}
     previous_sibling = $(current_selected_component).prev('.xepan-component');
     if (previous_sibling.length === 0) {
         $('body').univ().errorMessage('No Previous Sibling element found');
@@ -910,6 +915,10 @@ function componentMoveLeft(event){
 
 function componentMoveRight(event){
 	if (typeof current_selected_component == 'undefined') return;
+	if($(current_selected_component).hasClass('xepan-no-move')){
+		$.univ().errorMessage('This Component is restricted to be moved');
+		return;
+	}
     next_sibling = $(current_selected_component).next('.xepan-component');
     if (next_sibling.length === 0) {
         $('body').univ().errorMessage('No Next Sibling element found');
