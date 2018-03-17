@@ -79,11 +79,6 @@ class page_websites extends \xepan\base\Page{
 		$www_absolute = getcwd().'/websites/'.$this->app->current_website_name.'/www/';
 		$www_relative = './websites/'.$this->app->current_website_name.'/www/';
 
-		if(file_exists($www_absolute . 'layout/default.html')){
-			$this->add('View')->set('This template looks already initialized, please remove all folders and just unzip your HTML/Bootstrap template in www');
-			return;
-		}
-
 		$html_files = glob('./websites/'.$this->app->current_website_name.'/www/*.html');
 		
 		array_walk($html_files, function(&$value,$key){
@@ -128,45 +123,258 @@ class page_websites extends \xepan\base\Page{
 	}
 
 	function page_step1_step2(){
-		$www_absolute = getcwd().'/websites/'.$this->app->current_website_name.'/www/';
-		$www_relative = './websites/'.$this->app->current_website_name.'/www/';
+		
 		$this->app->stickyGET('base_file');
 		$this->app->stickyGET('page_template_name');
 		$this->app->stickyGET('leave_un_touched');
 
-		$this->add('View_Error')->set('Remove any jquery included, not jquery plugins but jquery itself, as system will include jquery by itself')->addClass('alert alert-danger');
+		$this->add('H1')->set('Define Page Template from '. $_GET['base_file']);
+		$this->add('View')
+					->addClass('alert alert-danger')
+					->set('Select border elements that defines range of Page Temaplte, either select two nodes that belongs to PageTemplate as top-end and bottom-start that will contain pages in between them or select one node that will contain page');
 
-		$form = $this->add('Form');
-		$generated_template_field = $form->addField('xepan\base\CodeEditor','generated_template');
-		$generated_template_field->load_js = true;
-		$generated_template_field->show_input_only = true;
-		$generated_template_field->setRows(30);
+		$www_absolute = getcwd().'/websites/'.$this->app->current_website_name.'/www/';
+		$www_relative = './websites/'.$this->app->current_website_name.'/www/';
 
-		$form->addField('hidden','base_file')->set($this->app->stickyGET('base_file'));
-		$form->addField('hidden','page_template_name')->set($this->app->stickyGET('page_template_name'));
-		$form->addField('hidden','leave_un_touched')->set($this->app->stickyGET('leave_un_touched'));
+		$page_structure_vp = $this->add('VirtualPage');
+		$page_structure_vp->set([$this,'generatePageStructure']);
 
-		$form->addSubmit('Proceed');
-			
+		$this->js()->_load('jstree\dist\jstree.min');
+		$this->js()->_load('xepanjstree');
+		$this->app->jui->addStaticStyleSheet('jstree/dist/themes/default/style.min');
+		
+		// $this->js(true)->univ()->frameURL($page_structure_vp->getURL());
+		// return;
+
 		$base_file = file_get_contents($www_relative.$_GET['base_file']);
 		
-		$pq = new phpQuery();
-		$dom = $pq->newDocument($base_file);
+		
+		$this->structure = $this->getHtmlStructure($base_file);
+		
+		if(!$this->structure[0]['children']) $this->add('View_Error')->addClass('alert alert-danger')->set('Page bes not have body tag or body tag children');
 
-		foreach ($dom['body > *']->not('script') as $body_child) {
-			$pq->pq($body_child)->remove();
+		// echo "<pre>";
+		// print_r($this->structure);
+		// echo "</pre>";
+		// exit();
+
+		$v = $this->add('View');
+		$v->js(true)->univ()->placeTemplateContentRegion($v,$this->structure,$this->app->url('xepan_cms_websites_verifyselectors'),$this->app->url('xepan_cms_websites_preparePageTemaplate'));
+
+	}
+
+	function getHtmlStructure($file,$root_node='body'){
+		$this->pq = new phpQuery();
+		$dom = $this->pq->newDocument($file);
+		$arr=[];
+		foreach ($dom->find($root_node) as $ch) {
+			$attributes="";
+			foreach ($ch->attributes as $attr) {
+				$attributes .=" $attr->name = '$attr->value'";
+			}
+			$arr[] = [
+						'id'=>'x'.uniqid(),
+						'text'=>"&lt;$ch->tagName $attributes&gt; ",
+						'children'=> $this->getHtmlChildren($ch)
+					];
 		}
 
+		return $arr;
+	}
 
-		$template_html = $dom->html();
+	function getHtmlChildren($dom){
+		$dom = $this->pq->pq($dom);
+		$children=[];
+		foreach ($dom['> *'] as $ch) {
+			$attributes="";
+			foreach ($ch->attributes as $attr) {
+				$attributes .=" $attr->name = '$attr->value'";
+			}
+			$id='x'.uniqid();
+			$children[] = [
+							'id'=>$id,
+							'text'=>"&lt;$ch->tagName $attributes&gt; " ,
+							'children'=>$this->getHtmlChildren($this->pq->pq($ch)),
+						// 'li_attr'=>['title'=>'HIII']
+					];
+		}
+		if(count($children))
+			return $children;
+		if($dom->text()){
+			$id='x'.uniqid();
+			$children[]=['id'=>$id,'text'=>$dom->text(),'children'=>false];
+			return $children;
+		}
 
-		$generated_template_field->set($template_html);
+		return false;
+	}
 
-		if($form->isSubmitted()){
-			// remove title/meta-keyword and meta-description
+	function page_verifyselectors(){
+		
+		$this->app->stickyGET('base_file');
+		$this->app->stickyGET('page_template_name');
+		$this->app->stickyGET('leave_un_touched');
+		$this->app->stickyGET('page_content_border');
+		
+		$this->add('View_Console')->set(function($c){
+			$c->out('Starting checking if selectors are present in all selected files');
+
+			$www_absolute = getcwd().'/websites/'.$this->app->current_website_name.'/www/';
+			$www_relative = './websites/'.$this->app->current_website_name.'/www/';
+
+			$page_content_border = $this->app->stickyGET('page_content_border');
+			$page_content_border = json_decode($_GET['page_content_border']);
+
+			$start_selector = $end_selector = null;
+
+			switch (count($page_content_border)) {
+				case 1:
+					$start_selector = $this->getSelector($page_content_border[0]);
+					break;
+				case 2:
+					$start_selector = $this->getSelector($page_content_border[0]);
+					$end_selector = $this->getSelector($page_content_border[1]);
+					break;
+				default:
+					# code...
+					echo "oops";
+					break;
+			}
+
+			// Loop throgh all pages excluded intensionally and keep only page content
+			
+			$c->out('$start_selector = '.$start_selector);
+			$c->out('$end_selector = '.$end_selector);
+			
+			$c->out('Starting to verify pages');
+
 			$pq = new phpQuery();
-			$dom = $pq->newDocument($form['generated_template']);
 
+			$html_files = glob('./websites/'.$this->app->current_website_name.'/www/*.html');
+			$leave_un_touched = explode(",", $_GET['leave_un_touched']);
+			$ok=true;
+			foreach ($html_files as $file) {
+					if(in_array(array_reverse(explode("/", $file))[0], $leave_un_touched)) continue;
+					$not_found= '';
+					$dom = $pq->newDocument(file_get_contents($file));
+					if($start_selector && $end_selector){
+						
+						if($l=$dom[$start_selector]->length()){
+							if($l>1){
+								$c->err('Multiple objects found for "'. $start_selector. '" in '. $file);
+								$ok=false; 	
+							}
+						}else{
+							$not_found .= '"'.$start_selector.'"';
+							$ok=false;
+						}
+
+						if($l=$dom[$end_selector]->length()){
+							if($l>1) {
+								$c->err('Multiple objects found for "'. $end_selector. '" in '. $file);
+								$ok=false;
+							}
+						}else{
+							$not_found .= ' and "'. $end_selector.'"';
+							$ok=false;
+						}
+
+					}elseif($start_selector){
+						if($l=$dom[$start_selector]->length()){
+							if($l>1) {
+								$c->err('Multiple objects found for "'. $start_selector. '" in '. $file);
+								$ok=false;
+							}
+						}else{
+							$not_found .='"'.$start_selector.'"';
+							$ok=false;
+						}
+					}else{
+						$c->err('No start_selector defined ?');
+						$ok=false;
+					}
+
+					if($not_found !== '')
+						$c->err($file . " does not contains element $not_found");
+					else
+						$c->out("$file will be parsed easily");
+					
+				}
+
+			$c->out('Pages checked');
+
+			if(!$ok){
+				$c->err("========");
+				$c->err("Solve Error First or mark error pages un-touched in previous page");
+				$c->err("========");
+				$c->jsEval($this->js(true)->_selector('#replace_button')->show()->removeClass('btn-success')->addClass('btn-danger'));
+			}else{
+				$c->out('========');
+				$c->out('Close this window and proceed to create page Template and prepare pages');
+				$c->out('========');
+				$c->jsEval($this->js(true)->_selector('#replace_button')->show()->removeClass('btn-danger')->addClass('btn-success'));
+					
+			}
+
+
+		});
+		
+		// $this->js()->univ()->successMessage('DONE')->execute();
+
+		// exit;
+	}
+
+	function page_preparePageTemaplate(){
+		
+		$this->app->stickyGET('base_file');
+		$this->app->stickyGET('page_template_name');
+		$this->app->stickyGET('leave_un_touched');
+		$this->app->stickyGET('page_content_border');
+		
+		$this->add('View_Console')->set(function($c){
+			$c->out('Starting');
+			$www_absolute = getcwd().'/websites/'.$this->app->current_website_name.'/www/';
+			$www_relative = './websites/'.$this->app->current_website_name.'/www/';
+
+			$page_content_border = $this->app->stickyGET('page_content_border');
+			$page_content_border = json_decode($_GET['page_content_border']);
+
+
+			$base_file = file_get_contents($www_relative.$_GET['base_file']);
+			
+			$pq = new phpQuery();
+			$dom = $pq->newDocument($base_file);
+
+			// ===============  Seperate Page Template and Populate required tags/things in Page Template ======== 
+			$template_content_block = '<div xepan-component="xepan/cms/Tool_TemplateContentRegion" class="xepan-component xepan-page-wrapper xepan-sortable-component">{$Content}</div>';
+			
+			$start_selector = $end_selector = null;
+
+			switch (count($page_content_border)) {
+				case 1:
+					$start_selector = $this->getSelector($page_content_border[0]);
+					$dom[$start_selector]->html($template_content_block);
+					break;
+				case 2:
+					$start_selector = $this->getSelector($page_content_border[0]);
+					$end_selector = $this->getSelector($page_content_border[1]);
+					
+					foreach($dom[$start_selector] as $d){
+						while(!$pq->pq($d)->next()->is($end_selector)){
+							$pq->pq($d)->next()->remove();
+						}
+					}
+					$dom[$start_selector]->after($template_content_block);
+
+					break;
+				default:
+					# code...
+					echo "oops";
+					break;
+			}
+			$c->out('Selectors identified as '.$start_selector. ' '. $end_selector);
+			$c->out('Tool_TemplateContentRegion added');
+			
 			$pq->pq($dom['title'])->remove();
 			$pq->pq($dom['meta[name="description"]'])->remove();
 			$pq->pq($dom['meta[name="keywords"]'])->remove();
@@ -186,56 +394,152 @@ class page_websites extends \xepan\base\Page{
 					 xEpan-ATK-Header-End-->')
 				->prependTo('head');
 
-			$pq->pq('<div class="xepan-v-body xepan-component xepan-sortable-component" xepan-component-name="Main Body">
-				        <div xepan-component="xepan/cms/Tool_TemplateContentRegion" class="xepan-component xepan-page-wrapper xepan-sortable-component">{$Content}</div>
-				    </div>')
-				->prependTo('body');
+			$dom['body']->html('<div class="xepan-v-body xepan-component xepan-sortable-component" xepan-component-name="Main Body">'.$dom['body']->html().'</div>');
+			// $template_html = $dom->html();
+			// echo "\n -- new template ----\n";
+			// echo $template_html;
 
-			$page_template_file = $www_relative.'layout/'.$form['page_template_name'];
-
+			$page_template_file = $www_relative.'layout/'.$_GET['page_template_name'];
 			if(!file_exists($www_relative.'layout')) \Nette\Utils\FileSystem::createDir($www_relative.'layout');
-
 			file_put_contents($page_template_file, str_replace("{}", "{ }", str_replace('</body>', '</body>{$after_body_code}', $dom->html())));
-
-			$html_files = glob('./websites/'.$this->app->current_website_name.'/www/*.html');
-
-			$leave_un_touched = explode(",", $form['leave_un_touched']);
-			
-			// template model
 
 			$this->add('xepan\cms\Model_Webpage')->deleteAll();
 
 			$template_model = $this->add('xepan\cms\Model_Template');
-			$template_model->addCondition('name',$form['page_template_name']);
-			$template_model->addCondition('path',$form['page_template_name']);
+			$template_model->addCondition('name',$_GET['page_template_name']);
+			$template_model->addCondition('path',$_GET['page_template_name']);
 			$template_model->tryLoadAny();
 			$template_model->save();
 
+			$c->out('layout/'. $_GET['page_template_name'].' saved');
+
+			// ===============  END OF : Seperate Page Template and Populate required tags/things in Page Template ======== 
+
+			// Loop throgh all pages excluded intensionally and keep only page content
+			
+			$c->out('Starting to clear pages');
+
+			$html_files = glob('./websites/'.$this->app->current_website_name.'/www/*.html');
+			$leave_un_touched = explode(",", $_GET['leave_un_touched']);
 			foreach ($html_files as $file) {
-				if(in_array($file, $leave_un_touched)) continue;
-				$dom = $pq->newDocument(file_get_contents($file));
-				$pq->pq($dom['body > script'])->remove();
-				$content=$dom['body']->html();
-				$content = str_replace("{}", "{ }", $content);
-				if($content){
-					file_put_contents($file, $content);
-					$temp_array = explode("/", $file);
-					$page_name = end($temp_array);
-					$page_name = str_replace(".html", "", $page_name);
+					if(in_array(array_reverse(explode("/", $file))[0], $leave_un_touched)) continue;
+					$c->out('Working on '. $file);
+					// $c->out('<pre>'.htmlentities(file_get_contents($file)).'</pre>');
+					$dom = $pq->newDocument(file_get_contents($file));
+					// $pq->pq($dom['body > script'])->remove();
+					// $content=$dom['body']->html();
+					$content="";
+					if($start_selector && $end_selector){
+						$c->out('$start_selector = '.$start_selector);
+						$c->out('$end_selector = '.$end_selector);
+						foreach($dom[$start_selector]->nextAll() as $d){
+							if($pq->pq($d)->is($end_selector)) break;
+							// $c->out('<pre>'.htmlentities($pq->pq($d)->htmlOuter()).'</pre>');
+							$content .= $pq->pq($d)->htmlOuter();
+						}
+					}elseif($start_selector){
+						foreach($dom[$start_selector] as $d){
+							$content .= $pq->pq($d)->html();
+						}
+					}else{
+						$c->err('No start_selector defined ?');
+						return;
+					}
+					// $c->out('<pre>'.$content.'</pre>');
+					$content = str_replace("{}", "{ }", $content);
+					$c->out('Celared Content made for page '. $file);
 
-					$page_model = $this->add('xepan\cms\Model_Webpage');
-					$page_model->addCondition('name',$page_name);
-					$page_model->addCondition('path',$page_name);
-					$page_model->tryLoadAny();
-					$page_model['template_id'] = $template_model->id;
-					$page_model->saveAndUnload();
+					if($content){
+						file_put_contents($file, $content);
+						$temp_array = explode("/", $file);
+						$page_name = end($temp_array);
+						$page_name = str_replace(".html", "", $page_name);
+
+						$page_model = $this->add('xepan\cms\Model_Webpage');
+						$page_model->addCondition('name',$page_name);
+						$page_model->addCondition('path',$page_name);
+						$page_model->tryLoadAny();
+						$page_model['template_id'] = $template_model->id;
+						$page_model->saveAndUnload();
+						$c->out($file.' Saved');
+					}
+					// echo ($file."<br/>".$dom['body']->html());
 				}
-				// echo ($file."<br/>".$dom['body']->html());
-			}
 
-			$this->app->redirect($this->app->url('xepan/cms/websites'));
-		}
+			$c->out('Pages cleared');
+			$c->jsEval($this->js()->show()->_selector('.manage_pages_btn'));
+			$c->jsEval($this->js()->show()->_selector('.create_another_page_template_btn'));
+			$c->jsEval($this->js()->show()->_selector('.manage_edit_page_templates_components'));
+
+		});
+		
+		$this->add('Button')->set('1. Pages & Templates')->addClass('btn btn-primary manage_pages_btn')->setStyle('display','none')
+			->js('click')->univ()->frameURL($this->app->url('xepan_cms_cmspagemanager'));
+		
+		$this->add('Button')->set('2. Edit Pages & Templates (Components)')->addClass('btn btn-primary manage_edit_page_templates_components')->setStyle('display','none')
+			->js('click')->univ()->redirect($this->app->url('xepan_cms_websites_component_creator'));
+
+		$this->add('Button')->set('[Create Another Page Template]')->addClass('btn btn-primary create_another_page_template_btn')->setStyle('display','none')
+			->js('click')->univ()->redirect($this->app->url('xepan_cms_websites_step1'));
+		
 	}
+
+	function page_component_creator(){
+		$file_selected = $this->app->stickyGET('file');
+
+
+		$menu = $this->app->page_top_right_button_set->add('Button')->set('Pages'.($file_selected?': '.$file_selected:''))->addClass('btn btn-primary')->addMenu()->setStyle(['position'=>'absolute','height'=>'300px','overflow-y'=>'scroll']);
+		$html_files = glob('./websites/'.$this->app->current_website_name.'/www/*.html');
+		$p_template_files = glob('./websites/'.$this->app->current_website_name.'/www/layout/*.html');
+
+		foreach ($html_files as $file) {
+			$file = str_replace('./websites/'.$this->app->current_website_name.'/www/', '', $file);
+			$menu->addMenuItem($this->app->url(null,['file'=>$file]),$file);
+		}
+
+		foreach ($p_template_files as $file) {
+			$file = str_replace('./websites/'.$this->app->current_website_name.'/www/', '', $file);
+			$menu->addMenuItem($this->app->url(null,['file'=>$file]),$file);
+		}
+
+		if(!$file_selected){
+			$this->add('View')->addClass('alert alert-danger')->set('Please Select any page from Top Bar Pages button');
+			return;
+		}
+		
+		$cols = $this->add('Columns');
+		$tree_col = $cols->addColumn(4);
+		$preview_col = $cols->addColumn(8);
+
+		$this->structure = $this->getHtmlStructure(file_get_contents('./websites/'.$this->app->current_website_name.'/www/'.$file_selected),'> *');
+		// echo htmlentities(file_get_contents('./websites/'.$this->app->current_website_name.'/www/'.$file_selected));
+		// echo "<pre>";
+		// print_r($this->structure);
+		// echo "</pre>";
+		// exit();
+		$this->js()->_load('jstree\dist\jstree.min');
+		$this->js()->_load('xepanjstree');
+		$this->app->jui->addStaticStyleSheet('jstree/dist/themes/default/style.min');
+
+		$v = $tree_col->add('View');
+		$v->js(true)->univ()->placeTemplateContentRegion($v,$this->structure,$this->app->url('xepan_cms_websites_verifyselectors'),$this->app->url('xepan_cms_websites_preparePageTemaplate'));
+
+	}
+
+	function getSelector($html_tag_string){
+		$tag = html_entity_decode($html_tag_string);
+		preg_match_all('%\s+id\s*=\s*[\'"]?([a-zA-Z0-9\-_]*)[\'"]?\s*%i', $tag,$match);
+		$selector = '#'.@$match[1][0];
+		if($selector == '#'){
+			preg_match_all('%\s+class\s*=\s*[\'"]?([a-zA-Z0-9\-_\s]*)[\'"]?\s*%i', $tag,$match);
+			$selector = '.'.preg_replace("/\s+/", '.', isset($match[1][0])?$match[1][0]:"");
+		}if($selector=='.'){
+			preg_match_all('%<([a-zA-Z]+)\s*(.*)>%i', $tag,$match);
+			$selector=$match[1][0];
+		}
+		return $selector;
+	}
+
 
 	function page_previousthemes(){
 
