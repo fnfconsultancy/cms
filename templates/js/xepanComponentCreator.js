@@ -196,7 +196,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 		if(typeof(jQObj) === "undefined" ) jQObj = current_selected_tree_node_dom;
 		$('#'+node.id+' > a').contents()[1].nodeValue = $(jQObj).prop('outerHTML').replace(/<\/\S+>$/,'');
 		current_selected_tree_node_dom = $($(jQObj).prop('outerHTML'));
-		current_selected_tree_node.text = $(jQObj).prop('outerHTML').replace(/<\/\S+>$/,'').replace(/</,'&lt;').replace(/>/,'&gt;');
+		if(typeof($(jQObj).prop('outerHTML')) == "undefined")
+			current_selected_tree_node.text = $(jQObj).html();
+		else
+			current_selected_tree_node.text = $(jQObj).prop('outerHTML').replace(/<\/\S+>$/,'').replace(/</,'&lt;').replace(/>/,'&gt;');
 	},
 
 	updateJsTreeBlock: function (element){
@@ -211,6 +214,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 						
 			if($('li a:contains("xepan-serverside-component")').closest('li').find('#'+current_selected_tree_node.id).length){
+
 				return;
 			}
 			
@@ -576,6 +580,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 	addToTagList: function(tag_name,dom_obj,implement_as){
 
+		var self = this;
+
 		if(tag_name.indexOf('$') > 0){
 			tag_name_with_dollar = tag_name;
 			tag_name_without_dollar = tag_name.replace('$',"");
@@ -598,9 +604,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			break;
 
 			case 'wrapper':
-				var orig_html = $(dom_obj).prop('outerHTML');
-				var wrapped_html = tag_name_without_dollar+orig_html+"{/}";
-			 	$(dom_obj).prop('outerHTML', wrapped_html);
+			 	$(dom_obj).attr('xepan-serverside-component-wrappers', tag_name_without_dollar);
 			break;
 
 			case 'class':
@@ -611,6 +615,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 				$(dom_obj).addStyle(tag_name_with_dollar);
 			break;
 		}
+
+		self.putBackJsTreeNode();
 		// console.log("dom obj:",$(dom_obj));
 		// console.log("dom obj html:",$(dom_obj).prop('outerHTML'));
 	},
@@ -722,38 +728,38 @@ jQuery.widget("ui.xepanComponentCreator",{
 		if($.inArray('{rows}',self.tags)){
 			$('<h4>Repetative Selector</h4>').appendTo($(col3));
 			repetative_btn_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($(col3));
-			$('<button class="btn btn-primary">Selection</button>').appendTo($(repetative_btn_group));
-			var repetative_dom_selector = $('<button id="xepan-creator-repitative-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(repetative_btn_group));
-			var repetative_selection_parent = $('<button id="xepan-creator-repitative-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(repetative_btn_group));
-			var repetative_html = $('<textarea id="xepan-creator-repitative-html">').appendTo($(col3));
+			// $('<button class="btn btn-primary">Selection</button>').appendTo($(repetative_btn_group));
+			// var repetative_dom_selector = $('<button id="xepan-creator-repitative-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(repetative_btn_group));
+			// var repetative_selection_parent = $('<button id="xepan-creator-repitative-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(repetative_btn_group));
+			// var repetative_html = $('<textarea id="xepan-creator-repitative-html">').appendTo($(col3));
 			
 			// initialize dom object
-			var repitativeDomOutline = DomOutline({
-				'onClick': function(element){
-					repitative_selected_dom = element;
+			// var repitativeDomOutline = DomOutline({
+			// 	'onClick': function(element){
+			// 		repitative_selected_dom = element;
 
-					// extra padding
-					if($('#xepan-cmp-creator-add-extra-padding:checked').size() > 0)
-						$(repitative_selected_dom).addClass('xepan-component-creator-extra-margin');
-					else
-						$(repitative_selected_dom).removeClass('xepan-component-creator-extra-margin');
+			// 		// extra padding
+			// 		if($('#xepan-cmp-creator-add-extra-padding:checked').size() > 0)
+			// 			$(repitative_selected_dom).addClass('xepan-component-creator-extra-margin');
+			// 		else
+			// 			$(repitative_selected_dom).removeClass('xepan-component-creator-extra-margin');
 
-					$('#xepan-component-creator-form').modal('show');
-					$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
-				}
-			});
-			// repetative dom selector
-			$(repetative_dom_selector).click(function(){
-				$('#xepan-component-creator-form').modal('hide');
-				repitativeDomOutline.start();
-				return false;
-			});
+			// 		$('#xepan-component-creator-form').modal('show');
+			// 		$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
+			// 	}
+			// });
+			// // repetative dom selector
+			// $(repetative_dom_selector).click(function(){
+			// 	$('#xepan-component-creator-form').modal('hide');
+			// 	repitativeDomOutline.start();
+			// 	return false;
+			// });
 
-			// parent selection
-			$(repetative_selection_parent).click(function(event) {
-				repitative_selected_dom = $(repitative_selected_dom).parent();
-				$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
-			});
+			// // parent selection
+			// $(repetative_selection_parent).click(function(event) {
+			// 	repitative_selected_dom = $(repitative_selected_dom).parent();
+			// 	$('#xepan-creator-repitative-html').val($(repitative_selected_dom).prop('outerHTML'));
+			// });
 
 			// no record found message
 			$('<label for="xepan-cmp-creator-not-found-message">No Record Found Message</label><input id="xepan-cmp-creator-not-found-message" value="Not Matching Record Found" />').appendTo($(col3));
@@ -777,8 +783,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 		}
 
 		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
-		$('<button class="btn btn-primary">Selection</button>').appendTo($(tag_implementor_wrapper));
-		var tag_dom_selector = $('<button id="xepan-creator-tag-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(tag_implementor_wrapper));
+		// $('<button class="btn btn-primary">Selection</button>').appendTo($(tag_implementor_wrapper));
+		// var tag_dom_selector = $('<button id="xepan-creator-tag-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(tag_implementor_wrapper));
 
 		// tag select
 		var tag_select = '<div class="btn-group" role="group"><select id="xepan-component-serverside-creator-tags" ><option value="">Select Tags</option>';
@@ -808,25 +814,25 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$('<div id="xepan-creator-implement-tag-wrapper"></div>').appendTo($creator_wrapper);
 
 		// initialize dom object
-		var tagDomOutline = DomOutline({
-			'onClick': function(element){
+		// var tagDomOutline = DomOutline({
+		// 	'onClick': function(element){
 
-				if($.contains(repitative_selected_dom,element)){
-					current_selected_tag_dom = element;
-					$('#xepan-creator-tag-html').val($(current_selected_tag_dom).prop('outerHTML'));
-				}
-				else
-					alert('Please select child of repetative dom/Element ');
+		// 		if($.contains(repitative_selected_dom,element)){
+		// 			current_selected_tag_dom = element;
+		// 			$('#xepan-creator-tag-html').val($(current_selected_tag_dom).prop('outerHTML'));
+		// 		}
+		// 		else
+		// 			alert('Please select child of repetative dom/Element ');
 
-				$('#xepan-component-creator-form').modal('show');
-			}
-		});
+		// 		$('#xepan-component-creator-form').modal('show');
+		// 	}
+		// });
 
-		$(tag_dom_selector).click(function(event) {
-			$('#xepan-component-creator-form').modal('hide');
-			tagDomOutline.start();
-			return false;
-		});
+		// $(tag_dom_selector).click(function(event) {
+		// 	$('#xepan-component-creator-form').modal('hide');
+		// 	tagDomOutline.start();
+		// 	return false;
+		// });
 
 		// if has tag dom then select show the crud
 		// if($(current_selected_tag_dom).length){
@@ -837,8 +843,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 			var selected_tag = $('#xepan-component-serverside-creator-tags').val();
 			var implement_as = $('#xepan-component-serverside-creator-apply-as').val();
 
-			if(!$(current_selected_tag_dom).length){
-				$.univ().errorMessage('first select the dom element');
+			if($('li a:contains("xepan-serverside-component")').closest('li').find('#'+current_selected_tree_node.id).length == 0){
+				$.univ().errorMessage('Please select node under serverside component');
+				return;
+			}
+
+			if(!$(current_selected_tree_node_dom).length){
 				return;
 			}
 
@@ -854,14 +864,17 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 
 			// console.log(current_selected_tag_dom);
-			var temp = [];
+			var temp = {};
 				temp.tag = selected_tag;
-				temp.dom = $(current_selected_tag_dom);
+				temp.dom = $(current_selected_tree_node_dom);
 				temp.implement_as = implement_as;
+				temp.jsnode = current_selected_tree_node;
 
 			tags_associate_list.push(temp);
 
-			self.addToTagList(selected_tag,$(current_selected_tag_dom),implement_as);
+			console.log(tags_associate_list);
+
+			self.addToTagList(selected_tag,$(current_selected_tree_node_dom),implement_as);
 			
 			$('#xepan-component-serverside-creator-tags').val("");
 			$('#xepan-component-serverside-creator-apply-as').val("");
@@ -1012,6 +1025,47 @@ jQuery.widget("ui.xepanComponentCreator",{
 			var applied_btn = $('<div class="btn btn-success btn-sm" type="button">'+data.tag+'('+data.implement_as+')</div>').appendTo($('#xepan-creator-implement-tag-wrapper'));
 			var delete_btn = $('<span class="xepan-creator-delete-applied-tag label label-danger" data-id='+index+'>x</span>').appendTo($(applied_btn));
 			$(delete_btn).click(function(event){
+				
+				console.log(data);
+				tag_name = data.tag;
+
+				if(tag_name.indexOf('$') > 0){
+					tag_name_with_dollar = tag_name;
+					tag_name_without_dollar = tag_name.replace('$',"");
+				}else{
+					tag_name_with_dollar = tag_name.replace('{','{$');
+					tag_name_without_dollar = tag_name;
+				}
+
+				dom_obj = data.dom;
+
+				switch(data.implement_as){
+					case 'href':
+						$(dom_obj).attr('href',$(data.jsnode.data.element).attr("href"));
+					break;
+
+					case 'src':
+						$(dom_obj).attr('src',$(data.jsnode.data.element).attr("src"));
+					break;
+						
+					case 'text':
+						$(dom_obj).text($(data.jsnode.data.element).text());
+						// $(dom_obj).text($(data.jsnode.data.element).nodeValue);
+					break;
+
+					case 'wrapper':
+					 	$(dom_obj).removeAttr('xepan-serverside-component-wrappers');
+					break;
+
+					case 'class':
+						$(dom_obj).removeClass(tag_name_with_dollar);
+					break;
+
+					case 'style':
+						$(dom_obj).addStyle(tag_name_with_dollar);
+					break;
+				}
+
 
 			 	delete tags_associate_list[$(this).attr('data-id')];
 			 	self.showAppliedTags();
