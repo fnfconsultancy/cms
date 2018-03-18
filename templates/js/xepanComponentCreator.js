@@ -186,7 +186,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		self.addMoveToTemplate();
 
 		// append component wrapper
-		$('<div id="xepan-component-js-tree-view-wrapper"></div>').appendTo($(self.form_body));
+		$('<div id="xepan-component-js-tree-view-wrapper" style="overflow:auto"></div>').appendTo($(self.form_body));
 		$('<div id="xepan-component-creator-type-wrapper"></div>').appendTo($(self.form_body));
 	},
 
@@ -1045,7 +1045,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$(current_selected_tree_node_dom).attr('xepan-component-name',$(this).val());
 			self.putBackJsTreeNode();
 		});
-		
+
 		$('#xepan-cmp-creator-xepan-editable-text').change(function(event) {
 			if($('#xepan-cmp-creator-xepan-editable-text:checked').size() > 0 ){
 				if($(current_selected_dom).children('.xepan-component').length > 0){
@@ -1057,7 +1057,11 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		// dynamic lister selector input box
 		$('<div><label for="xepan-cmp-creator-dynamic-list-selector">Dynamic Option List Selector</label><input id="xepan-cmp-creator-dynamic-list-selector" /></div>').appendTo($creator_wrapper);
-		$('#xepan-cmp-creator-dynamic-list-selector').val($(current_selected_dom).attr('xepan-component-dynamic-option-list'));
+		$dynamic_list_selector = $('#xepan-cmp-creator-dynamic-list-selector').val($(current_selected_tree_node_dom).attr('xepan-component-dynamic-option-list'));
+		$dynamic_list_selector.change(function(event) {
+			$(current_selected_tree_node_dom).attr('xepan-component-dynamic-option-list',$(this).val());
+			self.putBackJsTreeNode();
+		});
 
 		// selector before remove
 		$('<div><label for="xepan-cmp-creator-selector-to-remove-before-save">Selector To Remove Before Page Save</label><textarea id="xepan-cmp-creator-selector-to-remove-before-save" ></textarea></div>').appendTo($creator_wrapper);
@@ -1116,7 +1120,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$existing_list = $('<div id="xepan-creator-existing-dynamic-list"></div>').appendTo($creator_wrapper);
 
 		var find_str = "xepan-dynamic-option-";
-		$(current_selected_dom).each(function(index) {
+		$(current_selected_tree_node_dom).each(function(index) {
 			var elem = this;
 			$.each(this.attributes, function( index, attr ) {
 				if(attr.name.indexOf(find_str)===0){
@@ -1161,6 +1165,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$('#xepan-creator-dynamic-additional').val("");
 
 			self.addDynamicOptionToList(str.trim('|'));
+
+			// dynamic option list
+			var find_str = "xepan-dynamic-option-";
+			existing_dynamic_options_count = $('.xepan-creator-existing-dynamic-list-added').length-1;
+			$(current_selected_tree_node_dom).attr('xepan-dynamic-option-'+(existing_dynamic_options_count+1),str);
+			self.putBackJsTreeNode();
 		});
 
 		// if(this.isExistingComponent()){
@@ -1225,6 +1235,26 @@ jQuery.widget("ui.xepanComponentCreator",{
 			.appendTo($(record_row).find('.dynamic-option-remove-wrapper'))
 			.click(function(event) {
 				$(this).closest('.row').remove();
+				// dynamic option list
+				var find_str = "xepan-dynamic-option-";
+
+				if(current_selected_tree_node_dom.attributes != undefined){
+					$.each(current_selected_tree_node_dom.attributes, function( index, attr ) {
+						// console.log("attribute: ",attr);
+						if(attr == undefined) return ; //actually continnue
+
+						if(attr.name.indexOf(find_str)===0){
+							$(current_selected_tree_node_dom).removeAttr(attr.name);
+							self.putBackJsTreeNode();
+						}
+					});
+
+					$.each($('#xepan-creator-existing-dynamic-list .xepan-creator-existing-dynamic-list-added'), function(index, row_obj) {
+						var name = 'xepan-dynamic-option-'+(index + 1);
+						$(current_selected_tree_node_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
+						self.putBackJsTreeNode();
+					});
+				}
 			});
 	}
 
