@@ -1,4 +1,5 @@
 current_selected_dom = 0;
+current_selected_tree_node = 0;
 current_selected_dom_of_code_change = 0;
 current_selected_dom_original_html = "";
 current_selected_dom_component_type = undefined;
@@ -188,13 +189,22 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$('<div id="xepan-component-creator-type-wrapper"></div>').appendTo($(self.form_body));
 	},
 
+	putBackJsTreeNode: function(jQObj,node){
+		if(typeof(node) === "undefined" ) node = current_selected_tree_node;
+		if(typeof(jQObj) === "undefined" ) jQObj = current_selected_tree_node_dom;
+		$('#'+node.id+' > a').contents()[1].nodeValue = $(jQObj).prop('outerHTML').replace(/<\/\S+>$/,'');
+	},
+
 	updateJsTreeBlock: function (element){
 		var self = this;
 
 		jstree_wrapper = $('<div>JS TREE HERE</div>').appendTo($('#xepan-component-js-tree-view-wrapper'));
 		$(jstree_wrapper).on("changed.jstree", function (e, data) {
 			var selected_treenode = data.instance.get_selected(true);
-			// console.log(selected_treenode[0].data.element);
+			current_selected_tree_node = selected_treenode[0];
+			current_selected_tree_node_dom = $($('#'+selected_treenode[0].id + '> a').text());
+			current_selected_tree_node_dom.addClass('xepan-component');
+			self.putBackJsTreeNode();
 			if(selected_treenode[0].data.element !== false){
 				current_selected_dom = $(selected_treenode[0].data.element);
 				self.manageDomSelected();
