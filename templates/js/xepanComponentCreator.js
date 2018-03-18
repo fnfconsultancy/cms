@@ -1241,21 +1241,20 @@ jQuery.widget("ui.xepanComponentCreator",{
 				var find_str = "xepan-dynamic-option-";
 				$(current_selected_tree_node_dom).each(function(index) {
 					var elem = this;
-					console.log(this.attributes);
 					$.each(this.attributes, function( index, attr ) {
-						if(typeof(attr.name) !== "undefined" && attr.name.indexOf(find_str)===0){
+						if(typeof(attr) !== "undefined" && typeof(attr.name) !== "undefined" && attr.name.indexOf(find_str)===0){
 							$(current_selected_tree_node_dom).removeAttr(attr.name);
 							self.putBackJsTreeNode();
 						}
 					});
 				});
 				
-				// $.each($('#xepan-creator-existing-dynamic-list .xepan-creator-existing-dynamic-list-added'), function(index, row_obj) {
-				// 	var name = 'xepan-dynamic-option-'+(index + 1);
-				// 	console.log('adding '+name);
-				// 	$(current_selected_tree_node_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
-				// });
-				// self.putBackJsTreeNode();
+				$.each($('#xepan-creator-existing-dynamic-list .xepan-creator-existing-dynamic-list-added'), function(index, row_obj) {
+					var name = 'xepan-dynamic-option-'+(index + 1);
+					console.log('adding '+name);
+					$(current_selected_tree_node_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
+				});
+				self.putBackJsTreeNode();
 
 			});
 	}
