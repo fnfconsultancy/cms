@@ -194,6 +194,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		if(typeof(node) === "undefined" ) node = current_selected_tree_node;
 		if(typeof(jQObj) === "undefined" ) jQObj = current_selected_tree_node_dom;
 		$('#'+node.id+' > a').contents()[1].nodeValue = $(jQObj).prop('outerHTML').replace(/<\/\S+>$/,'');
+		current_selected_tree_node.text = $(jQObj).prop('outerHTML').replace(/<\/\S+>$/,'').replace(/</,'&lt;').replace(/>/,'&gt;');
 	},
 
 	updateJsTreeBlock: function (element){
