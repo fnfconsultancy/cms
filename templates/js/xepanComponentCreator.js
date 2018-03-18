@@ -290,6 +290,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		self.handleComponentTypeChange(current_selected_dom_component_type);
 		$type_select.change(function(event) {
+			$(current_selected_tree_node_dom).attr('xepan-component',$(this).val());
+			$(current_selected_tree_node_dom).attr('xepan-component-name',$(this).val().replace(/\//g, ""));
+			self.putBackJsTreeNode();
 			current_selected_dom_component_type = $(this).val();
 			self.handleComponentTypeChange($(this).val());
 		});
@@ -1035,37 +1038,14 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.putBackJsTreeNode();
 		});
 
-
-
-		// sortable component
-		// if($(current_selected_dom).hasClass('xepan-sortable-component'))
-		// 	$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-sortable-component" /><label for="xepan-cmp-creator-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
-		// else
-		
-		// editable text
-		// if($(current_selected_dom).hasClass('xepan-editable-text'))
-		// 	$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-editable-text" /><label for="xepan-cmp-creator-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
-		// else
-			
-		// editable text
-		// if($(current_selected_dom).hasClass('xepan-no-richtext'))
-		// 	$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-richtext" /><label for="xepan-cmp-creator-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
-		// else
-		
-		// no move
-		// if($(current_selected_dom).hasClass('xepan-no-move'))
-		// 	$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-move" /><label for="xepan-cmp-creator-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
-		// else
-
-		// no delete 
-		if($(current_selected_dom).hasClass('xepan-no-delete'))
-			$('<input checked type="checkbox" id="xepan-cmp-creator-xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
-		else
-
 		// component name
 		$('<div><label for="xepan-cmp-creator-component-name">Component Name</label><input id="xepan-cmp-creator-component-name" /></div>').appendTo($creator_wrapper);
-		$('#xepan-cmp-creator-component-name').val($(current_selected_dom).attr('xepan-component-name'));
-
+		$component_name = $('#xepan-cmp-creator-component-name').val($(current_selected_tree_node_dom).attr('xepan-component-name'));
+		$component_name.change(function(event) {
+			$(current_selected_tree_node_dom).attr('xepan-component-name',$(this).val());
+			self.putBackJsTreeNode();
+		});
+		
 		$('#xepan-cmp-creator-xepan-editable-text').change(function(event) {
 			if($('#xepan-cmp-creator-xepan-editable-text:checked').size() > 0 ){
 				if($(current_selected_dom).children('.xepan-component').length > 0){
