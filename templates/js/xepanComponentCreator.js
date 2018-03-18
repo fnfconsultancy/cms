@@ -186,6 +186,23 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// add move section
 		self.addMoveToTemplate();
 
+		// save button called
+		$('#xepan-component-creator-form-save').click(function(event) {
+			// on server side component create related UI
+			alert('ready ???');
+			tree_data = ($('#xepan-component-creator-js-tree').jstree(true).get_json('#'));
+
+			self.saveBackToDom(tree_data[0]);
+
+
+			// if(self.isComponentServerSide($('#xepan-component-creator-component-type-selector').val())){
+			// 	self.saveServerSideComponent();
+			// }else{
+			// 	self.saveClientSideComponent();
+			// }
+
+		});
+
 		// append component wrapper
 		$('<div id="xepan-component-js-tree-view-wrapper" style="overflow:auto"></div>').appendTo($(self.form_body));
 		$('<div id="xepan-component-creator-type-wrapper"></div>').appendTo($(self.form_body));
@@ -205,7 +222,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 	updateJsTreeBlock: function (element){
 		var self = this;
 
-		jstree_wrapper = $('<div>JS TREE HERE</div>').appendTo($('#xepan-component-js-tree-view-wrapper'));
+		jstree_wrapper = $('<div id="xepan-component-creator-js-tree">JS TREE HERE</div>').appendTo($('#xepan-component-js-tree-view-wrapper'));
 		$(jstree_wrapper).on("changed.jstree", function (e, data) {
 			
 			var selected_treenode = data.instance.get_selected(true);
@@ -329,18 +346,34 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.handleComponentTypeChange($(this).val());
 		});
 		$type_select.val(current_selected_dom_component_type);
+	},
 
+	saveBackToDom: function(obj){
+		var self = this;
+
+		if(typeof(obj) == 'undefined'){
+			console.log('undefined');
+			console.log(obj);
+			return;
+		}else{
+		}
+
+		temp_jq_obj= $($('#'+obj.id+' > a').text());
+
+		if(typeof(temp_jq_obj[0]) != "undefined" && typeof(temp_jq_obj[0].attributes) != "undefined"){
+			$.each(temp_jq_obj[0].attributes, function(index, at) {
+				if(typeof(at) !== 'undefined')
+					$(obj.data.element).attr(at.name,at.value);
+			});
+		}
 		
-		// save button called
-		$('#xepan-component-creator-form-save').click(function(event) {
-			// on server side component create related UI
-			if(self.isComponentServerSide($('#xepan-component-creator-component-type-selector').val())){
-				self.saveServerSideComponent();
-			}else{
-				self.saveClientSideComponent();
-			}
+		temp_jq_obj = null;
 
-		});
+		if(typeof(obj.children) != "undefined" && obj.children != false){
+			$.each(obj.children, function(index, obj) {
+				 self.saveBackToDom(obj);
+			});
+		}
 	},
 
 	
