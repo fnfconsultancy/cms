@@ -12,6 +12,8 @@ class View_ToolBar extends \View {
         $this->app->jui->addStylesheet('elfinder.full');
         $this->app->jui->addStylesheet('elfindertheme');
         $this->app->jui->addStylesheet('xepan-editing');
+        $this->app->jui->addStylesheet('bootstrap-iso');
+        $this->addClass('bootstrap-iso');
 
 		$this->app->jui->addStaticInclude('elfinder.full');
 		$this->app->jui->addStaticInclude('jquery.dom-outline-1.0');
@@ -32,6 +34,10 @@ class View_ToolBar extends \View {
 				->_load('html2canvas.min')
 				;
         
+		$this->js()->_load('jstree\dist\jstree.min');
+		$this->js()->_load('xepanjstree');
+		$this->app->jui->addStaticStyleSheet('jstree/dist/themes/default/style.min');
+
 		$this->app->jui->addStaticInclude('xepanEditor');
 		$this->app->jui->addStaticInclude('xepanComponent');
 

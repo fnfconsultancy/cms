@@ -36,9 +36,11 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// on click set current_selected_dom variable
 		// and detach UI
 
-		filter_selector = ".xepan-page-wrapper *";
-		if(self.options.template_editing)
-			filter_selector = 'body *';
+		// filter_selector = ".xepan-page-wrapper *";
+		// if(self.options.template_editing)
+		// 	filter_selector = 'body *';
+
+		filter_selector = ".xepan-v-body *";
 
 		var myDomOutline = DomOutline({
 			'onClick': function(element){
@@ -130,9 +132,34 @@ jQuery.widget("ui.xepanComponentCreator",{
 		current_selected_dom_component_type = $(current_selected_dom).attr('xepan-component')?$(current_selected_dom).attr('xepan-component'):'Generic';
 
 		// html code 
-		current_selected_dom_html = '<textarea class="form-control" style="width:100%;" rows="4" disabled></textarea>';
-		html_textarea = $(current_selected_dom_html).appendTo($(form_body));
-		$(html_textarea).val($(current_selected_dom).prop('outerHTML'));
+		// current_selected_dom_html = '<textarea class="form-control" style="width:100%;" rows="4" disabled></textarea>';
+		// html_textarea = $(current_selected_dom_html).appendTo($(form_body));
+		// $(html_textarea).val($(current_selected_dom).prop('outerHTML'));
+
+		// jstree instead html code 
+		jstree_wrapper = $('<div>JS TREE HERE</div>').appendTo($(form_body));
+		$(jstree_wrapper).on("changed.jstree", function (e, data) {
+			var selected_treenode = data.instance.get_selected(true);
+			// console.log(selected_treenode[0].data.element);
+			if(selected_treenode[0].data.element !== false){
+				current_selected_dom = $(selected_treenode[0].data.element);
+				self.manageDomSelected();
+			}
+		    // console.log(data.instance.get_selected(true)); // newly selected
+		    // console.log(data.changed.selected); // newly selected
+		    // console.log(data.changed.deselected); // newly deselected
+		    }).jstree({
+				'core':{
+					'check_callback': true,
+					'dataType':'json',
+					'data': self.getJsTreeData($(current_selected_dom)),
+					"multiple" : false
+				},
+				'plugins': ['wholerow','changed','contextmenu']
+			});
+
+		// console.log(self.getJsTreeData($(current_selected_dom)));
+		
 
 		// selection
 		selection_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($(form_body));
@@ -222,6 +249,32 @@ jQuery.widget("ui.xepanComponentCreator",{
 			}
 
 		});
+	},
+
+	getJsTreeData: function(node){
+		var self = this;
+		var data=[];
+		$.each($(node), function(index, $obj) {
+			var attrs = "";
+		    $.each( $obj.attributes, function ( index, attribute ) {
+		        attrs += (" "+attribute.name +"=\""+ attribute.value+"\"");
+		    });
+		    var temp;
+		    if($($obj).children().length == 0 && $($obj).text()){
+		    	temp = [{id: generateUUID(),text:$($obj).text(), children: false ,icon:'fa fa-file', data:{element:false}}];
+		    }else{
+		    	temp = self.getJsTreeData($($obj).children());
+		    }
+
+		    icon = null;
+		    if($($obj).hasClass('xepan-component')) icon='fa fa-cog';
+		    else if($($obj).closest('xepan-component').length) icon='fa fa-arrow-alt-circle-up';
+
+		    data.push({id: generateUUID(),text:'&lt;'+ $obj.tagName+ ' ' + attrs +'&gt;', children: temp, data:{element: $obj}, icon: icon});
+		    
+		});
+
+		return data;
 	},
 
 	saveClientSideComponent: function(){
