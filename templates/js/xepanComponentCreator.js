@@ -209,9 +209,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 			current_selected_tree_node = selected_treenode[0];
 			current_selected_tree_node_dom = $($('#'+selected_treenode[0].id + '> a').text());
 
-			
-			
-			if($('#'+selected_treenode[0].id).closest('.xepan-serverside-component').length) return;
+						
+			if($('li a:contains("xepan-serverside-component")').closest('li').find('#'+current_selected_tree_node.id).length){
+				return;
+			}
 			
 			// current_selected_tree_node_dom.addClass('xepan-component');
 			// self.putBackJsTreeNode();
