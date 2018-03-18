@@ -77,7 +77,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 					if(r == false)
 						return;
 				}
-
+				self.createEditor();
+				self.updateJsTreeBlock(current_selected_dom);
 				self.manageDomSelected();
 			
 			},
@@ -92,10 +93,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// myDomOutline.stop();
 	},
 
-	manageDomSelected: function () {
+	createEditor: function(){
 		var self = this;
-		// create Base UI // component type only infact
-		// filter types like if rows and bootstrap col-md/sd etc is there let column Type be there or remove
 
 		current_selected_dom_original_html = $(current_selected_dom).prop('outerHTML');
 		
@@ -123,46 +122,14 @@ jQuery.widget("ui.xepanComponentCreator",{
   						'</div>'+ 
 					'</div>';
 
-		$form = $(form_layout).appendTo('body');
-		$form.modal('toggle');
+		self.$form = $(form_layout).appendTo('body');
+		self.$form.modal('toggle');
 
-		var form_body = $form.find('.modal-body');
-		var form_footer = $form.find('.modal-footer');
-		
-		current_selected_dom_component_type = $(current_selected_dom).attr('xepan-component')?$(current_selected_dom).attr('xepan-component'):'Generic';
-
-		// html code 
-		// current_selected_dom_html = '<textarea class="form-control" style="width:100%;" rows="4" disabled></textarea>';
-		// html_textarea = $(current_selected_dom_html).appendTo($(form_body));
-		// $(html_textarea).val($(current_selected_dom).prop('outerHTML'));
-
-		// jstree instead html code 
-		jstree_wrapper = $('<div>JS TREE HERE</div>').appendTo($(form_body));
-		$(jstree_wrapper).on("changed.jstree", function (e, data) {
-			var selected_treenode = data.instance.get_selected(true);
-			// console.log(selected_treenode[0].data.element);
-			if(selected_treenode[0].data.element !== false){
-				current_selected_dom = $(selected_treenode[0].data.element);
-				self.manageDomSelected();
-			}
-		    // console.log(data.instance.get_selected(true)); // newly selected
-		    // console.log(data.changed.selected); // newly selected
-		    // console.log(data.changed.deselected); // newly deselected
-		    }).jstree({
-				'core':{
-					'check_callback': true,
-					'dataType':'json',
-					'data': self.getJsTreeData($(current_selected_dom)),
-					"multiple" : false
-				},
-				'plugins': ['wholerow','changed','contextmenu']
-			});
-
-		// console.log(self.getJsTreeData($(current_selected_dom)));
-		
+		self.form_body = self.$form.find('.modal-body');
+		self.form_footer = self.$form.find('.modal-footer');
 
 		// selection
-		selection_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($(form_body));
+		selection_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($(self.form_body));
 
 		$('<button class="btn btn-primary" id="xepan-creator-reselection">Selection</button>').appendTo($(selection_group));
 		var selection_parent = $('<button id="xepan-creator-current-dom-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(selection_group));
@@ -198,18 +165,6 @@ jQuery.widget("ui.xepanComponentCreator",{
 		else
 			$(selection_previous).hide();
 
-		// $(self.selection_next_sibling).click(function(event){
-		// 	ctrlShiftRightSelection(event);
-		// });
-
-		// $(self.selection_parent).click(function(event) {
-		// 	ctrlShiftUpSelection(event);
-		// });
-
-		// $(self.selection_child).click(function(event){
-		// 	tabSelection(event);
-		// });
-
 		var type_select_layout = '<select id="xepan-component-creator-component-type-selector"><option value="Generic"> Generic Tool</option>';
 		$.each(self.options.tools, function(appliction, app_tools) {
 			 /* iterate through array or object */
@@ -223,32 +178,39 @@ jQuery.widget("ui.xepanComponentCreator",{
 		type_select_layout += '</select>';
 
 
-		$type_select =  $(type_select_layout).appendTo($(form_body));
+		$type_select =  $(type_select_layout).appendTo($(self.form_body));
 		
 		// add move section
 		self.addMoveToTemplate();
 
 		// append component wrapper
-		$('<div id="xepan-component-creator-type-wrapper"></div>').appendTo($(form_body));
+		$('<div id="xepan-component-js-tree-view-wrapper"></div>').appendTo($(self.form_body));
+		$('<div id="xepan-component-creator-type-wrapper"></div>').appendTo($(self.form_body));
+	},
 
-		self.handleComponentTypeChange(current_selected_dom_component_type);
-		$type_select.change(function(event) {
-			current_selected_dom_component_type = $(this).val();
-			self.handleComponentTypeChange($(this).val());
-		});
-		$type_select.val(current_selected_dom_component_type);
+	updateJsTreeBlock: function (element){
+		var self = this;
 
-		
-		// save button called
-		$('#xepan-component-creator-form-save').click(function(event) {
-			// on server side component create related UI
-			if(self.isComponentServerSide($('#xepan-component-creator-component-type-selector').val())){
-				self.saveServerSideComponent();
-			}else{
-				self.saveClientSideComponent();
+		jstree_wrapper = $('<div>JS TREE HERE</div>').appendTo($('#xepan-component-js-tree-view-wrapper'));
+		$(jstree_wrapper).on("changed.jstree", function (e, data) {
+			var selected_treenode = data.instance.get_selected(true);
+			// console.log(selected_treenode[0].data.element);
+			if(selected_treenode[0].data.element !== false){
+				current_selected_dom = $(selected_treenode[0].data.element);
+				self.manageDomSelected();
 			}
-
-		});
+		    // console.log(data.instance.get_selected(true)); // newly selected
+		    // console.log(data.changed.selected); // newly selected
+		    // console.log(data.changed.deselected); // newly deselected
+		    }).jstree({
+				'core':{
+					'check_callback': true,
+					'dataType':'json',
+					'data': self.getJsTreeData($(element)),
+					"multiple" : false
+				},
+				'plugins': ['wholerow','changed','contextmenu']
+			});
 	},
 
 	getJsTreeData: function(node){
@@ -276,6 +238,64 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		return data;
 	},
+
+	manageDomSelected: function () {
+		var self = this;
+		// create Base UI // component type only infact
+		// filter types like if rows and bootstrap col-md/sd etc is there let column Type be there or remove
+
+		
+		
+		current_selected_dom_component_type = $(current_selected_dom).attr('xepan-component')?$(current_selected_dom).attr('xepan-component'):'Generic';
+
+		// html code 
+		// current_selected_dom_html = '<textarea class="form-control" style="width:100%;" rows="4" disabled></textarea>';
+		// html_textarea = $(current_selected_dom_html).appendTo($(form_body));
+		// $(html_textarea).val($(current_selected_dom).prop('outerHTML'));
+
+		// jstree instead html code 
+		
+
+		// console.log(self.getJsTreeData($(current_selected_dom)));
+		
+
+		
+
+		// $(self.selection_next_sibling).click(function(event){
+		// 	ctrlShiftRightSelection(event);
+		// });
+
+		// $(self.selection_parent).click(function(event) {
+		// 	ctrlShiftUpSelection(event);
+		// });
+
+		// $(self.selection_child).click(function(event){
+		// 	tabSelection(event);
+		// });
+
+		
+
+		self.handleComponentTypeChange(current_selected_dom_component_type);
+		$type_select.change(function(event) {
+			current_selected_dom_component_type = $(this).val();
+			self.handleComponentTypeChange($(this).val());
+		});
+		$type_select.val(current_selected_dom_component_type);
+
+		
+		// save button called
+		$('#xepan-component-creator-form-save').click(function(event) {
+			// on server side component create related UI
+			if(self.isComponentServerSide($('#xepan-component-creator-component-type-selector').val())){
+				self.saveServerSideComponent();
+			}else{
+				self.saveClientSideComponent();
+			}
+
+		});
+	},
+
+	
 
 	saveClientSideComponent: function(){
 
