@@ -214,7 +214,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 						
 			if($('li a:contains("xepan-serverside-component")').closest('li').find('#'+current_selected_tree_node.id).length){
-
+				temp_string = $('#'+selected_treenode[0].id + '> a').text();
+				current_selected_tree_node_dom = $($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")').find('a').first().text());
+				self.manageDomSelected();
+				current_selected_tree_node_dom = $(temp_string);
 				return;
 			}
 			
