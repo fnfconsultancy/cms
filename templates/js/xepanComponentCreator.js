@@ -1,6 +1,7 @@
 current_selected_dom = 0;
 current_selected_tree_node = 0;
 current_selected_tree_node_dom=undefined;
+current_selected_tree_node_dom_4_server=undefined;
 current_selected_dom_of_code_change = 0;
 current_selected_dom_original_html = "";
 current_selected_dom_component_type = undefined;
@@ -203,9 +204,15 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		jstree_wrapper = $('<div>JS TREE HERE</div>').appendTo($('#xepan-component-js-tree-view-wrapper'));
 		$(jstree_wrapper).on("changed.jstree", function (e, data) {
+			
 			var selected_treenode = data.instance.get_selected(true);
 			current_selected_tree_node = selected_treenode[0];
 			current_selected_tree_node_dom = $($('#'+selected_treenode[0].id + '> a').text());
+
+						
+			if($('li a:contains("xepan-serverside-component")').closest('li').find('#'+current_selected_tree_node.id).length){
+				return;
+			}
 			
 			// current_selected_tree_node_dom.addClass('xepan-component');
 			// self.putBackJsTreeNode();
@@ -291,6 +298,19 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		self.handleComponentTypeChange(current_selected_dom_component_type);
 		$type_select.change(function(event) {
+			if($(this).val() !== "Generic") {
+				$(current_selected_tree_node_dom).addClass('xepan-component');
+				if(self.isComponentServerSide($('#xepan-component-creator-component-type-selector').val())){
+					$(current_selected_tree_node_dom).addClass('xepan-serverside-component');
+				}else{
+					$(current_selected_tree_node_dom).removeClass('xepan-serverside-component');
+				}
+			}else{
+				$(current_selected_tree_node_dom).removeClass('xepan-component');
+			}
+
+
+
 			$(current_selected_tree_node_dom).attr('xepan-component',$(this).val());
 			$(current_selected_tree_node_dom).attr('xepan-component-name',$(this).val().replace(/\//g, ""));
 			self.putBackJsTreeNode();
