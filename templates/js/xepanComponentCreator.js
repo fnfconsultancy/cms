@@ -194,6 +194,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		if(typeof(node) === "undefined" ) node = current_selected_tree_node;
 		if(typeof(jQObj) === "undefined" ) jQObj = current_selected_tree_node_dom;
 		$('#'+node.id+' > a').contents()[1].nodeValue = $(jQObj).prop('outerHTML').replace(/<\/\S+>$/,'');
+		current_selected_tree_node_dom = $($(jQObj).prop('outerHTML'));
 		current_selected_tree_node.text = $(jQObj).prop('outerHTML').replace(/<\/\S+>$/,'').replace(/</,'&lt;').replace(/>/,'&gt;');
 	},
 
@@ -1190,6 +1191,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 	},
 
 	addDynamicOptionToList: function(dynamic_option){
+		var self = this;
 
 		option_array = dynamic_option.split('|');
 		var selector = option_array[0];
@@ -1235,26 +1237,26 @@ jQuery.widget("ui.xepanComponentCreator",{
 			.appendTo($(record_row).find('.dynamic-option-remove-wrapper'))
 			.click(function(event) {
 				$(this).closest('.row').remove();
-				// dynamic option list
+
 				var find_str = "xepan-dynamic-option-";
-
-				if(current_selected_tree_node_dom.attributes != undefined){
-					$.each(current_selected_tree_node_dom.attributes, function( index, attr ) {
-						// console.log("attribute: ",attr);
-						if(attr == undefined) return ; //actually continnue
-
-						if(attr.name.indexOf(find_str)===0){
+				$(current_selected_tree_node_dom).each(function(index) {
+					var elem = this;
+					console.log(this.attributes);
+					$.each(this.attributes, function( index, attr ) {
+						if(typeof(attr.name) !== "undefined" && attr.name.indexOf(find_str)===0){
 							$(current_selected_tree_node_dom).removeAttr(attr.name);
 							self.putBackJsTreeNode();
 						}
 					});
+				});
+				
+				// $.each($('#xepan-creator-existing-dynamic-list .xepan-creator-existing-dynamic-list-added'), function(index, row_obj) {
+				// 	var name = 'xepan-dynamic-option-'+(index + 1);
+				// 	console.log('adding '+name);
+				// 	$(current_selected_tree_node_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
+				// });
+				// self.putBackJsTreeNode();
 
-					$.each($('#xepan-creator-existing-dynamic-list .xepan-creator-existing-dynamic-list-added'), function(index, row_obj) {
-						var name = 'xepan-dynamic-option-'+(index + 1);
-						$(current_selected_tree_node_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
-						self.putBackJsTreeNode();
-					});
-				}
 			});
 	}
 
