@@ -309,8 +309,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 				$(current_selected_tree_node_dom).addClass('xepan-component');
 				if(self.isComponentServerSide($('#xepan-component-creator-component-type-selector').val())){
 					$(current_selected_tree_node_dom).addClass('xepan-serverside-component');
+					$(current_selected_tree_node_dom).attr('no-record-found-message','no record found');
+					$(current_selected_tree_node_dom).attr('add-paginator-spot','true');
 				}else{
 					$(current_selected_tree_node_dom).removeClass('xepan-serverside-component');
+					$(current_selected_tree_node_dom).removeAttr('no-record-found-message');
+					$(current_selected_tree_node_dom).removeAttr('add-paginator-spot');
 				}
 			}else{
 				$(current_selected_tree_node_dom).removeClass('xepan-component');
@@ -766,23 +770,36 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			// no record found message
 			$('<label for="xepan-cmp-creator-not-found-message">No Record Found Message</label><input id="xepan-cmp-creator-not-found-message" value="Not Matching Record Found" />').appendTo($(col3));
+			$no_record_message = $('#xepan-cmp-creator-not-found-message').val($(current_selected_tree_node_dom).attr('no-record-found-message'));
+			$($no_record_message).change(function(){
+				$(current_selected_tree_node_dom).attr('no-record-found-message',$(this).val());
+				self.putBackJsTreeNode();
+			});
 
 			// add paginator section here if {rows}{row} has then pagination is must
 			$('<input type="checkbox" id="xepan-cmp-creator-add-paginator" checked /><label for="xepan-cmp-creator-add-paginator"> Add Paginator</label>').appendTo($(col3));
-			
-			// add extra padding for selection
-			var extra_padding = $('<input type="checkbox" id="xepan-cmp-creator-add-extra-padding" checked /><label for="xepan-cmp-creator-add-extra-padding"> Add Extra Padding For Selection</label>').appendTo($(col3));
-			$('#xepan-cmp-creator-add-extra-padding').change(function(event) {
-				if(!$(repitative_selected_dom).length){
-					$.univ().errorMessage('first select repatative ');
-					return;
-				}
+			$add_paginator = $('#xepan-cmp-creator-add-paginator').val($(current_selected_tree_node_dom).val());
+			$($add_paginator).change(function(){
 				if(this.checked) {
-					$(repitative_selected_dom).addClass('xepan-component-creator-extra-margin');
+					$(current_selected_tree_node_dom).attr('add-paginator-spot',true);
 				}else
-					$(repitative_selected_dom).removeClass('xepan-component-creator-extra-margin');
+					$(current_selected_tree_node_dom).removeAttr('add-paginator-spot');
 
+				self.putBackJsTreeNode();
 			});
+
+			// add extra padding for selection
+			// var extra_padding = $('<input type="checkbox" id="xepan-cmp-creator-add-extra-padding" checked /><label for="xepan-cmp-creator-add-extra-padding"> Add Extra Padding For Selection</label>').appendTo($(col3));
+			// $('#xepan-cmp-creator-add-extra-padding').change(function(event) {
+			// 	if(!$(repitative_selected_dom).length){
+			// 		$.univ().errorMessage('first select repatative ');
+			// 		return;
+			// 	}
+			// 	if(this.checked) {
+			// 		$(repitative_selected_dom).addClass('xepan-component-creator-extra-margin');
+			// 	}else
+			// 		$(repitative_selected_dom).removeClass('xepan-component-creator-extra-margin');
+			// });
 		}
 
 		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
@@ -885,7 +902,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.showAppliedTags();
 		});
 
-		self.addDomCodeUI(col3);
+		// self.addDomCodeUI(col3);
 
 	},
 
@@ -1157,7 +1174,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.putBackJsTreeNode();
 		});
 
-		self.addDomCodeUI();
+		// self.addDomCodeUI();
 		$('<hr/>').appendTo($creator_wrapper);
 		var add_dynamic_html = 
 								'<h3>Dynamic Options</h3>'+
