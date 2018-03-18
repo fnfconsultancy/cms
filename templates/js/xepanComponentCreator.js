@@ -611,8 +611,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 				$(dom_obj).addClass(tag_name_with_dollar);
 			break;
 
-			case 'style':
-				$(dom_obj).addStyle(tag_name_with_dollar);
+			// case 'style':
+			// 	$(dom_obj).css(tag_name_with_dollar);
 			break;
 		}
 
@@ -802,7 +802,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 							'<option value="text">text</option>'+
 							'<option value="wrapper">wrapper</option>'+
 							'<option value="class">class</option>'+
-							'<option value="style">style</option>'+
+							// '<option value="style">style</option>'+
 						'</select></div>';
 		$(as_select).appendTo($(tag_implementor_wrapper));
 
@@ -1026,7 +1026,6 @@ jQuery.widget("ui.xepanComponentCreator",{
 			var delete_btn = $('<span class="xepan-creator-delete-applied-tag label label-danger" data-id='+index+'>x</span>').appendTo($(applied_btn));
 			$(delete_btn).click(function(event){
 				
-				console.log(data);
 				tag_name = data.tag;
 
 				if(tag_name.indexOf('$') > 0){
@@ -1045,7 +1044,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 					break;
 
 					case 'src':
-						$(dom_obj).attr('src',$(data.jsnode.data.element).attr("src"));
+						$(dom_obj).removeAttr('src');
 					break;
 						
 					case 'text':
@@ -1066,8 +1065,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 					break;
 				}
 
-
-			 	delete tags_associate_list[$(this).attr('data-id')];
+				self.putBackJsTreeNode();
+			 	// delete tags_associate_list[$(this).attr('data-id')];
+			 	// delete data;
 			 	self.showAppliedTags();
 			});
 		});
