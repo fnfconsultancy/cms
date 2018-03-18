@@ -398,16 +398,16 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$(current_selected_dom).removeAttr('xepan-component-dynamic-option-list');
 
 		// remove selector
-		if($('#xepan-cmp-creator-selector-to-remove-before-save').val().length){
-			$(current_selected_dom).attr('xepan-selector-to-remove-before-save',$('#xepan-cmp-creator-selector-to-remove-before-save').val());
-		}else
-			$(current_selected_dom).removeAttr('xepan-selector-to-remove-before-save');
+		// if($('#xepan-cmp-creator-selector-to-remove-before-save').val().length){
+		// 	$(current_selected_dom).attr('xepan-selector-to-remove-before-save',$('#xepan-cmp-creator-selector-to-remove-before-save').val());
+		// }else
+		// 	$(current_selected_dom).removeAttr('xepan-selector-to-remove-before-save');
 
 		// run jquery code
-		if($('#xepan-cmp-creator-code-run-before-save').val().length){
-			$(current_selected_dom).attr('xepan-cmp-creator-code-run-before-save',$('#xepan-cmp-creator-code-run-before-save').val());
-		}else
-			$(current_selected_dom).removeAttr('xepan-cmp-creator-code-run-before-save');
+		// if($('#xepan-cmp-creator-code-run-before-save').val().length){
+		// 	$(current_selected_dom).attr('xepan-cmp-creator-code-run-before-save',$('#xepan-cmp-creator-code-run-before-save').val());
+		// }else
+		// 	$(current_selected_dom).removeAttr('xepan-cmp-creator-code-run-before-save');
 
 		// dynamic option list
 		var find_str = "xepan-dynamic-option-";
@@ -1066,14 +1066,21 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		// selector before remove
 		$('<div><label for="xepan-cmp-creator-selector-to-remove-before-save">Selector To Remove Before Page Save</label><textarea id="xepan-cmp-creator-selector-to-remove-before-save" ></textarea></div>').appendTo($creator_wrapper);
-		$('#xepan-cmp-creator-selector-to-remove-before-save').val($(current_selected_dom).attr('xepan-selector-to-remove-before-save'));
+		$remove_selector_before_save = $('#xepan-cmp-creator-selector-to-remove-before-save').val($(current_selected_tree_node_dom).attr('xepan-selector-to-remove-before-save'));
+		$remove_selector_before_save.change(function(event){
+			$(current_selected_tree_node_dom ).attr('xepan-selector-to-remove-before-save',$(this).val());
+			self.putBackJsTreeNode();
+		});
 
 		// eval jquery code
 		$('<div><label for="xepan-cmp-creator-code-run-before-save">Jquery Code To Run Before Page Save</label><textarea id="xepan-cmp-creator-code-run-before-save"></textarea></div>').appendTo($creator_wrapper);
-		$('#xepan-cmp-creator-code-run-before-save').val($(current_selected_dom).attr('xepan-cmp-creator-code-run-before-save'));
+		$run_jquery_before_save = $('#xepan-cmp-creator-code-run-before-save').val($(current_selected_tree_node_dom).attr('xepan-cmp-creator-code-run-before-save'));
+		$run_jquery_before_save.change(function(event){
+			$(current_selected_tree_node_dom).attr('xepan-cmp-creator-code-run-before-save',$(this).val());
+			self.putBackJsTreeNode();
+		});
 
 		self.addDomCodeUI();
-
 		$('<hr/>').appendTo($creator_wrapper);
 		var add_dynamic_html = 
 								'<h3>Dynamic Options</h3>'+
