@@ -83,12 +83,23 @@ class page_overridetemplate extends \Page {
 
 		preg_match_all('/{[$_a-zA-Z]*}/', $original_file_content, $tags);
 
+
+		$temp = [[]];
+		foreach ($tags[0] as $key => $tag) {
+			if($tag == "{row}") continue;
+			if($tag == "{rows}"){
+				$temp[0][] = '{repetative_section}';
+			}else{
+				$temp[0][] = $tag;
+			}
+		}
+
 		if($_GET['required'] == 'htmlcode'){
-			$temp = [
+			$_temp = [
 				'original_content'=> $original_file_content,
-				'tags'=> $tags,
+				'tags'=> $temp,
 			];
-			echo  json_encode($temp);
+			echo  json_encode($_temp);
 			exit();
 		}
 
