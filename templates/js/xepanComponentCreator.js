@@ -125,6 +125,8 @@ jQuery.widget("ui.xepanComponentCreator",{
         							'<h4 class="modal-title" id="gridSystemModalLabel">Epan Component Creator</h4>'+
       							'</div>'+
       							'<div class="modal-body">'+
+      								'<div class="xepan-creator-top-bar">'+
+      								'</div>'+
       							'</div>'+
       							'<div class="modal-footer">'+
         							'<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
@@ -141,7 +143,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		self.form_footer = self.$form.find('.modal-footer');
 
 		// selection
-		selection_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($(self.form_body));
+		selection_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($('.xepan-creator-top-bar'));
 
 		$('<button class="btn btn-primary" id="xepan-creator-reselection"><i class="fa fa-arrows"></i>Selection</button>').appendTo($(selection_group));
 		// var selection_parent = $('<button id="xepan-creator-current-dom-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(selection_group));
@@ -190,7 +192,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		type_select_layout += '</select>';
 
 
-		$type_select =  $(type_select_layout).appendTo($(self.form_body));
+		$type_select =  $(type_select_layout).appendTo($('.xepan-creator-top-bar'));
 		
 		// add move section
 		// self.addMoveToTemplate();
@@ -1217,20 +1219,28 @@ jQuery.widget("ui.xepanComponentCreator",{
 		repitative_selected_dom = 0;
 		current_selected_tag_dom = 0;
 		tags_associate_list = [];
-		
-		$creator_wrapper =  $('#xepan-component-creator-type-wrapper');
+		$creator_wrapper = $('#xepan-component-creator-type-wrapper');
+		$creator_top_bar_wrapper = $('<div class="alert alert-info"><h3>Client Side Component</h3></div>').appendTo($creator_wrapper);
 		// $('<div class="alert alert-success"> Client Side </div>').appendTo($creator_wrapper);
 
 		// xepan component
 		// console.log($(current_selected_tree_node_dom));
 		// console.log('should have class xepan-component');
-		$component_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-component" class="node_class_toggler" node_toggle_class="xepan-component" /><label for="xepan-cmp-creator-xepan-component"> Create Component</label>').appendTo($creator_wrapper);
-		$component_sortable_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-sortable-component" class="node_class_toggler" node_toggle_class="xepan-sortable-component"  /><label for="xepan-cmp-creator-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_wrapper);
-		$component_editable_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-editable-text"  class="node_class_toggler" node_toggle_class="xepan-editable-text"  /><label for="xepan-cmp-creator-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_wrapper);	
-		$component_norich_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-no-richtext"  class="node_class_toggler" node_toggle_class="xepan-no-richtext" /><label for="xepan-cmp-creator-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_wrapper);
-		$component_nomove_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-no-move" class="node_class_toggler" node_toggle_class="xepan-no-move" /><label for="xepan-cmp-creator-xepan-no-move">Disabled Moving</label>').appendTo($creator_wrapper);
-		$component_nodelete_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-no-delete" class="node_class_toggler" node_toggle_class="xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_wrapper);
+		$component_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-component" class="node_class_toggler" node_toggle_class="xepan-component" /><label for="xepan-cmp-creator-xepan-component"> Create Component</label>').appendTo($creator_top_bar_wrapper);
+		$component_sortable_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-sortable-component" class="node_class_toggler" node_toggle_class="xepan-sortable-component"  /><label for="xepan-cmp-creator-xepan-sortable-component"> Make Sortable/Droppable</label>').appendTo($creator_top_bar_wrapper);
+		$component_editable_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-editable-text"  class="node_class_toggler" node_toggle_class="xepan-editable-text"  /><label for="xepan-cmp-creator-xepan-editable-text"> Create Editable Text</label>').appendTo($creator_top_bar_wrapper);
+		$component_norich_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-no-richtext"  class="node_class_toggler" node_toggle_class="xepan-no-richtext" /><label for="xepan-cmp-creator-xepan-no-richtext"> No Rich Text</label>').appendTo($creator_top_bar_wrapper);
+		$component_nomove_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-no-move" class="node_class_toggler" node_toggle_class="xepan-no-move" /><label for="xepan-cmp-creator-xepan-no-move">Disabled Moving</label>').appendTo($creator_top_bar_wrapper);
+		$component_nodelete_checkbox = $('<input type="checkbox" id="xepan-cmp-creator-xepan-no-delete" class="node_class_toggler" node_toggle_class="xepan-no-delete" /><label for="xepan-cmp-creator-xepan-no-delete">Disabled Delete</label>').appendTo($creator_top_bar_wrapper);
 		
+		// component name
+		$('<div><label for="xepan-cmp-creator-component-name">Component Name</label><input id="xepan-cmp-creator-component-name" /></div>').appendTo($creator_top_bar_wrapper);
+		$component_name = $('#xepan-cmp-creator-component-name').val($(current_selected_tree_node_dom).attr('xepan-component-name'));
+		$component_name.change(function(event) {
+			$(current_selected_tree_node_dom).attr('xepan-component-name',$(this).val());
+			self.putBackJsTreeNode();
+		});
+
 		$('.node_class_toggler').each(function(index, el) {	
 			if($(current_selected_tree_node_dom).hasClass($(el).attr('node_toggle_class'))) $(el).prop('checked',true);
 		});
@@ -1250,13 +1260,6 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.putBackJsTreeNode();
 		});
 
-		// component name
-		$('<div><label for="xepan-cmp-creator-component-name">Component Name</label><input id="xepan-cmp-creator-component-name" /></div>').appendTo($creator_wrapper);
-		$component_name = $('#xepan-cmp-creator-component-name').val($(current_selected_tree_node_dom).attr('xepan-component-name'));
-		$component_name.change(function(event) {
-			$(current_selected_tree_node_dom).attr('xepan-component-name',$(this).val());
-			self.putBackJsTreeNode();
-		});
 
 		$('#xepan-cmp-creator-xepan-editable-text').change(function(event) {
 			if($('#xepan-cmp-creator-xepan-editable-text:checked').size() > 0 ){
@@ -1267,16 +1270,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 			}
 		});
 
-		// dynamic lister selector input box
-		$('<div><label for="xepan-cmp-creator-dynamic-list-selector">Dynamic Option List Selector</label><input id="xepan-cmp-creator-dynamic-list-selector" /></div>').appendTo($creator_wrapper);
-		$dynamic_list_selector = $('#xepan-cmp-creator-dynamic-list-selector').val($(current_selected_tree_node_dom).attr('xepan-component-dynamic-option-list'));
-		$dynamic_list_selector.change(function(event) {
-			$(current_selected_tree_node_dom).attr('xepan-component-dynamic-option-list',$(this).val());
-			self.putBackJsTreeNode();
-		});
+		$row = $('<div class="row"></div>').appendTo($creator_wrapper);
+		$col1 = $('<div class="col-md-6 col-xs-12 col-lg-6 col-sm-12"></div>').appendTo($row);
+		$col2 = $('<div class="col-md-6 col-xs-12 col-lg-6 col-sm-12"></div>').appendTo($row);
 
 		// selector before remove
-		$('<div><label for="xepan-cmp-creator-selector-to-remove-before-save">Selector To Remove Before Page Save</label><textarea id="xepan-cmp-creator-selector-to-remove-before-save" ></textarea></div>').appendTo($creator_wrapper);
+		$('<div><label for="xepan-cmp-creator-selector-to-remove-before-save">Selector To Remove Before Page Save</label><textarea id="xepan-cmp-creator-selector-to-remove-before-save" ></textarea></div>').appendTo($col1);
 		$remove_selector_before_save = $('#xepan-cmp-creator-selector-to-remove-before-save').val($(current_selected_tree_node_dom).attr('xepan-selector-to-remove-before-save'));
 		$remove_selector_before_save.change(function(event){
 			$(current_selected_tree_node_dom ).attr('xepan-selector-to-remove-before-save',$(this).val());
@@ -1284,7 +1283,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		});
 
 		// eval jquery code
-		$('<div><label for="xepan-cmp-creator-code-run-before-save">Jquery Code To Run Before Page Save</label><textarea id="xepan-cmp-creator-code-run-before-save"></textarea></div>').appendTo($creator_wrapper);
+		$('<div><label for="xepan-cmp-creator-code-run-before-save">Jquery Code To Run Before Page Save</label><textarea id="xepan-cmp-creator-code-run-before-save"></textarea></div>').appendTo($col2);
 		$run_jquery_before_save = $('#xepan-cmp-creator-code-run-before-save').val($(current_selected_tree_node_dom).attr('xepan-cmp-creator-code-run-before-save'));
 		$run_jquery_before_save.change(function(event){
 			$(current_selected_tree_node_dom).attr('xepan-cmp-creator-code-run-before-save',$(this).val());
@@ -1293,8 +1292,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 		// self.addDomCodeUI();
 		$('<hr/>').appendTo($creator_wrapper);
+
 		var add_dynamic_html = 
 								'<h3>Dynamic Options</h3>'+
+								'<div id="dynamic-option-list-selector-wrapper"></div>'+
 								'<div class="row xepan-cmp-creator-dynamic-option">'+
 									'<div class="col-md-4">'+
 										'<div class="form-group">'+
@@ -1335,6 +1336,14 @@ jQuery.widget("ui.xepanComponentCreator",{
 								'</div>';
 
 		$(add_dynamic_html).appendTo($creator_wrapper);
+
+		// dynamic lister selector input box
+		$('<div><label for="xepan-cmp-creator-dynamic-list-selector">Dynamic Option List Selector</label><input id="xepan-cmp-creator-dynamic-list-selector" /></div>').appendTo($('#dynamic-option-list-selector-wrapper'));
+		$dynamic_list_selector = $('#xepan-cmp-creator-dynamic-list-selector').val($(current_selected_tree_node_dom).attr('xepan-component-dynamic-option-list'));
+		$dynamic_list_selector.change(function(event) {
+			$(current_selected_tree_node_dom).attr('xepan-component-dynamic-option-list',$(this).val());
+			self.putBackJsTreeNode();
+		});
 		
 		$existing_list = $('<div id="xepan-creator-existing-dynamic-list"></div>').appendTo($creator_wrapper);
 
