@@ -204,12 +204,34 @@ jQuery.widget("ui.xepanComponentCreator",{
 			self.saveBackToDom(tree_data[0]);
 
 			// serverside component wrap in a div and take all REQUIRED attributes from element and place as outer div
-			$(tree_data[0].data.element).find('.xepan-serverside-component').each(function(index, el) {
-				
+			$(tree_data[0].data.element).find('.xepan-serverside-component').andSelf().each(function(index, el) {
+		        if(!$(this).hasClass('xepan-serverside-component')) return; //actually continue 
+				// <div class="xepan-component xepan-serverside-component" xepan-component-name="'.$tool_name.'" xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>
+				$server_side_div = $('<div class="xepan-component xepan-serverside-component">');
+				$server_side_div.attr('xepan-component-name',$(this).attr('xepan-component-name'));
+				$server_side_div.attr('xepan-component',$(this).attr('xepan-component')); 
+			    $(this).wrap($server_side_div);
+				$(this).removeAttr('xepan-component');
+				$(this).removeAttr('xepan-component-name');
+				$(this).removeClass('xepan-component xepan-serverside-component');
+				// add template attributes
+			    $(this).attr('id','{$_name}');
+			    $(this).addClass('{$class}');
+			    if(typeof($(this).attr('style')) != "undefined")
+			    	$(this).attr('style','{$style} '+$(this).attr('style'));
+			    else
+			    	$(this).attr('style','{$style} ');
+
+			    if(typeof($(this).attr('no-record-found-message')) != "undefined"){
+			    	$not_found_str = '<not_found is-xepan-tag="true" ><div class="alert alert-danger">{not_found_message}'+$(this).attr('no-record-found-message')+'{/}</div></not_found>';
+			    	$(this).append($not_found_str);
+			    }
+			    if(typeof($(this).attr('add-paginator-spot')) != "undefined" && $(this).attr('add-paginator-spot') == "true"){
+			    	$paginator_str = '<Paginator is-xepan-tag="true" ></Paginator>';
+			    	$(this).append($paginator_str);
+			    }
+
 			});
-			// add {$_name} {$class} $style and pick html, send to save
-			// replace is-xepan-tags now to actual atk tags
-			// empty serverside wrapper
 
 		});
 
