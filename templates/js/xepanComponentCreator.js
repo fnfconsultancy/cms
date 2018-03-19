@@ -1,3 +1,12 @@
+/*
+
+tag as text in also attribute ... replace at the time of saveBack
+adding tag as text should see if tag is a leaf in tree
+
+*/
+
+
+
 current_selected_dom = 0;
 current_selected_tree_node = 0;
 current_selected_tree_node_dom=undefined;
@@ -189,11 +198,24 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// save button called
 		$('#xepan-component-creator-form-save').click(function(event) {
 			// on server side component create related UI
-			alert('ready ???');
+			// alert('ready ???');
 			tree_data = ($('#xepan-component-creator-js-tree').jstree(true).get_json('#'));
 
 			self.saveBackToDom(tree_data[0]);
 
+			// alert('Dom updated, saving serverside wrappers');
+
+			$(tree_data[0].data.element).find('[xepan-serverside-component-wrappers]').each(function(index, el) {
+				switch($(this).attr('xepan-serverside-component-wrappers')){
+					case '{repetative_section}':
+						$(this).prop('outerHTML','{rows}{row}'+$(this)[0].outerHTML+'{/row}{/rows}');
+						break;
+					}	
+				});
+
+			// serverside component wrap in a div and take all REQUIRED attributes from element and place as outer div
+			// add {$_name} {$class} $style and pick html, send to save
+			// empty serverside wrapper
 
 			// if(self.isComponentServerSide($('#xepan-component-creator-component-type-selector').val())){
 			// 	self.saveServerSideComponent();
@@ -231,7 +253,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 						
 			if($('li a:contains("xepan-serverside-component")').closest('li').find('#'+current_selected_tree_node.id).length){
-				temp_string = $('#'+selected_treenode[0].id + '> a').text();
+				var temp_string = $('#'+selected_treenode[0].id + '> a').text();
 				current_selected_tree_node_dom = $($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")').find('a').first().text());
 				self.manageDomSelected();
 				current_selected_tree_node_dom = $(temp_string);
@@ -262,15 +284,21 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var self = this;
 		var data=[];
 		$.each($(node), function(index, $obj) {
+		    
+		    var temp;
+		    if($($obj).children().length == 0 && $($obj).text()){
+		    	temp = false;//[{id: generateUUID(),text:$($obj).text(), children: false ,icon:'fa fa-file', data:{element:false}}];
+		    }else{
+		    	temp = self.getJsTreeData($($obj).children());
+		    }
+
 			var attrs = "";
 		    $.each( $obj.attributes, function ( index, attribute ) {
 		        attrs += (" "+attribute.name +"=\""+ attribute.value+"\"");
 		    });
-		    var temp;
-		    if($($obj).children().length == 0 && $($obj).text()){
-		    	temp = [{id: generateUUID(),text:$($obj).text(), children: false ,icon:'fa fa-file', data:{element:false}}];
-		    }else{
-		    	temp = self.getJsTreeData($($obj).children());
+
+		    if(!temp && $($obj).text()){
+		    	attrs += (" contains=\"" + $($obj).text()+"\"");
 		    }
 
 		    icon = null;
@@ -352,28 +380,56 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var self = this;
 
 		if(typeof(obj) == 'undefined'){
-			console.log('undefined');
-			console.log(obj);
+			// console.log('undefined');
+			// console.log(obj);
 			return;
-		}else{
 		}
 
 		temp_jq_obj= $($('#'+obj.id+' > a').text());
 
 		if(typeof(temp_jq_obj[0]) != "undefined" && typeof(temp_jq_obj[0].attributes) != "undefined"){
 			$.each(temp_jq_obj[0].attributes, function(index, at) {
-				if(typeof(at) !== 'undefined')
-					$(obj.data.element).attr(at.name,at.value);
+				if(typeof(at) !== 'undefined'){
+					switch(at.name){
+						case 'xepan-contains':
+							$(obj.data.element).text(at.value)
+							// break;
+						default:
+							$(obj.data.element).attr(at.name,at.value);
+					}
+				}
 			});
 		}
 		
-		temp_jq_obj = null;
 
 		if(typeof(obj.children) != "undefined" && obj.children != false){
 			$.each(obj.children, function(index, obj) {
 				 self.saveBackToDom(obj);
 			});
 		}
+
+		temp_jq_obj = null;
+		// wrapper changes outerHTML and all related elements are no more referenced they are created new 
+		// so make this happen after everything on replated element is done
+		// setInterval(function(){
+		// 	$('#'+ obj.id +'> a:contains("xepan-serverside-component-wrappers")').each(function(index, o) {
+		// 		o = $(o).closest('li');
+		// 		console.log(o);
+		// 		$.each(o[0].attributes, function(index, at) {
+		// 			if(typeof(at) !== 'undefined'){
+		// 				console.log(at);
+		// 				switch(at.name){
+		// 					case 'xepan-serverside-component-wrappers':
+		// 						if(at.value=='{repetative_section}'){
+		// 							$(o.data.element).prop('outerHTML','{rows}{row}'+$(o.data.element)[0].outerHTML+'{/row}{/rows}');
+		// 						}
+		// 						break;
+		// 				}
+		// 			}
+		// 		});
+		// 	});
+		// },2000);
+
 	},
 
 	
@@ -640,7 +696,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			break;
 				
 			case 'text':
-				$(dom_obj).text(tag_name_with_dollar);
+				$(dom_obj).attr('xepan-contains',tag_name_with_dollar);
 			break;
 
 			case 'wrapper':
@@ -925,7 +981,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			tags_associate_list.push(temp);
 
-			console.log(tags_associate_list);
+			// console.log(tags_associate_list);
 
 			self.addToTagList(selected_tag,$(current_selected_tree_node_dom),implement_as);
 			
@@ -1385,7 +1441,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 				
 				$.each($('#xepan-creator-existing-dynamic-list .xepan-creator-existing-dynamic-list-added'), function(index, row_obj) {
 					var name = 'xepan-dynamic-option-'+(index + 1);
-					console.log('adding '+name);
+					// console.log('adding '+name);
 					$(current_selected_tree_node_dom).attr(name,$(row_obj).attr('data-dynamic-option'));
 				});
 				self.putBackJsTreeNode();
