@@ -117,7 +117,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		}
 
 		// display form in modal layout
-		var form_layout = '<div id="xepan-component-creator-form" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="xepan-component-creator">'+
+		var form_layout = '<div id="xepan-component-creator-form" class="modal fade bootstrap-iso" tabindex="-1" role="dialog" aria-labelledby="xepan-component-creator">'+
   						'<div class="modal-dialog modal-lg" role="document">'+
     						'<div class="modal-content">'+
       							'<div class="modal-header">'+
