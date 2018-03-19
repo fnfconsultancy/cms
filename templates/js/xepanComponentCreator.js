@@ -146,8 +146,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 		selection_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($('.xepan-creator-top-bar'));
 
 		$('<button class="btn btn-primary" id="xepan-creator-reselection"><i class="fa fa-arrows"></i>Selection</button>').appendTo($(selection_group));
-		// var selection_parent = $('<button id="xepan-creator-current-dom-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(selection_group));
-		// var selection_previous = $('<button id="xepan-creator-current-dom-select-previous" type="button" title="Previous" class="btn btn-default" style="display:none"><i class="fa fa-arrow-down"></i></button>').appendTo($(selection_group));
+		var selection_parent = $('<button id="xepan-creator-current-dom-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(selection_group));
+		var selection_previous = $('<button id="xepan-creator-current-dom-select-previous" type="button" title="Previous" class="btn btn-default" style="display:none"><i class="fa fa-arrow-down"></i></button>').appendTo($(selection_group));
 		// var selection_child = $('<button id="xepan-creator-current-dom-select-child" type="button" title="Child/Next" class="btn btn-default"><i class="fa fa-arrow-down"></i></button>').appendTo($(selection_group));
 		// var selection_previous_sibling = $('<button id="xepan-creator-current-dom-select-previous-sibling" type="button" title="Previous Sibling" class="btn btn-default"><i class="fa fa-arrow-left"></i></button>').appendTo($(selection_group));
 		// var selection_next_sibling = $('<button id="xepan-creator-current-dom-select-next-sibling" type="button" title="Next Sibling" class="btn btn-default"><i class="fa fa-arrow-right"></i></button>').appendTo($(selection_group));
@@ -158,26 +158,32 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$('#xepan-tool-inspector').trigger('click');
 		});
 
-		// $(selection_parent).click(function(event){
-		// 	selection_previous_dom.push($(current_selected_dom));
-		// 	current_selected_dom = $(current_selected_dom).parent()[0];
-		// 	self.manageDomSelected();
-		// });
+		$(selection_parent).click(function(event){
+			selection_previous_dom.push(current_selected_tree_node.data.element);
+			current_selected_dom = $(current_selected_tree_node.data.element).parent()[0];
+			self.closeDialog();
+			self.createEditor();
+			self.updateJsTreeBlock(current_selected_dom);
+			self.manageDomSelected();
+		});
 
-		// $(selection_previous).click(function(event){
-		// 	current_selected_dom = selection_previous_dom.pop()[0];
-		// 	$(selection_parent).show();
-		// 	self.manageDomSelected();
-		// });
+		$(selection_previous).click(function(event){
+			current_selected_dom = selection_previous_dom.pop();
+			$(selection_parent).show();
+			self.closeDialog();
+			self.createEditor();
+			self.updateJsTreeBlock(current_selected_dom);
+			self.manageDomSelected();
+		});
 
-		// if($(current_selected_dom).parent('.xepan-page-wrapper').length){
-		// 	$(selection_parent).hide();
-		// }
+		if($(current_selected_dom).parent('body').length){
+			$(selection_parent).hide();
+		}
 
-		// if(selection_previous_dom.length > 0 ) 
-		// 	$(selection_previous).show();
-		// else
-		// 	$(selection_previous).hide();
+		if(selection_previous_dom.length > 0 ) 
+			$(selection_previous).show();
+		else
+			$(selection_previous).hide();
 
 		var type_select_layout = '<select id="xepan-component-creator-component-type-selector"><option value="Generic"> Generic Tool</option>';
 		$.each(self.options.tools, function(appliction, app_tools) {
@@ -288,9 +294,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 				});			
 				
 
-			$('#xepan-component-creator-form').remove();
-			$('#xepan-component-creator-code-form').remove();
-			$('.modal-backdrop').remove();
+			self.closeDialog();
 
 
 			});
@@ -304,6 +308,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// append component wrapper
 		$('<div id="xepan-component-js-tree-view-wrapper" style="overflow:auto"></div>').appendTo($(self.form_body));
 		$('<div id="xepan-component-creator-type-wrapper"></div>').appendTo($(self.form_body));
+	},
+
+	closeDialog: function(){
+		$('#xepan-component-creator-form').remove();
+		$('#xepan-component-creator-code-form').remove();
+		$('.modal-backdrop').remove();
 	},
 
 	putBackJsTreeNode: function(jQObj,node){
@@ -345,12 +355,15 @@ jQuery.widget("ui.xepanComponentCreator",{
 		    // console.log(data.instance.get_selected(true)); // newly selected
 		    // console.log(data.changed.selected); // newly selected
 		    // console.log(data.changed.deselected); // newly deselected
+		    }).on('loaded.jstree',function(e,data){
+		    	$(jstree_wrapper).jstree('select_node','ul li:first');
 		    }).jstree({
 				'core':{
 					'check_callback': true,
 					'dataType':'json',
 					'data': self.getJsTreeData($(element)),
-					"multiple" : false
+					"multiple" : false,
+
 				},
 				'plugins': ['wholerow','changed','contextmenu']
 			});
