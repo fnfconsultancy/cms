@@ -249,6 +249,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			});
 
+			$.univ().successMessage('Please save and Reload');
+			// $('#xepan-component-creator-form').modal('close');
+			$('#xepan-component-creator-form').remove();
+			$('.modal-backdrop').remove();
 		});
 
 		// append component wrapper
