@@ -795,7 +795,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// }
 
 		$creator_wrapper = $('#xepan-component-creator-type-wrapper');
-		$('<div class="alert alert-info"> Server Side</div>').appendTo($creator_wrapper);
+		$('<div class="alert alert-info"> Server Side Component</div>').appendTo($creator_wrapper);
 
 		var row = $('<div class="row">').appendTo($creator_wrapper);
 		var col1 = $('<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"><h4>Original HTML</h4></div>').appendTo($(row));
