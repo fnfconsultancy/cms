@@ -203,25 +203,13 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			self.saveBackToDom(tree_data[0]);
 
-			// alert('Dom updated, saving serverside wrappers');
-
-			$(tree_data[0].data.element).find('[xepan-serverside-component-wrappers]').each(function(index, el) {
-				switch($(this).attr('xepan-serverside-component-wrappers')){
-					case '{repetative_section}':
-						$(this).prop('outerHTML','{rows}{row}'+$(this)[0].outerHTML+'{/row}{/rows}');
-						break;
-					}	
-				});
-
 			// serverside component wrap in a div and take all REQUIRED attributes from element and place as outer div
+			$(tree_data[0].data.element).find('.xepan-serverside-component').each(function(index, el) {
+				
+			});
 			// add {$_name} {$class} $style and pick html, send to save
+			// replace is-xepan-tags now to actual atk tags
 			// empty serverside wrapper
-
-			// if(self.isComponentServerSide($('#xepan-component-creator-component-type-selector').val())){
-			// 	self.saveServerSideComponent();
-			// }else{
-			// 	self.saveClientSideComponent();
-			// }
 
 		});
 
@@ -252,7 +240,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			current_selected_tree_node_dom = $($('#'+selected_treenode[0].id + '> a').text());
 
 						
-			if($('li a:contains("xepan-serverside-component")').closest('li').find('#'+current_selected_tree_node.id).length){
+			if($('li a:contains("xepan-serverside-component"):contains("xepan-component")').closest('li').find('#'+current_selected_tree_node.id).length){
 				var temp_string = $('#'+selected_treenode[0].id + '> a').text();
 				current_selected_tree_node_dom = $($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")').find('a').first().text());
 				self.manageDomSelected();
@@ -298,7 +286,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		    });
 
 		    if(!temp && $($obj).text()){
-		    	attrs += (" contains=\"" + $($obj).text()+"\"");
+		    	attrs += (" xepan-contains=\"" + $($obj).text()+"\"");
 		    }
 
 		    icon = null;
@@ -363,6 +351,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 				}
 			}else{
 				$(current_selected_tree_node_dom).removeClass('xepan-component');
+				$(current_selected_tree_node_dom).removeClass('xepan-serverside-component');
 			}
 
 
@@ -393,7 +382,19 @@ jQuery.widget("ui.xepanComponentCreator",{
 					switch(at.name){
 						case 'xepan-contains':
 							$(obj.data.element).text(at.value)
-							// break;
+							$(obj.data.element).attr(at.name,at.value);
+							break;
+						case 'xepan-serverside-component-wrappers':
+							if(at.value == '{repetative_section}'){
+								t = '<rows is-xepan-tag="true"><row is-xepan-tag="true">';
+							}else{
+								t = at.value.replace('{',"");
+								t = t.replace('}',"");
+								t = t.replace('$','');
+								t = '<'+ t +' is-xepan-tag="true">';
+							}
+							$(obj.data.element).wrap(t);
+							break;
 						default:
 							$(obj.data.element).attr(at.name,at.value);
 					}
@@ -736,7 +737,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 	isComponentServerSide: function(tool_name){
 		var self = this;
 
+		// console.log('checking if serverside ' + tool_name);
+
 		var is_serverside = false;
+		if(tool_name=='Generic') return false;
 		$.each(self.options.tools, function(appliction, app_tools) {
 			 /* iterate through array or object */
 			 if(appliction == "Layouts") return; //actually continue
