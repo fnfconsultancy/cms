@@ -143,9 +143,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// selection
 		selection_group = $('<div class="btn-group btn-group-xs"></div>').appendTo($(self.form_body));
 
-		$('<button class="btn btn-primary" id="xepan-creator-reselection">Selection</button>').appendTo($(selection_group));
-		var selection_parent = $('<button id="xepan-creator-current-dom-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(selection_group));
-		var selection_previous = $('<button id="xepan-creator-current-dom-select-previous" type="button" title="Previous" class="btn btn-default" style="display:none"><i class="fa fa-arrow-down"></i></button>').appendTo($(selection_group));
+		$('<button class="btn btn-primary" id="xepan-creator-reselection"><i class="fa fa-arrows"></i>Selection</button>').appendTo($(selection_group));
+		// var selection_parent = $('<button id="xepan-creator-current-dom-select-parent" type="button" title="Parent" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>').appendTo($(selection_group));
+		// var selection_previous = $('<button id="xepan-creator-current-dom-select-previous" type="button" title="Previous" class="btn btn-default" style="display:none"><i class="fa fa-arrow-down"></i></button>').appendTo($(selection_group));
 		// var selection_child = $('<button id="xepan-creator-current-dom-select-child" type="button" title="Child/Next" class="btn btn-default"><i class="fa fa-arrow-down"></i></button>').appendTo($(selection_group));
 		// var selection_previous_sibling = $('<button id="xepan-creator-current-dom-select-previous-sibling" type="button" title="Previous Sibling" class="btn btn-default"><i class="fa fa-arrow-left"></i></button>').appendTo($(selection_group));
 		// var selection_next_sibling = $('<button id="xepan-creator-current-dom-select-next-sibling" type="button" title="Next Sibling" class="btn btn-default"><i class="fa fa-arrow-right"></i></button>').appendTo($(selection_group));
@@ -156,26 +156,26 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$('#xepan-tool-inspector').trigger('click');
 		});
 
-		$(selection_parent).click(function(event){
-			selection_previous_dom.push($(current_selected_dom));
-			current_selected_dom = $(current_selected_dom).parent()[0];
-			self.manageDomSelected();
-		});
+		// $(selection_parent).click(function(event){
+		// 	selection_previous_dom.push($(current_selected_dom));
+		// 	current_selected_dom = $(current_selected_dom).parent()[0];
+		// 	self.manageDomSelected();
+		// });
 
-		$(selection_previous).click(function(event){
-			current_selected_dom = selection_previous_dom.pop()[0];
-			$(selection_parent).show();
-			self.manageDomSelected();
-		});
+		// $(selection_previous).click(function(event){
+		// 	current_selected_dom = selection_previous_dom.pop()[0];
+		// 	$(selection_parent).show();
+		// 	self.manageDomSelected();
+		// });
 
-		if($(current_selected_dom).parent('.xepan-page-wrapper').length){
-			$(selection_parent).hide();
-		}
+		// if($(current_selected_dom).parent('.xepan-page-wrapper').length){
+		// 	$(selection_parent).hide();
+		// }
 
-		if(selection_previous_dom.length > 0 ) 
-			$(selection_previous).show();
-		else
-			$(selection_previous).hide();
+		// if(selection_previous_dom.length > 0 ) 
+		// 	$(selection_previous).show();
+		// else
+		// 	$(selection_previous).hide();
 
 		var type_select_layout = '<select id="xepan-component-creator-component-type-selector"><option value="Generic"> Generic Tool</option>';
 		$.each(self.options.tools, function(appliction, app_tools) {
@@ -193,7 +193,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$type_select =  $(type_select_layout).appendTo($(self.form_body));
 		
 		// add move section
-		self.addMoveToTemplate();
+		// self.addMoveToTemplate();
 
 		// save button called
 		$('#xepan-component-creator-form-save').click(function(event) {
@@ -795,15 +795,17 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// }
 
 		$creator_wrapper = $('#xepan-component-creator-type-wrapper');
-		$('<div class="alert alert-danger"> Server Side</div>').appendTo($creator_wrapper);
+		$('<div class="alert alert-info"> Server Side</div>').appendTo($creator_wrapper);
 
 		var row = $('<div class="row">').appendTo($creator_wrapper);
-		var col1 = $('<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><h4>Original HTML</h4></div>').appendTo($(row));
-		var col2 = $('<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><h4>Override HTML</h4></div>').appendTo($(row));
-		var col3 = $('<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"></div>').appendTo($(row));
-		var original_template_textarea = $('<textarea id="xepan-tool-original-template">').appendTo($(col1));
-		var override_template_textarea = $('<textarea id="xepan-tool-override-template">').appendTo($(col2));
-		var original_tags = $('<textarea id="xepan-tool-original-template-tags">').appendTo($(col1));
+		var col1 = $('<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"><h4>Original HTML</h4></div>').appendTo($(row));
+		// var col2 = $('<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"><h4>Override HTML</h4></div>').appendTo($(row));
+		var col3 = $('<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"></div>').appendTo($(row));
+	
+		$('<label>Existing Applied Template Code</label>').appendTo($(col3));
+		var original_template_textarea = $('<textarea id="xepan-tool-original-template">').appendTo($(col3));
+		// var override_template_textarea = $('<textarea id="xepan-tool-override-template">').appendTo($(col2));
+		// var original_tags = $('<textarea id="xepan-tool-original-template-tags">').appendTo($(col1));
 		self.original_template_tags = [];
 
 		$.ajax({
@@ -817,12 +819,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 				return_data = $.parseJSON(json);
 				$(original_template_textarea).val(return_data.original_content);
 				var tags = return_data.tags[0];
-				$(original_tags).val(tags);
+				// $(original_tags).val(tags);
 				self.original_template_tags = tags;
 			}
 		});
 
-		$(override_template_textarea).val($(current_selected_dom).html());
+		// $(override_template_textarea).val($(current_selected_dom).html());
 
 		// if original template file contains {Rows} 
 		/*
@@ -884,7 +886,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			// });
 
 			// no record found message
-			$('<label for="xepan-cmp-creator-not-found-message">No Record Found Message</label><input id="xepan-cmp-creator-not-found-message" value="Not Matching Record Found" />').appendTo($(col3));
+			$('<label for="xepan-cmp-creator-not-found-message">No Record Found Message</label><br/><input id="xepan-cmp-creator-not-found-message" value="Not Matching Record Found" />').appendTo($(col1));
 			$no_record_message = $('#xepan-cmp-creator-not-found-message').val($(current_selected_tree_node_dom).attr('no-record-found-message'));
 			$($no_record_message).change(function(){
 				$(current_selected_tree_node_dom).attr('no-record-found-message',$(this).val());
@@ -892,7 +894,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			});
 
 			// add paginator section here if {rows}{row} has then pagination is must
-			$('<input type="checkbox" id="xepan-cmp-creator-add-paginator" checked /><label for="xepan-cmp-creator-add-paginator"> Add Paginator</label>').appendTo($(col3));
+			$('<br/><input type="checkbox" id="xepan-cmp-creator-add-paginator" checked /><label for="xepan-cmp-creator-add-paginator"> Add Paginator</label><br/>').appendTo($(col1));
 			$add_paginator = $('#xepan-cmp-creator-add-paginator').val($(current_selected_tree_node_dom).val());
 			$($add_paginator).change(function(){
 				if(this.checked) {
@@ -917,7 +919,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 			// });
 		}
 
-		var tag_implementor_wrapper = $('<div class="btn-group btn-group-xs"></div>').appendTo($creator_wrapper);
+		var tag_implementor_wrapper = $('<div class="xepan-tag-implementor-wrapper"></div>').prependTo($(col1));
+		$('<label>Implement Tags</label>').prependTo($(col1));
+		$('<div id="xepan-creator-implement-tag-wrapper"></div>').appendTo($(col1));
 		// $('<button class="btn btn-primary">Selection</button>').appendTo($(tag_implementor_wrapper));
 		// var tag_dom_selector = $('<button id="xepan-creator-tag-dom-selector" type="button" title="Repetitive Dom Selector" class="btn btn-warning"><i class="fa fa-arrows"></i></button>').appendTo($(tag_implementor_wrapper));
 
@@ -941,12 +945,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 						'</select></div>';
 		$(as_select).appendTo($(tag_implementor_wrapper));
 
-
 		tag_associate_btn = $('<button id="xepan-component-creator-tag-dom-association-btn" class="btn btn-primary">Add</button>').appendTo($(tag_implementor_wrapper));
-		
-		tag_textarea = $('<textarea id="xepan-creator-tag-html" >').appendTo($(tag_implementor_wrapper));
+		// tag_textarea = $('<textarea id="xepan-creator-tag-html" >').appendTo($(tag_implementor_wrapper));
 		// tags_added wrapper
-		$('<div id="xepan-creator-implement-tag-wrapper"></div>').appendTo($creator_wrapper);
 
 		// initialize dom object
 		// var tagDomOutline = DomOutline({
@@ -1013,7 +1014,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 			
 			$('#xepan-component-serverside-creator-tags').val("");
 			$('#xepan-component-serverside-creator-apply-as').val("");
-			$('#xepan-creator-tag-html').val("");
+			// $('#xepan-creator-tag-html').val("");
 			self.showAppliedTags();
 		});
 
@@ -1156,55 +1157,56 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var self = this;
 
 		$('#xepan-creator-implement-tag-wrapper').html("");
+		$('<p>Implemented Tags are: </p>').appendTo($('#xepan-creator-implement-tag-wrapper'));
 		$.each(tags_associate_list, function(index, data) {
-			var applied_btn = $('<div class="btn btn-success btn-sm" type="button">'+data.tag+'('+data.implement_as+')</div>').appendTo($('#xepan-creator-implement-tag-wrapper'));
-			var delete_btn = $('<span class="xepan-creator-delete-applied-tag label label-danger" data-id='+index+'>x</span>').appendTo($(applied_btn));
-			$(delete_btn).click(function(event){
+			var applied_btn = $('<div class="label label-success">'+data.tag+'('+data.implement_as+')</div>').appendTo($('#xepan-creator-implement-tag-wrapper'));
+		// 	var delete_btn = $('<span class="xepan-creator-delete-applied-tag label label-danger" data-id='+index+'>x</span>').appendTo($(applied_btn));
+		// 	$(delete_btn).click(function(event){
 				
-				tag_name = data.tag;
+		// 		tag_name = data.tag;
 
-				if(tag_name.indexOf('$') > 0){
-					tag_name_with_dollar = tag_name;
-					tag_name_without_dollar = tag_name.replace('$',"");
-				}else{
-					tag_name_with_dollar = tag_name.replace('{','{$');
-					tag_name_without_dollar = tag_name;
-				}
+		// 		if(tag_name.indexOf('$') > 0){
+		// 			tag_name_with_dollar = tag_name;
+		// 			tag_name_without_dollar = tag_name.replace('$',"");
+		// 		}else{
+		// 			tag_name_with_dollar = tag_name.replace('{','{$');
+		// 			tag_name_without_dollar = tag_name;
+		// 		}
 
-				dom_obj = data.dom;
+		// 		dom_obj = data.dom;
 
-				switch(data.implement_as){
-					case 'href':
-						$(dom_obj).attr('href',$(data.jsnode.data.element).attr("href"));
-					break;
+		// 		switch(data.implement_as){
+		// 			case 'href':
+		// 				$(dom_obj).attr('href',$(data.jsnode.data.element).attr("href"));
+		// 			break;
 
-					case 'src':
-						$(dom_obj).removeAttr('src');
-					break;
+		// 			case 'src':
+		// 				$(dom_obj).removeAttr('src');
+		// 			break;
 						
-					case 'text':
-						$(dom_obj).text($(data.jsnode.data.element).text());
-						// $(dom_obj).text($(data.jsnode.data.element).nodeValue);
-					break;
+		// 			case 'text':
+		// 				$(dom_obj).text($(data.jsnode.data.element).text());
+		// 				// $(dom_obj).text($(data.jsnode.data.element).nodeValue);
+		// 			break;
 
-					case 'wrapper':
-					 	$(dom_obj).removeAttr('xepan-serverside-component-wrappers');
-					break;
+		// 			case 'wrapper':
+		// 			 	$(dom_obj).removeAttr('xepan-serverside-component-wrappers');
+		// 			break;
 
-					case 'class':
-						$(dom_obj).removeClass(tag_name_with_dollar);
-					break;
+		// 			case 'class':
+		// 				$(dom_obj).removeClass(tag_name_with_dollar);
+		// 			break;
 
-					case 'style':
-						$(dom_obj).addStyle(tag_name_with_dollar);
-					break;
-				}
+		// 			case 'style':
+		// 				$(dom_obj).addStyle(tag_name_with_dollar);
+		// 			break;
+		// 		}
 
-				self.putBackJsTreeNode();
-			 	// delete tags_associate_list[$(this).attr('data-id')];
-			 	// delete data;
-			 	self.showAppliedTags();
-			});
+		// 		self.putBackJsTreeNode();
+		// 	 	// delete tags_associate_list[$(this).attr('data-id')];
+		// 	 	// delete data;
+		// 	 	self.showAppliedTags();
+		// 	});
 		});
 	},
 
