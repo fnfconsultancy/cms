@@ -205,9 +205,23 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			self.saveBackToDom(tree_data[0]);
 
+			$(tree_data[0].data.element).find('img.xepan-component').each(function(index,img){
+				if(!$(this).parent('span.xepan-component').length){
+					$span_img_wrapper = $('<span class="xepan-component">');
+					$span_img_wrapper.attr('xepan-component-name',$(this).attr('xepan-component-name'));
+					$span_img_wrapper.attr('xepan-component',$(this).attr('xepan-component')); 
+				    $(this).wrap($span_img_wrapper);
+				}
+				$(this).removeAttr('xepan-component');
+				$(this).removeAttr('xepan-component-name');
+				$(this).removeClass('xepan-component');
+			});
 			// serverside component wrap in a div and take all REQUIRED attributes from element and place as outer div
 			$(tree_data[0].data.element).find('.xepan-serverside-component').andSelf().each(function(index, el) {
 		        if(!$(this).hasClass('xepan-serverside-component')) return; //actually continue 
+		        // senitize server side component
+		        $(this).find('.xepan-component,.xepan-editable-text,.xepan-serverside-component,.xepan-sortable-component').removeClass('xepan-component xepan-serverside-component xepan-editable-text xepan-sortable-component');
+
 				// <div class="xepan-component xepan-serverside-component" xepan-component-name="'.$tool_name.'" xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>
 				$server_side_div = $('<div class="xepan-component xepan-serverside-component">');
 				$server_side_div.attr('xepan-component-name',$(this).attr('xepan-component-name'));
@@ -1246,8 +1260,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 		});
 
 		$('.node_class_toggler').click(function(event) {
-			$(current_selected_tree_node_dom).toggleClass($(this).attr('node_toggle_class'));
 			$is_checked_on = $(this).prop('checked');
+			if(!self.validateClientside(this,$(this).attr('node_toggle_class'),$is_checked_on)) {
+				$(this).prop('checked',!$(this).prop('checked'));
+				return;
+			}
+			$(current_selected_tree_node_dom).toggleClass($(this).attr('node_toggle_class'));
 			switch($(this).attr('node_toggle_class')){
 				case 'xepan-editable-text':
 					if($is_checked_on){
@@ -1415,6 +1433,69 @@ jQuery.widget("ui.xepanComponentCreator",{
 			$(this).closest('.form-group').removeClass('has-error');
 			$(this).closest('.form-group').find('p.xepan-creator-form-error-text').remove();
 		});
+	},
+
+	validateClientside: function(click_obj,node_toggle_class, current_state){
+		console.log('click object');
+		console.log(click_obj);
+		console.log('node toggleClass');
+		console.log(node_toggle_class);
+		console.log("current state ");
+		console.log(current_state);
+		console.log("current dom tag name");
+		console.log($(current_selected_tree_node_dom)[0].tagName.toLowerCase());
+		console.log("current dom");
+		console.log($(current_selected_tree_node_dom));
+
+		var cd = $(current_selected_tree_node_dom);
+		switch(node_toggle_class){
+			case 'xepan-editable-text':
+				if(cd.hasClass('xepan-sortable-component')){
+					$.univ().errorMessage('Editable text cannot be sortable');
+					return false;
+				}
+
+				if(cd[0].tagName.toLowerCase() == 'ul'){
+					$.univ().errorMessage('Cannot create ul as editable text');
+					return false;
+				}
+
+				if(cd[0].tagName.toLowerCase() == 'li' && current_state == true && !cd.hasClass('xepan-no-richtext')){
+					$.univ().errorMessage('li cannot be richtext, create richtext of child span. applying no-richtext class');
+					$('#xepan-cmp-creator-xepan-no-richtext').click();
+				}
+				// else if($(current_selected_tree_node_dom)[0].tagName.toLowerCase() == 'li' && current_state == false && cd.hasClass('xepan-no-richtext')){
+				// 	$('#xepan-cmp-creator-xepan-no-richtext').click();
+				// }
+
+				if($('li a:contains("xepan-editable-text")').closest('li').find('#'+current_selected_tree_node.id).length){
+					$.univ().errorMessage('Cannot redeclare editable text in child of existing editable text');
+					return false;
+				}
+
+				// TODO
+				// if($('#'+current_selected_tree_node.id).find('a:contains("xepan-editable-text")').length){
+				// 	$.univ().errorMessage('Already have an editable text as child, cannot proceed');
+				// 	return false;
+				// }
+			break;
+
+			case 'xepan-no-richtext':
+				if(cd.hasClass('xepan-editable-text') && cd[0].tagName.toLowerCase() == 'li' && current_state == false){
+					$.univ().errorMessage('li cannot be richtext, create richtext of child span. applying no-richtext class');
+					return false;
+				}
+			break;
+
+			case 'xepan-sortable-component':
+				if(cd.hasClass('xepan-editable-text')){
+					$.univ().errorMessage('Sortable component cannot be editable text');
+					return false;
+				}
+			break;
+
+		}
+		return true;
 	},
 
 	addDynamicOptionToList: function(dynamic_option){
