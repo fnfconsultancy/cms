@@ -223,13 +223,59 @@ jQuery.widget("ui.xepanComponentCreator",{
 			    	$(this).attr('style','{$style} ');
 
 			    if(typeof($(this).attr('no-record-found-message')) != "undefined"){
-			    	$not_found_str = '<not_found is-xepan-tag="true" ><div class="alert alert-danger">{not_found_message}'+$(this).attr('no-record-found-message')+'{/}</div></not_found>';
+			    	$not_found_str = '<not_found is-xepan-tag="{not_found}" ><div class="alert alert-danger">{not_found_message}'+$(this).attr('no-record-found-message')+'{/}</div></not_found>';
 			    	$(this).append($not_found_str);
 			    }
 			    if(typeof($(this).attr('add-paginator-spot')) != "undefined" && $(this).attr('add-paginator-spot') == "true"){
-			    	$paginator_str = '<Paginator is-xepan-tag="true" ></Paginator>';
+			    	$paginator_str = '<Paginator is-xepan-tag="{Paginator}" ></Paginator>';
 			    	$(this).append($paginator_str);
 			    }
+
+				xepan_tag_list=[];
+				
+				$(this).find('[is-xepan-tag]').andSelf().each(function(index, el) {
+			        if(typeof($(this).attr()) == "undefined") return ; //actually continue
+					xepan_tag_list.push($(this).attr('is-xepan-tag'));
+				});
+
+				component_string = $(this).prop('outerHTML');
+				// console.log('BEFORE'+component_string);
+				$.each(xepan_tag_list, function(index, tagstr) {
+					if(typeof(tagstr) == "undefined") return; //actually continue
+					tagstr = tagstr.replace(/{/,'').replace(/}/,'');
+					component_string =  component_string.replace(new RegExp('<'+tagstr+'\\s+[^>]+>', "gi"), "{"+tagstr+"}");
+					component_string = component_string.replace(new RegExp('<\/'+tagstr+'>', "gi"), "{/"+tagstr+"}");
+				});
+				// console.log('AFTER'+component_string);
+
+
+				$.ajax({
+					url :'index.php?page=xepan_cms_overridetemplate&cut_page=1',
+					type: 'POST',
+					data: {
+						'xepan-tool-to-clone':$server_side_div.attr('xepan-component'),
+						'template_html': component_string
+					},
+					async:false,
+					success: function(json){
+						// console.log(json);
+						var result = $.parseJSON(json);
+						if(result.status != "success"){
+							$.univ().errorMessage('Not Saved');
+							return;
+						}
+
+						$(el).parent().html('PLEASE SAVE AND RELOAD');
+											
+						$.univ().successMessage('Saved');
+					}
+				});			
+				
+
+			$('#xepan-component-creator-form').remove();
+			$('#xepan-component-creator-code-form').remove();
+			$('.modal-backdrop').remove();
+
 
 			});
 
@@ -408,12 +454,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 							break;
 						case 'xepan-serverside-component-wrappers':
 							if(at.value == '{repetative_section}'){
-								t = '<rows is-xepan-tag="true"><row is-xepan-tag="true">';
+								t = '<rows is-xepan-tag="{rows}"><row is-xepan-tag="{row}">';
 							}else{
 								t = at.value.replace('{',"");
 								t = t.replace('}',"");
 								t = t.replace('$','');
-								t = '<'+ t +' is-xepan-tag="true">';
+								t = '<'+ t +' is-xepan-tag="{'+t+'}">';
 							}
 							$(obj.data.element).wrap(t);
 							break;
