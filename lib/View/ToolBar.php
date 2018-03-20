@@ -8,7 +8,18 @@ class View_ToolBar extends \View {
 
 	function init(){
 		parent::init();
+
+		$this->app->jui->addStaticInclude('colorpicker/tinycolor-0.9.15.min');
+		$this->app->jui->addStaticInclude('colorpicker/jquery.colorpicker');
+		$this->app->jui->addStaticInclude('colorpicker/colorpicker');
 		
+		$this->app->jui->addStaticInclude('ace/ace/ace');
+		$this->app->jui->addStaticInclude('ace/ace/mode-html');
+		$this->app->jui->addStaticInclude('ace/ace/theme-tomorrow');
+		$this->app->jui->addStaticInclude('ace/ace/worker-html');
+		$this->app->jui->addStaticInclude('ace/jquery-ace.min');
+
+
         $this->app->jui->addStylesheet('elfinder.full');
         $this->app->jui->addStylesheet('elfindertheme');
         $this->app->jui->addStylesheet('xepan-editing');
@@ -17,11 +28,6 @@ class View_ToolBar extends \View {
 
 		$this->app->jui->addStaticInclude('elfinder.full');
 		$this->app->jui->addStaticInclude('jquery.dom-outline-1.0');
-		$this->app->jui->addStaticInclude('ace/ace/ace');
-		$this->app->jui->addStaticInclude('ace/ace/mode-html');
-		$this->app->jui->addStaticInclude('ace/ace/theme-tomorrow');
-		$this->app->jui->addStaticInclude('ace/ace/worker-html');
-		$this->app->jui->addStaticInclude('ace/jquery-ace.min');
 		
 		$this->js(true)
 				->_load('tinymce.min')
@@ -198,12 +204,7 @@ class View_ToolBar extends \View {
 
 		// $this->api->jquery->addStaticStyleSheet('colorpicker/pick-a-color-1.1.8.min');
 		$this->api->jquery->addStaticStyleSheet('colorpicker/jquery.colorpicker');
-		$this->js()
-			->_load('colorpicker/tinycolor-0.9.15.min')
-			// ->_load('colorpicker/pick-a-color-1.1.8.min')
-			->_load('colorpicker/jquery.colorpicker')
-			->_load('colorpicker/colorpicker');
-			;
+		
 		$this->js(true)->_selector('.epan-color-picker')->univ()->xEpanColorPicker();
 
 		// inspector
