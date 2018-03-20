@@ -98,6 +98,7 @@ class page_overridetemplate extends \Page {
 			$_temp = [
 				'original_content'=> $original_file_content,
 				'tags'=> $temp,
+				'custom_template_attribute'=>$tool->getCustomtemplateOptionName()
 			];
 			echo  json_encode($_temp);
 			exit();
