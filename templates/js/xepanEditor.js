@@ -5,6 +5,7 @@ xepan_editor_element = null;
 xepan_component_selector = null;
 xepan_component_layout_optioned_added = false;
 xepan_save_and_take_snapshot=false;
+xepan_global_component_options = {};
 
 jQuery.widget("ui.xepanEditor",{
 	options:{
@@ -64,9 +65,9 @@ jQuery.widget("ui.xepanEditor",{
 		self.setUpShortCuts();
 		self.setupEditableText();
 		self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
-
+		xepan_global_component_options = {editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id};
 		$(self.options.component_selector).each(function(index, el) {
-			$(el).xepanComponent({editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id});
+			$(el).xepanComponent(xepan_global_component_options);
 		});
 	},
 

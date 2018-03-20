@@ -211,6 +211,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			self.saveBackToDom(tree_data[0]);
 
+			// wrap images in proper span
 			$(tree_data[0].data.element).find('img.xepan-component').each(function(index,img){
 				if(!$(this).parent('span.xepan-component').length){
 					$span_img_wrapper = $('<span class="xepan-component">');
@@ -294,15 +295,16 @@ jQuery.widget("ui.xepanComponentCreator",{
 				});			
 				
 
-			self.closeDialog();
 
 
 			});
 
 			$.univ().successMessage('Please save and Reload');
-			// $('#xepan-component-creator-form').modal('close');
-			$('#xepan-component-creator-form').remove();
-			$('.modal-backdrop').remove();
+			$(xepan_global_component_options.component_selector).not(':ui-xepanComponent').xepanComponent(xepan_global_component_options);
+			self.closeDialog();
+			// // $('#xepan-component-creator-form').modal('close');
+			// $('#xepan-component-creator-form').remove();
+			// $('.modal-backdrop').remove();
 		});
 
 		// append component wrapper
