@@ -229,6 +229,9 @@ jQuery.widget("ui.xepanComponentCreator",{
 		        if(!$(this).hasClass('xepan-serverside-component')) return; //actually continue 
 		        // senitize server side component
 		        $(this).find('.xepan-component,.xepan-editable-text,.xepan-serverside-component,.xepan-sortable-component').removeClass('xepan-component xepan-serverside-component xepan-editable-text xepan-sortable-component');
+		        if($(this).find('.server-side-template-replaced-to-save').length > 0) return; // actually continue;
+		        // to wrap or not and what html should be send to file and to which file from custom_template attribute
+
 
 				// <div class="xepan-component xepan-serverside-component" xepan-component-name="'.$tool_name.'" xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>
 				$server_side_div = $('<div class="xepan-component xepan-serverside-component">');
@@ -289,7 +292,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 							return;
 						}
 
-						$(el).parent().html('PLEASE SAVE AND RELOAD');
+						$(el).parent().html('<div class="server-side-template-replaced-to-save">PLEASE SAVE AND RELOAD</div>');
 											
 						$.univ().successMessage('Saved');
 					}
@@ -343,19 +346,22 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 						
 			if($('li a:contains("xepan-serverside-component"):contains("xepan-component")').closest('li').find('#'+current_selected_tree_node.id).length){
-				var temp_string = $('#'+selected_treenode[0].id + '> a').text();
-				var temp_previous_selected_node = selected_treenode[0].id;
+				// var temp_string = $('#'+selected_treenode[0].id + '> a').text();
+				// var temp_previous_selected_node = selected_treenode[0].id;
 				parent_serverside_li = $($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")'));
-				current_selected_tree_node_dom = $(parent_serverside_li.find('a').first().text());
+				// current_selected_tree_node_dom = $(parent_serverside_li.find('a').first().text());
+				// console.log("Last Run "+last_run_manage_dom_for_serveside+" = "+$($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")')).attr('id'));
 				if(last_run_manage_dom_for_serveside != $(parent_serverside_li).attr('id')){
-					$(jstree_wrapper).jstree('deselect_all');
-					$(jstree_wrapper).jstree('select_node',$(parent_serverside_li).attr('id'));
-					self.manageDomSelected();
-					$(jstree_wrapper).jstree('deselect_all');
+					$.univ().errorMessage('To update any cild of serversid compoennt, select serverside component first');
+					$('#xepan-component-creator-type-wrapper').hide();
+					// $(jstree_wrapper).jstree('deselect_all');
+					// $(jstree_wrapper).jstree('select_node',$(parent_serverside_li).attr('id'));
+					// self.manageDomSelected();
+					// $(jstree_wrapper).jstree('deselect_all');
 					// will be done in serversidecreator => last_run_manage_dom_for_serveside = $(parent_serverside_li).attr('id');				
 				}
 
-				current_selected_tree_node_dom = $(temp_string);
+				// current_selected_tree_node_dom = $(temp_string);
 				return;
 			}
 			
@@ -418,7 +424,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		var self = this;
 		// create Base UI // component type only infact
 		// filter types like if rows and bootstrap col-md/sd etc is there let column Type be there or remove
-
+		$('#xepan-component-creator-type-wrapper').show();
 		
 		
 		current_selected_dom_component_type = $(current_selected_tree_node_dom).attr('xepan-component')?$(current_selected_tree_node_dom).attr('xepan-component'):'Generic';
