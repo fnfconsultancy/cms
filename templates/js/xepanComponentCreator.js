@@ -237,6 +237,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 				$server_side_div = $('<div class="xepan-component xepan-serverside-component">');
 				$server_side_div.attr('xepan-component-name',$(this).attr('xepan-component-name'));
 				$server_side_div.attr('xepan-component',$(this).attr('xepan-component'));
+				$server_side_div.attr('no-record-found-message',$(this).attr('no-record-found-message'));
+				$server_side_div.attr('add-paginator-spot',$(this).attr('add-paginator-spot'));
+
+				$server_side_div.attr('custom_template_attribute',$(this).attr('custom_template_attribute'));
+				$server_side_div.attr($(this).attr('custom_template_attribute'),$(this).attr($(this).attr('custom_template_attribute')));
+
 			    $(this).wrap($server_side_div);
 				$(this).removeAttr('xepan-component');
 				$(this).removeAttr('xepan-component-name');
@@ -281,7 +287,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 					type: 'POST',
 					data: {
 						'xepan-tool-to-clone':$server_side_div.attr('xepan-component'),
-						'template_html': component_string
+						'template_html': component_string,
+						'custom_template_name':$server_side_div.attr($(this).attr('custom_template_attribute'))
 					},
 					async:false,
 					success: function(json){
