@@ -229,7 +229,13 @@ jQuery.widget("ui.xepanComponentCreator",{
 		        if(!$(this).hasClass('xepan-serverside-component')) return; //actually continue 
 		        // senitize server side component
 		        $(this).find('.xepan-component,.xepan-editable-text,.xepan-serverside-component,.xepan-sortable-component').removeClass('xepan-component xepan-serverside-component xepan-editable-text xepan-sortable-component');
+		        
 		        if($(this).find('.server-side-template-replaced-to-save').length > 0) return; // actually continue;
+		        if(typeof($(this).attr('xepan-existing-ssc')) != "undefined") {
+		        	console.log('skipping saving ');
+		        	console.log(this);
+		        	return; // actually continue;
+		    	}
 		        // to wrap or not and what html should be send to file and to which file from custom_template attribute
 
 
@@ -411,6 +417,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 		    $.each( $obj.attributes, function ( index, attribute ) {
 		        attrs += (" "+attribute.name +"=\""+ attribute.value+"\"");
 		    });
+
+		    if($($obj).hasClass('xepan-serverside-component')) attrs += ' xepan-existing-ssc="true"';
 
 		    if(!temp && $($obj).text()){
 		    	attrs += (" xepan-contains=\"" + $($obj).text()+"\"");
