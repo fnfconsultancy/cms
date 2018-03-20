@@ -391,6 +391,31 @@ jQuery.widget("ui.xepanComponentCreator",{
 					"multiple" : false,
 
 				},
+				"contextmenu":{         
+				    "items": function($node) {
+				        var tree = $('#xepan-component-creator-js-tree').jstree(true);
+				        return {
+				            "Rename": {
+				                "separator_before": false,
+				                "separator_after": false,
+				                "label": "Rename",
+				                "action": function (obj) { 
+				                    	tree.edit($node);
+				                	}
+				            	},
+				            "Remove": {
+				                "separator_before": true,
+				                "separator_after": false,
+				                "label": "Remove",
+				                "action": function (obj) { 
+				                		$($node.data.element).remove();
+				                    	tree.delete_node($node);
+				                	}
+				            	}
+
+				        };
+				    }
+				},
 				'plugins': ['wholerow','changed','contextmenu']
 			});
 	},
