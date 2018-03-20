@@ -364,6 +364,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 				parent_serverside_li = $($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")'));
 				// current_selected_tree_node_dom = $(parent_serverside_li.find('a').first().text());
 				// console.log("Last Run "+last_run_manage_dom_for_serveside+" = "+$($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")')).attr('id'));
+				if(typeof($($(parent_serverside_li).find('a').first().text())).attr('xepan-existing-ssc') != "undefined"){
+					$.univ().errorMessage('This is existing serverside component, cannot change its  template, changes wil be ignored');
+					$('#xepan-component-creator-type-wrapper').hide();
+					return;
+				}
+				
 				if(last_run_manage_dom_for_serveside != $(parent_serverside_li).attr('id')){
 					$.univ().errorMessage('To update any cild of serversid compoennt, select serverside component first');
 					$('#xepan-component-creator-type-wrapper').hide();
@@ -373,6 +379,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 					// $(jstree_wrapper).jstree('deselect_all');
 					// will be done in serversidecreator => last_run_manage_dom_for_serveside = $(parent_serverside_li).attr('id');				
 				}
+
 
 				// current_selected_tree_node_dom = $(temp_string);
 				return;
