@@ -18,6 +18,7 @@ repitative_selected_dom = 0;
 current_selected_tag_dom = 0;
 tags_associate_list = [];
 selection_previous_dom=[];
+last_run_manage_dom_for_serveside  = undefined;
 
 jQuery.widget("ui.xepanComponentCreator",{
 	options:{
@@ -232,7 +233,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 				// <div class="xepan-component xepan-serverside-component" xepan-component-name="'.$tool_name.'" xepan-component="'.str_replace('\\', '/', get_class($t_v)).'">' .$t_v->getHTML(). '</div>
 				$server_side_div = $('<div class="xepan-component xepan-serverside-component">');
 				$server_side_div.attr('xepan-component-name',$(this).attr('xepan-component-name'));
-				$server_side_div.attr('xepan-component',$(this).attr('xepan-component')); 
+				$server_side_div.attr('xepan-component',$(this).attr('xepan-component'));
 			    $(this).wrap($server_side_div);
 				$(this).removeAttr('xepan-component');
 				$(this).removeAttr('xepan-component-name');
@@ -336,14 +337,24 @@ jQuery.widget("ui.xepanComponentCreator",{
 		$(jstree_wrapper).on("changed.jstree", function (e, data) {
 			
 			var selected_treenode = data.instance.get_selected(true);
+			if(selected_treenode.length ==0) return;
 			current_selected_tree_node = selected_treenode[0];
 			current_selected_tree_node_dom = $($('#'+selected_treenode[0].id + '> a').text());
 
 						
 			if($('li a:contains("xepan-serverside-component"):contains("xepan-component")').closest('li').find('#'+current_selected_tree_node.id).length){
 				var temp_string = $('#'+selected_treenode[0].id + '> a').text();
-				current_selected_tree_node_dom = $($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")').find('a').first().text());
-				self.manageDomSelected();
+				var temp_previous_selected_node = selected_treenode[0].id;
+				parent_serverside_li = $($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")'));
+				current_selected_tree_node_dom = $(parent_serverside_li.find('a').first().text());
+				if(last_run_manage_dom_for_serveside != $(parent_serverside_li).attr('id')){
+					$(jstree_wrapper).jstree('deselect_all');
+					$(jstree_wrapper).jstree('select_node',$(parent_serverside_li).attr('id'));
+					self.manageDomSelected();
+					$(jstree_wrapper).jstree('deselect_all');
+					// will be done in serversidecreator => last_run_manage_dom_for_serveside = $(parent_serverside_li).attr('id');				
+				}
+
 				current_selected_tree_node_dom = $(temp_string);
 				return;
 			}
@@ -866,6 +877,10 @@ jQuery.widget("ui.xepanComponentCreator",{
 	createServerSideComponentUI: function (){
 		var self = this;
 
+		parent_serverside_li = $($('#'+current_selected_tree_node.id).closest('li:contains("xepan-serverside-component"):contains("xepan-component")'));
+		last_run_manage_dom_for_serveside = $(parent_serverside_li).attr('id');
+
+
 		// get Original File Code
 		// get Overrided File Code
 		// set in Tabs or any poper UI
@@ -876,8 +891,18 @@ jQuery.widget("ui.xepanComponentCreator",{
 		// }
 
 		$creator_wrapper = $('#xepan-component-creator-type-wrapper');
-		$('<div class="alert alert-info"> Server Side Component</div>').appendTo($creator_wrapper);
+		$top_bar = $('<div class="alert alert-info"> Server Side Component</div>').appendTo($creator_wrapper);
+		$('<label for="xepan-custom-template-file-name">Custom Template File Name</label><input id="xepan-custom-template-file-name" />').appendTo($($top_bar));
 
+		$('#xepan-custom-template-file-name').change(function(e){
+			if(!$(current_selected_tree_node_dom).hasClass('xepan-serverside-component')){
+				$.univ().errorMessage('Please select component root first before changing name');
+				return;
+			}
+			$(current_selected_tree_node_dom).attr($(current_selected_tree_node_dom).attr('custom_template_attribute'),$(this).val());
+			self.putBackJsTreeNode();
+		});
+		
 		var row = $('<div class="row">').appendTo($creator_wrapper);
 		var col1 = $('<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"><h4>Original HTML</h4></div>').appendTo($(row));
 		// var col2 = $('<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"><h4>Override HTML</h4></div>').appendTo($(row));
@@ -902,6 +927,12 @@ jQuery.widget("ui.xepanComponentCreator",{
 				var tags = return_data.tags[0];
 				// $(original_tags).val(tags);
 				self.original_template_tags = tags;
+				
+				$(current_selected_tree_node_dom).attr('custom_template_attribute',return_data.custom_template_attribute);
+				if(typeof($(current_selected_tree_node_dom).attr(return_data.custom_template_attribute)) != "undefined"){
+					$('#xepan-custom-template-file-name').val($(current_selected_tree_node_dom).attr(return_data.custom_template_attribute));
+				}
+				self.putBackJsTreeNode();
 			}
 		});
 
@@ -1294,6 +1325,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 	createClientSideComponentUI: function(){
 		// create UI 
 		var self = this;
+
+		last_run_manage_dom_for_serveside = undefined;
 
 		repitative_selected_dom = 0;
 		current_selected_tag_dom = 0;
