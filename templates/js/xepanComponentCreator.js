@@ -523,11 +523,39 @@ jQuery.widget("ui.xepanComponentCreator",{
 					$(current_selected_tree_node_dom).removeAttr('no-record-found-message');
 					$(current_selected_tree_node_dom).removeAttr('add-paginator-spot');
 				}
+
+				// check if tool is icon
+				if($(this).val() == "xepan/cms/Tool_Icon"){
+					$(current_selected_tree_node_dom)
+						.addClass('xepan-component')
+						.attr({
+							'xepan-component'	: 'xepan/cms/Tool_Icon',
+							'icon-link-target'	: 'none',
+							'icon-size'			: "fa-1x",
+							'icon-link'			: "#",
+							'icon-align'		: "text-center",
+							'icon-class'		:"fa-leaf",
+							'xepan-component-name': "Icon"
+						});
+					var classNames = $(current_selected_tree_node_dom).attr("class").toString().split(' ');
+		        	$.each(classNames, function (i, className) {
+			            if(className.match(/fa-/i)){
+			            	$(current_selected_tree_node_dom).attr('icon-class', className);
+			            }
+		        	});
+				}
 			}else{
 				$(current_selected_tree_node_dom).removeClass('xepan-component');
+				$(current_selected_tree_node_dom).removeAttr('xepan-component-name');
 				$(current_selected_tree_node_dom).removeClass('xepan-serverside-component');
 				$(current_selected_tree_node_dom).removeAttr('no-record-found-message');
 				$(current_selected_tree_node_dom).removeAttr('add-paginator-spot');
+				$(current_selected_tree_node_dom).removeAttr('xepan-component');
+				$(current_selected_tree_node_dom).removeAttr('icon-link-target');
+				$(current_selected_tree_node_dom).removeAttr('icon-size');
+				$(current_selected_tree_node_dom).removeAttr('icon-link');
+				$(current_selected_tree_node_dom).removeAttr('icon-align');
+				$(current_selected_tree_node_dom).removeAttr('icon-class');
 			}
 
 
