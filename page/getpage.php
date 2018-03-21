@@ -14,9 +14,9 @@ class page_getpage extends \Page{
 
 		$pages = [];
 		$root_page = $this->add('xepan\cms\Model_Page');
-		$root_page->addCondition($root_page->_dsql()->orExpr()->where('parent_page_id',0)->where('parent_page_id',null))
+		$root_page->addCondition([['parent_page_id',0],['parent_page_id',null]])
 				->addCondition('is_active',true)
-				->addCondition('is_muted',false)
+				->addCondition([['is_muted',false],['is_muted',null]])
 				->setOrder('order')
 				;
 

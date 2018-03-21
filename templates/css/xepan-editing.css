@@ -621,3 +621,44 @@
     font-size: 20px;
     margin: 20px 0;
 }
+
+
+/*xepan component creator */
+
+#xepan-component-js-tree-view-wrapper{
+    min-height: 100px;
+    max-height: 250px;
+    overflow: auto;
+    background: #F6F5F4;
+    outline: 5px solid #EFEFEE;
+}
+
+#xepan-tool-original-template{
+    height: 200px;
+    overflow: auto;
+    outline: 5px solid #EFEFEE;
+}
+
+#xepan-cmp-creator-not-found-message{
+    width:100%;
+
+}
+
+.xepan-tag-implementor-wrapper{
+    outline: 2px solid #EFEFEE;
+}
+
+#xepan-creator-implement-tag-wrapper{
+    outline: 2px solid #EFEFEE;
+    height: 60px;
+    overflow: auto;
+    width: 100%;
+}
+/*end of xepan component creator*/
+
+.xepan-layout-selector-category,
+.xepan-layout-selector
+{
+    width: 100% !important;
+    margin-bottom: 2px !important;
+}
