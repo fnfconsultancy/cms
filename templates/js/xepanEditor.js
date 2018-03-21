@@ -5,6 +5,7 @@ xepan_editor_element = null;
 xepan_component_selector = null;
 xepan_component_layout_optioned_added = false;
 xepan_save_and_take_snapshot=false;
+xepan_global_component_options = {};
 
 jQuery.widget("ui.xepanEditor",{
 	options:{
@@ -64,9 +65,9 @@ jQuery.widget("ui.xepanEditor",{
 		self.setUpShortCuts();
 		self.setupEditableText();
 		self.cleanup(); // Actually these are JUGAAD, that must be cleared later on
-
+		xepan_global_component_options = {editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id};
 		$(self.options.component_selector).each(function(index, el) {
-			$(el).xepanComponent({editing_template:self.options.template_editing,component_selector: self.options.component_selector,editor_id:self.options.editor_id});
+			$(el).xepanComponent(xepan_global_component_options);
 		});
 	},
 
@@ -78,7 +79,7 @@ jQuery.widget("ui.xepanEditor",{
 
 
 		// right bar
-		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="sidebar sidebar-right" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
+		self.rightbar = $('<div id="xepan-cms-toolbar-right-side-panel" class="sidebar sidebar-right bootstrap-iso" style="right: -230px;" data-status="opened"></div>').insertAfter('body');
 		// basic and selection tools
 
 		self.generic_tool_wrapper = $('<div class="xepan-cms-group-panel clearfix xepan-cms-tool"></div>').appendTo(self.rightbar);
@@ -176,7 +177,7 @@ jQuery.widget("ui.xepanEditor",{
 
 
 		// left bar
-		self.leftbar = $('<div id="xepan-cms-toolbar-left-side-panel" class="sidebar sidebar-left" style="left: -230px;" data-status="opened"></div>').insertAfter('body');
+		self.leftbar = $('<div id="xepan-cms-toolbar-left-side-panel" class="sidebar sidebar-left bootstrap-iso" style="left: -230px;" data-status="opened"></div>').insertAfter('body');
 		// right bar content
 		self.leftbar_toggle_btn = $('<div class="toggler"><span class="fa fa-chevron-right fa-2x" style="display: block;">&nbsp;</span> <span class="fa fa-chevron-left fa-2x" style="display: none;">&nbsp;</span></div>').appendTo(self.leftbar);
 		$(self.leftbar_toggle_btn).click(function(){
@@ -322,12 +323,15 @@ jQuery.widget("ui.xepanEditor",{
 	setupTools: function(){
 		var self = this;
 		
-		$('<div class="xepan-cms-tool">Tools</div>').appendTo(self.leftbar);
-		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(self.leftbar);
+		var left_bar_tool_wrapper = $('.xepan-cms-editor-helper-wrraper');
+		$('<div class="xepan-cms-tool">Tools</div>').appendTo(left_bar_tool_wrapper);
+		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(left_bar_tool_wrapper);
 		var option = '<option value="0">Select</option>';
-		
-		var category_dropdown = $('<select class="xepan-layout-selector-category"></select>').appendTo(self.leftbar);
+		var category_dropdown = $('<select class="xepan-layout-selector-category"></select>').appendTo(left_bar_tool_wrapper);
 		$(category_dropdown).hide();
+
+		// add update layout button
+		var update_theme_layout_button = $('<button class="btn btn-warning btn-xs btn-block" id="xepan-editor-update-theme-layouts">Update Theme Layout</button>').appendTo(left_bar_tool_wrapper);
 
 		var tools_options = $('<div class="xepan-tools-options">').appendTo(self.rightbar);
 
@@ -396,6 +400,7 @@ jQuery.widget("ui.xepanEditor",{
 			$('.xepan-cms-toolbar-tool.'+selected_app).show();
 			
 			if(selected_app == "Layouts"){
+
 				$(category_dropdown).show();
 			}else{
 				$(category_dropdown).hide();
@@ -422,6 +427,15 @@ jQuery.widget("ui.xepanEditor",{
 		$(category_dropdown).trigger('change');
 
 		$(self.options.basic_properties).appendTo(tools_options);
+
+		$(update_theme_layout_button).click(function(event){
+			$.ajax({
+				url: 'index.php?page=xepan_cms_editor_updatelayout&cut_page=1',
+			})
+			.always(function(message) {
+				eval(message)
+			});
+		});
 	},
 
 	setUpPagesAndTemplates: function(){
