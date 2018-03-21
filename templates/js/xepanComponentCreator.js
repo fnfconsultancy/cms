@@ -198,6 +198,8 @@ jQuery.widget("ui.xepanComponentCreator",{
 
 			// wrap images in proper span
 			$(tree_data[0].data.element).find('img.xepan-component').andSelf().each(function(index,img){
+				if($(img)[0].tagName.toLowerCase() != 'img') return ; // actually continue
+				
 				if(!$(this).closest('span.xepan-component').length){
 					var $span_img_wrapper = $('<span class="xepan-component">');
 					$span_img_wrapper.attr('xepan-component-name',$(this).attr('xepan-component-name'));
