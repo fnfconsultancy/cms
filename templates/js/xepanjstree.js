@@ -39,7 +39,7 @@ $.each({
 			$.each(placeTemplateContentRegion_selected, function(index, tag) {
 				tag_array.push(tag.text);
 			});
-			$.univ().frameURL(save_url+"&page_content_border="+encodeURIComponent(JSON.stringify(tag_array)));
+			$.univ().frameURL('Updating Page',save_url+"&page_content_border="+encodeURIComponent(JSON.stringify(tag_array)));
 		});
 
 		$verify_selectors_btn = $('<button id="verify_selectors_btn" class="btn btn-success">Verify start and end selectors on other pages</button>').insertAfter(obj);
