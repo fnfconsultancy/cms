@@ -475,7 +475,7 @@ class page_websites extends \xepan\base\Page{
 			$c->out('Pages cleared');
 			$c->jsEval($this->js()->show()->_selector('.manage_pages_btn'));
 			$c->jsEval($this->js()->show()->_selector('.create_another_page_template_btn'));
-			// $c->jsEval($this->js()->show()->_selector('.manage_edit_page_templates_components'));
+			$c->jsEval($this->js()->show()->_selector('.file_manager_btn'));
 
 		});
 		
@@ -483,8 +483,8 @@ class page_websites extends \xepan\base\Page{
 		$this->add('Button')->set('1. Pages & Templates')->addClass('btn btn-primary manage_pages_btn')->setStyle('display','none')
 			->js('click')->univ()->frameURL($this->app->url('xepan_cms_cmspagemanager'));
 		
-		// $this->add('Button')->set('1. Edit Pages & Templates (Components)')->addClass('btn btn-primary manage_edit_page_templates_components')->setStyle('display','none')
-		// 	->js('click')->univ()->redirect($this->app->url('xepan_cms_websites_component_creator'));
+		$this->add('Button')->set('Go To FileManager')->addClass('btn btn-primary file_manager_btn')->setStyle('display','none')
+			->js('click')->univ()->redirect($this->app->url('xepan_cms_websites'));
 
 		$this->add('Button')->set('[Create Another Page Template]')->addClass('btn btn-primary create_another_page_template_btn')->setStyle('display','none')
 			->js('click')->univ()->redirect($this->app->url('xepan_cms_websites_step1'));
