@@ -136,7 +136,7 @@ jQuery.widget("ui.xepanComponentCreator",{
     						'</div>'+
   						'</div>'+ 
 					'</div>';
-
+		self.body_padding = $('body').css('padding-right');
 		self.$form = $(form_layout).appendTo('body');
 		self.$form.modal('toggle');
 
@@ -330,9 +330,15 @@ jQuery.widget("ui.xepanComponentCreator",{
 	},
 
 	closeDialog: function(){
+		var self = this;
+
+		$('#xepan-component-creator-form').modal( 'hide' ).data( 'bs.modal', null );
 		$('#xepan-component-creator-form').remove();
 		$('#xepan-component-creator-code-form').remove();
 		$('.modal-backdrop').remove();
+		if(self.body_padding){
+			$('body').css('padding-right',self.body_padding);
+		}
 	},
 
 	putBackJsTreeNode: function(jQObj,node){
@@ -823,7 +829,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		template_html = $(template_html).prop('outerHTML');
 
 		// open new modal popup
-		var code_editor_form = '<div id="xepan-component-creator-code-form" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="xepan-component-creator">'+
+		var code_editor_form = '<div id="xepan-component-creator-code-form" class="modal" tabindex="-1" role="dialog" aria-labelledby="xepan-component-creator">'+
   						'<div class="modal-dialog" role="document">'+
     						'<div class="modal-content">'+
       							'<div class="modal-header">'+
