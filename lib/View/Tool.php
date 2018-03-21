@@ -46,6 +46,18 @@ class View_Tool extends \View{
 		return $this->getTemplate()->origin_filename;
 	}
 
+	function getTemplatePath(){
+		$file = explode("/", $this->getTemplateFile());
+		$file_path = array_reverse($file);
+		unset($file_path[0]);
+		$file_path = implode("/", array_reverse($file_path));
+		return $file_path;
+	}
+
+	function getCustomtemplateOptionName(){
+		return "custom_template";
+	}
+
 	function getDefaultTemplate($options=null){
 		if(!$this->templateOverridable) return $this->getTemplateFile($options);
 
