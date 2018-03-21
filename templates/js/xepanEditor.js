@@ -323,12 +323,15 @@ jQuery.widget("ui.xepanEditor",{
 	setupTools: function(){
 		var self = this;
 		
-		$('<div class="xepan-cms-tool">Tools</div>').appendTo(self.leftbar);
-		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(self.leftbar);
+		var left_bar_tool_wrapper = $('.xepan-cms-editor-helper-wrraper');
+		$('<div class="xepan-cms-tool">Tools</div>').appendTo(left_bar_tool_wrapper);
+		var apps_dropdown = $('<select class="xepan-layout-selector"></select>').appendTo(left_bar_tool_wrapper);
 		var option = '<option value="0">Select</option>';
-		
-		var category_dropdown = $('<select class="xepan-layout-selector-category"></select>').appendTo(self.leftbar);
+		var category_dropdown = $('<select class="xepan-layout-selector-category"></select>').appendTo(left_bar_tool_wrapper);
 		$(category_dropdown).hide();
+
+		// add update layout button
+		var update_theme_layout_button = $('<button class="btn btn-warning btn-xs btn-block" id="xepan-editor-update-theme-layouts">Update Theme Layout</button>').appendTo(left_bar_tool_wrapper);
 
 		var tools_options = $('<div class="xepan-tools-options">').appendTo(self.rightbar);
 
@@ -397,6 +400,7 @@ jQuery.widget("ui.xepanEditor",{
 			$('.xepan-cms-toolbar-tool.'+selected_app).show();
 			
 			if(selected_app == "Layouts"){
+
 				$(category_dropdown).show();
 			}else{
 				$(category_dropdown).hide();
@@ -423,6 +427,15 @@ jQuery.widget("ui.xepanEditor",{
 		$(category_dropdown).trigger('change');
 
 		$(self.options.basic_properties).appendTo(tools_options);
+
+		$(update_theme_layout_button).click(function(event){
+			$.ajax({
+				url: 'index.php?page=xepan_cms_editor_updatelayout&cut_page=1',
+			})
+			.always(function(message) {
+				eval(message)
+			});
+		});
 	},
 
 	setUpPagesAndTemplates: function(){

@@ -655,3 +655,10 @@
     width: 100%;
 }
 /*end of xepan component creator*/
+
+.xepan-layout-selector-category,
+.xepan-layout-selector
+{
+    width: 100% !important;
+    margin-bottom: 2px !important;
+}
