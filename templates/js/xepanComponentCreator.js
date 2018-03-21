@@ -585,7 +585,18 @@ jQuery.widget("ui.xepanComponentCreator",{
 				if(typeof(at) !== 'undefined'){
 					switch(at.name){
 						case 'xepan-contains':
-							$(obj.data.element).text(at.value)
+							var text_done = false;
+							$(obj.data.element).contents().filter(function() {
+						        return this.nodeType == Node.TEXT_NODE && this.nodeValue.trim() != '';
+						    }).each(function() {
+						    		//You can ignore the span class info I added for my particular application.
+						        $(this).replaceWith(at.value);
+						        text_done = true;
+							});
+
+							if(!text_done){
+								$(obj.data.element).text(at.value);
+							}
 							$(obj.data.element).attr(at.name,at.value);
 							break;
 						case 'xepan-serverside-component-wrappers':
