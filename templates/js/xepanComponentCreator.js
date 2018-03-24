@@ -91,6 +91,7 @@ jQuery.widget("ui.xepanComponentCreator",{
 		});
 
 		$('#xepan-tool-inspector').click(function(){
+			$(':ui-xepanComponent').xepanComponent('deselect');
 			myDomOutline.start();
 			return false;
 		});
