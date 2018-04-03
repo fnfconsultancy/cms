@@ -1,5 +1,5 @@
 
-<div id="{$_name}" style="{$style}" class="{$class}">
+<div id="{$_name}" style="{$style}" class="{$class} tool-gallery-portfolio">
   <div class="row">
     <div class="col-cs-12">
       <ul id="filter-list">
@@ -12,14 +12,14 @@
       </ul>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12">
+  <div class="container" style="width:100%;">
       <ul class="portfolio_items">
         {$item_list}
         {item}
         {$Content}
         <li class="portfolio {$gallery_cat}">
-          <div class="post_thumb"><img src="{$image_path}"/>
+          <div class="post_thumb">
+            <img src="{$image_path}"/>
             <div class="portfolio-overlay">
               <div class="overlay-inner">{name_wrapper}
                 <h3>{$name}</h3>{/}
@@ -41,4 +41,10 @@
     });
     $(' a.fancybox').fancybox();
   </script>
+  <style type="text/css">
+    #{$_name} .portfolio.mix_all:last-child{
+      display: none !important;
+    }
+
+  </style>
 </div>
