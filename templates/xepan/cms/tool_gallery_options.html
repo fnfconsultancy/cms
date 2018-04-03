@@ -14,7 +14,8 @@
             <tr class="xepan-tool-option">
               <td class="xepan-tool-option-title">Gallery Type</td>
               <td class="xepan-tool-option-value">
-                <select id="gallery_type" data-attr="gallery_type" data-defaultvalue="portfolio" data-togglevalue="portfolio" data-toggleclass=".xepan-cms-gallery-p-option">
+                <select id="gallery_type" data-attr="gallery_type" data-defaultvalue="0" data-togglevalue="portfolio" data-toggleclass=".xepan-cms-gallery-p-option">
+                  <option value="0">Please Select</option>
                   <option value="portfolio">Portfolio</option>
                   <option value="googlegallery">Google Gallery</option>
                 </select>
@@ -63,9 +64,9 @@
               </td>
             </tr>
             <tr class="category">
-              <td class="xepan-tool-option-title">Category</td>
               <td colspan="2" class="xepan-tool-option-value">
-                <select id="{$_name}_dropdown" style="width:100%;" data-attr="img_gallery_category" class="chosen-select option-category"></select>
+                <div>Select Category</div>
+                <select id="{$_name}_dropdown" style="width:100%;" multiple="" multiselect="multiselect" data-attr="img_gallery_category" class="chosen-select gallery-images-category-multiselect chosen-select option-category"></select>
               </td>
             </tr>
           </table>
@@ -73,6 +74,10 @@
       </div>
     </div>
   </div>
+
+  <link rel="stylesheet" type="text/css" href="vendor/xepan/blog/templates/css/chosen.css"/>
+  <script src="vendor/xepan/blog/templates/js/chosen.jquery.js"></script>
+
   <script>
     $.ajax({
     	url: 'index.php?page=xepan_cms_getimagegallerycategory',
@@ -81,6 +86,8 @@
     	success: function ( data ){
     		//- console.log(data);
     		$('#{$_name}_dropdown').html(data);
+        $('#{$_name}_dropdown').chosen();
+        $('#{$_name}_dropdown').chosen({allow_single_deselect: true });
     	}
     });
     
@@ -105,6 +112,14 @@
     		
     		$(this).val(default_value);
     	});
+
+      //- chosen multiselect options
+      if(typeof $(current_selected_component).attr('img_gallery_category') === 'undefined' ){
+        $("#{$_name}_dropdown").val("\{\}").trigger("chosen:updated");
+      }else{
+        var str = $(current_selected_component).attr('img_gallery_category');
+        $("#{$_name}_dropdown").val(str.split(',')).trigger("chosen:updated");
+      }
     });
 
     $('.xepan-manage-gallery-btn').click(function(event) {
