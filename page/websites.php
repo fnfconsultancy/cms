@@ -538,9 +538,9 @@ class page_websites extends \xepan\base\Page{
 		preg_match_all('%\s+id\s*=\s*[\'"]?([a-zA-Z0-9\-_]*)[\'"]?\s*%i', $tag,$match);
 		$selector = '#'.@$match[1][0];
 		if($selector == '#'){
-			preg_match_all('%\s+class\s*=\s*[\'"]?([a-zA-Z0-9\-_\s]*)[\'"]?\s*%i', $tag,$match);
-			$selector = '.'.preg_replace("/\s+/", '.', isset($match[1][0])?$match[1][0]:"");
-		}if($selector=='.'){
+			preg_match_all('%<([a-zA-Z]+)\s+class\s*=\s*[\'"]?([a-zA-Z0-9\-_\s]*)[\'"]?\s*%i', $tag,$match);
+			$selector = $match[1][0].'.'.preg_replace("/\s+/", '.', isset($match[2][0])?$match[2][0]:"");
+		}if($selector==$match[1][0].'.'){
 			preg_match_all('%<([a-zA-Z]+)\s*(.*)>%i', $tag,$match);
 			$selector=$match[1][0];
 		}
