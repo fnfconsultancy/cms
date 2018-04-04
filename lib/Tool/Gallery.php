@@ -37,9 +37,15 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 		});
 		$images->addCondition('cat_status','Active');
 		$images->setOrder('sequence_order','desc');
-
-		$this->model_category =  $cat = $this->add('xepan\cms\Model_ImageGalleryCategory');
+		
+		$this->model_category =  $cat = $this->add('xepan\cms\Model_ImageGalleryCategory');		
 		$cat->addCondition('status','Active');
+
+		if($this->options['img_gallery_category']){
+			$selected_cat = explode(",", $this->options['img_gallery_category']);
+			$this->model_image->addCondition([['gallery_cat_id',$selected_cat],['gallery_cat',$selected_cat]]);
+			$this->model_category->addCondition([['id',$selected_cat],['name',$selected_cat]]);
+		}
 
 		switch ($this->options['gallery_type']) {
 			case 'portfolio':
@@ -97,13 +103,6 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 
 	function googleGallery(){
 
-		if(!$this->options['img_gallery_category']){
-			$this->add('View_Info')->set("Please Select Category First And Reload");
-			return;
-		}
-
-		$this->model_image->addCondition([['gallery_cat_id',$this->options['img_gallery_category']],['gallery_cat',$this->options['img_gallery_category']]]);
-		
 		$carousel_cl = $this->add('CompleteLister',null,null,['xepan\tool\gallery\googlegallery']);
 		$carousel_cl->setModel($this->model_image);
 
