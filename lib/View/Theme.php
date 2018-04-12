@@ -10,11 +10,11 @@ class View_Theme extends \View{
 	public $show_applynow_button = 1;
 	public $show_search = 1;
 	public $show_theme_of_category=0; // "comma seperated category ids"
-	public $show_theme = 'published'; // all, published, unpublished
+	public $show_status = 'published'; // all, published, unpublished
 
 	function init(){
 		parent::init();
-
+		
 		$this->app->readConfig('websites/www/config.php');
 		// $this->app->readConfig('websites/'.$this->app->current_website_name.'/config.php');
         $this->app->dbConnect();
@@ -35,14 +35,16 @@ class View_Theme extends \View{
 	        					// ->get();
         }
 
-        if($this->show_theme == "published"){
+        if($this->show_status == "published"){
         	$model->where('is_published',1);
-        }elseif($this->show_theme == "unpublished"){
+        }elseif($this->show_status == "unpublished"){
         	$model->where('is_published',0);
         }
-
+        
         $this->epan_template = $epan_template = $model->where('is_template',1)
-						->get();
+									->get();
+
+		// $this->app->print_r($epan_template,true);
 
         $epan_category = $this->epan_category = $this->app->db->dsql()->table('epan_category')->where('status','Active')->get();
 
