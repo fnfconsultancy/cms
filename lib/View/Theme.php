@@ -41,7 +41,7 @@ class View_Theme extends \View{
         	$model->where('is_published',0);
         }
 
-        $epan_template = $model->where('is_template',1)
+        $this->epan_template = $epan_template = $model->where('is_template',1)
 						->get();
 
         $epan_category = $this->epan_category = $this->app->db->dsql()->table('epan_category')->where('status','Active')->get();
