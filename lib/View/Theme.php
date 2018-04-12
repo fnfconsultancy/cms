@@ -10,6 +10,7 @@ class View_Theme extends \View{
 	public $show_applynow_button = 1;
 	public $show_search = 1;
 	public $show_theme_of_category=0; // "comma seperated category ids"
+	public $show_theme = 'published'; // all, published, unpublished
 
 	function init(){
 		parent::init();
@@ -20,24 +21,31 @@ class View_Theme extends \View{
 
         $cat_id = $this->app->stickyGET('epan_category_id');
         if($cat_id){
-        	$epan_template = $this->epan_template = $this->app->db->dsql()
+        	$model = $this->epan_template = $this->app->db->dsql()
 	        					->table('epan')
 	        					->join('epan_category_association.epan_id')
-	        					->where('epan_category_association.epan_category_id',$cat_id)
-	        					->where('is_published',1)
-	        					->where('is_template',1)
-	        					->get();
+	        					->where('epan_category_association.epan_category_id',$cat_id);
+
+	        					// ->where('is_published',1)
         }else{
-	        $epan_template = $this->epan_template = $this->app->db->dsql()
-	        					->table('epan')
-	        					->where('is_published',1)
-	        					->where('is_template',1)
-	        					->get();
+	        $model = $this->epan_template = $this->app->db->dsql()
+	        					->table('epan');
+	        					// ->where('is_published',1);
+	        					// ->where('is_template',1)
+	        					// ->get();
         }
 
+        if($this->show_theme == "published"){
+        	$model->where('is_published',1);
+        }elseif($this->show_theme == "unpublished"){
+        	$model->where('is_published',0);
+        }
+
+        $epan_template = $model->where('is_template',1)
+						->get();
 
         $epan_category = $this->epan_category = $this->app->db->dsql()->table('epan_category')->where('status','Active')->get();
- 		       	
+
         $category = [0=>'All'];
         foreach ($epan_category as $key => $array) {
         	$category[$array['id']] = $array['name'];
