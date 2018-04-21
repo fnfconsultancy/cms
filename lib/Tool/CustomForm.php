@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace xepan\cms;
 
@@ -97,7 +97,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 
 				$lead_model = $this->add('xepan\marketing\Model_Lead');
 				// $has_field = 0;
-				$lead_field = ['first_name','last_name','organization','post','website','address','city','state','country','pin_code'];
+				$lead_field = ['first_name','last_name','organization','post','website','address','city','state','country','pin_code','remark'];
 				foreach ($field_model as $field){
 					if(in_array($field['save_into_field_of_lead'], $lead_field)){
 						// echo $field['save_into_field_of_lead']." = ".$field['name']." = ".$this->form[$this->app->normalizeName($field['name'])]."<br/>";
@@ -124,7 +124,6 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 
 
 				if($has_field){
-
 					$lead_model->save();
 					foreach ($field_model as $field){
 						$save_into_field = $field['save_into_field_of_lead'];
