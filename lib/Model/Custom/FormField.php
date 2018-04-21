@@ -50,9 +50,9 @@
 						'city' => "City",
 						'state' => "State",
 						'country' =>"Country",
-						'pin_code'=>"Pincode"
+						'pin_code'=>"Pincode",
+						'remark'=>'Remark'
 					];
-
 		$this->addField('save_into_field_of_lead')->setValueList($lead_field);
 		
 		$this->addHook('afterSave',[$this,'updateJsonFile']);

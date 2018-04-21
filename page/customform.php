@@ -34,8 +34,8 @@ class page_customform extends \xepan\base\Page {
 						'email_subject'=>'c2~12',
 						'message_body'=>'c3~12',
 						'is_create_lead~Create Lead'=>'Create Lead~c1~4',
+						'is_associate_lead~Associate lead to category'=>'c2~8',
 						'category'=>'c2~8~And associate with categories',
-
 
 					]);
 			$categories_field = $form->addField('DropDown','category');
@@ -47,7 +47,7 @@ class page_customform extends \xepan\base\Page {
 
 		}
 
-		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','is_create_lead'],['name','total_enquiry','recieve_email','auto_reply','is_create_lead','status']);
+		$crud->setModel($model_cust_form,['emailsetting_id','name','submit_button_name','form_layout','custom_form_layout_path','total_enquiry','recieve_email','recipient_email','auto_reply','email_subject','message_body','is_create_lead','is_associate_lead'],['name','total_enquiry','recieve_email','auto_reply','is_create_lead','status']);
 
 		if($crud->isEditing()){
 			$form = $crud->form;

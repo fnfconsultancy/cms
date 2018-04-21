@@ -7,13 +7,16 @@
   <ul id="og-grid" class="og-grid">
     {rows}
     {row}
-    <li><a href="#55657" data-largesrc="{$image}" data-title="{$name}" data-description="{$description}"><img style="margin:0 auto 0 auto;width:180px;height:180px;" src="{image}logo.png{/image}" class="xepan-commerce-gallery-image-to-zoom"/></a></li>{/row}
+    <li>
+      <a href="#55657" data-largesrc="{$image}" data-title="{$name}" data-description="{$description}"><img style="margin:0 auto 0 auto;width:180px;height:180px;" src="{image}logo.png{/image}" class="xepan-commerce-gallery-image-to-zoom"/></a>
+    </li>
+    {/row}
     {/rows}
   </ul>
-</div>
 <script src="vendor/xepan/cms/templates/js/image-gallery/ImageGalleryGrid1.js"></script>
 <script>
   $(function() {
-  	Grid.init();
-  });	
+    Grid.init();
+  }); 
 </script>
+</div>
