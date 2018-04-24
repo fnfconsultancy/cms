@@ -18,6 +18,7 @@ class Model_ImageGalleryImages extends \xepan\base\Model_Table{
 		
 		$this->addField('name')->caption('Title');
 		$this->addField('image_id')->display(['form'=>'xepan\base\ElImage']);
+		$this->addField('video_embedded_code')->type('text');
 		
 		$this->addField('status')->enum(['Active','InActive'])->defaultValue('Active');
 		$this->addField('created_at')->type('datetime')->defaultValue($this->app->now);

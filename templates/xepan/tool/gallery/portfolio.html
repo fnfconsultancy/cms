@@ -19,14 +19,23 @@
         {$Content}
         <li class="portfolio {$gallery_cat}">
           <div class="post_thumb">
-            <img src="{$image_path}"/>
+            {$image_wrapper}
+            {$video_wrapper}
             <div class="portfolio-overlay">
               <div class="overlay-inner">{name_wrapper}
                 <h3>{$name}</h3>{/}
                 {description_wrapper}
-                <p> {$description}</p>{/}
-                {fancybox_wrapper}<a href="{$image_path}" class="fancybox"><i class="fa fa-camera"></i></a>{/}
-                {link_wrapper}<a href="{$link}" class="fancybox"><i class="fa fa-link"></i></a>{/}
+                <p>{$description}</p>{/}
+                {fancybox_wrapper}
+                  <a href='{$image_path}' class="fancybox {$fancy_class}">
+                    <i class="fa fa-camera"></i></a>
+                {/}
+                {link_wrapper}
+                  <a href="{$link}" class="fancybox {$fancy_class}">
+                    <i class="fa fa-link">
+                    </i>
+                  </a>
+                {/}
               </div>
             </div>
           </div>
@@ -39,7 +48,11 @@
     	targetSelector: '.portfolio',
     	transitionSpeed: 450
     });
-    $(' a.fancybox').fancybox();
+    $('#{$_name} a.fancybox-img').fancybox();
+    $('#{$_name} a.fancybox-video').fancybox({
+      type:'iframe'
+    });
+
   </script>
   <style type="text/css">
     #{$_name} .portfolio.mix_all:last-child{

@@ -73,7 +73,6 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 		$img_lister->setModel($this->model_image);
 
 		$img_lister->addHook('formatRow',function($g){
-			$g->current_row['image_path'] = './websites/'.$this->app->current_website_name."/".$g->model['image_id'];
 
 			if($this->options['show_title']){
 				$g->current_row['title'] = $g->model['title'];
@@ -97,6 +96,23 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 			}else
 				$g->current_row['link_wrapper'] = "";
 
+			if($g->model['video_embedded_code']){
+				$g->current_row_html['video_wrapper'] = '<div class="gallery-video-wrapper">'.$g->model['video_embedded_code'].'</div>';
+				$g->current_row_html['image_wrapper'] = "";
+
+				preg_match('/src="([^"]+)"/', $g->model['video_embedded_code'], $match);
+				$video_url = $match[1];
+				$g->current_row['image_path'] = $video_url;
+				$g->current_row['fancy_class'] = "fancybox.iframe fancybox-video";
+			}else{
+				$img_url = './websites/'.$this->app->current_website_name."/".$g->model['image_id'];
+				$g->current_row['image'] = $img_url;
+				$g->current_row_html['image_wrapper'] = '<img style="width:100%;"  src="'.$img_url.'" class="xepan-commerce-gallery-image-to-zoom"/>';
+				$g->current_row_html['video_wrapper'] = "";
+				$g->current_row['image_path'] = './websites/'.$this->app->current_website_name."/".$g->model['image_id'];
+				$g->current_row['fancy_class'] = "fancybox-img";
+			}
+
 		});
 
 	}
@@ -118,7 +134,15 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 				$l->current_row_html['show_description'] = $l->model['description'];
 			}
 
-			$l->current_row['image'] = './websites/'.$this->app->current_website_name."/".$l->model['image_id'];
+			if($l->model['video_embedded_code']){
+				$l->current_row_html['video_wrapper'] = '<div class="gallery-video-wrapper">'.$l->model['video_embedded_code'].'</div>';
+				$l->current_row_html['image_wrapper'] = "";
+			}else{
+				$img_url = './websites/'.$this->app->current_website_name."/".$l->model['image_id'];
+				$l->current_row['image'] = $img_url;
+				$l->current_row_html['image_wrapper'] = '<img style="width:100%;"  src="'.$img_url.'" class="xepan-commerce-gallery-image-to-zoom"/>';
+				$l->current_row_html['video_wrapper'] = "";
+			}
 		});
 
 	}

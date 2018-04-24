@@ -400,15 +400,23 @@ var Grid = (function() {
 			// for smaller screens we don´t display the large image (the media query will hide the fullimage wrapper)
 			if( self.$fullimage.is( ':visible' ) ) {
 				this.$loading.show();
-				$( '<img/>' ).load( function() {
-					var $img = $( this );
-					if( $img.attr( 'src' ) === self.$item.children('a').data( 'largesrc' ) ) {
-						self.$loading.hide();
-						self.$fullimage.find( 'img' ).remove();
-						self.$largeImg = $img.fadeIn( 350 );
-						self.$fullimage.append( self.$largeImg );
-					}
-				} ).attr( 'src', eldata.largesrc );	
+
+				if(self.$item.children('a').data( 'videocode' )){
+					self.$loading.hide();
+					self.$largeVideo = '<div style="width:100%;height:100%;">'+self.$item.children('a').data( 'videocode' )+'</div>';
+					self.$fullimage.append(self.$largeVideo);
+				}else{
+					
+					$( '<img/>' ).load( function() {
+						var $img = $( this );
+						if( $img.attr( 'src' ) === self.$item.children('a').data( 'largesrc' ) ) {
+							self.$loading.hide();
+							self.$fullimage.find( 'img' ).remove();
+							self.$largeImg = $img.fadeIn( 350 );
+							self.$fullimage.append( self.$largeImg );
+						}
+					} ).attr( 'src', eldata.largesrc );
+				}
 			}
 
 		},
