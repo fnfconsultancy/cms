@@ -23,7 +23,7 @@ class page_galleryimages extends \xepan\base\Page{
         $image_m->setOrder('sequence_order','desc');
 
         $image_c = $this->add('xepan\base\CRUD');
-        $image_c->setModel($image_m,['name','image_id','status','description','custom_link','sequence_order']);
+        $image_c->setModel($image_m,['name','image_id','video_embedded_code','status','description','custom_link','sequence_order']);
         $image_c->grid->addHook('formatRow',function($g){
             $path = './websites/'.$this->app->current_website_name."/".$g->model['image_id'];
             $g->current_row_html['text_to_display'] = $g->model['text_to_display'];

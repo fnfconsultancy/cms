@@ -7,7 +7,15 @@
   <ul id="og-grid" class="og-grid">
     {rows}
     {row}
-    <li><a href="#55657" data-largesrc="{$image}" data-title="{$name}" data-description="{$description}"><img style="margin:0 auto 0 auto;width:180px;height:180px;" src="{image}logo.png{/image}" class="xepan-commerce-gallery-image-to-zoom"/></a></li>{/row}
+    <li>
+        <a href="#55657" data-largesrc="{$image}" data-videocode='{$video_embedded_code}' data-title="{$name}" data-description="{$description}">
+          <div style="margin:0 auto 0 auto;width:200px;height:200px;padding:5px;" class="gallery-item-wrapper">
+            {$image_wrapper}
+            {$video_wrapper}
+          </div>
+        </a>
+    </li>
+    {/row}
     {/rows}
   </ul>
 </div>

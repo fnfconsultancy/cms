@@ -118,7 +118,15 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 				$l->current_row_html['show_description'] = $l->model['description'];
 			}
 
-			$l->current_row['image'] = './websites/'.$this->app->current_website_name."/".$l->model['image_id'];
+			if($l->model['video_embedded_code']){
+				$l->current_row_html['video_wrapper'] = '<div class="gallery-video-wrapper">'.$l->model['video_embedded_code'].'</div>';
+				$l->current_row_html['image_wrapper'] = "";
+			}else{
+				$img_url = './websites/'.$this->app->current_website_name."/".$l->model['image_id'];
+				$l->current_row['image'] = $img_url;
+				$l->current_row_html['image_wrapper'] = '<img style="width:100%;"  src="'.$img_url.'" class="xepan-commerce-gallery-image-to-zoom"/>';
+				$l->current_row_html['video_wrapper'] = "";
+			}
 		});
 
 	}
