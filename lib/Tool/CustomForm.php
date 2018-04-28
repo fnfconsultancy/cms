@@ -185,16 +185,18 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			}
 
 			if($customform_model['emailsetting_id']){
-				$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
-				$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
+				if($customform_model['recieve_email'] && trim($customform_model['recipient_email'])){
+					$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
+					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
 
-				$communication->setfrom($email_settings['from_email'],$email_settings['from_name']);
-				foreach (explode(",", $customform_model['recipient_email']) as $key => $value) {
-					$communication->addTo($value);
+					$communication->setfrom($email_settings['from_email'],$email_settings['from_name']);
+					foreach (explode(",", $customform_model['recipient_email']) as $key => $value) {
+						$communication->addTo($value);
+					}
+					$communication->setSubject('You have a new enquiry');
+					$communication->setBody($string);
+					$communication->send($email_settings);
 				}
-				$communication->setSubject('You have a new enquiry');
-				$communication->setBody($string);
-				$communication->send($email_settings);
 
 				if($customform_model['auto_reply']){
 					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);	
