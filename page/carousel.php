@@ -23,7 +23,7 @@ class page_carousel extends \xepan\base\Page{
                 'status'=>'c4~4',
                 'layout'=>'c5~4',
                 
-                'width'=>'Dimensions~c11~6',
+                'width'=>'Dimensions~c11~6~Either in % like 100%, 50% or in pixels like 500px, 960px',
                 'height'=>'c12~6',
                 
                 'show_arrows'=>'Carousel Options~c21~4',

@@ -94,7 +94,7 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 	function getSliderProOptions(){
 		
 		$option_array = [
-			'width'=> (int)$this->category_model['width'],
+			'width'=> (strpos($this->category_model['width'],"%") === false && strpos($this->category_model['width'],"px") === false)?(int)$this->category_model['width']:$this->category_model['width'],
 			'height'=> (int)$this->category_model['height'],
 			'arrows'=> ($this->category_model['show_arrows']?true:false),
 			'buttons'=> ($this->category_model['show_buttons']?true:false),

@@ -38,7 +38,7 @@ class Model_CarouselLayer extends \xepan\base\Model_Table{
 		$this->addField('layer_class')->hint('sp-white, sp-black, sp-padding, sp-rounded');
 		$this->addField('position')->enum(['topLeft','topCenter','topRight','bottomLeft','bottomCenter','bottomRight','centerLeft','centerRight','centerCenter'])->hint('Sets the position of the layer. Can be set to topLeft (which is the default value), topCenter, topRight, bottomLeft, bottomCenter, bottomRight, centerLeft, centerRight and centerCenter.');
 
-		$this->addField('width')->type('int')->hint('Sets the width of the layer. Can be set to a fixed or percentage value. If it\'s not set, the layer\'s width will adapt to the width of the inner content.')->defaultValue(100);
+		$this->addField('width')->hint('Sets the width of the layer. Can be set to a fixed or percentage value. If it\'s not set, the layer\'s width will adapt to the width of the inner content.')->defaultValue(100);
 		$this->addField('height')->type('int')->hint('Sets the height of the layer. Can be set to a fixed or percentage value. If it\'s not set, the layer\'s height will adapt to the height of the inner content.')->defaultValue(50);
 		$this->addField('depth')->type('int')->hint('Sets the depth (z-index, in CSS terms) of the layer.')->defaultValue(10);
 
