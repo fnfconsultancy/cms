@@ -22,7 +22,7 @@ class Model_CarouselCategory extends \xepan\base\Model_Table{
 		$this->addField('layout')->enum(['highlighted-horizontal-text','multislide','highlighted-horizontal-thumbnail','mixed-video','highlighted-vertical-thumbnail'])->defaultValue('highlighted-horizontal-text');
 
 		$this->addField('width')->defaultValue('100%');
-		$this->addField('height')->type('int')->defaultValue(500);
+		$this->addField('height');
 		$this->addField('show_arrows')->type('boolean')->defaultValue(true);
 		$this->addField('autoplay')->type('boolean')->defaultValue(true);
 		$this->addField('show_buttons')->type('boolean')->defaultValue(true);
