@@ -1,0 +1,71 @@
+
+<div id="{$_name}" style="display:none;" for-xepan-component="xepan/cms/Tool_Testimonial" class="xepan-tool-options">
+
+  <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr >
+      <td class="xepan-tool-option-title">Category</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select id="{$_name}_category_dropdown" style="width:150px;" data-attr="testimonial_category" class="chosen-select option-category">
+        </select>
+      </td>
+    </tr>
+    <tr >
+      <td class="xepan-tool-option-title">show Image</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select  data-attr="show_image" data-defaultvalue="false">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </td>
+    </tr>
+
+  </table>
+  <script>
+    // $.ajax({
+    // 	url: 'index.php?page=xepan_cms_getAwesomegallery',
+    // 	type: 'GET',
+    // 	data: { },
+    // 	success: function ( data ){
+    // 		//- console.log(data);
+    // 		$('#{$_name}_dropdown').html(data);
+    // 	}
+    // });
+    
+    $('#{$_name} [data-attr]').on('change',function(){
+    	$(current_selected_component).attr($(this).data('attr'),$(this).val());
+    });
+    
+    $('#{$_name}').on('show',function(event){
+      $.ajax({
+        url:'index.php?page=xepan_cms_testimonialdata_getcategory',
+        type:'GET',
+        data: { },
+        success:function(data){
+          $('#{$_name}_category_dropdown').html(data);
+
+          $('#{$_name}_category_dropdown').val(($(current_selected_component).attr('testimonial_category')?$(current_selected_component).attr('testimonial_category'):0));
+        }
+      });
+
+    	$('#{$_name} [data-attr]').each(function(index,value){
+
+        var default_value = $(this).attr('data-defaultvalue');
+        if($(current_selected_component).attr($(this).data('attr')))
+          default_value = $(current_selected_component).attr($(this).data('attr'));
+        
+        $(this).val(default_value);				
+    	
+      });
+
+    });
+    
+    $('.option-category').change(function(event) {
+    	$(current_selected_component).attr('data-options',
+        $('.option-category').val());
+    	$(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
+    });
+
+    
+    
+  </script>
+</div>
