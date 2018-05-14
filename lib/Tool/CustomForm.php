@@ -54,11 +54,11 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				$new_field = $form->addField('line','captcha',$field['name']);
 				$new_field->add('xepan\captcha\Controller_Captcha');
 			}else if($field['type'] === "DropDown"){
-				$new_field = $form->addField('xepan\base\DropDownNormal',$field['name']);
+				$new_field = $form->addField('xepan\base\DropDownNormal',$this->app->normalizeName($field['name']),$field['name']);
 			}elseif($field['type'] == "upload"){
-				$new_field = $form->addField('xepan\base\Upload',$field['name']);
+				$new_field = $form->addField('xepan\base\Upload',$this->app->normalizeName($field['name']),$field['name']);
 			}else{
-				$new_field = $form->addField($field['type'],$field['name']);
+				$new_field = $form->addField($field['type'],$this->app->normalizeName($field['name']),$field['name']);
 			}
 			
 			if($field['type'] === "DropDown" or $field['type'] === "radio"){
@@ -183,8 +183,10 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				}
 
 			}
+			
 
 			if($customform_model['emailsetting_id']){
+				
 				if($customform_model['recieve_email'] && trim($customform_model['recipient_email'])){
 					$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
 					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
@@ -193,7 +195,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 					foreach (explode(",", $customform_model['recipient_email']) as $key => $value) {
 						$communication->addTo($value);
 					}
-					$communication->setSubject('You have a new enquiry');
+					$communication->setSubject('You have a new enquiry for '. $customform_model['name']);
 					$communication->setBody($string);
 					$communication->send($email_settings);
 				}
@@ -203,12 +205,9 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 					$communication1 = $this->add('xepan\communication\Model_Communication_Email_Sent');
 					$to_array = [];
 					foreach ($customform_field_model as $field) {
-						if( !($field['type'] == "email" and $field['auto_reply']))
-							continue;
-
-						$to_array[] = $this->form[$field['name']];
+						if($field['type'] ==='email')
+							$to_array[] = $this->form[$this->app->normalizeName($field['name'])];
 					}
-
 					
 					foreach ($to_array as $email) {
 						$communication1->setfrom($email_settings['from_email'],$email_settings['from_name']);
