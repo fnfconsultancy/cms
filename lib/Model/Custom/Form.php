@@ -11,8 +11,8 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 	];
 	// public $acl=false;
 	public $actions=[
-		'Active'=>['view','edit','delete','enquiry','deactivate'],
-		'InActive'=>['view','edit','delete','enquiry','activate'],
+		'Active'=>['view','edit','delete','enquiry','deactivate','manage_fields'],
+		'InActive'=>['view','edit','delete','enquiry','activate','manage_fields'],
 	];
 
 	function init(){
@@ -84,6 +84,24 @@ class Model_Custom_Form extends \xepan\base\Model_Table{
 										)
 									);
 		});
+	}
+
+	function page_manage_fields($p){
+		$form_id = $this->id;
+
+		$field_model = $p->add('xepan\cms\Model_Custom_FormField')->addCondition('custom_form_id',$form_id);
+
+		$crud_field = $p->add('xepan\hr\CRUD');
+		$crud_field->setModel($field_model);
+		$crud_field->grid->addQuickSearch(['name']);
+
+		if($crud_field->isEditing()){
+			$type_field = $crud_field->form->getElement('type');
+			$type_field->js(true)->univ()->bindConditionalShow([
+				'email'=>['auto_reply']
+			],'div.atk-form-row');
+
+		}
 	}
 
 
