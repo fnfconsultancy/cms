@@ -69,25 +69,25 @@ class page_customform extends \xepan\base\Page {
 				$cat_field->set( explode(",", $form->model['lead_category_ids']))->js(true)->trigger('changed');
 		}
 
-		$crud->grid->add('VirtualPage')
-			->addColumn('Fields')
-			->set(function($page){
-				$form_id = $_GET[$page->short_name.'_id'];
+		// $crud->grid->add('VirtualPage')
+		// 	->addColumn('Fields')
+		// 	->set(function($page){
+		// 		$form_id = $_GET[$page->short_name.'_id'];
 
-				$field_model = $page->add('xepan\cms\Model_Custom_FormField')->addCondition('custom_form_id',$form_id);
+		// 		$field_model = $page->add('xepan\cms\Model_Custom_FormField')->addCondition('custom_form_id',$form_id);
 
-				$crud_field = $page->add('xepan\hr\CRUD');
-				$crud_field->setModel($field_model);
-				$crud_field->grid->addQuickSearch(['name']);
+		// 		$crud_field = $page->add('xepan\hr\CRUD');
+		// 		$crud_field->setModel($field_model);
+		// 		$crud_field->grid->addQuickSearch(['name']);
 
-				if($crud_field->isEditing()){
-					$type_field = $crud_field->form->getElement('type');
-					$type_field->js(true)->univ()->bindConditionalShow([
-						'email'=>['auto_reply']
-					],'div.atk-form-row');
+		// 		if($crud_field->isEditing()){
+		// 			$type_field = $crud_field->form->getElement('type');
+		// 			$type_field->js(true)->univ()->bindConditionalShow([
+		// 				'email'=>['auto_reply']
+		// 			],'div.atk-form-row');
 
-				}
-		});
+		// 		}
+		// });
 		$crud->grid->addQuickSearch(['name']);
 		$crud->grid->removeColumn('status');
 		$crud->noAttachment();
