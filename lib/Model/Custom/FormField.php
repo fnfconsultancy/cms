@@ -5,6 +5,7 @@
  class Model_Custom_FormField extends \Model_Table{ 	
 
  	public $table = 'custom_form_field'; 
+ 	public $acl = false;
 
 	function init(){
 		parent::init();	
