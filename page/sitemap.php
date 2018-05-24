@@ -35,7 +35,7 @@ class page_sitemap extends \Page{
     $domain_list = [];
     foreach ($epan_park_domain as $key => $domain_name) {
 
-      $service_host = $this->getConfig('xepan-service-host','xavoc.com');
+      $service_host = $this->app->getConfig('xepan-service-host','xavoc.com');
       if(is_array($service_host)) $service_host = $service_host[0];
       
       $domain_name = trim(str_replace('"', '',$domain_name));
