@@ -8,7 +8,8 @@ class page_editor extends \xepan\base\Page{
 		
 		$current_domain = $this->app->extract_domain($_SERVER['HTTP_HOST']);
 
-		if($this->app->getConfig('xepan-service-host') != $current_domain){
+		$service_host = $this->getConfig('xepan-service-host',false);
+        if($service_host && !in_array($current_domain,$service_host)){
 			$this->js()->univ()->errorMessage('Layout update facility is not available')->execute();		
 		}
 		

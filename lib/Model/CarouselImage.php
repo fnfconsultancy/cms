@@ -115,7 +115,7 @@ class Model_CarouselImage extends \xepan\base\Model_Table{
         		
         	]);
 		$all_fields = $img->getActualFields();
-		$crud->setModel($img,$all_fields,['layer_type','image_id','horizontal_position','vertical_position','layer_class','width','height','status']);
+		$crud->setModel($img,$all_fields,['layer_type','image_id','horizontal_position','vertical_position','layer_class','show_delay','hide_delay','status']);
 	}
 
 }
