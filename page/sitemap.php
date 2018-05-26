@@ -35,9 +35,12 @@ class page_sitemap extends \Page{
     $domain_list = [];
     foreach ($epan_park_domain as $key => $domain_name) {
 
+      $service_host = $this->app->getConfig('xepan-service-host','xavoc.com');
+      if(is_array($service_host)) $service_host = $service_host[0];
+      
       $domain_name = trim(str_replace('"', '',$domain_name));
       if(strpos( $domain_name, "." ) === false) // its an alias
-        $domain_name .= ".".str_replace('www.', '', $this->app->getConfig('xepan-service-host','epan.in')); // xepan-service-host defines in root config file that shows what is your epan service hosts, not for opensource version but only for epan services
+        $domain_name .= ".".str_replace('www.', '', $service_host); // xepan-service-host defines in root config file that shows what is your epan service hosts, not for opensource version but only for epan services
 
       $domain_list[] = $domain_host_detail['scheme']."://".$domain_name;
     }
