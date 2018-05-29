@@ -3,11 +3,16 @@ namespace xepan\cms;
 
 class Tool_Testimonial extends \xepan\cms\View_Tool{
 	public $options = [
-		'testimonial_category'=>0,
+		'testimonial_category'=>1,
 		'allow_add'=>false,
-		'allow_edit'=>false,
-
+		'category_show'=>false,
+		'image_show'=>true,
+		'tittle_show'=>true,
+		'describtion_show'=>true,
+		'rating_show'=>true,
+		'testimonial_row'=>4
 	];
+
 	public $cat_model;
 	function init(){
 		parent::init();
@@ -21,7 +26,17 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 			$this->add('View')->set('Please select category first form it\'s options')->addClass('alert alert-danger');
 			return;
 		}
+		if($this->options['category_show']){
+
+		}
 		
+		// $this->js(true)->_css('jquery.easing.1.3');
+		// $this->js(true)->_css('fancybox/jquery.fancybox');
+		// $this->app->jquery->addStaticInclude('slidepro/jquery.sliderPro.min');
+		// $this->app->jquery->addStaticInclude('fancybox/jquery.fancybox.pack');
+		$this->app->jquery->addStaticInclude('jquery.easing.1.3');
+		$this->app->jquery->addStaticInclude('jquery.anyslider');
+		$this->js(true)->_css('jquery-anyslider');
 
 		$this->cat_model = $cat_model = $this->add('xepan\cms\Model_TestimonialCategory');
 		$cat_model->addCondition('status','Active');
@@ -33,13 +48,15 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		}
 
 
-		$testimonia_model = $this->add('xepan\cms\Model_Testimonial');
-		$testimonia_model->addCondition('status','Aprroved');
-		$testimonia_model->addCondition('category_id',$cat_model->id);
-
-		$crud = $this->add('CRUD');
-		$crud->setModel($testimonia_model);
-
+		$testimonial_model = $this->add('xepan\cms\Model_Testimonial');
+		$testimonial_model->addCondition('status','Aprroved');
+		$testimonial_model->addCondition('category_id',$cat_model->id);
+		
+		$lister = $this->add('CompleteLister',null,null,['view/tool/cms/testimoniallist']);
+		$lister->setModel($testimonial_model);
+		
+		$lister->js(true)->_selector('.testimonial-slides')->anyslider();
+		
 
 	}
 }

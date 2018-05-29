@@ -7,6 +7,7 @@ class Page_testimonial extends \xepan\base\Page{
 	function init(){
 		parent::init();
 
+
 		$model= $this->add('xepan\cms\Model_Testimonial');
 		$crud = $this->add('xepan\hr\CRUD');
 		if($crud->isEditing()){
@@ -30,7 +31,8 @@ class Page_testimonial extends \xepan\base\Page{
 
 		}
 		$crud->setModel($model);
-
+		$crud->grid->addFormatter('image','image');
+		$crud->grid->addFormatter('contact_image','image');
 		
 	}
 

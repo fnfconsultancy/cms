@@ -1,25 +1,124 @@
 
-<div id="{$_name}" style="display:none;" for-xepan-component="xepan/cms/Tool_Testimonial" class="xepan-tool-options">
-
-  <table class="table-condensed table-hover xepan-cms-tool-table">
-    <tr >
+<div id="{$_name}" style="display:none;" for-xepan-component="xepan/cms/Tool_Testimonial" class="xepan-tool-options"> <div class="xepan-cms-group-panel clearfix">
+    <div id="collapse-testimonial" class="xepan-cms-tools-bar-panel row-fluid collapse in">
+      <div style="padding-top:0px;padding-bottom:0px;" class="panel-body">
+        <div id="xepan-cms-groups-panel" class="xepan-cms-groups-panel collapse in"></div>
+         <div class="xepan-cms-group-panel clearfix">
+          <div data-toggle="collapse" data-target="#category-testimonial-option" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>category</span><i class="fa fa-chevron-down pull-right"></i></div>
+        </div>
+        <div id="category-testimonial-option" class="xepan-cms-tools-bar-panel row-fluid collapse">
+          <table class="table-condensed table-hover xepan-cms-tool-table">
+     <tr >
       <td class="xepan-tool-option-title">Category</td>
       <td colspan="2" class="xepan-tool-option-value">
         <select id="{$_name}_category_dropdown" style="width:150px;" data-attr="testimonial_category" class="chosen-select option-category">
         </select>
       </td>
     </tr>
-    <tr >
-      <td class="xepan-tool-option-title">show Image</td>
+   
+   
+
+  </table>
+        </div>
+       <div class="xepan-cms-group-panel clearfix">
+          <div data-toggle="collapse" data-target="#show-hide-testimonial-option" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Hide/ Show</span><i class="fa fa-chevron-down pull-right"></i></div>
+        </div>
+        <div id="show-hide-testimonial-option" class="xepan-cms-tools-bar-panel row-fluid collapse">
+          <table class="table-condensed table-hover xepan-cms-tool-table">
+             <tr >
+      <td class="xepan-tool-option-title"> Allow Add</td>
       <td colspan="2" class="xepan-tool-option-value">
-        <select  data-attr="show_image" data-defaultvalue="false">
+        <select  id="{$_name}_category_dropdown" data-attr="allow_add" data-defaultvalue="false">
           <option value="true">Yes</option>
           <option value="false">No</option>
+        </select> 
+      </td>
+    </tr>
+   
+   <tr >
+      <td class="xepan-tool-option-title"> show category Name</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select  id="{$_name}_category_dropdown" data-attr="category_show" >
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select> 
+      </td>
+    </tr>
+    <tr >
+      <td class="xepan-tool-option-title">Image show</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select  id="{$_name}_category_dropdown" data-attr="image_show" data-defaultvalue="false">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select> 
+      </td>
+    </tr>
+    <tr >
+      <td class="xepan-tool-option-title">title</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select  id="{$_name}_category_dropdown" data-attr="tittle_show" data-defaultvalue="false">
+          <option value="true">show</option>
+          <option value="false">hide</option>
+        </select>
+      </td>
+    </tr>
+     <tr >
+      <td class="xepan-tool-option-title">Description</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select  id="{$_name}_category_dropdown" data-attr="describtion_show" data-defaultvalue="false">
+          <option value="true">show</option>
+          <option value="false">hide</option>
+        </select>
+      </td>
+    </tr>
+     <tr >
+      <td class="xepan-tool-option-title">Rating</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select  id="{$_name}_category_dropdown" data-attr="rating_show" data-defaultvalue="false">
+          <option value="true">show</option>
+          <option value="false">hide</option>
+        </select>
+      </td>
+    </tr>
+     <tr >
+      <td class="xepan-tool-option-title">Testimonial in a row</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <select  id="{$_name}_category_dropdown" data-attr="testimonial_row" data-defaultvalue="false">
+          <option value="1">1</option>
+          <option value="2">2</option>
+           <option value="3">3</option>
+          <option value="4">4</option>
+           <option value="6">6</option>
+          <option value="12">12</option>
+           
         </select>
       </td>
     </tr>
 
   </table>
+        </div>
+        <div data-toggle="collapse" data-target="#layout-testimonial-option" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Layout</span><i class="fa fa-chevron-down pull-right"></i></div>
+        </div>
+        <div id="layout-testimonial-option" class="xepan-cms-tools-bar-panel row-fluid collapse">
+          <table class="table-condensed table-hover xepan-cms-tool-table">
+    <tr >
+      <td class="xepan-tool-option-title">Costom Template</td>
+      <td colspan="2" class="xepan-tool-option-value">
+        <input></input>
+      </td>
+    </tr>
+    
+
+  </table>
+        </div>
+       
+      
+       
+      </div>
+    </div>
+  </div>
+
+ 
   <script>
     // $.ajax({
     // 	url: 'index.php?page=xepan_cms_getAwesomegallery',
@@ -49,11 +148,8 @@
 
     	$('#{$_name} [data-attr]').each(function(index,value){
 
-        var default_value = $(this).attr('data-defaultvalue');
-        if($(current_selected_component).attr($(this).data('attr')))
-          default_value = $(current_selected_component).attr($(this).data('attr'));
-        
-        $(this).val(default_value);				
+        var csc_value = $(current_selected_component).attr($(this).data('attr'));
+    		$(this).val(csc_value?csc_value:$(this).data('defaultvalue'));				
     	
       });
 
@@ -64,8 +160,6 @@
         $('.option-category').val());
     	$(current_selected_component).univ().errorMessage('Save and reload Page to see changes');
     });
-
-    
     
   </script>
 </div>
