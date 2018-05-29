@@ -9,7 +9,7 @@ class Model_TestimonialCategory extends \xepan\base\Model_Table{
 					'Active'=>['view','edit','delete','testimonial','deactivate'],
 					'InActive'=>['view','edit','delete','activate']
 				];
-
+	public $acl_type = "xepan_testimonial";
 	function init(){
 		parent::init();
 

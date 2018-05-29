@@ -34,9 +34,6 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		// $this->js(true)->_css('fancybox/jquery.fancybox');
 		// $this->app->jquery->addStaticInclude('slidepro/jquery.sliderPro.min');
 		// $this->app->jquery->addStaticInclude('fancybox/jquery.fancybox.pack');
-		$this->app->jquery->addStaticInclude('jquery.easing.1.3');
-		$this->app->jquery->addStaticInclude('jquery.anyslider');
-		$this->js(true)->_css('jquery-anyslider');
 
 		$this->cat_model = $cat_model = $this->add('xepan\cms\Model_TestimonialCategory');
 		$cat_model->addCondition('status','Active');
@@ -54,8 +51,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		
 		$lister = $this->add('CompleteLister',null,null,['view/tool/cms/testimoniallist']);
 		$lister->setModel($testimonial_model);
-		
-		$lister->js(true)->_selector('.testimonial-slides')->anyslider();
+	
 		
 
 	}

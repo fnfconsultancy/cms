@@ -5,6 +5,7 @@ namespace xepan\cms;
 class Model_Testimonial extends \xepan\base\Model_Table{
 	public $table = "testimonial";
 	public $rating_list = ['1','1.5','2','2.5','3','3.5','4','4.5','5'];
+	public $acl_type = "xepan_testimonial";
 	function init(){
 		parent::init();
 		
