@@ -22,7 +22,10 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
-		if($this->owner instanceof \AbstractController) return;
+		if($this->owner instanceof \AbstractController){
+			$this->add('View')->addClass('alert alert-info')->set('Tool Slide Show, Double click on it to select it\'s options');
+			return;
+		}
 
 		if(!$this->options['slideshow_type']){
 			$this->add('View')->set('Please Select Slide Show Type')->addClass('alert alert-info');

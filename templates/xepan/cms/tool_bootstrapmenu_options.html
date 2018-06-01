@@ -189,7 +189,7 @@
     function getSubPageHtml(path,page_data){
 
     	if($(page_data.subpage).length){
-    		var html = '<li class="dropdown dropdown-submenu">';
+    		var html = '<li class="dropdown dropdown-submenu" data-page="'+path+'">';
 
     			html += '<a href="'+path+'" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
                 if(page_data.iconclass != null){
@@ -204,9 +204,9 @@
     		html += '</ul></li>';
     	}else{
             if(page_data.iconclass != null){
-    		  var html = '<li><a href="'+path+'"><i class="'+page_data.iconclass+'"></i>&nbsp;'+page_data.name+'</a></li>';
+    		  var html = '<li data-page="'+path+'" ><a href="'+path+'"><i class="'+page_data.iconclass+'"></i>&nbsp;'+page_data.name+'</a></li>';
             }else
-              var html = '<li><a href="'+path+'">'+page_data.name+'</a></li>';
+              var html = '<li data-page="'+path+'" ><a href="'+path+'">'+page_data.name+'</a></li>';
     	}
     
     	return html;
