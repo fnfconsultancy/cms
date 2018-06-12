@@ -15,7 +15,9 @@ class page_testimonial extends \xepan\base\Page{
 	}
 
 	function page_testimonial(){
+
 		$model = $this->add('xepan\cms\Model_Testimonial');
+
 		$crud = $this->add('xepan\hr\CRUD');
 		if($crud->isEditing()){
 			$form = $crud->form;
@@ -41,6 +43,18 @@ class page_testimonial extends \xepan\base\Page{
 		$crud->grid->addFormatter('image','image');
 		$crud->grid->addFormatter('contact_image','image');
 		$crud->grid->removeAttachment();
+		$crud->grid->addPaginator(50);
+		$crud->grid->removeColumn('created_by');
+		$q_f = $crud->grid->addQuickSearch(['contact','name','description']);
+		$status_f = $q_f->addField('DropDown','t_status')->setValueList(['0'=>'All Status','Pending'=>'Pending','Approved'=>'Approved','Cancelled'=>'Cancelled']);
+
+		$q_f->addHook('applyFilter',function($f,$m){
+			if($f['t_status']){
+				$m->addCondition('status',$f['t_status']);
+			}
+		});
+
+		$status_f->js('change',$q_f->js()->submit());
 	}
 
 	function page_category(){
@@ -50,6 +64,9 @@ class page_testimonial extends \xepan\base\Page{
 		$crud->setModel($model);
 		$crud->grid->removeAttachment();
 
+		$crud->grid->addPaginator(25);
+		$crud->grid->removeColumn('created_by');
+		$crud->grid->addQuickSearch(['name']);
 	}
 }
 
