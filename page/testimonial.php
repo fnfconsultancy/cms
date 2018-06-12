@@ -2,13 +2,20 @@
 
 namespace xepan\cms;
 
-class Page_testimonial extends \xepan\base\Page{
+class page_testimonial extends \xepan\base\Page{
 	public $title = "Testimonial";
-	function init(){
-		parent::init();
 
+	function page_index(){
+		// parent::init();
 
-		$model= $this->add('xepan\cms\Model_Testimonial');
+		$tab = $this->add('Tabs');
+		$tab->addTabURL('./testimonial','Testimonials');
+		$tab->addTabURL('./category','Testimonial Category');
+			
+	}
+
+	function page_testimonial(){
+		$model = $this->add('xepan\cms\Model_Testimonial');
 		$crud = $this->add('xepan\hr\CRUD');
 		if($crud->isEditing()){
 			$form = $crud->form;
@@ -33,10 +40,17 @@ class Page_testimonial extends \xepan\base\Page{
 		$crud->setModel($model);
 		$crud->grid->addFormatter('image','image');
 		$crud->grid->addFormatter('contact_image','image');
-		
+		$crud->grid->removeAttachment();
 	}
 
+	function page_category(){
 
+		$model = $this->add('xepan\cms\Model_TestimonialCategory');
+		$crud = $this->add('xepan\hr\CRUD');
+		$crud->setModel($model);
+		$crud->grid->removeAttachment();
+
+	}
 }
 
 	
