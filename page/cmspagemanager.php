@@ -81,6 +81,7 @@ class page_cmspagemanager extends \xepan\base\Page{
 							'icon_class'=>'c3~2',
 							'order'=>'c4~1',
 							'is_muted~'=>'c5~2~<br/>Hidden in menu?',
+							'is_active~'=>'c5~2~<br/>Hidden in sitemap?',
 							'parent_page_id'=>'Parent Menu~c1~12',
 							'page_title'=>'Meta Info, Overrides Default Info~c1~12',
 							'meta_kewords'=>'c2~12',
@@ -91,7 +92,7 @@ class page_cmspagemanager extends \xepan\base\Page{
 						]
 						);
 
-		$crud->setModel($page,['name','path','parent_page_id','template_id','order','is_muted','page_title','meta_kewords','meta_description','after_body_code','icon_class','is_secure','secure_only_for'],['name','parent_page','path','template','order','is_muted','is_secure']);
+		$crud->setModel($page,['name','path','parent_page_id','template_id','order','is_muted','is_active','page_title','meta_kewords','meta_description','after_body_code','icon_class','is_secure','secure_only_for'],['name','parent_page','path','template','order','is_muted','is_active','is_secure']);
 		if($crud->isEditing()){
 			
 			$config_m = $page_tab->add('xepan\cms\Model_Config_FrontendWebsiteStatus');

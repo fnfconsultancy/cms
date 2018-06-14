@@ -38,7 +38,7 @@ class Model_Webpage extends \xepan\base\Model_Table{
 		$this->addField('icon_class')->hint('for show icon on menu, define multiple value space seperate');
 			
 		$this->addField('is_active')->type('boolean')->defaultValue(1);
-		$this->addField('order')->type('number');
+		$this->addField('order')->type('number')->defaultValue(0);
 		
 		$this->addField('is_secure')->type('boolean')->defaultValue(false);
 		$this->addField('secure_only_for')->display(['form'=>'xepan\base\NoValidateDropDown']);
@@ -73,6 +73,8 @@ class Model_Webpage extends \xepan\base\Model_Table{
 			return;
 			// do nothing
 		}
+
+		if(!$this['order']) $this['order']=0;
 
 		// check for same entry or not
 		$this['path'] = str_replace(".html", "", $this['path']);
