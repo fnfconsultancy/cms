@@ -7,6 +7,7 @@ class Page_test extends \xepan\base\Page{
 	function init(){
 		parent::init();
 
-		$this->app->hook('ThemeApplied');
+		// $this->app->hook('ThemeApplied');
+		$this->add('View')->set('Test page');
 	}
 }

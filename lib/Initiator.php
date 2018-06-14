@@ -45,7 +45,15 @@ class Initiator extends \Controller_Addon {
             $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
             $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
             $m->addItem([' SEF Config','icon'=>' fa fa-globe'],'xepan_cms_sefconfig');
+            $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
+            $m->addItem([' Testimonial' , 'icon'=>'fa fa-edit'],'xepan_cms_testimonial');
+
         }
+
+        $this->app->addHook('entity_collection',[$this,'exportEntities']);
+        $this->app->addHook('collect_shortcuts',[$this,'collect_shortcuts']);
+        
+        return $this;
     }
 
     function exportEntities($app,&$array){
@@ -55,6 +63,8 @@ class Initiator extends \Controller_Addon {
         $array['Custom_Form'] = ['caption'=>'Custom_Form','type'=>'DropDown','model'=>'xepan\cms\Model_Custom_Form'];
         $array['ImageGalleryCategory'] = ['caption'=>'Image Gallery Cateory','type'=>'DropDown','model'=>'xepan\cms\Model_ImageGalleryCategory'];
         $array['ImageGalleryImages'] = ['caption'=>'Image Gallery Images','type'=>'DropDown','model'=>'xepan\cms\Model_ImageGalleryImages'];
+        $array['xepan_testimonial'] = ['caption'=>'Testimonial','type'=>'DropDown','model'=>'xepan\cms\Model_Testimonial'];
+        $array['xepan_testimonial_category'] = ['caption'=>'Testimonial Category','type'=>'DropDown','model'=>'xepan\cms\Model_TestimonialCategory'];
     }
 
     function collect_shortcuts($app,&$shortcuts){
@@ -274,6 +284,7 @@ class Initiator extends \Controller_Addon {
         // $this->app->exportFrontEndTool('xepan\cms\Tool_EasyFullscreenCarouselSlider');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Gallery');
         $this->app->exportFrontEndTool('xepan\cms\Tool_SlideShow');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_Testimonial');
 
         return $this;
     }
