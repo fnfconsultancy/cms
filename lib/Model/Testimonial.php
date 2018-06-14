@@ -18,7 +18,7 @@ class Model_Testimonial extends \xepan\base\Model_Table{
 		parent::init();
 		
 
-		$this->hasOne('xepan\cms\Model_TestimonialCategory','category_id'); 
+		$this->hasOne('xepan\cms\Model_TestimonialCategory','category_id');
 		$this->hasOne('xepan\base\contact','contact_id');
 		$this->hasOne('xepan\base\contact','created_by_id')->system(true)->defaultValue(@$this->app->employee->id);
 

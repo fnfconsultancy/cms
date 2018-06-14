@@ -2,8 +2,7 @@
     <div class="owl-carousel">
 
     {rows}
-    {row}
-    
+    {row}    
       <div class="testimonial-slides " style="background-color: #f1f1f1;margin-top:30px; border:1px solid #f1f1f1; ">
            <div class="column-testimonial col-lg-4">
            <div class="column-image">
@@ -11,12 +10,11 @@
            </div>
            </div>
            <div class="text-center col-lg-8">
-               {name_wrapper}<h3> {$name}</h3>{/}
+              {name_wrapper}<h3> {$name}</h3>{/}
+              {rating_wrapper}<div class="rating">{$rating}</div>{/}
               {contact_wrapper} <p>{$contact}</p>{/}
-              {description_wrapper} <div> {$description}</div>{/}
-              
-           </div>
-           
+              {description_wrapper}<div> {$description}</div>{/}
+           </div> 
        </div>  
     
     {/}{/}
@@ -28,25 +26,14 @@ height:170px;
 width:170px;
 border-radius: 100%;
 border:5px solid #00b4c3;
-
-
 }
+
 .column-image img:hover{
- transform: scale(1);
+  transform: scale(1);
    width: 250px;
    height: 200px;
    border-radius: 10%;
    border:5px solid #00b4c3;
-
-
-
 }
-
-  </style>
-<script type="text/javascript">
-  $(document).ready(function(){
-    // $('.owl-carousel').owlCarousel();
-  });
-</script>
-
+</style>
 </div>

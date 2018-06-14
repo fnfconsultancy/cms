@@ -17,7 +17,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		'nav'=>true,
 		'slideBy'=>2,
 		'autoplay'=>true,
-		'layout'=>'testimoniallist',
+		'layout'=>'testimonialhorizontal',
 		'custom_template'=>null
 	];
 
@@ -31,7 +31,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		$this->js()->_load('../owlslider/owl.carousel.min');
 
 		if($this->owner instanceof \AbstractController){
-			$this->add('View')->set('I am Testimonial Tool')->addClass('alert alert-info');
+			$this->add('View')->set('please select testimonial options, by double clicking on it')->addClass('alert alert-info');
 			return;		
 		} 
 		
@@ -40,8 +40,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 			return;
 		}
 		if($this->options['category_show']){
-
-
+			
 		}
 
 		$this->cat_model = $cat_model = $this->add('xepan\cms\Model_TestimonialCategory');
@@ -55,7 +54,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 
 
 		$testimonial_model = $this->add('xepan\cms\Model_Testimonial');
-		$testimonial_model->addCondition('status','Aprroved');
+		$testimonial_model->addCondition('status','Approved');
 		$testimonial_model->addCondition('category_id',$cat_model->id);
 		
 		$layout = $this->options['layout'];
@@ -67,8 +66,8 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 				$layout = $this->options['layout'];
 				return;
 			}
-		} 
-
+		}
+		
 		$this->lister = $lister = $this->add('CompleteLister',null,null,['view/tool/cms/testimonial/'.$layout]);
 		$lister->setModel($testimonial_model);
 		$lister->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$testimonial_model]);
@@ -84,16 +83,25 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 
 		$l->template->tryDel('description_wrapper');
 	}
-		function addToolCondition_row_show_image($value,$l){
+
+	function addToolCondition_row_show_image($value,$l){
 		if($value) return;
 
 		$l->template->tryDel('image_wrapper');
 	}
 
 	function addToolCondition_row_show_rating($value,$l){
-		if($value) return;
+		if(!$value){
+			$l->template->tryDel('rating_wrapper');
+			return;
+		} 
+		// $form = $l->add('Form',null,'rating');
+		// $rating_field = $form->addField('xepan\base\Rating','rating','')
+		// 	->setValueList(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5'])->set($l->model['rating']);
+		// $rating_field->initialRating = $l->model['rating'];
+		// $rating_field->readonly = true;
+		// $l->current_row_html['rating'] = $form->getHtml();
 
-		$l->template->tryDel('rating_wrapper');
 	}
 
 
