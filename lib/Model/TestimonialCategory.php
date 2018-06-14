@@ -19,7 +19,7 @@ class Model_TestimonialCategory extends \xepan\base\Model_Table{
 		$this->addField('name');
 		$this->addField('status')->enum($this->status)->defaultValue('Active');
 
-		$this->add('dynamic_model\Controller_AutoCreator');
+		// $this->add('dynamic_model\Controller_AutoCreator');
 		
 		$this->hasMany('xepan\cms\Testimonial','category_id');
 		$this->is(

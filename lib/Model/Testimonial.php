@@ -31,6 +31,7 @@ class Model_Testimonial extends \xepan\base\Model_Table{
 		$this->addField('rating')->enum($this->rating_list);
 
 		$this->addExpression('contact_image')->set($this->refSQL('contact_id')->fieldQuery('image'));
-		$this->add('dynamic_model\Controller_AutoCreator');
+		
+		// $this->add('dynamic_model\Controller_AutoCreator');
 	}
 }
