@@ -24,7 +24,10 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
-		if($this->owner instanceof \AbstractController) return;
+		if($this->owner instanceof \AbstractController){
+			$this->add('View_Info')->set('Please select it\'s options by double clicking on it');
+			return;	
+		}
 
 		if(!$this->options['gallery_type']){
 			$this->add('View')->set('Please Select Gallery Type')->addClass('alert alert-info');
