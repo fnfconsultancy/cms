@@ -10,12 +10,42 @@
         </div>
       </td>
     </tr>
+
+    <tr>
+      <td>Show Button</td>
+      <td>
+        <select data-attr="showmodalbutton" data-defaultvalue="false" id="{$_name}_showmodalbutton">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </td>
+    </tr>
     <tr>
       <td>Button Text</td>
       <td>
-        <input type="text" id="xpopup_trigger_label"/>
+        <input type="text" id="xpopup_trigger_label" data-defaultvalue="Launch demo modal" />
       </td>
     </tr>
+    <tr>
+      <td>Show On Page load</td>
+      <td>
+        <select data-attr="modalonpageload" data-defaultvalue="false" id="{$_name}_showonpageload">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Show Footer Section</td>
+      <td>
+        <select data-attr="showfootersection" data-defaultvalue="true" id="{$_name}_showfootersection">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </td>
+    </tr>
+
   </table>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
@@ -24,8 +54,14 @@
     
     $('#{$_name}').on('show',function(event){
     	$('#{$_name} [data-attr]').each(function(index,value){
-    		$(this).val($(current_selected_component).attr($(this).data('attr')));				
-    	});
+        // setting up default value if no option selected
+        var default_value = $(this).attr('data-defaultvalue');
+        if($(current_selected_component).attr($(this).data('attr')))
+          default_value = $(current_selected_component).attr($(this).data('attr'));
+        
+        $(this).val(default_value);
+      });
+
     });
     
     $('#popup_edit_mode').click(function(event) {
@@ -47,5 +83,6 @@
     $('#xpopup_trigger_label').change(function(event) {
     	$(current_selected_component).find('div.xpopup_trigger').html($("#xpopup_trigger_label").val());
     });
+
   </script>
 </div>

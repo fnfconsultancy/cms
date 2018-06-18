@@ -51,6 +51,6 @@ class page_galleryimages extends \xepan\base\Page{
         $image_c->grid->removeAttachment();
         $image_c->grid->addPaginator($ipp=50);
         $image_c->grid->addQuickSearch(['name','image_id']);
-        $image_c->js('reload',$this->js()->univ()->location());
+        // $image_c->js('reload',$this->js()->univ()->location());
     }
 }
