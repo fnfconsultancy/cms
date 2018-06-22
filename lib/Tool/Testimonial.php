@@ -12,7 +12,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		'show_rating'=>true,
 		'margin_between_slide'=>10,
 		'loop'=>true,
-		'items'=>2,
+		'display_items'=>3,
 		'startPosition'=>1,
 		'nav'=>true,
 		'slideBy'=>2,
@@ -39,10 +39,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		$this->add('View')->set('Please select category first form it\'s options')->addClass('alert alert-danger');
 			return;
 		}
-		if($this->options['category_show']){
-			
-		}
-
+		
 		$this->cat_model = $cat_model = $this->add('xepan\cms\Model_TestimonialCategory');
 		$cat_model->addCondition('status','Active');
 		$cat_model->tryLoad($this->options['testimonial_category']);
@@ -109,7 +106,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 
 	function render(){
 		$owl_options = [
-				'items'=>$this->options['items'],
+				'items'=>$this->options['display_items'],
 				'margin'=>$this->options['margin_between_slide'],
 				'loop'=>$this->options['loop'],
 				'startPosition'=>$this->options['startPosition'],
@@ -120,6 +117,8 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 				'responsiveClass'=>true,
 			];
 
+		// $this->app->print_r($this->options);
+		// $this->app->print_r($owl_options,true);
 		$this->js(true)->_selector('.owl-carousel')->owlCarousel($owl_options);
 		parent::render();
 	}

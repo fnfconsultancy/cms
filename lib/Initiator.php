@@ -48,6 +48,7 @@ class Initiator extends \Controller_Addon {
             $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
             $m->addItem([' Testimonial' , 'icon'=>'fa fa-edit'],'xepan_cms_testimonial');
 
+
         }
 
         $this->app->addHook('entity_collection',[$this,'exportEntities']);
@@ -285,6 +286,7 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_Gallery');
         $this->app->exportFrontEndTool('xepan\cms\Tool_SlideShow');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Testimonial');
+         $this->app->exportFrontEndTool('xepan\cms\Tool_Testimonialform');
 
         return $this;
     }
