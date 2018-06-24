@@ -3,7 +3,12 @@
 namespace xepan\cms;
 
 class Tool_CustomForm extends \xepan\cms\View_Tool{
-	public $options = ['customformid'=>0, 'template'=>'','custom_form_success_url'=>null];
+	public $options = [
+			'customformid'=>0, 
+			'template'=>'',
+			'custom_form_success_url'=>null,
+			'implement_form_layout'=>false
+		];
 	public $form;
 	public $customform_model;
 	public $customform_field_model;
@@ -37,12 +42,20 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 		if($customform_model['form_layout']){
 			$form_layout = ['form/'.$customform_model['form_layout']];
 		}
-
+		
 		$this->form = $this->add('Form',null,null,$form_layout);
 		$form = $this->form;
 
-		if($this->options['template'])			
-			$form->setLayout('view/tool/form/'.$this->options['template']);
+		if($customform_model['custom_form_layout_path'] AND $this->options['implement_form_layout']){
+			$form->add('xepan\base\Controller_FLC')
+				->showLables(true)
+				->makePanelsCoppalsible(false)
+				->addContentSpot()
+				->layout($this->getLayoutArray());
+		}
+
+		// if($this->options['template'])
+		// 	$form->setLayout('view/tool/form/'.$this->options['template']);
 
 		foreach ($customform_field_model as $field) {
 
@@ -238,4 +251,14 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 		return $this->form->template;
 	}
 
+
+	function getLayoutArray(){
+		$arr = [];
+		$lines = explode(",", $this->customform_model['custom_form_layout_path']);
+		foreach ($lines as $line) {
+			$seg = explode("=>", $line);
+			$arr[trim(str_replace("'", "", $seg[0]))] = trim(str_replace("'", "", $seg[1]));
+		}
+		return $arr;
+	}
 }
