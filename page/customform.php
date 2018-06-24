@@ -24,9 +24,10 @@ class page_customform extends \xepan\base\Page {
 				// ->makePanelsCoppalsible()
 				->layout([
 						'name~'=>'Custom Form Name~c1~12',
-						'submit_button_name'=>'Details~c1~4',
-						'form_layout'=>'c2~4',
-						'custom_form_layout_path'=>'c3~4',
+						'submit_button_name'=>'Details~c1~6',
+						'form_layout'=>'c2~6',
+						'custom_form_layout_path~Design Form Layout'=>'c11~12',
+						'explanation~'=>'c3~4',
 						'recieve_email'=>'Receive Emails~c1~4',
 						'recipient_email'=>'c2~8~Comma seperated email ids to receive form details, when new form is submitted',
 						'auto_reply'=>'Auto Reply~c1~4',
@@ -38,6 +39,12 @@ class page_customform extends \xepan\base\Page {
 						'category'=>'c2~8~And associate with categories',
 
 					]);
+			$b = $form->layout->add('Button',null,'explanation')
+				->set('Form Layout Hint');
+			$b->add('VirtualPage')
+			->bindEvent('How to arrange form fields ','click')
+			->set([$this,"formLayoutExplanation"]);
+
 			$categories_field = $form->addField('DropDown','category');
 			$categories_field->setModel($this->add('xepan\marketing\Model_MarketingCategory'));
 			$categories_field->addClass('multiselect-full-width');
@@ -91,5 +98,17 @@ class page_customform extends \xepan\base\Page {
 		$crud->grid->addQuickSearch(['name']);
 		$crud->grid->removeColumn('status');
 		$crud->noAttachment();
+	}
+
+	function formLayoutExplanation($page){
+		$v = $page->add('View_Info');
+		$ht = "'first_name~Field New Cpation'=>'Name Section|panel-type~c1~4',
+				<br/>'nick_name'=>'c2~4~closed or any other text as field hint',
+				<br/>'last_name'=>'c3~4',
+				<br/>'city'=>'Location~c1~4~closed', // closed to make panel default collapsed
+				<br/>'state'=>'c2~4',
+				<br/>'country'=>'c3~4'";
+		$ht .= "<br/><b>Field name is your define field name and space is replaced by _ (underscore)</b>";
+		$v->setHtml($ht);
 	}
 }
