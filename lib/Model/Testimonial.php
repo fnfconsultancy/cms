@@ -9,9 +9,9 @@ class Model_Testimonial extends \xepan\base\Model_Table{
 	public $acl_type = "xepan_testimonial";
 	public $status = ['Pending','Approved','Cancelled'];
 	public $actions = [
-					'Pending'=>['view','Approve','Cancel','edit','delete'],
+					'Pending'=>['view','Approved','Cancel','edit','delete'],
 					'Approved'=>['view','Cancel','edit','delete'],
-					'Cancelled'=>['view','edit','delete']
+					'Cancelled'=>['view','Approved','Pending','delete']
 				];
 
 	function init(){
@@ -34,4 +34,24 @@ class Model_Testimonial extends \xepan\base\Model_Table{
 		
 		// $this->add('dynamic_model\Controller_AutoCreator');
 	}
+
+
+
+	function Approved(){
+		$this['status'] = "Approved";
+		$this->save();
+	}
+	function Pending(){
+		$this['status'] = "Pending";
+		$this->save();
+	}
+	function Cancel(){
+		$this['status'] = "Cancelled";
+		$this->save();
+	}
+	
 }
+
+
+
+	
