@@ -39,9 +39,9 @@ class page_websites extends \xepan\base\Page{
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/xml/xml');
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/css/css');
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/javascript/javascript');
-		
+		$file_manager_view = $this->add('View');
 		$this->js(true,'
-				$("#'.$this->name.'").elfinder({
+				$("#'.$file_manager_view->name.'").elfinder({
 					url: "index.php?page=xepan_base_adminelconnector",
 					height:450,
 					commandsOptions: {
@@ -72,6 +72,54 @@ class page_websites extends \xepan\base\Page{
 					} //commandsOptions 
 				}).elfinder("instance");
 			');
+
+		$quota_view = $this->add('xepan\base\View_Widget_ProgressStatus');
+		$quota_view->setHeading('Space Quota Status');
+		$quota_view->setIcon('fa fa-hdd-o');
+
+		
+		$folder = getcwd().'/websites/'.$this->app->epan['name'].'/';
+		$folder=str_replace('admin/', '', $folder);
+		$size = $this->uf_getDirSize($folder,'b');
+
+		$extra_info = $this->app->recall('epan_extra_info_array',false);
+		
+		if(isset($extra_info ['specification']['Storage Limit']))
+			$total_storage_limit = $extra_info ['specification']['Storage Limit'];
+		else
+			$total_storage_limit = 0;
+
+		$per=0;
+		if($total_storage_limit){
+			$per = (int) ($this->app->human2byte($size)/$this->app->human2byte($total_storage_limit)*100);
+			if($per<80){
+				$quota_view->makeSuccess();
+			}elseif($per>=80){
+				$quota_view->makeWarning();
+			}elseif($per>=100) {
+				$per=100;
+				$quota_view->makeDanger();
+			}
+		}
+
+
+		$quota_view->setProgressPercentage($per);
+		$quota_view->setFooter("$size / $total_storage_limit");
+	}
+
+	function uf_getDirSize($dir, $unit = 'g'){
+	    // $dir = trim($dir, '/');
+	    // if (!is_dir($dir)) {
+	    //     trigger_error("{$dir} not a folder/dir/path.", E_USER_WARNING);
+	    //     return false;
+	    // }
+	    // if (!function_exists('exec')) {
+	    //     trigger_error('The function exec() is not available.', E_USER_WARNING);
+	    //     return false;
+	    // }
+	    $output = exec('du -sh ' . $dir);
+	    $filesize = str_replace($dir, '', $output);
+	    return $filesize;
 	}
 
 	function page_step1(){
