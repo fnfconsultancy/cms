@@ -75,10 +75,10 @@ class Initiator extends \Controller_Addon {
                             'icon'=>'fa fa-file',
                             'url'=>'xepan_cms_cmspagemanager'
                         ],
-                        [   'name'=>'Themes',
-                            'icon'=>'fa fa-file',
-                            'url'=>'xepan_cms_theme'
-                        ],
+                        // [   'name'=>'Themes',
+                        //     'icon'=>'fa fa-file',
+                        //     'url'=>'xepan_cms_theme'
+                        // ],
                         [   'name'=>'FileManager',
                             'icon'=>' fa fa-edit',
                             'url'=>'xepan_cms_websites'
