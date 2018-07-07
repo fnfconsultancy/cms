@@ -615,7 +615,7 @@ class page_websites extends \xepan\base\Page{
         arsort($p);
         $m->setSource('Array',$p);
 
-		$crud = $this->add('xepan\hr\CRUD',['allow_add'=>false,'allow_edit'=>false]);
+		$crud = $this->add('xepan\hr\CRUD',['allow_add'=>false,'allow_edit'=>false,'pass_acl'=>true]);
 		$crud->setModel($m);
 		$crud->grid->removeColumn('id');
 		$crud->grid->addColumn('Button','Revert');
