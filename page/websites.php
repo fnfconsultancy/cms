@@ -84,10 +84,10 @@ class page_websites extends \xepan\base\Page{
 
 		$extra_info = $this->app->recall('epan_extra_info_array',false);
 		
-		if(isset($extra_info ['specification']['Storage Limit']))
+		if(isset($extra_info ['specification']['Storage Limit']) && $extra_info ['specification']['Storage Limit'])
 			$total_storage_limit = $extra_info ['specification']['Storage Limit'];
 		else
-			$total_storage_limit = 0;
+			$total_storage_limit = $this->app->byte2human(disk_free_space("/"));
 
 		$per=0;
 		if($total_storage_limit){
