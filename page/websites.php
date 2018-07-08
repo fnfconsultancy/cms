@@ -82,6 +82,14 @@ class page_websites extends \xepan\base\Page{
 		$folder=str_replace('admin/', '', $folder);
 		$size = $this->uf_getDirSize($folder,'b');
 
+		preg_match(
+                    '|([a-z]+)://([^:]*)(:(.*))?@([A-Za-z0-9\.-]*)'.
+                    '(/([0-9a-zA-Z_/\.-]*))|',
+                    $this->app->getConfig('dsn'),
+                    $matches
+                );
+		$db_size = $this->app->db->dsql()->expr("SELECT SUM(data_length + index_length) AS 'size' FROM information_schema.TABLES WHERE table_schema='".$matches[7]."';")->getOne();
+
 		$extra_info = $this->app->recall('epan_extra_info_array',false);
 		
 		if(isset($extra_info ['specification']['Storage Limit']) && $extra_info ['specification']['Storage Limit'])
@@ -91,7 +99,7 @@ class page_websites extends \xepan\base\Page{
 
 		$per=0;
 		if($total_storage_limit){
-			$per = (int) ($this->app->human2byte($size)/$this->app->human2byte($total_storage_limit)*100);
+			$per = (int) (($this->app->human2byte($size)+$db_size)/$this->app->human2byte($total_storage_limit)*100);
 			if($per<80){
 				$quota_view->makeSuccess();
 			}elseif($per>=80){
@@ -102,9 +110,11 @@ class page_websites extends \xepan\base\Page{
 			}
 		}
 
+		$total = $this->app->byte2human($this->app->human2byte($size)+$db_size);
+		$db_size = $this->app->byte2human($db_size);
 
 		$quota_view->setProgressPercentage($per);
-		$quota_view->setFooter("$size / $total_storage_limit");
+		$quota_view->setFooter("Filesystem: $size + Database: $db_size [ $total / $total_storage_limit]");
 	}
 
 	function uf_getDirSize($dir, $unit = 'g'){
