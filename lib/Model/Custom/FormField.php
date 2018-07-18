@@ -1,8 +1,8 @@
 <?php
 
- namespace xepan\cms;
+namespace xepan\cms;
 
- class Model_Custom_FormField extends \Model_Table{ 	
+class Model_Custom_FormField extends \xepan\base\Model_Table{ 	
 
  	public $table = 'custom_form_field'; 
  	public $acl = false;
