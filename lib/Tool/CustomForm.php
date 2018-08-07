@@ -42,11 +42,14 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 		if($customform_model['form_layout']){
 			$form_layout = ['form/'.$customform_model['form_layout']];
 		}
-		
+				
 		$this->form = $this->add('Form',null,null,$form_layout);
 		$form = $this->form;
 
-		if($customform_model['custom_form_layout_path'] AND $this->options['implement_form_layout']){
+		if($this->options['template'])
+			$form->setLayout('view/tool/form/'.$this->options['template']);
+		elseif($customform_model['custom_form_layout_path'] AND $this->options['implement_form_layout']){
+			$this->form = $form = $this->add('Form');
 			$form->add('xepan\base\Controller_FLC')
 				->showLables(true)
 				->makePanelsCoppalsible(false)
@@ -54,8 +57,6 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				->layout($this->getLayoutArray());
 		}
 
-		// if($this->options['template'])
-		// 	$form->setLayout('view/tool/form/'.$this->options['template']);
 
 		foreach ($customform_field_model as $field) {
 
