@@ -136,7 +136,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 					}
 				}
 
-				$lead_model['remark'] = 'Auto Created from Custom Form "'. $this->customform_model['name'].'"';
+				if(!$lead_model['remark']) $lead_model['remark'] = 'Auto Created from Custom Form "'. $this->customform_model['name'].'"';
 
 
 				if($has_field){
