@@ -56,6 +56,8 @@ class Initiator extends \Controller_Addon {
     }
 
     function getTopApplicationMenu(){
+        if($this->app->getConfig('hidden_xepan_cms',false)){return [];}
+
         return [
                 'CMS'=>[
                         [
@@ -108,6 +110,8 @@ class Initiator extends \Controller_Addon {
     }
 
     function getConfigTopApplicationMenu(){
+        if($this->app->getConfig('hidden_xepan_cms',false)){return [];}
+
         return [
                 'CMS_&_Website_Config'=>[
                         [
