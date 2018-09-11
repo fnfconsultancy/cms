@@ -39,9 +39,9 @@ class page_websites extends \xepan\base\Page{
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/xml/xml');
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/css/css');
 		$this->app->jui->addStaticInclude('codemirror/codemirror-5.15.2/mode/javascript/javascript');
-		
+		$file_manager_view = $this->add('View');
 		$this->js(true,'
-				$("#'.$this->name.'").elfinder({
+				$("#'.$file_manager_view->name.'").elfinder({
 					url: "index.php?page=xepan_base_adminelconnector",
 					height:450,
 					commandsOptions: {
@@ -72,6 +72,64 @@ class page_websites extends \xepan\base\Page{
 					} //commandsOptions 
 				}).elfinder("instance");
 			');
+
+		$quota_view = $this->add('xepan\base\View_Widget_ProgressStatus');
+		$quota_view->setHeading('Space Quota Status');
+		$quota_view->setIcon('fa fa-hdd-o');
+
+		
+		$folder = getcwd().'/websites/'.$this->app->epan['name'].'/';
+		$folder=str_replace('admin/', '', $folder);
+		$size = $this->uf_getDirSize($folder,'b');
+
+		preg_match(
+                    '|([a-z]+)://([^:]*)(:(.*))?@([A-Za-z0-9\.-]*)'.
+                    '(/([0-9a-zA-Z_/\.-]*))|',
+                    $this->app->getConfig('dsn'),
+                    $matches
+                );
+		$db_size = $this->app->db->dsql()->expr("SELECT SUM(data_length + index_length) AS 'size' FROM information_schema.TABLES WHERE table_schema='".$matches[7]."';")->getOne();
+
+		$extra_info = $this->app->recall('epan_extra_info_array',false);
+		
+		if(isset($extra_info ['specification']['Storage Limit']) && $extra_info ['specification']['Storage Limit'])
+			$total_storage_limit = $extra_info ['specification']['Storage Limit'];
+		else
+			$total_storage_limit = $this->app->byte2human(disk_free_space("/"));
+
+		$per=0;
+		if($total_storage_limit){
+			$per = (int) (($this->app->human2byte($size)+$db_size)/$this->app->human2byte($total_storage_limit)*100);
+			if($per<80){
+				$quota_view->makeSuccess();
+			}elseif($per>=80){
+				$quota_view->makeWarning();
+			}elseif($per>=100) {
+				$per=100;
+				$quota_view->makeDanger();
+			}
+		}
+
+		$total = $this->app->byte2human($this->app->human2byte($size)+$db_size);
+		$db_size = $this->app->byte2human($db_size);
+
+		$quota_view->setProgressPercentage($per);
+		$quota_view->setFooter("Filesystem: $size + Database: $db_size [ $total / $total_storage_limit]");
+	}
+
+	function uf_getDirSize($dir, $unit = 'g'){
+	    // $dir = trim($dir, '/');
+	    // if (!is_dir($dir)) {
+	    //     trigger_error("{$dir} not a folder/dir/path.", E_USER_WARNING);
+	    //     return false;
+	    // }
+	    // if (!function_exists('exec')) {
+	    //     trigger_error('The function exec() is not available.', E_USER_WARNING);
+	    //     return false;
+	    // }
+	    $output = exec('du -sh ' . $dir);
+	    $filesize = str_replace($dir, '', $output);
+	    return $filesize;
 	}
 
 	function page_step1(){
@@ -567,7 +625,7 @@ class page_websites extends \xepan\base\Page{
         arsort($p);
         $m->setSource('Array',$p);
 
-		$crud = $this->add('xepan\hr\CRUD',['allow_add'=>false,'allow_edit'=>false]);
+		$crud = $this->add('xepan\hr\CRUD',['allow_add'=>false,'allow_edit'=>false,'pass_acl'=>true]);
 		$crud->setModel($m);
 		$crud->grid->removeColumn('id');
 		$crud->grid->addColumn('Button','Revert');

@@ -192,13 +192,14 @@ class Tool_SlideShow extends \xepan\cms\View_Tool{
 				$html .= '<div class="sp-thumbnail-container"> <img src="'.'./websites/'.$this->app->current_website_name."/".$m['image_id'].'" $width $height /></div>';
 			}
 
-			if($m['layer_type'] == "Text")
+			if($m['layer_type'] == "Text"){
 				$html .= $m['text'];
+			}
 
 			if($m['layer_type'] == "Video")
 				$html .= '<a class="sp-video" href="'.$m['video_url'].'"><img src="'.'./websites/'.$this->app->current_website_name."/".$m['image_id'].'" $width $height /></a>';
 
-			$html .= '</div>;';
+			$html .= '</div>';
 		}
 
 		return $html;

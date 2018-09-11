@@ -9,7 +9,7 @@ class page_theme extends \xepan\base\Page{
 
 	function init(){
 		parent::init();
-
+		if($this->app->is_admin) return;
 		$this->add('xepan\cms\View_Theme',['epan_template'=>$this->epan_template]);
 	}
 }

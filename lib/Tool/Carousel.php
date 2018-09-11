@@ -43,7 +43,7 @@ class Tool_Carousel extends \xepan\cms\View_Tool{
 			if($this->options['show_text']){
 				$l->current_row_html['show_text'] = $l->model['text_to_display'];
 			}else{
-				$l->current_row_html['show_text_wrapper'] = ' ';				
+				$l->current_row_html['show_text_wrapper'] = ' ';
 			}
 			
 			$l->current_row_html['text_to_display'] = $l->model['text_to_display'];

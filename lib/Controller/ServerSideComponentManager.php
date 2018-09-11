@@ -41,6 +41,9 @@ class Controller_ServerSideComponentManager extends \AbstractController {
 	    $content = str_replace('<!--xEpan-ATK-Header-Start', '<!--xEpan-ATK-Header-Start-->', $content);
 	    $content = str_replace('xEpan-ATK-Header-End-->', '<!--xEpan-ATK-Header-End-->', $content);
 	    $content = str_replace('%7Bwebsite_base%7D%7B/%7D', '{$website_base}', $content);
+
+	    // $content = str_replace('{$after_body_code}', '', $content);
+	    // $content = str_replace('</body>', '</body>{$after_body_code}', $content);
 		
 		$this->owner->template->loadTemplateFromString($content);
 

@@ -20,7 +20,7 @@ class Model_CarouselLayer extends \xepan\base\Model_Table{
 
 		$this->addField('image_id')->display(['form'=>'xepan\base\ElImage']);
 		$this->addField('video_url');
-		$this->addField('text')->display(['form'=>'xepan\base\RichText']);
+		$this->addField('text')->type('text')->display(['form'=>'xepan\base\RichText']);
 		$this->addField('horizontal_position')->hint('Sets the horizontal position of the layer, using the value specified for data-position as a reference point. Can be set to a fixed or percentage value.');
 		$this->addField('vertical_position')->hint('Sets the vertical position of the layer, using the value specified for data-position as a reference point. Can be set to a fixed or percentage value.');
 				
@@ -46,7 +46,7 @@ class Model_CarouselLayer extends \xepan\base\Model_Table{
 		$this->addCondition('type','CarouselLayer');
 
 		$this->addField('status')->enum(['Active','Inactive'])->defaultValue('Active');
-		$this->add('dynamic_model/Controller_AutoCreator');
+		// $this->add('dynamic_model/Controller_AutoCreator');
 
 		$this->addExpression('category_id')->set($this->refSQL('carousel_image_id')->fieldQuery('carousel_category_id'));
 

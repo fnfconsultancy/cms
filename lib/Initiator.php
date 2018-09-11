@@ -34,27 +34,94 @@ class Initiator extends \Controller_Addon {
 
     function populateApplicationMenus(){
         if(!$this->app->getConfig('hidden_xepan_cms',false)){
-            $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
+            // $this->app->cms_menu = $m = $this->app->top_menu->addMenu('CMS');
             // $menu = $this->app->side_menu->addMenu(['Website','icon'=>' fa fa-globe','badge'=>['xoxo' ,'swatch'=>' label label-primary pull-right']],'#');
-            $m->addItem([' Edit Site','icon'=>' fa fa-pencil'],'xepan_cms_editfrontlogin');
-            $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
-            $m->addItem([' Gallery','icon'=>' fa fa-file-image-o'],'xepan_cms_gallery');
-            $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_cmspagemanager');
-            $m->addItem([' Themes','icon'=>' fa fa-file'],'xepan_cms_theme');
-            $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
-            $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
-            $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
-            $m->addItem([' SEF Config','icon'=>' fa fa-globe'],'xepan_cms_sefconfig');
-            $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
-            $m->addItem([' Testimonial' , 'icon'=>'fa fa-edit'],'xepan_cms_testimonial');
-
-
+            // $m->addItem([' Edit Site','icon'=>' fa fa-pencil'],'xepan_cms_editfrontlogin');
+            // $m->addItem([' Carousel','icon'=>' fa fa-file-image-o'],'xepan_cms_carousel');
+            // $m->addItem([' Gallery','icon'=>' fa fa-file-image-o'],'xepan_cms_gallery');
+            // $m->addItem([' Template & Pages','icon'=>' fa fa-file'],'xepan_cms_cmspagemanager');
+            // $m->addItem([' Themes','icon'=>' fa fa-file'],'xepan_cms_theme');
+            // $m->addItem([' FileManager','icon'=>' fa fa-edit'],'xepan_cms_websites');
+            // $m->addItem([' CMS Editors','icon'=>' fa fa-edit'],'xepan_cms_cmseditors');
+            // $m->addItem([' Custom Form','icon'=>' fa fa-wpforms'],'xepan_cms_customform');
+            // $m->addItem([' SEF Config','icon'=>' fa fa-globe'],'xepan_cms_sefconfig');
+            // $m->addItem([' Configuration','icon'=>' fa fa-cog'],'xepan_cms_configuration');
+            // $m->addItem([' Testimonial' , 'icon'=>'fa fa-edit'],'xepan_cms_testimonial');
         }
 
         $this->app->addHook('entity_collection',[$this,'exportEntities']);
         $this->app->addHook('collect_shortcuts',[$this,'collect_shortcuts']);
         
         return $this;
+    }
+
+    function getTopApplicationMenu(){
+        if($this->app->getConfig('hidden_xepan_cms',false)){return [];}
+
+        return [
+                'CMS'=>[
+                        [
+                            'name'=>'Edit Site',
+                            'icon'=>' fa fa-pencil',
+                            'url'=>'xepan_cms_editfrontlogin'
+                        ],
+                        [   'name'=>'Carousel',
+                            'icon'=>' fa fa-file-image-o',
+                            'url'=>'xepan_cms_carousel'
+                        ],
+                        [   'name'=>'Gallery',
+                            'icon'=>'fa fa-file-image-o',
+                            'url'=>'xepan_cms_gallery'
+                        ],
+                        [   'name'=>'Template & Pages',
+                            'icon'=>'fa fa-file',
+                            'url'=>'xepan_cms_cmspagemanager'
+                        ],
+                        // [   'name'=>'Themes',
+                        //     'icon'=>'fa fa-file',
+                        //     'url'=>'xepan_cms_theme'
+                        // ],
+                        [   'name'=>'FileManager',
+                            'icon'=>' fa fa-edit',
+                            'url'=>'xepan_cms_websites'
+                        ],
+                        [   'name'=>'CMS Editors',
+                            'icon'=>'fa fa-edit',
+                            'url'=>'xepan_cms_cmseditors'
+                        ],
+                        [   'name'=>'Custom Form',
+                            'icon'=>'fa fa-wpforms',
+                            'url'=>'xepan_cms_customform'
+                        ],
+                        [   'name'=>'SEF Config',
+                            'icon'=>'fa fa-globe',
+                            'url'=>'xepan_cms_sefconfig'
+                        ],
+                        [   'name'=>'Configuration',
+                            'icon'=>' fa fa-cog',
+                            'url'=>'xepan_cms_configuration'
+                        ],
+                        [   'name'=>'Testimonial',
+                            'icon'=>'fa fa-edit',
+                            'url'=>'xepan_cms_testimonial'
+                        ]
+                    ]
+            ];
+    }
+
+    function getConfigTopApplicationMenu(){
+        if($this->app->getConfig('hidden_xepan_cms',false)){return [];}
+
+        return [
+                'CMS_&_Website_Config'=>[
+                        [
+                            'name'=>'Make website Offline',
+                            'icon'=>'fa fa-cog',
+                            'url'=>'xepan_cms_configuration'
+                        ]
+                    ]
+            ];
+
     }
 
     function exportEntities($app,&$array){
@@ -286,7 +353,7 @@ class Initiator extends \Controller_Addon {
         $this->app->exportFrontEndTool('xepan\cms\Tool_Gallery');
         $this->app->exportFrontEndTool('xepan\cms\Tool_SlideShow');
         $this->app->exportFrontEndTool('xepan\cms\Tool_Testimonial');
-         $this->app->exportFrontEndTool('xepan\cms\Tool_Testimonialform');
+        $this->app->exportFrontEndTool('xepan\cms\Tool_KeepAlive');
 
         return $this;
     }
@@ -360,6 +427,7 @@ class Initiator extends \Controller_Addon {
             ->addCondition('is_active',true)
             ;
         foreach ($page as $p) {
+            if(strpos($p['path'], "http") ===0) continue;
             $url = $this->app->url(str_replace(".html", '', $p['path']));
             $urls[] = (string)$url;
         }
