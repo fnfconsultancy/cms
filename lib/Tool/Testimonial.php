@@ -3,7 +3,7 @@ namespace xepan\cms;
 
 class Tool_Testimonial extends \xepan\cms\View_Tool{
 	public $options = [
-		'testimonial_category'=>1,
+		'testimonial_category'=>0,
 		'allow_add'=>false,
 		'category_show'=>false,
 		'show_image'=>true,
@@ -36,7 +36,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		} 
 		
 		if(!$this->options['testimonial_category']){
-		$this->add('View')->set('Please select category first form it\'s options')->addClass('alert alert-danger');
+		$this->add('View')->set('Please select category form it\'s options')->addClass('alert alert-danger');
 			return;
 		}
 		
@@ -48,7 +48,6 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 			$this->add('View')->set('Category not found')->addClass('alert alert-danger');
 			return;	
 		}
-
 
 		$testimonial_model = $this->add('xepan\cms\Model_Testimonial');
 		$testimonial_model->addCondition('status','Approved');
@@ -101,25 +100,24 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 
 	}
 
-
-
-
 	function render(){
+
 		$owl_options = [
-				'items'=>$this->options['display_items'],
-				'margin'=>$this->options['margin_between_slide'],
-				'loop'=>$this->options['loop'],
-				'startPosition'=>$this->options['startPosition'],
-				'nav'=>$this->options['nav'],
-				'slideBy'=>$this->options['slideBy'],
-				'autoplay'=>true,
-				'lazyLoad'=>true,
-				'responsiveClass'=>true,
+				'items'=>'1'
+				// 'items'=>$this->options['display_items'],
+				// 'margin'=>$this->options['margin_between_slide'],
+				// 'loop'=>$this->options['loop'],
+				// 'startPosition'=>$this->options['startPosition'],
+				// 'nav'=>$this->options['nav'],
+				// 'slideBy'=>$this->options['slideBy'],
+				// 'autoplay'=>true,
+				// 'lazyLoad'=>true,
+				// 'responsiveClass'=>true,
 			];
 
 		// $this->app->print_r($this->options);
 		// $this->app->print_r($owl_options,true);
-		$this->js(true)->_selector('.owl-carousel')->owlCarousel($owl_options);
+		$this->js(true)->_selector('.slider-wrapper-'.$this->lister->name)->owlCarousel();
 		parent::render();
 	}
 }
