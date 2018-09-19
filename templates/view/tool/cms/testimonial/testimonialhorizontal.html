@@ -1,109 +1,39 @@
 <div id="{$_name}" class="{$class} xepan-testimonial">
-    <div class="slider-wrapper-{$name} owl-carousel owl-theme">
-    {rows}
-    {row}
-        <div class="testimonial-slides item">
-         <div class="">
-            <div class="singleTest animated text-center">
-              {image_wrapper}
-                <div class="container img-wrapper">
-                  <img src="{$image}" style="" class="testimonial-customer-image">
-                </div>
-              {/}
-              {name_wrapper}
-                <div class="title">
-                  {$name}
-                </div>
-              {/}
-              {description_wrapper}
-                <p style="position: relative;">{$description}</p>
-              {/}
-              {contact_wrapper}
-                <span class="contact-name">{$contact}</span>
-              {/}
-              {rating_wrapper}
-                <div class="rating">{$rating}</div>
-              {/}
-              {created_at_wrapper}
-                <div class="created at">{$created_at}</div>
-              {/}
+    <div class="slider-wrapper owl-theme owl-carousel row">
+      {rows}{row}
+        <div class="item col-sm-12 col-md-12 text-center">
+          <div class="thumbnail">
+            <img src="{$image}" alt="{$name}" class="img-circle img-responsive">
+            <h4>{$contact}</h4>
+            <div>{$rating}</div>
+            {category_wrapper}<small>{$category}</small>{/}
+            <hr/>
+            <div class="caption">
+              <h4>{$name}</h4>
+              <div>{$description}</div>
             </div>
           </div>
+          {$Content}
         </div>
-    {/}{/}
+      {/}{/}
     </div>
-    <!-- <div class="owl-carousel2 owl-carousel owl-theme">
-        <div class="item"><h4>1</h4></div>
-        <div class="item"><h4>2</h4></div>
-        <div class="item"><h4>3</h4></div>
-        <div class="item"><h4>4</h4></div>
-        <div class="item"><h4>5</h4></div>
-        <div class="item"><h4>6</h4></div>
-        <div class="item"><h4>7</h4></div>
-        <div class="item"><h4>8</h4></div>
-        <div class="item"><h4>9</h4></div>
-        <div class="item"><h4>10</h4></div>
-        <div class="item"><h4>11</h4></div>
-        <div class="item"><h4>12</h4></div>
-    </div> -->
 
-<!-- <script type="text/javascript">
-  $(document).ready(function(){
-    $('.owl-carousel2').owlCarousel({
-      items:1,
-      loop:true,
-      margin:10,
-      nav:true,
-      responsive:{
-          0:{
-              items:1
-          },
-          600:{
-              items:3
-          },
-          1000:{
-              items:5
-          }
+    <style type="text/css">
+      .xepan-testimonial .thumbnail img{
+          width:150px;
+          height: 150px;
+          border:5px solid #f3f3f3;
       }
-    });
-  });
-</script> -->
-<style type="text/css">
-
-    .testimonial-slides .title{
-      font-weight: bold ; 
-      font-size: 24px; 
-    }
-
-    img.testimonial-customer-image{
-      height: 100px;
-      width:100px !important;
-      border-radius: 100%;
-      box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-    }
-    .singleTest{
-      border: 1px solid #dfebf5;
-      border-radius: 4px;
-      margin-top: 35px;
-      padding: 35px 25px 25px 20px;
-      position: relative;
-    }
-
-  .singleTst::before {
-      content: "“";
-      font-size: 26px;
-      height: 34px;
-      left: 21px;
-      line-height: 38px;
-      position: absolute;
-      text-align: center;
-      top: -18px;
-      width: 34px;
-      border-width: 4px;
-      border-style: solid;
-      border-color: rgb(255, 255, 255);
-      border-image: initial;
-      border-radius: 50%;
-  }
-</style>
+    </style>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#{$_name} .slider-wrapper').owlCarousel({
+          items:{$display_items},
+          loop:false,
+          margin:10,
+          nav:true,
+          responsiveClass:true,
+        });
+      });
+    </script>
 </div>
