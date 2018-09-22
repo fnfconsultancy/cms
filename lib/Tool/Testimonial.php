@@ -9,9 +9,10 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		'show_title'=>true,
 		'show_description'=>true,
 		'show_rating'=>true,
+		'show_contact_name'=>true,
 		'margin_between_slide'=>10,
-		'loop'=>false,
-		'display_items'=>2,
+		'loop'=>true,
+		'display_items'=>1,
 		'startPosition'=>1,
 		'nav'=>true,
 		'slideBy'=>2,
@@ -25,9 +26,12 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 
 	function init(){
 		parent::init();
-		// $this->js(true)->_css('../owlslider/assets/owl.carousel');
+
+		$this->js(true)->_css('../owlslider/assets/owl.carousel');
 		$this->js(true)->_css('../owlslider/assets/owl.theme.default');
-		$this->js()->_load('../owlslider/owl.carousel.min');
+		$this->js()->_load('../owlslider/owl.carousel');
+		// $this->api->jui->addStaticInclude('../owlslider/owl.carousel.min');
+		// $this->js()->_load('../owlslider/owl.carousel.min');
 
 		if($this->owner instanceof \AbstractController){
 			$this->add('View')->set('please select testimonial options, by double clicking on it')->addClass('alert alert-info');
@@ -71,7 +75,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 	}
 	
 	function addToolCondition_row_show_title($value,$l){
-		if(!$value) $l->template->tryDel('name_wrapper');
+		if(!$value) $l->template->tryDel('title_wrapper');
 	}
 
 	function addToolCondition_row_show_category_name($value,$l){
@@ -88,6 +92,9 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 	function addToolCondition_row_show_image($value,$l){
 		if(!$value) $l->template->tryDel('image_wrapper');
 	}
+	function addToolCondition_row_show_contact_name($value,$l){
+		if(!$value) $l->template->tryDel('contact_wrapper');
+	}
 
 	function addToolCondition_row_show_rating($value,$l){
 		if(!$value){
@@ -103,26 +110,19 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		$l->current_row_html['rating'] = $form->getHtml();
 	}
 
-	function render(){
-
+	function recursiveRender(){
+		
 		$owl_options = [
-				'items'=>1,
-				'loop'=>false,
+				'loop'=>$this->options['loop'],
 				'items'=>$this->options['display_items'],
 				'margin'=>$this->options['margin_between_slide'],
 				'loop'=>$this->options['loop'],
 				'startPosition'=>$this->options['startPosition'],
 				'nav'=>$this->options['nav'],
 				'slideBy'=>$this->options['slideBy'],
-				'autoplay'=>true,
-				'lazyLoad'=>true,
-				'responsiveClass'=>true,
-				'responsive'=>[
-						10=>['items'=>1],
-						1000=>['items'=>1]
-					]
+				'autoplay'=>$this->options['autoplay']
 			];
-		// $this->js()->_selector('.slider-wrapper-'.$this->lister->name)->owlCarousel($owlopt);
-		parent::render();
+		$this->js(true)->_selector('#'.$this->lister->name .' .slider-wrapper')->owlCarousel($owl_options);
+		parent::recursiveRender();
 	}
 }

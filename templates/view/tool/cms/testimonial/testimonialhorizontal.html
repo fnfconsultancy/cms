@@ -1,16 +1,18 @@
 <div id="{$_name}" class="{$class} xepan-testimonial">
-    <div class="slider-wrapper owl-theme owl-carousel row">
+    <div class="slider-wrapper owl-theme owl-carousel">
       {rows}{row}
-        <div class="item col-sm-12 col-md-12 text-center">
+        <div class="item text-center">
           <div class="thumbnail">
-            <img src="{$image}" alt="{$name}" class="img-circle img-responsive">
-            <h4>{$contact}</h4>
-            <div>{$rating}</div>
+            {image_wrapper}
+              <img src="{$image}" alt="{$name}" class="img-circle img-responsive">
+            {/}
+            {contact_wrapper}<h4>{$contact}</h4>{/}
+            {rating_wrapper}<div>{$rating}</div>{/}
             {category_wrapper}<small>{$category}</small>{/}
             <hr/>
             <div class="caption">
-              <h4>{$name}</h4>
-              <div>{$description}</div>
+              {title_wrapper}<h4>{$name}</h4>{/}
+              {description_wrapper}<div>{$description}</div>{/}
             </div>
           </div>
           {$Content}
@@ -25,15 +27,4 @@
           border:5px solid #f3f3f3;
       }
     </style>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $('#{$_name} .slider-wrapper').owlCarousel({
-          items:{$display_items},
-          loop:false,
-          margin:10,
-          nav:true,
-          responsiveClass:true,
-        });
-      });
-    </script>
 </div>
