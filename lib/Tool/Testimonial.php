@@ -3,16 +3,16 @@ namespace xepan\cms;
 
 class Tool_Testimonial extends \xepan\cms\View_Tool{
 	public $options = [
-		'testimonial_category'=>1,
-		'allow_add'=>false,
-		'category_show'=>false,
+		'testimonial_category'=>0,
+		'show_category_name'=>false,
 		'show_image'=>true,
 		'show_title'=>true,
 		'show_description'=>true,
 		'show_rating'=>true,
+		'show_contact_name'=>true,
 		'margin_between_slide'=>10,
 		'loop'=>true,
-		'items'=>2,
+		'display_items'=>1,
 		'startPosition'=>1,
 		'nav'=>true,
 		'slideBy'=>2,
@@ -26,9 +26,12 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 
 	function init(){
 		parent::init();
+
 		$this->js(true)->_css('../owlslider/assets/owl.carousel');
 		$this->js(true)->_css('../owlslider/assets/owl.theme.default');
-		$this->js()->_load('../owlslider/owl.carousel.min');
+		$this->js()->_load('../owlslider/owl.carousel');
+		// $this->api->jui->addStaticInclude('../owlslider/owl.carousel.min');
+		// $this->js()->_load('../owlslider/owl.carousel.min');
 
 		if($this->owner instanceof \AbstractController){
 			$this->add('View')->set('please select testimonial options, by double clicking on it')->addClass('alert alert-info');
@@ -36,13 +39,10 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		} 
 		
 		if(!$this->options['testimonial_category']){
-		$this->add('View')->set('Please select category first form it\'s options')->addClass('alert alert-danger');
+		$this->add('View')->set('Please select category form it\'s options')->addClass('alert alert-danger');
 			return;
 		}
-		if($this->options['category_show']){
-			
-		}
-
+		
 		$this->cat_model = $cat_model = $this->add('xepan\cms\Model_TestimonialCategory');
 		$cat_model->addCondition('status','Active');
 		$cat_model->tryLoad($this->options['testimonial_category']);
@@ -51,7 +51,6 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 			$this->add('View')->set('Category not found')->addClass('alert alert-danger');
 			return;	
 		}
-
 
 		$testimonial_model = $this->add('xepan\cms\Model_Testimonial');
 		$testimonial_model->addCondition('status','Approved');
@@ -69,58 +68,64 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		}
 		
 		$this->lister = $lister = $this->add('CompleteLister',null,null,['view/tool/cms/testimonial/'.$layout]);
-		$lister->setModel($testimonial_model);
 		$lister->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$testimonial_model]);
+		
+		$this->lister->template->trySet('display_items',$this->options['display_items']);
+		$lister->setModel($testimonial_model);
 	}
 	
 	function addToolCondition_row_show_title($value,$l){
-		if($value) return;
-		$l->template->tryDel('name_wrapper');
+		if(!$value) $l->current_row_html['title_wrapper'] = "";
 	}
 
-	function addToolCondition_row_show_describtion($value,$l){
-		if($value) return;
+	function addToolCondition_row_show_category_name($value,$l){
+		if(!$value){
+			$l->current_row_html['category_wrapper'] = "";
+		}
+	}
 
-		$l->template->tryDel('description_wrapper');
+	function addToolCondition_row_show_description($value,$l){
+		if(!$value) $l->current_row_html['description_wrapper'] = "";
 	}
 
 	function addToolCondition_row_show_image($value,$l){
-		if($value) return;
-
-		$l->template->tryDel('image_wrapper');
+		if(!$value) $l->current_row_html['image_wrapper'] = "";
+	}
+	function addToolCondition_row_show_contact_name($value,$l){
+		if(!$value) $l->current_row_html['contact_wrapper'] = "";
 	}
 
 	function addToolCondition_row_show_rating($value,$l){
 		if(!$value){
-			$l->template->tryDel('rating_wrapper');
+			$l->current_row_html['rating_wrapper'] = "";
 			return;
-		} 
-		// $form = $l->add('Form',null,'rating');
-		// $rating_field = $form->addField('xepan\base\Rating','rating','')
-		// 	->setValueList(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5'])->set($l->model['rating']);
-		// $rating_field->initialRating = $l->model['rating'];
-		// $rating_field->readonly = true;
-		// $l->current_row_html['rating'] = $form->getHtml();
+		}
 
+		$form = $l->add('Form',['name' => "rating_view_".$l->model->id],'rating');
+		$rating_field = $form->addField('xepan\base\Rating','rating','')
+			->setValueList(['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5'])->set($l->model['rating']);
+		$rating_field->initialRating = $l->model['rating'];
+		$rating_field->readonly = true;
+		$l->current_row_html['rating'] = $form->getHtml();
 	}
 
+	function recursiveRender(){
 
+		if($this->lister){
+			$owl_options = [
+					'loop'=>$this->options['loop'],
+					'items'=>$this->options['display_items'],
+					'margin'=>$this->options['margin_between_slide'],
+					'loop'=>$this->options['loop'],
+					'startPosition'=>$this->options['startPosition'],
+					'nav'=>$this->options['nav'],
+					'dots'=>$this->options['nav'],
+					'slideBy'=>$this->options['slideBy'],
+					'autoplay'=>$this->options['autoplay']
+				];
 
-
-	function render(){
-		$owl_options = [
-				'items'=>$this->options['items'],
-				'margin'=>$this->options['margin_between_slide'],
-				'loop'=>$this->options['loop'],
-				'startPosition'=>$this->options['startPosition'],
-				'nav'=>$this->options['nav'],
-				'slideBy'=>$this->options['slideBy'],
-				'autoplay'=>true,
-				'lazyLoad'=>true,
-				'responsiveClass'=>true,
-			];
-
-		$this->js(true)->_selector('.owl-carousel')->owlCarousel($owl_options);
-		parent::render();
+			$this->js(true)->_selector('#'.$this->lister->name.' .slider-wrapper')->owlCarousel($owl_options);
+		}
+		parent::recursiveRender();
 	}
 }
