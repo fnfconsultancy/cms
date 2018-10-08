@@ -68,37 +68,36 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		}
 		
 		$this->lister = $lister = $this->add('CompleteLister',null,null,['view/tool/cms/testimonial/'.$layout]);
-		$lister->setModel($testimonial_model);
 		$lister->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$testimonial_model]);
 		
 		$this->lister->template->trySet('display_items',$this->options['display_items']);
+		$lister->setModel($testimonial_model);
 	}
 	
 	function addToolCondition_row_show_title($value,$l){
-		if(!$value) $l->template->tryDel('title_wrapper');
+		if(!$value) $l->current_row_html['title_wrapper'] = "";
 	}
 
 	function addToolCondition_row_show_category_name($value,$l){
 		if(!$value){
-			$l->template->tryDel('category_wrapper');
-			$l->template->tryDel('category');
-		} 
+			$l->current_row_html['category_wrapper'] = "";
+		}
 	}
 
 	function addToolCondition_row_show_description($value,$l){
-		if(!$value) $l->template->tryDel('description_wrapper');
+		if(!$value) $l->current_row_html['description_wrapper'] = "";
 	}
 
 	function addToolCondition_row_show_image($value,$l){
-		if(!$value) $l->template->tryDel('image_wrapper');
+		if(!$value) $l->current_row_html['image_wrapper'] = "";
 	}
 	function addToolCondition_row_show_contact_name($value,$l){
-		if(!$value) $l->template->tryDel('contact_wrapper');
+		if(!$value) $l->current_row_html['contact_wrapper'] = "";
 	}
 
 	function addToolCondition_row_show_rating($value,$l){
 		if(!$value){
-			$l->template->tryDel('rating_wrapper');
+			$l->current_row_html['rating_wrapper'] = "";
 			return;
 		}
 
@@ -111,18 +110,22 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 	}
 
 	function recursiveRender(){
-		
-		$owl_options = [
-				'loop'=>$this->options['loop'],
-				'items'=>$this->options['display_items'],
-				'margin'=>$this->options['margin_between_slide'],
-				'loop'=>$this->options['loop'],
-				'startPosition'=>$this->options['startPosition'],
-				'nav'=>$this->options['nav'],
-				'slideBy'=>$this->options['slideBy'],
-				'autoplay'=>$this->options['autoplay']
-			];
-		$this->js(true)->_selector('#'.$this->lister->name .' .slider-wrapper')->owlCarousel($owl_options);
+
+		if($this->lister){
+			$owl_options = [
+					'loop'=>$this->options['loop'],
+					'items'=>$this->options['display_items'],
+					'margin'=>$this->options['margin_between_slide'],
+					'loop'=>$this->options['loop'],
+					'startPosition'=>$this->options['startPosition'],
+					'nav'=>$this->options['nav'],
+					'dots'=>$this->options['nav'],
+					'slideBy'=>$this->options['slideBy'],
+					'autoplay'=>$this->options['autoplay']
+				];
+
+			$this->js(true)->_selector('#'.$this->lister->name.' .slider-wrapper')->owlCarousel($owl_options);
+		}
 		parent::recursiveRender();
 	}
 }
