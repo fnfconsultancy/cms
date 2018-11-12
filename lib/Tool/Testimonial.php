@@ -14,7 +14,7 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		'loop'=>true,
 		'display_items'=>1,
 		'startPosition'=>1,
-		'nav'=>true,
+		'nav'=>false,
 		'slideBy'=>2,
 		'autoplay'=>true,
 		'layout'=>'testimonialhorizontal',
