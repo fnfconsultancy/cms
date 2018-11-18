@@ -1,39 +1,44 @@
-<div id="{$_name}" class="{$class}">
-    <div class="owl-carousel">
+<div id="{$_name}" class="{$class} xepan-testimonial">
+    <div class="slider-wrapper owl-theme owl-carousel">
+      {rows}{row}
+        <div class="row testi-record">
+            <div class="col-md-4 text-center">
+              <div class="thumbnail">
+                {image_wrapper}
+                  <img src="{$image}" alt="{$name}" class="img-circle img-responsive">
+                {/}
+                {rating_wrapper}<div>{$rating}</div>{/}
+                {contact_wrapper}<h4>{$contact}</h4>{/}
+                {category_wrapper}<small>{$category}</small>{/}
+              </div>
+            </div>
 
-    {rows}
-    {row}    
-      <div class="testimonial-slides " style="background-color: #f1f1f1;margin-top:30px; border:1px solid #f1f1f1; ">
-           <div class="column-testimonial col-lg-4">
-           <div class="column-image">
-               {image_wrapper}<img src="{$contact_image}" alt="image">{/}
-           </div>
-           </div>
-           <div class="text-center col-lg-8">
-              {name_wrapper}<h3> {$name}</h3>{/}
-              {rating_wrapper}<div class="rating">{$rating}</div>{/}
-              {contact_wrapper} <p>{$contact}</p>{/}
-              {description_wrapper}<div> {$description}</div>{/}
-           </div> 
-       </div>  
-    
-    {/}{/}
+            <div class="col-md-8">
+              <div class="caption">
+                {title_wrapper}<h4>{$name}</h4>{/}
+                {description_wrapper}<div>{$description}</div>{/}
+              </div>  
+              {$Content}
+            </div>
+        </div>
+      {/}{/}
     </div>
 
-<style>
-.column-image img{
-height:170px;
-width:170px;
-border-radius: 100%;
-border:5px solid #00b4c3;
-}
+    <style type="text/css">
+      .xepan-testimonial .testi-record{
+        padding-top: 25px;
+      }
+      .xepan-testimonial .caption{
+        padding-top: 20px;
+      }
 
-.column-image img:hover{
-  transform: scale(1);
-   width: 250px;
-   height: 200px;
-   border-radius: 10%;
-   border:5px solid #00b4c3;
-}
-</style>
+      .xepan-testimonial .thumbnail{
+        border: 0px;
+      }
+      .xepan-testimonial .thumbnail img{
+          width:150px;
+          height: 150px;
+          border:5px solid #f3f3f3;
+      }
+    </style>
 </div>
