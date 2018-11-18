@@ -15,7 +15,8 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 				'show_fancybox'=>true,
 				'img_gallery_category'=>null,
 				'show_title'=>true,
-				'show_description'=>true
+				'show_description'=>true,
+				'default_active_category'=>'all'
 			];
 
 	public $model_image;
@@ -68,9 +69,18 @@ class Tool_Gallery extends \xepan\cms\View_Tool{
 		$this->js(true)->_css('fancybox/jquery.fancybox');
 
 		$v = $this->add('View',null,null,['xepan\tool\gallery\portfolio']);
+		$v->template->set('default_active_category',$this->options['default_active_category']);
 
 		$lister = $v->add('Lister',null,'category',['xepan\tool\gallery\portfolio','category_list']);
 		$lister->setModel($this->model_category);
+		$lister->addHook('formatRow',function($g){
+			if('Wedding' == $g->model['name']) 
+				$g->current_row_html['filter_category_active'] = "active";
+			else
+				$g->current_row_html['filter_category_active'] = "";
+
+
+		});
 
 		$img_lister = $v->add('Lister',null,'item_list',['xepan\tool\gallery\portfolio','item']);
 		$img_lister->setModel($this->model_image);

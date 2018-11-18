@@ -3,7 +3,8 @@
   <div class="row">
     <div class="col-cs-12">
       <ul id="filter-list">
-        <li data-filter="all" class="filter">ALL</li>{$category}
+        <li data-filter="all" class="filter">ALL</li>
+        {$category}
         {category_list}
         {$Content}
         {rows}{row}
@@ -45,6 +46,7 @@
   </div>
   <script>
     $('.portfolio_items').mixitup({
+      showOnLoad : '{$default_active_category}',
     	targetSelector: '.portfolio',
     	transitionSpeed: 450
     });
