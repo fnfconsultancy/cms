@@ -69,6 +69,12 @@
                 <select id="{$_name}_dropdown" style="width:100%;" multiple="" multiselect="multiselect" data-attr="img_gallery_category" class="chosen-select gallery-images-category-multiselect chosen-select option-category"></select>
               </td>
             </tr>
+            <tr class="category">
+              <td colspan="2" class="xepan-tool-option-value">
+                <div>Default Active Category</div>
+                <select id="{$_name}_default_active_category" style="width:100%;" data-attr="default_active_category" class=""></select>
+              </td>
+            </tr>
           </table>
         </div>
       </div>
@@ -85,7 +91,8 @@
     	data: { },
     	success: function ( data ){
     		//- console.log(data);
-    		$('#{$_name}_dropdown').html(data);
+        $('#{$_name}_dropdown').html(data);
+    		$('#{$_name}_default_active_category').html(data);
         $('#{$_name}_dropdown').chosen();
         $('#{$_name}_dropdown').chosen({allow_single_deselect: true });
     	}
