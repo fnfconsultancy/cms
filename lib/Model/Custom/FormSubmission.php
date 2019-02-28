@@ -13,6 +13,9 @@ class Model_Custom_FormSubmission extends \Model_Table{
 		$this->addField('value')->type('text');
 		$this->addField('created_at')->type('datetime')->defaultValue($this->app->now);
 		
+		// used in other application (listing) fetching enquiry on seperate data/record
+		$this->addField('related_type');
+		$this->addField('related_id');
 		$this->addHook('afterInsert',$this);
 	}
 
