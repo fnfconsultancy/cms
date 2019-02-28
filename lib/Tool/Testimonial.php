@@ -59,9 +59,9 @@ class Tool_Testimonial extends \xepan\cms\View_Tool{
 		$layout = $this->options['layout'];
 		if($this->options['custom_template']){
 			$layout = $this->options['custom_template'];
-			$path = getcwd()."/websites/".$this->app->current_website_name."/www/view/tool/testimonial/".$layout.".html";
+			$path = getcwd()."/websites/".$this->app->current_website_name."/www/view/tool/cms/testimonial/".$layout.".html";
 			if(!file_exists($path)){
-				$this->add('View_Warning')->set('your define template('.$layout.') not found at location /www/view/tool/testimonial/'.$layout.'.html');
+				$this->add('View_Warning')->set('your define template('.$layout.') not found at location '.$path);
 				$layout = $this->options['layout'];
 				return;
 			}
