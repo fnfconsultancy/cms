@@ -23,6 +23,7 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 
 		if($this->model === null) throw $this->exception("Please specify model");
 
+		
 		// Manage model condition
 		foreach ($this->options as $opt => $value) {
 			if($value=='true') $value=true;
@@ -62,8 +63,11 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 			}
 		}
 
+
 		if($this->owner instanceof \Lister){
+
 			$this->owner->addHook('formatRow',function($l)use($cl_remove_list){
+
 				foreach ($cl_remove_list as $rm) {
 					$l->current_row_html[$rm]="";
 				}
@@ -78,6 +82,10 @@ class Controller_Tool_Optionhelper extends \AbstractController {
 						$this->owner->$method($value, $l);
 					}elseif($this->owner->owner->hasMethod($method)){
 						$this->owner->owner->$method($value, $l);
+					}elseif($this->owner->owner->owner->hasMethod($method)){
+						// used if we have crud in view and controller added on grid
+							// 	then grid ($this->owner) owner is crud (1 lavel $this->owner->owner) and crud owner is tool ($this->owner->owner->owner)
+						$this->owner->owner->owner->$method($value,$l);
 					}elseif($this->model->hasMethod($method)){
 						$this->model->$method($value, $l);
 					}

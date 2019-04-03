@@ -32,6 +32,9 @@ class Model_Testimonial extends \xepan\base\Model_Table{
 
 		$this->addExpression('contact_image')->set($this->refSQL('contact_id')->fieldQuery('image'));
 		
+		$this->addExpression('created_date',function($m,$q){
+			return $q->expr('date([0])',[$m->getElement('created_at')]);
+		});
 		// $this->add('dynamic_model\Controller_AutoCreator');
 	}
 

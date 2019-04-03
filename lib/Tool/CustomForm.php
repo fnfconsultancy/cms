@@ -9,9 +9,12 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			'custom_form_success_url'=>null,
 			'implement_form_layout'=>false
 		];
+
 	public $form;
 	public $customform_model;
 	public $customform_field_model;
+
+	public $related_data = ['related_type'=>null,'related_id'=>0];
 
 	function init(){
 		parent::init();
@@ -101,6 +104,11 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			
 			$model_submission['value'] = $form_fields;
 			$model_submission['custom_form_id'] = $this->options['customformid'];
+			if($this->related_data['related_type'] OR $this->related_data['related_id']){
+				$model_submission['related_type'] = $this->related_data['related_type'];
+				$model_submission['related_id'] = $this->related_data['related_id'];
+			}
+			
 			$model_submission->save();
 
 			// creating lead and associating category and email id
