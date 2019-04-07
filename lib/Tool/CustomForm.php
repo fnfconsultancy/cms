@@ -7,7 +7,10 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 			'customformid'=>0, 
 			'template'=>'',
 			'custom_form_success_url'=>null,
-			'implement_form_layout'=>false
+			'implement_form_layout'=>false,
+			'success_message'=>'Thank you for enquiry',
+			'submit_btn_class'=>'btn btn-primary',
+			'default_value_data_array' =>[] //used for setting default values to input or text, used by other application like listing
 		];
 
 	public $form;
@@ -83,11 +86,21 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				$new_field->setValueList(array_combine($field_array,$field_array));
 			}
 
+			if(($field['type'] == "text" OR $field['type'] == "line") AND $field['value']){
+				$default_value = $field['value'];
+				if(count($this->options['default_value_data_array'])){
+					foreach ($this->options['default_value_data_array'] as $key => $value) {
+						$default_value = str_replace('{$'.$key.'}', $value, $default_value);
+					}
+				}
+				$new_field->set($default_value);
+			}
+
 			if($field['is_mandatory'])
 				$new_field->validate('required');
 		}				
 		
-		$this->form->addSubmit($customform_model['submit_button_name']);
+		$this->form->addSubmit($customform_model['submit_button_name'])->addClass($this->options['submit_btn_class']);
 
 		if($this->form->isSubmitted()){
 			if($form->hasElement('captcha') && !$form->getElement('captcha')->captcha->isSame($form['captcha'])){
@@ -225,7 +238,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				}
 
 				if($customform_model['auto_reply']){
-					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);	
+					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
 					$communication1 = $this->add('xepan\communication\Model_Communication_Email_Sent');
 					$to_array = [];
 					foreach ($customform_field_model as $field) {
@@ -249,7 +262,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				$form->js()->redirect($this->app->url($this->options['custom_form_success_url']))->execute();
 				// $form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
 			}else{
-				$form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
+				$form->js(null,$form->js()->reload())->univ()->successMessage($this->options['success_message'])->execute();
 			}
 		}
 	}
