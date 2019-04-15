@@ -89,6 +89,10 @@ class Initiator extends \Controller_Addon {
                             'icon'=>'fa fa-edit',
                             'url'=>'xepan_cms_cmseditors'
                         ],
+                        [   'name'=>'Contact',
+                            'icon'=>'fa fa-user',
+                            'url'=>'xepan_cms_cmscontact'
+                        ],
                         [   'name'=>'Custom Form',
                             'icon'=>'fa fa-wpforms',
                             'url'=>'xepan_cms_customform'
