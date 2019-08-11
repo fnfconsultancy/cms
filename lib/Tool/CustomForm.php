@@ -2,59 +2,61 @@
 
 namespace xepan\cms;
 
-class Tool_CustomForm extends \xepan\cms\View_Tool{
+class Tool_CustomForm extends \xepan\cms\View_Tool {
 	public $options = [
-			'customformid'=>0, 
-			'template'=>'',
-			'custom_form_success_url'=>null,
-			'implement_form_layout'=>false,
-			'success_message'=>'Thank you for enquiry',
-			'submit_btn_class'=>'btn btn-primary',
-			'default_value_data_array' =>[] //used for setting default values to input or text, used by other application like listing
-		];
+		'customformid' => 0,
+		'template' => '',
+		'custom_form_success_url' => null,
+		'implement_form_layout' => false,
+		'success_message' => 'Thank you for enquiry',
+		'submit_btn_class' => 'btn btn-primary',
+		'default_value_data_array' => [], //used for setting default values to input or text, used by other application like listing,
+	];
+
+	public $recipient_email = null; // comma seperated multiple values
+	public $recipient_mobile = null; // comma seperated multiple values
 
 	public $form;
 	public $customform_model;
 	public $customform_field_model;
 
-	public $related_data = ['related_type'=>null,'related_id'=>0];
+	public $related_data = ['related_type' => null, 'related_id' => 0];
 
-	function init(){
+	function init() {
 		parent::init();
 
-
-		if(!$this->options['customformid']){
+		if (!$this->options['customformid']) {
 			$this->add("View_Error")->set('please select any custom form');
 			return;
 		}
 
 		$this->customform_model = $customform_model = $this->add('xepan\cms\Model_Custom_Form')
-								->tryLoad($this->options['customformid']);
-		
-		if(!$customform_model->loaded()){
+			->tryLoad($this->options['customformid']);
+
+		if (!$customform_model->loaded()) {
 			$this->add('View_Error')->set('no such form found...');
 			return;
 		}
 
 		$this->customform_field_model = $customform_field_model = $this->add('xepan\cms\Model_Custom_FormField')
-												->addCondition('custom_form_id',$customform_model->id);
-		
-		if(!$customform_field_model->count()->getOne()){
+			->addCondition('custom_form_id', $customform_model->id);
+
+		if (!$customform_field_model->count()->getOne()) {
 			$this->add("View_Warning")->set('add form fields...');
 			return;
 		}
 
-		$form_layout=null;
-		if($customform_model['form_layout']){
-			$form_layout = ['form/'.$customform_model['form_layout']];
+		$form_layout = null;
+		if ($customform_model['form_layout']) {
+			$form_layout = ['form/' . $customform_model['form_layout']];
 		}
-				
-		$this->form = $this->add('Form',null,null,$form_layout);
+
+		$this->form = $this->add('Form', null, null, $form_layout);
 		$form = $this->form;
 
-		if($this->options['template'])
-			$form->setLayout('view/tool/form/'.$this->options['template']);
-		elseif($customform_model['custom_form_layout_path'] AND $this->options['implement_form_layout']){
+		if ($this->options['template']) {
+			$form->setLayout('view/tool/form/' . $this->options['template']);
+		} elseif ($customform_model['custom_form_layout_path'] AND $this->options['implement_form_layout']) {
 			$this->form = $form = $this->add('Form');
 			$form->add('xepan\base\Controller_FLC')
 				->showLables(true)
@@ -63,94 +65,97 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				->layout($this->getLayoutArray());
 		}
 
-
 		foreach ($customform_field_model as $field) {
 
-			if($field['type'] === "email"){
+			if ($field['type'] === "email") {
 
-				$new_field = $form->addField("line",$field['name']);
+				$new_field = $form->addField("line", $field['name']);
 				$new_field->validate('email');
-			}else if($field['type'] === "Captcha"){				
-				$new_field = $form->addField('line','captcha',$field['name']);
+			} else if ($field['type'] === "Captcha") {
+				$new_field = $form->addField('line', 'captcha', $field['name']);
 				$new_field->add('xepan\captcha\Controller_Captcha');
-			}else if($field['type'] === "DropDown"){
-				$new_field = $form->addField('xepan\base\DropDownNormal',$this->app->normalizeName($field['name']),$field['name']);
-			}elseif($field['type'] == "upload"){
-				$new_field = $form->addField('xepan\base\Upload',$this->app->normalizeName($field['name']),$field['name']);
-			}else{
-				$new_field = $form->addField($field['type'],$this->app->normalizeName($field['name']),$field['name']);
-			}
-			
-			if($field['type'] === "DropDown" or $field['type'] === "radio"){
-				$field_array = explode(",", $field['value']);
-				$new_field->setValueList(array_combine($field_array,$field_array));
+			} else if ($field['type'] === "DropDown") {
+				$new_field = $form->addField('xepan\base\DropDownNormal', $this->app->normalizeName($field['name']), $field['name']);
+			} elseif ($field['type'] == "upload") {
+				$new_field = $form->addField('xepan\base\Upload', $this->app->normalizeName($field['name']), $field['name']);
+			} else {
+				$new_field = $form->addField($field['type'], $this->app->normalizeName($field['name']), $field['name']);
 			}
 
-			if(($field['type'] == "text" OR $field['type'] == "line") AND $field['value']){
+			if ($field['type'] === "DropDown" or $field['type'] === "radio") {
+				$field_array = explode(",", $field['value']);
+				$new_field->setValueList(array_combine($field_array, $field_array));
+			}
+
+			if (($field['type'] == "text" OR $field['type'] == "line") AND $field['value']) {
 				$default_value = $field['value'];
-				if(count($this->options['default_value_data_array'])){
+				if (count($this->options['default_value_data_array'])) {
 					foreach ($this->options['default_value_data_array'] as $key => $value) {
-						$default_value = str_replace('{$'.$key.'}', $value, $default_value);
+						$default_value = str_replace('{$' . $key . '}', $value, $default_value);
 					}
 				}
 				$new_field->set($default_value);
 			}
 
-			if($field['is_mandatory'])
+			if ($field['is_mandatory']) {
 				$new_field->validate('required');
-		}				
-		
+			}
+
+		}
+
 		$this->form->addSubmit($customform_model['submit_button_name'])->addClass($this->options['submit_btn_class']);
 
-		if($this->form->isSubmitted()){
-			if($form->hasElement('captcha') && !$form->getElement('captcha')->captcha->isSame($form['captcha'])){
-				$form->displayError('captcha','wrong Captcha');	
+		if ($this->form->isSubmitted()) {
+			if ($form->hasElement('captcha') && !$form->getElement('captcha')->captcha->isSame($form['captcha'])) {
+				$form->displayError('captcha', 'wrong Captcha');
 			}
 			$model_submission = $this->add('xepan\cms\Model_Custom_FormSubmission');
 			$form_fields = $form->getAllFields();
 
 			$string = implode(', ', array_map(
-			    function ($v, $k) { return sprintf("%s='%s'", $k, $v); },
-			    $form_fields,
-			    array_keys($form_fields)
+				function ($v, $k) {return sprintf("%s='%s'", $k, $v);},
+				$form_fields,
+				array_keys($form_fields)
 			));
-			
+
 			$model_submission['value'] = $form_fields;
 			$model_submission['custom_form_id'] = $this->options['customformid'];
-			if($this->related_data['related_type'] OR $this->related_data['related_id']){
+			if ($this->related_data['related_type'] OR $this->related_data['related_id']) {
 				$model_submission['related_type'] = $this->related_data['related_type'];
 				$model_submission['related_id'] = $this->related_data['related_id'];
 			}
-			
+
 			$model_submission->save();
 
 			// creating lead and associating category and email id
-			if($this->customform_model['is_create_lead']){
+			if ($this->customform_model['is_create_lead']) {
 				$field_model = $this->add('xepan\cms\Model_Custom_FormField')
-							->addCondition('custom_form_id',$this->customform_model->id)
-							->addCondition('save_into_field_of_lead','<>',null);
+					->addCondition('custom_form_id', $this->customform_model->id)
+					->addCondition('save_into_field_of_lead', '<>', null);
 
 				$lead_model = $this->add('xepan\marketing\Model_Lead');
 				// $has_field = 0;
-				$lead_field = ['first_name','last_name','organization','post','website','address','city','state','country','pin_code','remark'];
-				foreach ($field_model as $field){
-					if(in_array($field['save_into_field_of_lead'], $lead_field)){
+				$lead_field = ['first_name', 'last_name', 'organization', 'post', 'website', 'address', 'city', 'state', 'country', 'pin_code', 'remark'];
+				foreach ($field_model as $field) {
+					if (in_array($field['save_into_field_of_lead'], $lead_field)) {
 						// echo $field['save_into_field_of_lead']." = ".$field['name']." = ".$this->form[$this->app->normalizeName($field['name'])]."<br/>";
 						$lead_model[$field['save_into_field_of_lead']] = $this->form[$this->app->normalizeName($field['name'])];
 						$has_field = 1;
-					}else{
-						if($lead_model['first_name']) continue;
+					} else {
+						if ($lead_model['first_name']) {
+							continue;
+						}
 
-						if($field['save_into_field_of_lead'] == 'official_email'){
+						if ($field['save_into_field_of_lead'] == 'official_email') {
 							$lead_model['first_name'] = $this->form[$this->app->normalizeName($field['name'])];
 							$has_field = 1;
-						}elseif($field['save_into_field_of_lead'] == 'personal_email'){
+						} elseif ($field['save_into_field_of_lead'] == 'personal_email') {
 							$lead_model['first_name'] = $this->form[$this->app->normalizeName($field['name'])];
 							$has_field = 1;
-						}elseif($field['save_into_field_of_lead'] == 'official_contact'){
+						} elseif ($field['save_into_field_of_lead'] == 'official_contact') {
 							$lead_model['first_name'] = $this->form[$this->app->normalizeName($field['name'])];
 							$has_field = 1;
-						}elseif($field['save_into_field_of_lead'] == 'personal_contact'){
+						} elseif ($field['save_into_field_of_lead'] == 'personal_contact') {
 							$lead_model['first_name'] = $this->form[$this->app->normalizeName($field['name'])];
 							$has_field = 1;
 						}
@@ -159,16 +164,15 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 
 				// if(!$lead_model['remark']) $lead_model['remark'] = 'Auto Created from Custom Form "'. $this->customform_model['name'].'"';
 
-
-				if($has_field){
+				if ($has_field) {
 					$lead_model->save();
-					foreach ($field_model as $field){
+					foreach ($field_model as $field) {
 						$save_into_field = $field['save_into_field_of_lead'];
 						$normalize_name = $this->app->normalizeName($field['name']);
 						$form_value = $this->form[$normalize_name];
 
 						// company email
-						if( $save_into_field == "official_email"){
+						if ($save_into_field == "official_email") {
 							$email = $this->add('xepan\base\Model_Contact_Email');
 							$email['contact_id'] = $lead_model->id;
 							$email['head'] = "Official";
@@ -176,7 +180,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 							$email->save();
 						}
 
-						if($save_into_field == "personal_email"){
+						if ($save_into_field == "personal_email") {
 							$email = $this->add('xepan\base\Model_Contact_Email');
 							$email['contact_id'] = $lead_model->id;
 							$email['head'] = "Personal";
@@ -184,16 +188,16 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 							$email->save();
 						}
 
-						// company phone 
-						if( $save_into_field == "official_contact"){
+						// company phone
+						if ($save_into_field == "official_contact") {
 							$phone = $this->add('xepan\base\Model_Contact_Phone');
 							$phone['contact_id'] = $lead_model->id;
 							$phone['head'] = "Official";
 							$phone['value'] = $form_value;
 							$phone->save();
 						}
-						// personal phone 
-						if( $save_into_field == "personal_contact"){
+						// personal phone
+						if ($save_into_field == "personal_contact") {
 							$phone = $this->add('xepan\base\Model_Contact_Phone');
 							$phone['contact_id'] = $lead_model->id;
 							$phone['head'] = "Personal";
@@ -203,12 +207,14 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 					}
 
 					// associate lead
-					if($this->customform_model['is_associate_lead']){
+					if ($this->customform_model['is_associate_lead']) {
 
-						$categories = explode(",",$this->customform_model['lead_category_ids']);
+						$categories = explode(",", $this->customform_model['lead_category_ids']);
 						foreach ($categories as $key => $cat_id) {
-							if(!is_numeric($cat_id))
+							if (!is_numeric($cat_id)) {
 								continue;
+							}
+
 							$cat_asso_model = $this->add('xepan\marketing\Model_Lead_Category_Association');
 							$cat_asso_model['lead_id'] = $lead_model->id;
 							$cat_asso_model['marketing_category_id'] = $cat_id;
@@ -220,61 +226,72 @@ class Tool_CustomForm extends \xepan\cms\View_Tool{
 				}
 
 			}
-			
 
-			if($customform_model['emailsetting_id']){
-				
-				if($customform_model['recieve_email'] && trim($customform_model['recipient_email'])){
+			if ($customform_model['emailsetting_id']) {
+				$recipient_email = [];
+				if (trim($customform_model['recipient_email'])) {
+					$recipient_email = explode(",", trim($customform_model['recipient_email']));
+				}
+				if ($this->recipient_email) {
+					$recipient_email = array_merge($recipient_email, explode(",", $this->recipient_email));
+				}
+
+				if ($customform_model['recieve_email'] && count($recipient_email)) {
 					$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
 					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
 
-					$communication->setfrom($email_settings['from_email'],$email_settings['from_name']);
-					foreach (explode(",", $customform_model['recipient_email']) as $key => $value) {
-						$communication->addTo($value);
+					$communication->setfrom($email_settings['from_email'], $email_settings['from_name']);
+					foreach ($recipient_email as $key => $value) {
+						if (trim($value)) {
+							$communication->addTo($value);
+						}
 					}
-					$communication->setSubject('You have a new enquiry for '. $customform_model['name']);
+					$communication->setSubject('You have a new enquiry for ' . $customform_model['name']);
 					$communication->setBody($string);
 					$communication->send($email_settings);
 				}
 
-				if($customform_model['auto_reply']){
+				if ($customform_model['auto_reply']) {
 					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
 					$communication1 = $this->add('xepan\communication\Model_Communication_Email_Sent');
 					$to_array = [];
 					foreach ($customform_field_model as $field) {
-						if($field['type'] ==='email')
+						if ($field['type'] === 'email') {
 							$to_array[] = $this->form[$this->app->normalizeName($field['name'])];
+						}
+
 					}
-					
+
 					foreach ($to_array as $email) {
-						$communication1->setfrom($email_settings['from_email'],$email_settings['from_name']);
+						$communication1->setfrom($email_settings['from_email'], $email_settings['from_name']);
 						$communication1->addTo($email);
 						$communication1->setSubject($customform_model['email_subject']);
 						$communication1->setBody($customform_model['message_body']);
-						$communication1->send($email_settings);					
+						$communication1->send($email_settings);
 					}
 
 				}
 			}
 
-			if($this->options['custom_form_success_url']){
+			if ($this->options['custom_form_success_url']) {
 				// throw new \Exception("Error Processing Request", 1);
 				$form->js()->redirect($this->app->url($this->options['custom_form_success_url']))->execute();
 				// $form->js(null,$form->js()->reload())->univ()->successMessage("Thank you for enquiry")->execute();
-			}else{
-				$form->js(null,$form->js()->reload())->univ()->successMessage($this->options['success_message'])->execute();
+			} else {
+				$form->js(null, $form->js()->reload())->univ()->successMessage($this->options['success_message'])->execute();
 			}
 		}
 	}
 
-	function getTemplate(){
-		if($this->options['template'])
+	function getTemplate() {
+		if ($this->options['template']) {
 			return $this->form->layout->template;
+		}
+
 		return $this->form->template;
 	}
 
-
-	function getLayoutArray(){
+	function getLayoutArray() {
 		$arr = [];
 		$lines = explode(",", $this->customform_model['custom_form_layout_path']);
 		foreach ($lines as $line) {
