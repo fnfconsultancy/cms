@@ -19,6 +19,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool {
 	public $form;
 	public $customform_model;
 	public $customform_field_model;
+	public $always_prepend_email_content = null;
 
 	public $related_data = ['related_type' => null, 'related_id' => 0];
 
@@ -106,6 +107,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool {
 		$this->form->addSubmit($customform_model['submit_button_name'])->addClass($this->options['submit_btn_class']);
 
 		if ($this->form->isSubmitted()) {
+
 			if ($form->hasElement('captcha') && !$form->getElement('captcha')->captcha->isSame($form['captcha'])) {
 				$form->displayError('captcha', 'wrong Captcha');
 			}
@@ -237,6 +239,7 @@ class Tool_CustomForm extends \xepan\cms\View_Tool {
 				}
 
 				if ($customform_model['recieve_email'] && count($recipient_email)) {
+
 					$communication = $this->add('xepan\communication\Model_Communication_Email_Sent');
 					$email_settings = $this->add('xepan\communication\Model_Communication_EmailSetting')->load($customform_model['emailsetting_id']);
 
@@ -246,6 +249,11 @@ class Tool_CustomForm extends \xepan\cms\View_Tool {
 							$communication->addTo($value);
 						}
 					}
+
+					if ($this->always_prepend_email_content) {
+						$string = $this->always_prepend_email_content . '<br/>' . $string;
+					}
+
 					$communication->setSubject('You have a new enquiry for ' . $customform_model['name']);
 					$communication->setBody($string);
 					$communication->send($email_settings);
