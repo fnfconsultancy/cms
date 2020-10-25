@@ -3,9 +3,9 @@
 /**
 * description: ATK Page
 * 
-* @author : Gowrav Vishwakarma
-* @email : gowravvishwakarma@gmail.com, info@xavoc.com
-* @website : http://xepan.org
+* @author : MF Rasheed
+* @email : info@fnfgc.com
+* @website : https://fnfgc.com
 * 
 */
 
